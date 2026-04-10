@@ -8,7 +8,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Infrastructure.Database
 {
-    public sealed class PostgreSqlMasterDataGateway : IMasterDataGateway
+    public sealed partial class PostgreSqlMasterDataGateway : IMasterDataGateway
     {
         private readonly IDatabaseConnectionFactory _connectionFactory;
 

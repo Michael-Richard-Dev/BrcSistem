@@ -4,7 +4,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Application.Abstractions
 {
-    public interface IMasterDataGateway
+    public partial interface IMasterDataGateway
     {
         IReadOnlyCollection<SupplierSummary> LoadSuppliers(DatabaseProfile profile, ConnectionResilienceSettings settings);
 

@@ -4,7 +4,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Controllers
 {
-    public sealed class MasterDataController
+    public sealed partial class MasterDataController
     {
         private readonly MasterDataService _masterDataService;
 

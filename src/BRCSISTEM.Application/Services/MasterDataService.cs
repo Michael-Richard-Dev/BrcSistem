@@ -6,7 +6,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Application.Services
 {
-    public sealed class MasterDataService
+    public sealed partial class MasterDataService
     {
         private readonly IMasterDataGateway _masterDataGateway;
         private readonly IAuditTrailService _auditTrailService;

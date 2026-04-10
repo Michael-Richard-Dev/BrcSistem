@@ -229,6 +229,19 @@ namespace BRCSISTEM.Infrastructure.Database
         private static void EnsureMasterDataSchema(DbConnection connection, DbTransaction transaction)
         {
             ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS produtos (
+                    codigo TEXT NOT NULL,
+                    descricao TEXT,
+                    tipo TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (codigo, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE produtos ADD COLUMN IF NOT EXISTS tipo TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
                 CREATE TABLE IF NOT EXISTS fornecedores (
                     codigo TEXT NOT NULL,
                     nome TEXT,
@@ -312,12 +325,15 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_fornecedores_codigo ON fornecedores(codigo)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_fornecedores_cnpj ON fornecedores(cnpj)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_embalagens_codigo ON embalagens(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_produtos_codigo ON produtos(codigo)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_almoxarifados_codigo ON almoxarifados(codigo)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_lotes_codigo ON lotes(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_lotes_material ON lotes(material)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_lotes_fornecedor ON lotes(fornecedor)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_material_status ON movimentos_estoque(material, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_lote_status ON movimentos_estoque(lote, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_almoxarifado_status ON movimentos_estoque(almoxarifado, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_produto_utilizado_status ON movimentos_estoque(produto_utilizado, status)");
         }
 
         private static int ToInt(object value)

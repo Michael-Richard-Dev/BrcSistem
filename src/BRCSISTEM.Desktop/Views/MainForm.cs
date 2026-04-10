@@ -191,6 +191,20 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "cadastro_produto", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new ProductManagementForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
+            else if (string.Equals(module.Key, "cadastro_lote", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new LotManagementForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else if (string.Equals(module.Key, "cadastro_almoxarifado", StringComparison.OrdinalIgnoreCase))
             {
                 using (var dialog = new WarehouseManagementForm(_compositionRoot, _identity, _databaseProfile))
