@@ -163,9 +163,26 @@ namespace BRCSISTEM.Desktop.Views
         private void OpenModule(ModuleDefinition module)
         {
             _mainController.RegisterModuleOpen(_identity, module);
-            using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))
+            if (string.Equals(module.Key, "cadastro_usuario", StringComparison.OrdinalIgnoreCase))
             {
-                dialog.ShowDialog(this);
+                using (var dialog = new UserManagementForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
+            else if (string.Equals(module.Key, "tipo_usuario", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new UserTypeManagementForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
+            else
+            {
+                using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
             }
 
             LoadRecentModules();
