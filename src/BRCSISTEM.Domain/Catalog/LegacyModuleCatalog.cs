@@ -8,11 +8,11 @@ namespace BRCSISTEM.Domain.Catalog
         {
             return new[]
             {
-                new ModuleDefinition("cadastro_fornecedor", "Cadastros", "Fornecedores", "cadastro_fornecedor", "views/cadastro_fornecedor.py", "Cadastro de fornecedores de materiais.", false),
-                new ModuleDefinition("cadastro_embalagem", "Cadastros", "Embalagens", "cadastro_embalagem", "views/cadastro_embalagem.py", "Cadastro base de materiais e embalagens.", false),
+                new ModuleDefinition("cadastro_fornecedor", "Cadastros", "Fornecedores", "cadastro_fornecedor", "views/cadastro_fornecedor.py", "Cadastro de fornecedores de materiais.", true),
+                new ModuleDefinition("cadastro_embalagem", "Cadastros", "Embalagens", "cadastro_embalagem", "views/cadastro_embalagem.py", "Cadastro base de materiais e embalagens.", true),
                 new ModuleDefinition("cadastro_produto", "Cadastros", "Produtos", "cadastro_produto", "views/cadastro_produto.py", "Cadastro de produtos finais.", false),
                 new ModuleDefinition("cadastro_lote", "Cadastros", "Lotes", "cadastro_lote", "views/cadastro_lote.py", "Gestao de lotes e validade.", false),
-                new ModuleDefinition("cadastro_almoxarifado", "Cadastros", "Almoxarifados", "cadastro_almoxarifado", "views/cadastro_almoxarifado.py", "Cadastro e manutencao dos almoxarifados.", false),
+                new ModuleDefinition("cadastro_almoxarifado", "Cadastros", "Almoxarifados", "cadastro_almoxarifado", "views/cadastro_almoxarifado.py", "Cadastro e manutencao dos almoxarifados.", true),
                 new ModuleDefinition("movimentacao_entrada", "Movimentacoes", "Entrada de Produtos", "movimentacao_entrada", "views/movimentacao_entrada.py", "Lancamento de notas fiscais de entrada.", false),
                 new ModuleDefinition("movimentacao_transferencia", "Movimentacoes", "Transferencia entre Almoxarifados", "movimentacao_transferencia", "views/movimentacao_transferencia.py", "Transferencias internas de estoque.", false),
                 new ModuleDefinition("movimentacao_saida_producao", "Movimentacoes", "Saida de Producao", "movimentacao_saida_producao", "views/movimentacao_saida_producao.py", "Baixa de materiais para producao com FIFO.", false),

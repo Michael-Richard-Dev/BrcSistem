@@ -82,6 +82,7 @@ namespace BRCSISTEM.Infrastructure.Database
                         UNIQUE(usuario, codigo_almoxarifado)
                     )");
 
+                EnsureMasterDataSchema(connection, transaction);
                 EnsureDefaultUserTypes(connection, transaction);
                 EnsureDefaultParameters(connection, transaction);
                 EnsureFirstUser(connection, transaction, firstUser);
@@ -223,6 +224,100 @@ namespace BRCSISTEM.Infrastructure.Database
                 command.Parameters.Add(CreateParameter(command, "@alteracao", now));
                 command.ExecuteNonQuery();
             }
+        }
+
+        private static void EnsureMasterDataSchema(DbConnection connection, DbTransaction transaction)
+        {
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS fornecedores (
+                    codigo TEXT NOT NULL,
+                    nome TEXT,
+                    cnpj TEXT,
+                    cidade TEXT,
+                    habilitado_brc BOOLEAN DEFAULT FALSE,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (codigo, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE fornecedores ADD COLUMN IF NOT EXISTS cidade TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE fornecedores ADD COLUMN IF NOT EXISTS habilitado_brc BOOLEAN DEFAULT FALSE");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS embalagens (
+                    codigo TEXT NOT NULL,
+                    descricao TEXT,
+                    unidade TEXT,
+                    habilitado_brc BOOLEAN DEFAULT FALSE,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (codigo, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE embalagens ADD COLUMN IF NOT EXISTS unidade TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE embalagens ADD COLUMN IF NOT EXISTS habilitado_brc BOOLEAN DEFAULT FALSE");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS almoxarifados (
+                    codigo TEXT NOT NULL,
+                    nome TEXT,
+                    empresa TEXT,
+                    empresa_nome TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (codigo, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE almoxarifados ADD COLUMN IF NOT EXISTS empresa TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE almoxarifados ADD COLUMN IF NOT EXISTS empresa_nome TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS lotes (
+                    codigo TEXT NOT NULL,
+                    nome TEXT,
+                    material TEXT,
+                    fornecedor TEXT,
+                    validade TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (codigo, versao)
+                )");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS movimentos_estoque (
+                    id SERIAL PRIMARY KEY,
+                    documento_numero TEXT,
+                    documento_tipo TEXT,
+                    documento_item INTEGER,
+                    data_movimento TEXT,
+                    tipo TEXT,
+                    fornecedor TEXT,
+                    almoxarifado TEXT,
+                    material TEXT,
+                    lote TEXT,
+                    quantidade DECIMAL,
+                    produto_utilizado TEXT,
+                    vencimento TEXT,
+                    usuario TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT
+                )");
+
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_fornecedores_codigo ON fornecedores(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_fornecedores_cnpj ON fornecedores(cnpj)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_embalagens_codigo ON embalagens(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_almoxarifados_codigo ON almoxarifados(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_lotes_codigo ON lotes(codigo)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_lotes_fornecedor ON lotes(fornecedor)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_material_status ON movimentos_estoque(material, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_lote_status ON movimentos_estoque(lote, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_almoxarifado_status ON movimentos_estoque(almoxarifado, status)");
         }
 
         private static int ToInt(object value)

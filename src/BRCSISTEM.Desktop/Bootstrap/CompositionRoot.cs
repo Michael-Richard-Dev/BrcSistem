@@ -13,6 +13,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly AppBootstrapService _appBootstrapService;
         private readonly AuthenticationService _authenticationService;
         private readonly AdministrationService _administrationService;
+        private readonly MasterDataService _masterDataService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
 
@@ -20,12 +21,14 @@ namespace BRCSISTEM.Desktop.Bootstrap
             AppBootstrapService appBootstrapService,
             AuthenticationService authenticationService,
             AdministrationService administrationService,
+            MasterDataService masterDataService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService)
         {
             _appBootstrapService = appBootstrapService;
             _authenticationService = authenticationService;
             _administrationService = administrationService;
+            _masterDataService = masterDataService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
         }
@@ -39,6 +42,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var bootstrapper = new PostgreSqlBootstrapper(connectionFactory);
             var authenticationGateway = new PostgreSqlAuthenticationGateway(connectionFactory);
             var administrationGateway = new PostgreSqlAdministrationGateway(connectionFactory);
+            var masterDataGateway = new PostgreSqlMasterDataGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
 
@@ -46,6 +50,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new AppBootstrapService(configurationStore, connectionFactory, bootstrapper),
                 new AuthenticationService(bootstrapper, authenticationGateway, auditTrailService),
                 new AdministrationService(administrationGateway, auditTrailService),
+                new MasterDataService(masterDataGateway, auditTrailService),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore));
         }
@@ -68,6 +73,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public AdministrationController CreateAdministrationController()
         {
             return new AdministrationController(_administrationService);
+        }
+
+        public MasterDataController CreateMasterDataController()
+        {
+            return new MasterDataController(_masterDataService);
         }
     }
 }
