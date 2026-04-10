@@ -49,7 +49,7 @@ namespace BRCSISTEM.Infrastructure.Database
                 }
             }
 
-            throw new InvalidOperationException("Falha ao conectar no PostgreSQL.", lastError);
+            throw new InvalidOperationException("Falha ao conectar no PostgreSQL. " + ExtractDetailedMessage(lastError), lastError);
         }
 
         public ConnectionTestResult TestConnection(DatabaseProfile profile, ConnectionResilienceSettings settings)
@@ -66,7 +66,7 @@ namespace BRCSISTEM.Infrastructure.Database
             }
             catch (Exception ex)
             {
-                return ConnectionTestResult.Fail("Falha ao testar conexao: " + ex.Message);
+                return ConnectionTestResult.Fail("Falha ao testar conexao: " + ExtractDetailedMessage(ex));
             }
         }
 
@@ -84,6 +84,24 @@ namespace BRCSISTEM.Infrastructure.Database
                 "Application Name=" + (string.IsNullOrWhiteSpace(settings.ApplicationName) ? "BRCSISTEM" : settings.ApplicationName),
                 "Client Encoding=UTF8",
                 "Pooling=true");
+        }
+
+        private static string ExtractDetailedMessage(Exception exception)
+        {
+            if (exception == null)
+            {
+                return "Erro nao identificado.";
+            }
+
+            var current = exception;
+            while (current.InnerException != null)
+            {
+                current = current.InnerException;
+            }
+
+            return string.IsNullOrWhiteSpace(current.Message)
+                ? exception.Message
+                : current.Message;
         }
     }
 }
