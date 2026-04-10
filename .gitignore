@@ -1,0 +1,10 @@
+/.vs/
+/artifacts/
+/bin/
+/obj/
+*.user
+*.suo
+*.cache
+*.log
+session_state.json
+Thumbs.db

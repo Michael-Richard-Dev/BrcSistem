@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>BRCSISTEM.Domain</AssemblyName>
+    <RootNamespace>BRCSISTEM.Domain</RootNamespace>
+  </PropertyGroup>
+</Project>

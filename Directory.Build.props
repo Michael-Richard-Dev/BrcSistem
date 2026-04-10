@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)artifacts\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)artifacts\bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <RestorePackagesPath>$(MSBuildThisFileDirectory)artifacts\packages</RestorePackagesPath>
+    <RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
+    <RestoreNoCache>true</RestoreNoCache>
+    <NuGetAudit>false</NuGetAudit>
+    <NoWarn>$(NoWarn);NU1900;NU1801</NoWarn>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

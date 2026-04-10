@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>BRCSISTEM.Desktop</AssemblyName>
+    <RootNamespace>BRCSISTEM.Desktop</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BRCSISTEM.Domain\BRCSISTEM.Domain.csproj" />
+    <ProjectReference Include="..\BRCSISTEM.Application\BRCSISTEM.Application.csproj" />
+    <ProjectReference Include="..\BRCSISTEM.Infrastructure\BRCSISTEM.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="config\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

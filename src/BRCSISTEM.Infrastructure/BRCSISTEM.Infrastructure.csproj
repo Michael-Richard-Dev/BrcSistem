@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>BRCSISTEM.Infrastructure</AssemblyName>
+    <RootNamespace>BRCSISTEM.Infrastructure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BRCSISTEM.Domain\BRCSISTEM.Domain.csproj" />
+    <ProjectReference Include="..\BRCSISTEM.Application\BRCSISTEM.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+</Project>

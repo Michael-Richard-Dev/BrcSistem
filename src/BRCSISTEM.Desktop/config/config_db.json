@@ -1,0 +1,35 @@
+{
+  "configurado": false,
+  "config_date": "2026-04-10T00:00:00",
+  "banco_ativo": "",
+  "primeiro_usuario": {
+    "usuario": "admin",
+    "nome": "Administrador",
+    "senha": "defina-uma-senha-inicial"
+  },
+  "conexao": {
+    "connect_timeout": 5,
+    "retries": 5,
+    "retry_wait": 1,
+    "retry_backoff": 1.5,
+    "max_retry_wait": 5,
+    "reconnect_wait": 2,
+    "keepalives": 1,
+    "keepalives_idle": 30,
+    "keepalives_interval": 10,
+    "keepalives_count": 5,
+    "application_name": "BRCSISTEM"
+  },
+  "bancos": {
+    "modelo_local": {
+      "nome": "brcsistem",
+      "descricao": "Preencha os dados do banco PostgreSQL antes da primeira execucao",
+      "host": "127.0.0.1",
+      "port": 5432,
+      "database": "brcsistem",
+      "user": "postgres",
+      "password": "",
+      "tipo": "rede"
+    }
+  }
+}

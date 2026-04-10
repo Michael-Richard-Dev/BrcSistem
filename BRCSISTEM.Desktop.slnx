@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BRCSISTEM.Application/BRCSISTEM.Application.csproj" />
+    <Project Path="src/BRCSISTEM.Desktop/BRCSISTEM.Desktop.csproj" />
+    <Project Path="src/BRCSISTEM.Domain/BRCSISTEM.Domain.csproj" />
+    <Project Path="src/BRCSISTEM.Infrastructure/BRCSISTEM.Infrastructure.csproj" />
+  </Folder>
+</Solution>

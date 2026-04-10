@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>BRCSISTEM.Application</AssemblyName>
+    <RootNamespace>BRCSISTEM.Application</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BRCSISTEM.Domain\BRCSISTEM.Domain.csproj" />
+  </ItemGroup>
+</Project>
