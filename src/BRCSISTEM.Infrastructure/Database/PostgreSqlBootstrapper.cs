@@ -336,6 +336,46 @@ namespace BRCSISTEM.Infrastructure.Database
                 )");
 
             ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS saidas_producao (
+                    numero TEXT NOT NULL,
+                    finalidade TEXT,
+                    dt_movimento TEXT,
+                    turno TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    bloqueado_por TEXT,
+                    bloqueado_em TEXT,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (numero, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao ADD COLUMN IF NOT EXISTS turno TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao ADD COLUMN IF NOT EXISTS bloqueado_por TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao ADD COLUMN IF NOT EXISTS bloqueado_em TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS saidas_producao_itens (
+                    numero TEXT NOT NULL,
+                    produto TEXT,
+                    material TEXT NOT NULL,
+                    lote TEXT NOT NULL,
+                    almoxarifado TEXT NOT NULL,
+                    quantidade DECIMAL,
+                    qtd_envio DECIMAL,
+                    qtd_retorno DECIMAL,
+                    qtd_consumida DECIMAL,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (numero, material, lote, almoxarifado, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao_itens ADD COLUMN IF NOT EXISTS produto TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao_itens ADD COLUMN IF NOT EXISTS qtd_envio DECIMAL");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao_itens ADD COLUMN IF NOT EXISTS qtd_retorno DECIMAL");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao_itens ADD COLUMN IF NOT EXISTS qtd_consumida DECIMAL");
+
+            ExecuteNonQuery(connection, transaction, @"
                 CREATE TABLE IF NOT EXISTS movimentos_estoque (
                     id SERIAL PRIMARY KEY,
                     documento_numero TEXT,
@@ -369,11 +409,17 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_bloqueado_por ON notas(bloqueado_por)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_itens_numero_fornecedor ON notas_itens(numero, fornecedor)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_itens_material_lote ON notas_itens(material, lote)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_numero ON saidas_producao(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_status ON saidas_producao(status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_bloqueado_por ON saidas_producao(bloqueado_por)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_itens_numero ON saidas_producao_itens(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_itens_material_lote ON saidas_producao_itens(material, lote)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_material_status ON movimentos_estoque(material, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_lote_status ON movimentos_estoque(lote, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_almoxarifado_status ON movimentos_estoque(almoxarifado, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_produto_utilizado_status ON movimentos_estoque(produto_utilizado, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_nota ON movimentos_estoque(documento_numero, documento_tipo, fornecedor, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_saida_producao ON movimentos_estoque(documento_numero, documento_tipo, status)");
         }
 
         private static int ToInt(object value)
