@@ -212,6 +212,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "movimentacao_entrada", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new InboundReceiptForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))
