@@ -17,6 +17,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly InboundReceiptService _inboundReceiptService;
         private readonly ProductionOutputService _productionOutputService;
         private readonly StockTransferService _stockTransferService;
+        private readonly MaterialRequisitionService _materialRequisitionService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
 
@@ -28,6 +29,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             InboundReceiptService inboundReceiptService,
             ProductionOutputService productionOutputService,
             StockTransferService stockTransferService,
+            MaterialRequisitionService materialRequisitionService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService)
         {
@@ -38,6 +40,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _inboundReceiptService = inboundReceiptService;
             _productionOutputService = productionOutputService;
             _stockTransferService = stockTransferService;
+            _materialRequisitionService = materialRequisitionService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
         }
@@ -55,6 +58,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var inboundReceiptGateway = new PostgreSqlInboundReceiptGateway(connectionFactory);
             var productionOutputGateway = new PostgreSqlProductionOutputGateway(connectionFactory);
             var stockTransferGateway = new PostgreSqlStockTransferGateway(connectionFactory);
+            var materialRequisitionGateway = new PostgreSqlMaterialRequisitionGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
 
@@ -66,6 +70,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new InboundReceiptService(masterDataGateway, inboundReceiptGateway, auditTrailService),
                 new ProductionOutputService(masterDataGateway, productionOutputGateway, auditTrailService),
                 new StockTransferService(stockTransferGateway, auditTrailService),
+                new MaterialRequisitionService(materialRequisitionGateway, auditTrailService),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore));
         }
@@ -108,6 +113,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public StockTransferController CreateStockTransferController()
         {
             return new StockTransferController(_stockTransferService);
+        }
+
+        public MaterialRequisitionController CreateMaterialRequisitionController()
+        {
+            return new MaterialRequisitionController(_materialRequisitionService);
         }
     }
 }

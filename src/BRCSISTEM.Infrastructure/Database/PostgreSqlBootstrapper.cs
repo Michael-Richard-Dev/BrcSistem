@@ -83,6 +83,7 @@ namespace BRCSISTEM.Infrastructure.Database
                     )");
 
                 EnsureMasterDataSchema(connection, transaction);
+                EnsureDefaultRequisitionReasons(connection, transaction);
                 EnsureDefaultUserTypes(connection, transaction);
                 EnsureDefaultParameters(connection, transaction);
                 EnsureFirstUser(connection, transaction, firstUser);
@@ -302,6 +303,16 @@ namespace BRCSISTEM.Infrastructure.Database
                 )");
 
             ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS motivos_requisicao (
+                    id SERIAL PRIMARY KEY,
+                    nome TEXT UNIQUE NOT NULL,
+                    descricao TEXT,
+                    ativo BOOLEAN DEFAULT TRUE,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT
+                )");
+
+            ExecuteNonQuery(connection, transaction, @"
                 CREATE TABLE IF NOT EXISTS notas (
                     numero TEXT NOT NULL,
                     fornecedor TEXT NOT NULL,
@@ -334,6 +345,37 @@ namespace BRCSISTEM.Infrastructure.Database
                     dt_hr_alteracao TEXT,
                     PRIMARY KEY (numero, fornecedor, material, lote, almoxarifado, versao)
                 )");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS requisicoes (
+                    numero TEXT NOT NULL,
+                    dt_movimento TEXT,
+                    almoxarifado TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    bloqueado_por TEXT,
+                    bloqueado_em TEXT,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (numero, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE requisicoes ADD COLUMN IF NOT EXISTS bloqueado_por TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE requisicoes ADD COLUMN IF NOT EXISTS bloqueado_em TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS requisicoes_itens (
+                    numero TEXT NOT NULL,
+                    material TEXT NOT NULL,
+                    lote TEXT NOT NULL,
+                    almoxarifado TEXT NOT NULL,
+                    quantidade DECIMAL,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (numero, material, lote, almoxarifado, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE requisicoes_itens ADD COLUMN IF NOT EXISTS item_numero INTEGER");
 
             ExecuteNonQuery(connection, transaction, @"
                 CREATE TABLE IF NOT EXISTS transferencias (
@@ -441,6 +483,11 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_bloqueado_por ON notas(bloqueado_por)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_itens_numero_fornecedor ON notas_itens(numero, fornecedor)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_notas_itens_material_lote ON notas_itens(material, lote)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_requisicoes_numero ON requisicoes(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_requisicoes_status ON requisicoes(status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_requisicoes_bloqueado_por ON requisicoes(bloqueado_por)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_requisicoes_itens_numero ON requisicoes_itens(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_requisicoes_itens_material_lote ON requisicoes_itens(material, lote)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_transferencias_numero ON transferencias(numero)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_transferencias_status ON transferencias(status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_transferencias_bloqueado_por ON transferencias(bloqueado_por)");
@@ -456,8 +503,39 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_almoxarifado_status ON movimentos_estoque(almoxarifado, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_produto_utilizado_status ON movimentos_estoque(produto_utilizado, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_nota ON movimentos_estoque(documento_numero, documento_tipo, fornecedor, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_requisicao ON movimentos_estoque(documento_numero, documento_tipo, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_transferencia ON movimentos_estoque(documento_numero, documento_tipo, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_documento_saida_producao ON movimentos_estoque(documento_numero, documento_tipo, status)");
+        }
+
+        private static void EnsureDefaultRequisitionReasons(DbConnection connection, DbTransaction transaction)
+        {
+            if (ToInt(ExecuteScalar(connection, transaction, "SELECT COUNT(*) FROM motivos_requisicao")) > 0)
+            {
+                return;
+            }
+
+            InsertRequisitionReason(connection, transaction, "Perda de Producao", "Material perdido durante o processo produtivo");
+            InsertRequisitionReason(connection, transaction, "Requisicao", "Requisicao padrao de material");
+            InsertRequisitionReason(connection, transaction, "Descarte", "Material descartado por motivos diversos");
+            InsertRequisitionReason(connection, transaction, "Inventario", "Ajuste de inventario fisico");
+            InsertRequisitionReason(connection, transaction, "Devolucao", "Retorno ou devolucao de material");
+            InsertRequisitionReason(connection, transaction, "Outro", "Outros motivos operacionais");
+        }
+
+        private static void InsertRequisitionReason(DbConnection connection, DbTransaction transaction, string name, string description)
+        {
+            using (var command = connection.CreateCommand())
+            {
+                command.Transaction = transaction;
+                command.CommandText = @"
+                    INSERT INTO motivos_requisicao (nome, descricao, ativo, dt_hr_criacao, dt_hr_alteracao)
+                    VALUES (@nome, @descricao, TRUE, @agora, @agora)";
+                command.Parameters.Add(CreateParameter(command, "@nome", name));
+                command.Parameters.Add(CreateParameter(command, "@descricao", description));
+                command.Parameters.Add(CreateParameter(command, "@agora", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                command.ExecuteNonQuery();
+            }
         }
 
         private static int ToInt(object value)
