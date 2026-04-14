@@ -16,6 +16,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly MasterDataService _masterDataService;
         private readonly InboundReceiptService _inboundReceiptService;
         private readonly ProductionOutputService _productionOutputService;
+        private readonly StockTransferService _stockTransferService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
 
@@ -26,6 +27,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             MasterDataService masterDataService,
             InboundReceiptService inboundReceiptService,
             ProductionOutputService productionOutputService,
+            StockTransferService stockTransferService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService)
         {
@@ -35,6 +37,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _masterDataService = masterDataService;
             _inboundReceiptService = inboundReceiptService;
             _productionOutputService = productionOutputService;
+            _stockTransferService = stockTransferService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
         }
@@ -51,6 +54,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var masterDataGateway = new PostgreSqlMasterDataGateway(connectionFactory);
             var inboundReceiptGateway = new PostgreSqlInboundReceiptGateway(connectionFactory);
             var productionOutputGateway = new PostgreSqlProductionOutputGateway(connectionFactory);
+            var stockTransferGateway = new PostgreSqlStockTransferGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
 
@@ -61,6 +65,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new MasterDataService(masterDataGateway, auditTrailService),
                 new InboundReceiptService(masterDataGateway, inboundReceiptGateway, auditTrailService),
                 new ProductionOutputService(masterDataGateway, productionOutputGateway, auditTrailService),
+                new StockTransferService(stockTransferGateway, auditTrailService),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore));
         }
@@ -98,6 +103,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public ProductionOutputController CreateProductionOutputController()
         {
             return new ProductionOutputController(_productionOutputService);
+        }
+
+        public StockTransferController CreateStockTransferController()
+        {
+            return new StockTransferController(_stockTransferService);
         }
     }
 }
