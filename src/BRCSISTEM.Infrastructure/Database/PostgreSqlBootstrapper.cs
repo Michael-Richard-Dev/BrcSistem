@@ -450,6 +450,117 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "ALTER TABLE saidas_producao_itens ADD COLUMN IF NOT EXISTS qtd_consumida DECIMAL");
 
             ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS inventarios (
+                    numero TEXT NOT NULL,
+                    dt_movimento TEXT,
+                    observacao TEXT,
+                    usuario TEXT,
+                    status TEXT DEFAULT 'PENDENTE',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    dt_inicio TEXT,
+                    dt_abertura TEXT,
+                    dt_fechamento TEXT,
+                    dt_finalizacao TEXT,
+                    max_pontos INTEGER DEFAULT 1,
+                    fechado_por TEXT,
+                    cancelado_por TEXT,
+                    motivo_cancelamento TEXT,
+                    bloqueado_por TEXT,
+                    bloqueado_em TEXT,
+                    PRIMARY KEY (numero, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS observacao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS usuario TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'PENDENTE'");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS versao INTEGER DEFAULT 1");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_hr_criacao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_hr_alteracao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_inicio TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_abertura TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_fechamento TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS dt_finalizacao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS max_pontos INTEGER DEFAULT 1");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS fechado_por TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS cancelado_por TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS motivo_cancelamento TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS bloqueado_por TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios ADD COLUMN IF NOT EXISTS bloqueado_em TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS inventarios_itens (
+                    numero TEXT NOT NULL,
+                    material TEXT NOT NULL,
+                    lote TEXT NOT NULL,
+                    almoxarifado TEXT NOT NULL,
+                    saldo_sistema DECIMAL,
+                    quantidade_contada DECIMAL,
+                    ajuste DECIMAL,
+                    tipo_ajuste TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    versao INTEGER DEFAULT 1,
+                    dt_hr_criacao TEXT,
+                    dt_hr_alteracao TEXT,
+                    PRIMARY KEY (numero, material, lote, almoxarifado, versao)
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS saldo_sistema DECIMAL");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS quantidade_contada DECIMAL");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS ajuste DECIMAL");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS tipo_ajuste TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'ATIVO'");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS versao INTEGER DEFAULT 1");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS dt_hr_criacao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventarios_itens ADD COLUMN IF NOT EXISTS dt_hr_alteracao TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS inventario_pontos (
+                    id SERIAL PRIMARY KEY,
+                    numero TEXT NOT NULL,
+                    nome_ponto TEXT,
+                    ip_ponto TEXT,
+                    computador TEXT,
+                    usuario_abertura TEXT,
+                    usuario_fechamento TEXT,
+                    status TEXT DEFAULT 'ABERTO',
+                    dt_abertura TEXT,
+                    dt_fechamento TEXT,
+                    observacao TEXT,
+                    dt_heartbeat TEXT
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS usuario_abertura TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS usuario_fechamento TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'ABERTO'");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS dt_abertura TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS dt_fechamento TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS observacao TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_pontos ADD COLUMN IF NOT EXISTS dt_heartbeat TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
+                CREATE TABLE IF NOT EXISTS inventario_contagens (
+                    id SERIAL PRIMARY KEY,
+                    numero TEXT NOT NULL,
+                    ponto_id INTEGER,
+                    almoxarifado TEXT NOT NULL,
+                    material TEXT NOT NULL,
+                    lote TEXT NOT NULL,
+                    quantidade DECIMAL,
+                    usuario TEXT,
+                    ip_ponto TEXT,
+                    computador TEXT,
+                    dt_hr TEXT,
+                    status TEXT DEFAULT 'ATIVO',
+                    origem_uid TEXT
+                )");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS ponto_id INTEGER");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS usuario TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS ip_ponto TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS computador TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS dt_hr TEXT");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'ATIVO'");
+            ExecuteNonQuery(connection, transaction, "ALTER TABLE inventario_contagens ADD COLUMN IF NOT EXISTS origem_uid TEXT");
+
+            ExecuteNonQuery(connection, transaction, @"
                 CREATE TABLE IF NOT EXISTS movimentos_estoque (
                     id SERIAL PRIMARY KEY,
                     documento_numero TEXT,
@@ -498,6 +609,15 @@ namespace BRCSISTEM.Infrastructure.Database
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_bloqueado_por ON saidas_producao(bloqueado_por)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_itens_numero ON saidas_producao_itens(numero)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_saidas_producao_itens_material_lote ON saidas_producao_itens(material, lote)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventarios_numero ON inventarios(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventarios_status ON inventarios(status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventarios_bloqueado_por ON inventarios(bloqueado_por)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventarios_itens_numero ON inventarios_itens(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventarios_itens_material_lote ON inventarios_itens(material, lote)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventario_pontos_numero_status ON inventario_pontos(numero, status)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventario_contagens_numero ON inventario_contagens(numero)");
+            ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_inventario_contagens_item ON inventario_contagens(numero, almoxarifado, material, lote)");
+            ExecuteNonQuery(connection, transaction, "CREATE UNIQUE INDEX IF NOT EXISTS uq_inventario_contagens_origem_uid ON inventario_contagens(origem_uid) WHERE origem_uid IS NOT NULL");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_material_status ON movimentos_estoque(material, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_lote_status ON movimentos_estoque(lote, status)");
             ExecuteNonQuery(connection, transaction, "CREATE INDEX IF NOT EXISTS idx_movimentos_almoxarifado_status ON movimentos_estoque(almoxarifado, status)");

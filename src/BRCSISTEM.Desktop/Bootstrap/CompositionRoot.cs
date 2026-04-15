@@ -18,6 +18,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly ProductionOutputService _productionOutputService;
         private readonly StockTransferService _stockTransferService;
         private readonly MaterialRequisitionService _materialRequisitionService;
+        private readonly InventoryService _inventoryService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
 
@@ -30,6 +31,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             ProductionOutputService productionOutputService,
             StockTransferService stockTransferService,
             MaterialRequisitionService materialRequisitionService,
+            InventoryService inventoryService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService)
         {
@@ -41,6 +43,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _productionOutputService = productionOutputService;
             _stockTransferService = stockTransferService;
             _materialRequisitionService = materialRequisitionService;
+            _inventoryService = inventoryService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
         }
@@ -59,6 +62,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var productionOutputGateway = new PostgreSqlProductionOutputGateway(connectionFactory);
             var stockTransferGateway = new PostgreSqlStockTransferGateway(connectionFactory);
             var materialRequisitionGateway = new PostgreSqlMaterialRequisitionGateway(connectionFactory);
+            var inventoryGateway = new PostgreSqlInventoryGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
 
@@ -71,6 +75,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new ProductionOutputService(masterDataGateway, productionOutputGateway, auditTrailService),
                 new StockTransferService(stockTransferGateway, auditTrailService),
                 new MaterialRequisitionService(materialRequisitionGateway, auditTrailService),
+                new InventoryService(inventoryGateway, auditTrailService),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore));
         }
@@ -118,6 +123,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public MaterialRequisitionController CreateMaterialRequisitionController()
         {
             return new MaterialRequisitionController(_materialRequisitionService);
+        }
+
+        public InventoryController CreateInventoryController()
+        {
+            return new InventoryController(_inventoryService);
         }
     }
 }
