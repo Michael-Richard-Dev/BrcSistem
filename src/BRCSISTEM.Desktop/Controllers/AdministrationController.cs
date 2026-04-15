@@ -11,6 +11,7 @@ namespace BRCSISTEM.Desktop.Controllers
         public AdministrationController(AdministrationService administrationService)
         {
             _administrationService = administrationService;
+            //teste
         }
 
         public PermissionCategory[] LoadPermissionCategories()
