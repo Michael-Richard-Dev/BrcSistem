@@ -19,6 +19,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly StockTransferService _stockTransferService;
         private readonly MaterialRequisitionService _materialRequisitionService;
         private readonly InventoryService _inventoryService;
+        private readonly StockLedgerService _stockLedgerService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
 
@@ -32,6 +33,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             StockTransferService stockTransferService,
             MaterialRequisitionService materialRequisitionService,
             InventoryService inventoryService,
+            StockLedgerService stockLedgerService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService)
         {
@@ -44,6 +46,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _stockTransferService = stockTransferService;
             _materialRequisitionService = materialRequisitionService;
             _inventoryService = inventoryService;
+            _stockLedgerService = stockLedgerService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
         }
@@ -63,6 +66,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var stockTransferGateway = new PostgreSqlStockTransferGateway(connectionFactory);
             var materialRequisitionGateway = new PostgreSqlMaterialRequisitionGateway(connectionFactory);
             var inventoryGateway = new PostgreSqlInventoryGateway(connectionFactory);
+            var stockLedgerGateway = new PostgreSqlStockLedgerGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
 
@@ -76,6 +80,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new StockTransferService(stockTransferGateway, auditTrailService),
                 new MaterialRequisitionService(materialRequisitionGateway, auditTrailService),
                 new InventoryService(inventoryGateway, auditTrailService),
+                new StockLedgerService(stockLedgerGateway, auditTrailService),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore));
         }
@@ -128,6 +133,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public InventoryController CreateInventoryController()
         {
             return new InventoryController(_inventoryService);
+        }
+
+        public StockLedgerController CreateStockLedgerController()
+        {
+            return new StockLedgerController(_stockLedgerService);
         }
     }
 }
