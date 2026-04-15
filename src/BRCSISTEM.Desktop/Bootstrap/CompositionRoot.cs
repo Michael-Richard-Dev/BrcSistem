@@ -22,6 +22,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly StockLedgerService _stockLedgerService;
         private readonly InboundReceiptReportService _inboundReceiptReportService;
         private readonly ProductionOutputReportService _productionOutputReportService;
+        private readonly StockTransferReportService _stockTransferReportService;
         private readonly StockSummaryService _stockSummaryService;
         private readonly StockMovementReportService _stockMovementReportService;
         private readonly ModuleCatalogService _moduleCatalogService;
@@ -40,6 +41,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             StockLedgerService stockLedgerService,
             InboundReceiptReportService inboundReceiptReportService,
             ProductionOutputReportService productionOutputReportService,
+            StockTransferReportService stockTransferReportService,
             StockSummaryService stockSummaryService,
             StockMovementReportService stockMovementReportService,
             ModuleCatalogService moduleCatalogService,
@@ -57,6 +59,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _stockLedgerService = stockLedgerService;
             _inboundReceiptReportService = inboundReceiptReportService;
             _productionOutputReportService = productionOutputReportService;
+            _stockTransferReportService = stockTransferReportService;
             _stockSummaryService = stockSummaryService;
             _stockMovementReportService = stockMovementReportService;
             _moduleCatalogService = moduleCatalogService;
@@ -81,6 +84,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var stockLedgerGateway = new PostgreSqlStockLedgerGateway(connectionFactory);
             var inboundReceiptReportGateway = new PostgreSqlInboundReceiptReportGateway(connectionFactory);
             var productionOutputReportGateway = new PostgreSqlProductionOutputReportGateway(connectionFactory);
+            var stockTransferReportGateway = new PostgreSqlStockTransferReportGateway(connectionFactory);
             var stockSummaryGateway = new PostgreSqlStockSummaryGateway(connectionFactory);
             var stockMovementReportGateway = new PostgreSqlStockMovementReportGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
@@ -99,6 +103,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new StockLedgerService(stockLedgerGateway, auditTrailService),
                 new InboundReceiptReportService(inboundReceiptReportGateway, auditTrailService),
                 new ProductionOutputReportService(masterDataGateway, productionOutputReportGateway, auditTrailService),
+                new StockTransferReportService(masterDataGateway, stockTransferReportGateway, auditTrailService),
                 new StockSummaryService(stockSummaryGateway, auditTrailService),
                 new StockMovementReportService(stockMovementReportGateway, auditTrailService),
                 new ModuleCatalogService(),
@@ -168,6 +173,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public ProductionOutputReportController CreateProductionOutputReportController()
         {
             return new ProductionOutputReportController(_productionOutputReportService);
+        }
+
+        public StockTransferReportController CreateStockTransferReportController()
+        {
+            return new StockTransferReportController(_stockTransferReportService);
         }
 
         public StockSummaryController CreateStockSummaryController()
