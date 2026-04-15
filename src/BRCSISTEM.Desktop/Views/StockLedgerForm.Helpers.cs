@@ -16,6 +16,13 @@ namespace BRCSISTEM.Desktop.Views
             try
             {
                 _configuration = _configurationController.LoadConfiguration();
+                if (_initialQuery != null)
+                {
+                    ApplyInitialQuery(_initialQuery);
+                    SetStatus("Conta corrente carregada com filtros pre-aplicados.", false);
+                    return;
+                }
+
                 ApplyDefaultPeriod();
                 ReloadAllReferences(null, null, null, null);
                 QueryEntries();
@@ -25,6 +32,16 @@ namespace BRCSISTEM.Desktop.Views
             {
                 ShowError(exception);
             }
+        }
+
+        private void ApplyInitialQuery(StockLedgerQuery initialQuery)
+        {
+            _startDateTextBox.Text = NormalizeDateInput(initialQuery.StartDate);
+            _endDateTextBox.Text = NormalizeDateInput(initialQuery.EndDate);
+            _includeInactiveCheckBox.Checked = initialQuery.IncludeInactive;
+            ReloadAllReferences(initialQuery.SupplierCode, initialQuery.MaterialCode, initialQuery.LotCode, initialQuery.WarehouseCode);
+            SetSelectedMovementType(initialQuery.MovementType);
+            QueryEntries();
         }
 
         private void ReloadAllReferences(string supplierCode, string materialCode, string lotCode, string warehouseCode)
@@ -430,6 +447,27 @@ namespace BRCSISTEM.Desktop.Views
         {
             var value = (_typeComboBox.SelectedItem as string ?? string.Empty).Trim();
             return string.Equals(value, "TODOS", StringComparison.OrdinalIgnoreCase) ? string.Empty : value;
+        }
+
+        private void SetSelectedMovementType(string movementType)
+        {
+            var normalized = (movementType ?? string.Empty).Trim();
+            if (normalized.Length == 0)
+            {
+                _typeComboBox.SelectedIndex = 0;
+                return;
+            }
+
+            for (var index = 0; index < _typeComboBox.Items.Count; index++)
+            {
+                if (string.Equals(Convert.ToString(_typeComboBox.Items[index]), normalized, StringComparison.OrdinalIgnoreCase))
+                {
+                    _typeComboBox.SelectedIndex = index;
+                    return;
+                }
+            }
+
+            _typeComboBox.SelectedIndex = 0;
         }
 
         private StockLedgerEntry[] SortEntries(StockLedgerEntry[] items)

@@ -254,6 +254,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "resumo_sintetico", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new StockSummaryForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else if (string.Equals(module.Key, "relatorio_movimentacao_estoque", StringComparison.OrdinalIgnoreCase))
             {
                 using (var dialog = new StockMovementReportForm(_compositionRoot, _identity, _databaseProfile))

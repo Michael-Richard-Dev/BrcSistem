@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BRCSISTEM.Application.Models;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
@@ -13,6 +14,7 @@ namespace BRCSISTEM.Desktop.Views
         private readonly ConfigurationController _configurationController;
         private readonly UserIdentity _identity;
         private readonly DatabaseProfile _databaseProfile;
+        private readonly StockLedgerQuery _initialQuery;
 
         private AppConfiguration _configuration;
         private LookupOption[] _supplierOptions;
@@ -38,11 +40,17 @@ namespace BRCSISTEM.Desktop.Views
         private bool _sortAscending;
 
         public StockLedgerForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+            : this(compositionRoot, identity, databaseProfile, null)
+        {
+        }
+
+        public StockLedgerForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile, StockLedgerQuery initialQuery)
         {
             _stockLedgerController = compositionRoot.CreateStockLedgerController();
             _configurationController = compositionRoot.CreateConfigurationController();
             _identity = identity;
             _databaseProfile = databaseProfile;
+            _initialQuery = initialQuery;
             _supplierOptions = new LookupOption[0];
             _materialOptions = new LookupOption[0];
             _lotOptions = new LookupOption[0];
