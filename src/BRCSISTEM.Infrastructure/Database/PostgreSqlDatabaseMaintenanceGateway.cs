@@ -984,21 +984,57 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
+                // SQL espelha exatamente diagnosticar_entradas_lote_divergente() do Python:
+                // - JOIN notas_itens para obter o lote correto e quantidade esperada
+                // - JOIN notas para obter o usuario que criou a nota
+                // - NOT EXISTS confirma que o lote do movimento realmente não existe nos itens
                 command.CommandText = @"
-                    SELECT me.id, me.documento_numero, me.fornecedor, me.almoxarifado,
-                           me.material, e.nome AS material_nome, me.lote,
-                           me.quantidade, me.data_movimento, me.status
+                    SELECT
+                        me.id,
+                        me.documento_numero,
+                        me.material,
+                        me.lote                AS lote_movimento,
+                        me.fornecedor,
+                        me.almoxarifado,
+                        me.quantidade,
+                        me.usuario             AS usuario_movimento,
+                        me.dt_hr_criacao,
+                        ni.lote                AS lote_notas_itens,
+                        ni.quantidade          AS qtd_notas_itens,
+                        n.usuario              AS usuario_nota,
+                        e.descricao            AS material_descricao
                     FROM movimentos_estoque me
-                    LEFT JOIN embalagens e ON me.material = e.codigo
-                    WHERE me.documento_tipo = 'NOTA'
-                      AND me.status = 'ATIVO'
+                    JOIN notas_itens ni
+                      ON  ni.numero   = me.documento_numero
+                      AND ni.material = me.material
+                      AND ni.status   = 'ATIVO'
+                    JOIN notas n
+                      ON  n.numero  = me.documento_numero
+                      AND n.status  = 'ATIVO'
+                      AND n.versao  = (
+                              SELECT MAX(nx.versao)
+                              FROM notas nx
+                              WHERE nx.numero = n.numero AND nx.status = 'ATIVO'
+                          )
+                    LEFT JOIN embalagens e
+                      ON  e.codigo = me.material
+                      AND e.versao = (
+                              SELECT MAX(ex.versao)
+                              FROM embalagens ex
+                              WHERE ex.codigo = e.codigo
+                          )
+                    WHERE me.tipo           = 'ENTRADA'
+                      AND me.documento_tipo = 'NOTA'
+                      AND me.status         = 'ATIVO'
                       AND NOT EXISTS (
-                          SELECT 1 FROM notas_itens ni
-                          WHERE LOWER(ni.numero) = LOWER(me.documento_numero)
-                            AND LOWER(ni.fornecedor) = LOWER(me.fornecedor)
-                            AND ni.lote = me.lote
+                          SELECT 1
+                          FROM notas_itens ni2
+                          WHERE ni2.numero   = me.documento_numero
+                            AND ni2.material = me.material
+                            AND ni2.lote     = me.lote
+                            AND ni2.status   = 'ATIVO'
                       )
-                    ORDER BY me.data_movimento DESC, me.documento_numero";
+                    ORDER BY me.documento_numero, me.material, me.id";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -1006,16 +1042,19 @@ namespace BRCSISTEM.Infrastructure.Database
                     {
                         results.Add(new DivergentLotEntry
                         {
-                            MovementId = ReadLong(reader, "id"),
-                            DocumentNumber = ReadString(reader, "documento_numero"),
-                            Supplier = ReadString(reader, "fornecedor"),
-                            Warehouse = ReadString(reader, "almoxarifado"),
-                            Material = ReadString(reader, "material"),
-                            MaterialName = ReadString(reader, "material_nome"),
-                            Lot = ReadString(reader, "lote"),
-                            Quantity = ReadDecimal(reader, "quantidade"),
-                            MovementDate = ReadString(reader, "data_movimento"),
-                            Status = ReadString(reader, "status"),
+                            MovementId        = ReadLong(reader,    "id"),
+                            DocumentNumber    = ReadString(reader,  "documento_numero"),
+                            Material          = ReadString(reader,  "material"),
+                            MaterialName      = ReadString(reader,  "material_descricao"),
+                            LotInMovement     = ReadString(reader,  "lote_movimento"),
+                            LotInNoteItem     = ReadString(reader,  "lote_notas_itens"),
+                            Supplier          = ReadString(reader,  "fornecedor"),
+                            Warehouse         = ReadString(reader,  "almoxarifado"),
+                            Quantity          = ReadDecimal(reader, "quantidade"),
+                            QuantityInNoteItem = ReadDecimal(reader, "qtd_notas_itens"),
+                            MovementUser      = ReadString(reader,  "usuario_movimento"),
+                            NoteUser          = ReadString(reader,  "usuario_nota"),
+                            CreatedAt         = ReadString(reader,  "dt_hr_criacao"),
                         });
                     }
                 }
