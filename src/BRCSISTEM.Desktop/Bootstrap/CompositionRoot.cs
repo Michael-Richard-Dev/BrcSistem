@@ -5,6 +5,7 @@ using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Infrastructure.Configuration;
 using BRCSISTEM.Infrastructure.Database;
 using BRCSISTEM.Infrastructure.Session;
+using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Bootstrap
 {
@@ -28,6 +29,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly StockMovementReportService _stockMovementReportService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
+        private readonly DatabaseMaintenanceService _databaseMaintenanceService;
 
         private CompositionRoot(
             AppBootstrapService appBootstrapService,
@@ -47,7 +49,8 @@ namespace BRCSISTEM.Desktop.Bootstrap
             StockSummaryService stockSummaryService,
             StockMovementReportService stockMovementReportService,
             ModuleCatalogService moduleCatalogService,
-            SessionStateService sessionStateService)
+            SessionStateService sessionStateService,
+            DatabaseMaintenanceService databaseMaintenanceService)
         {
             _appBootstrapService = appBootstrapService;
             _authenticationService = authenticationService;
@@ -67,6 +70,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _stockMovementReportService = stockMovementReportService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
+            _databaseMaintenanceService = databaseMaintenanceService;
         }
 
         public static CompositionRoot Create()
@@ -93,6 +97,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var stockMovementReportGateway = new PostgreSqlStockMovementReportGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
+            var databaseMaintenanceGateway = new PostgreSqlDatabaseMaintenanceGateway(connectionFactory);
 
             return new CompositionRoot(
                 new AppBootstrapService(configurationStore, connectionFactory, bootstrapper),
@@ -112,7 +117,8 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new StockSummaryService(stockSummaryGateway, auditTrailService),
                 new StockMovementReportService(stockMovementReportGateway, auditTrailService),
                 new ModuleCatalogService(),
-                new SessionStateService(sessionStore));
+                new SessionStateService(sessionStore),
+                new DatabaseMaintenanceService(databaseMaintenanceGateway, auditTrailService));
         }
 
         public ConfigurationController CreateConfigurationController()
@@ -198,6 +204,11 @@ namespace BRCSISTEM.Desktop.Bootstrap
         public StockMovementReportController CreateStockMovementReportController()
         {
             return new StockMovementReportController(_stockMovementReportService);
+        }
+
+        public DatabaseMaintenanceController CreateDatabaseMaintenanceController()
+        {
+            return new DatabaseMaintenanceController(_databaseMaintenanceService);
         }
     }
 }
