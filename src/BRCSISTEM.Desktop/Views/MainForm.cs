@@ -303,13 +303,6 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
-            else if (string.Equals(module.Key, "alerta_estoque_negativo_antes_entrada", StringComparison.OrdinalIgnoreCase))
-            {
-                using (var dialog = new NegativeStockAlertForm(_compositionRoot, _identity, _databaseProfile))
-                {
-                    dialog.ShowDialog(this);
-                }
-            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

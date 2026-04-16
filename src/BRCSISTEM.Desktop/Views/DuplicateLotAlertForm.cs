@@ -259,7 +259,7 @@ namespace BRCSISTEM.Desktop.Views
                 _grid.Rows.Clear();
                 _infoLabel.Text = "Consultando...";
                 _infoLabel.ForeColor = Color.FromArgb(100, 100, 100);
-                System.Windows.Forms.Application.DoEvents();
+                Application.DoEvents();
 
                 var filterMaterial    = ExtractMaterialCode(_materialComboBox.Text);
                 var filterLotDesc     = _lotDescriptionTextBox.Text.Trim();
