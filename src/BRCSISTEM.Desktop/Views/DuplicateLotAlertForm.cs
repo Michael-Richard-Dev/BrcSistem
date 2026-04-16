@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
+using WinFormsApplication = System.Windows.Forms.Application;
 
 namespace BRCSISTEM.Desktop.Views
 {
@@ -259,7 +260,8 @@ namespace BRCSISTEM.Desktop.Views
                 _grid.Rows.Clear();
                 _infoLabel.Text = "Consultando...";
                 _infoLabel.ForeColor = Color.FromArgb(100, 100, 100);
-                Application.DoEvents();
+                //Application.DoEvents();
+                WinFormsApplication.DoEvents();
 
                 var filterMaterial    = ExtractMaterialCode(_materialComboBox.Text);
                 var filterLotDesc     = _lotDescriptionTextBox.Text.Trim();
