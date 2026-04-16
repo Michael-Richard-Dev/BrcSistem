@@ -1050,39 +1050,86 @@ namespace BRCSISTEM.Infrastructure.Database
             string filterLot)
         {
             var results = new List<NegativeStockEntry>();
-            var conditions = new List<string> { "status = 'ATIVO'" };
-            if (!string.IsNullOrWhiteSpace(filterWarehouse)) conditions.Add("LOWER(almoxarifado) LIKE @wh");
-            if (!string.IsNullOrWhiteSpace(filterMaterial)) conditions.Add("LOWER(material) LIKE @mat");
-            if (!string.IsNullOrWhiteSpace(filterLot)) conditions.Add("LOWER(lote) LIKE @lot");
 
-            var whereInner = "WHERE " + string.Join(" AND ", conditions);
+            // Inner WHERE: exact match for warehouse/material (como no Python), ILIKE para lote
+            var conditions = new List<string> { "m.status = 'ATIVO'" };
+            if (!string.IsNullOrWhiteSpace(filterWarehouse)) conditions.Add("m.almoxarifado = @wh");
+            if (!string.IsNullOrWhiteSpace(filterMaterial))  conditions.Add("m.material = @mat");
+            if (!string.IsNullOrWhiteSpace(filterLot))       conditions.Add("m.lote ILIKE @lot");
+
+            var whereInner = string.Join(" AND ", conditions);
 
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = $@"
                     WITH movs AS (
-                        SELECT me.id, me.almoxarifado, me.material, me.lote,
-                               me.data_movimento, me.tipo, me.documento_numero,
-                               me.quantidade,
-                               SUM(CASE WHEN me.tipo IN ('ENTRADA','AJUSTE_POSITIVO') THEN me.quantidade
-                                        ELSE -me.quantidade END)
-                               OVER (PARTITION BY me.almoxarifado, me.material, me.lote
-                                     ORDER BY me.data_movimento, me.id) AS saldo
-                        FROM movimentos_estoque me
-                        {whereInner}
+                        SELECT
+                            m.id,
+                            m.data_movimento,
+                            m.tipo,
+                            m.documento_tipo,
+                            m.documento_numero,
+                            m.material,
+                            m.lote,
+                            m.almoxarifado,
+                            m.quantidade,
+                            m.fornecedor,
+                            m.vencimento,
+                            SUM(
+                                CASE
+                                    WHEN m.tipo IN ('ENTRADA', 'TRANSFERENCIA_ENTRADA')
+                                        THEN m.quantidade
+                                    WHEN m.tipo IN ('SAIDA', 'REQUISICAO', 'TRANSFERENCIA_SAIDA', 'SAIDA_PRODUCAO')
+                                        THEN -m.quantidade
+                                    ELSE 0
+                                END
+                            ) OVER (
+                                PARTITION BY m.almoxarifado, m.material, m.lote
+                                ORDER BY m.data_movimento, m.id
+                            ) AS saldo
+                        FROM movimentos_estoque m
+                        WHERE {whereInner}
                     )
-                    SELECT m.id, m.almoxarifado, m.material, e.nome AS material_nome,
-                           m.lote, m.data_movimento, m.tipo, m.documento_numero,
-                           m.quantidade, m.saldo
-                    FROM movs m
-                    LEFT JOIN embalagens e ON m.material = e.codigo
-                    WHERE m.saldo < 0
-                    ORDER BY m.almoxarifado, m.material, m.lote, m.data_movimento, m.id";
+                    SELECT
+                        mv.id,
+                        mv.almoxarifado,
+                        COALESCE(a.nome,   '')  AS almox_nome,
+                        mv.material,
+                        COALESCE(em.descricao, '') AS material_desc,
+                        mv.lote,
+                        COALESCE(l.nome,   '')  AS lote_nome,
+                        mv.data_movimento,
+                        mv.tipo,
+                        mv.documento_tipo,
+                        mv.documento_numero,
+                        mv.quantidade,
+                        mv.saldo,
+                        COALESCE(f.nome,   '')  AS fornecedor_nome,
+                        COALESCE(l.validade::text, mv.vencimento::text, '') AS validade
+                    FROM movs mv
+                    LEFT JOIN almoxarifados a
+                        ON  a.codigo  = mv.almoxarifado
+                        AND a.versao  = (SELECT MAX(versao) FROM almoxarifados x WHERE x.codigo = a.codigo)
+                        AND a.status  = 'ATIVO'
+                    LEFT JOIN embalagens em
+                        ON  em.codigo = mv.material
+                        AND em.versao = (SELECT MAX(versao) FROM embalagens x WHERE x.codigo = em.codigo)
+                        AND em.status = 'ATIVO'
+                    LEFT JOIN lotes l
+                        ON  l.codigo  = mv.lote
+                        AND l.versao  = (SELECT MAX(versao) FROM lotes x WHERE x.codigo = l.codigo)
+                        AND l.status  = 'ATIVO'
+                    LEFT JOIN fornecedores f
+                        ON  f.codigo  = l.fornecedor
+                        AND f.versao  = (SELECT MAX(versao) FROM fornecedores x WHERE x.codigo = f.codigo)
+                        AND f.status  = 'ATIVO'
+                    WHERE mv.saldo < 0
+                    ORDER BY mv.almoxarifado, mv.material, mv.lote, mv.data_movimento, mv.id";
 
-                if (!string.IsNullOrWhiteSpace(filterWarehouse)) AddParameter(command, "wh", "%" + filterWarehouse.Trim().ToLowerInvariant() + "%");
-                if (!string.IsNullOrWhiteSpace(filterMaterial)) AddParameter(command, "mat", "%" + filterMaterial.Trim().ToLowerInvariant() + "%");
-                if (!string.IsNullOrWhiteSpace(filterLot)) AddParameter(command, "lot", "%" + filterLot.Trim().ToLowerInvariant() + "%");
+                if (!string.IsNullOrWhiteSpace(filterWarehouse)) AddParameter(command, "wh",  filterWarehouse.Trim());
+                if (!string.IsNullOrWhiteSpace(filterMaterial))  AddParameter(command, "mat", filterMaterial.Trim());
+                if (!string.IsNullOrWhiteSpace(filterLot))       AddParameter(command, "lot", "%" + filterLot.Trim() + "%");
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -1090,16 +1137,21 @@ namespace BRCSISTEM.Infrastructure.Database
                     {
                         results.Add(new NegativeStockEntry
                         {
-                            MovementId = ReadLong(reader, "id"),
-                            Warehouse = ReadString(reader, "almoxarifado"),
-                            Material = ReadString(reader, "material"),
-                            MaterialName = ReadString(reader, "material_nome"),
-                            Lot = ReadString(reader, "lote"),
-                            MovementDate = ReadString(reader, "data_movimento"),
-                            MovementType = ReadString(reader, "tipo"),
+                            MovementId    = ReadLong(reader,    "id"),
+                            Warehouse     = ReadString(reader,  "almoxarifado"),
+                            WarehouseName = ReadString(reader,  "almox_nome"),
+                            Material      = ReadString(reader,  "material"),
+                            MaterialName  = ReadString(reader,  "material_desc"),
+                            Lot           = ReadString(reader,  "lote"),
+                            LotName       = ReadString(reader,  "lote_nome"),
+                            MovementDate  = ReadString(reader,  "data_movimento"),
+                            MovementType  = ReadString(reader,  "tipo"),
+                            DocumentType  = ReadString(reader,  "documento_tipo"),
                             DocumentNumber = ReadString(reader, "documento_numero"),
-                            Quantity = ReadDecimal(reader, "quantidade"),
+                            Quantity      = ReadDecimal(reader, "quantidade"),
                             RunningBalance = ReadDecimal(reader, "saldo"),
+                            SupplierName  = ReadString(reader,  "fornecedor_nome"),
+                            Validity      = ReadString(reader,  "validade"),
                         });
                     }
                 }
