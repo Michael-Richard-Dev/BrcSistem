@@ -97,7 +97,7 @@ namespace BRCSISTEM.Application.Abstractions
 
         IReadOnlyCollection<DocumentMaintenanceItem> LoadRequisitionItems(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
-        void RemoveRequisition(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
+        RemoveRequisitionResult RemoveRequisition(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
         // ── Change note date (bd_alterar_data_entrada) ─────────────────────────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveNotes(DatabaseProfile profile, ConnectionResilienceSettings settings);

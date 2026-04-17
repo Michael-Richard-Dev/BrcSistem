@@ -1,0 +1,10 @@
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\bin\Debug\net48\BRCSISTEM.Domain.dll
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\bin\Debug\net48\BRCSISTEM.Domain.pdb
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.csproj.AssemblyReference.cache
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.AssemblyInfoInputs.cache
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.AssemblyInfo.cs
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.csproj.CoreCompileInputs.cache
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.sourcelink.json
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.dll
+C:\Visual Studio 2026\Projetos\BRCSISTEM\temp_build\obj\Debug\net48\BRCSISTEM.Domain.pdb

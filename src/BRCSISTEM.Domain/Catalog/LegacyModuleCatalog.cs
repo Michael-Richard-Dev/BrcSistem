@@ -33,7 +33,7 @@ namespace BRCSISTEM.Domain.Catalog
                 new ModuleDefinition("bd_remover_nota", "Banco de Dados", "Remover Nota Fiscal", "bd_remover_nota", "views/bd_remover_nota.py", "Exclusao controlada de notas.", true),
                 new ModuleDefinition("bd_remover_transferencia", "Banco de Dados", "Remover Transferencia", "bd_remover_transferencia", "views/bd_remover_transferencia.py", "Exclusao controlada de transferencias.", false),
                 new ModuleDefinition("bd_remover_saida", "Banco de Dados", "Remover Saida", "bd_remover_saida", "views/bd_remover_saida.py", "Exclusao controlada de saidas.", false),
-                new ModuleDefinition("bd_remover_requisicao", "Banco de Dados", "Remover Requisicao", "bd_remover_requisicao", "views/bd_remover_requisicao.py", "Exclusao controlada de requisicoes.", false),
+                new ModuleDefinition("bd_remover_requisicao", "Banco de Dados", "Remover Requisicao", "bd_remover_requisicao", "views/bd_remover_requisicao.py", "Exclusao controlada de requisicoes.", true),
                 new ModuleDefinition("bd_reativar_nota_entrada", "Banco de Dados", "Reativar Nota de Entrada", "bd_reativar_nota_entrada", "views/reativar_nota_entrada.py", "Reativacao de notas canceladas.", true),
                 new ModuleDefinition("bd_alterar_data_transferencia", "Banco de Dados", "Alterar Data de Transferencia", "bd_alterar_data_transferencia", "views/bd_alterar_data_transferencia.py", "Correcao pontual de data de transferencia.", true),
                 new ModuleDefinition("bd_alterar_data_entrada", "Banco de Dados", "Alterar Data de Entrada", "bd_alterar_data_entrada", "views/bd_alterar_data_entrada.py", "Correcao pontual de data de entrada.", false),

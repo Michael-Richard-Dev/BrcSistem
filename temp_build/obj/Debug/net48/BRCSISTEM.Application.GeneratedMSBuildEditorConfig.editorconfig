@@ -1,0 +1,8 @@
+is_global = true
+build_property.RootNamespace = BRCSISTEM.Application
+build_property.ProjectDir = C:\Visual Studio 2026\Projetos\BRCSISTEM\src\BRCSISTEM.Application\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

@@ -283,12 +283,13 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadRequisitionItems(profile, settings, number);
         }
 
-        public void RemoveRequisition(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveRequisitionResult RemoveRequisition(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.RemoveRequisition(profile, settings, number);
-            SafeAudit(profile, actorUserName, "Requisicao removida (bd_remover_requisicao)",
-                $"Tela=RemoverRequisicao; Numero={number}", settings);
+            var result = _gateway.RemoveRequisition(profile, settings, number);
+            SafeAudit(profile, actorUserName, "REMOCAO_REQUISICAO",
+                $"Requisicao {result.Number} - {result.RemovedItems} itens - {result.RemovedMovements} movimentos", settings);
+            return result;
         }
 
         // ── Change note date ───────────────────────────────────────────────────

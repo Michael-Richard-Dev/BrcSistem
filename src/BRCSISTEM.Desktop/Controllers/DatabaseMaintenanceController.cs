@@ -192,9 +192,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadRequisitionItems(configuration, profile, number);
         }
 
-        public void RemoveRequisition(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveRequisitionResult RemoveRequisition(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
-            _service.RemoveRequisition(configuration, profile, actorUserName, number);
+            return _service.RemoveRequisition(configuration, profile, actorUserName, number);
         }
 
         // ── Change dates ───────────────────────────────────────────────────────

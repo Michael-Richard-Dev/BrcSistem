@@ -1,0 +1,91 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.8": {
+      "BRCSISTEM.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.8",
+        "compile": {
+          "bin/placeholder/BRCSISTEM.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BRCSISTEM.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BRCSISTEM.Domain/1.0.0": {
+      "type": "project",
+      "path": "../BRCSISTEM.Domain/BRCSISTEM.Domain.csproj",
+      "msbuildProject": "../BRCSISTEM.Domain/BRCSISTEM.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.8": [
+      "BRCSISTEM.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\artifacts\\packages": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\src\\BRCSISTEM.Application\\BRCSISTEM.Application.csproj",
+      "projectName": "BRCSISTEM.Application",
+      "projectPath": "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\src\\BRCSISTEM.Application\\BRCSISTEM.Application.csproj",
+      "packagesPath": "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\artifacts\\packages",
+      "outputPath": "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\temp_build\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\NuGet.Config",
+        "C:\\Users\\micha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net48"
+      ],
+      "sources": {
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "projectReferences": {
+            "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\src\\BRCSISTEM.Domain\\BRCSISTEM.Domain.csproj": {
+              "projectPath": "C:\\Visual Studio 2026\\Projetos\\BRCSISTEM\\src\\BRCSISTEM.Domain\\BRCSISTEM.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "noWarn": [
+          "NU1801",
+          "NU1900"
+        ],
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "false",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.200"
+    },
+    "frameworks": {
+      "net48": {
+        "targetAlias": "net48",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
