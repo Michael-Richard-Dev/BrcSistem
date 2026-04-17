@@ -142,6 +142,16 @@ namespace BRCSISTEM.Desktop.Controllers
             _service.RemoveNote(configuration, profile, actorUserName, number, supplier);
         }
 
+        public IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(AppConfiguration configuration, DatabaseProfile profile, string number, string supplier, int limit)
+        {
+            return _service.SearchCancelledInboundReceipts(configuration, profile, number, supplier, limit);
+        }
+
+        public void ReactivateInboundReceipt(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, int version)
+        {
+            _service.ReactivateInboundReceipt(configuration, profile, actorUserName, number, supplier, version);
+        }
+
         public DocumentMaintenanceHeader LoadTransferHeader(AppConfiguration configuration, DatabaseProfile profile, string number)
         {
             return _service.LoadTransferHeader(configuration, profile, number);

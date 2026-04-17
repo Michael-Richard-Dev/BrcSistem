@@ -204,6 +204,26 @@ namespace BRCSISTEM.Application.Services
                 $"Tela=RemoverNota; Numero={number}; Fornecedor={supplier}", settings);
         }
 
+        public IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(AppConfiguration configuration, DatabaseProfile profile, string number, string supplier, int limit)
+        {
+            var settings = GetSettings(configuration, profile);
+            return _gateway.SearchCancelledInboundReceipts(profile, settings, number, supplier, limit);
+        }
+
+        public void ReactivateInboundReceipt(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, int version)
+        {
+            var settings = GetSettings(configuration, profile);
+            _gateway.ReactivateInboundReceipt(profile, settings, number, supplier, version);
+
+            var timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            SafeAudit(profile, actorUserName, "Movimentacao de entrada",
+                $"Tela=Reativar; Acao=Reativar; Usuario={actorUserName}; Numero={number}; Fornecedor={supplier}; Versao={version}; DataHora={timestamp}; Status=De CANCELADA para ATIVO",
+                settings);
+            SafeAudit(profile, actorUserName, "Movimentos de estoque",
+                $"Reativacao de nota cancelada; Numero={number}; Fornecedor={supplier}; Versao={version}; Usuario={actorUserName}",
+                settings);
+        }
+
         // ── Remove transfer ────────────────────────────────────────────────────
 
         public DocumentMaintenanceHeader LoadTransferHeader(AppConfiguration configuration, DatabaseProfile profile, string number)

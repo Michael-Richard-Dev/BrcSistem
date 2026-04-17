@@ -74,6 +74,10 @@ namespace BRCSISTEM.Application.Abstractions
 
         void RemoveNote(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier);
 
+        IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, int limit);
+
+        void ReactivateInboundReceipt(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, int version);
+
         // ── Remove transfer (bd_remover_transferencia) ─────────────────────────
         DocumentMaintenanceHeader LoadTransferHeader(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 

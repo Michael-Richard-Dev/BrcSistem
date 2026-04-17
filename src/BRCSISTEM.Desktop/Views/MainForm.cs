@@ -352,6 +352,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "bd_reativar_nota_entrada", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new InboundReceiptReactivationForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

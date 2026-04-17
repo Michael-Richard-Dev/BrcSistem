@@ -628,6 +628,113 @@ namespace BRCSISTEM.Infrastructure.Database
             }
         }
 
+        public IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, int limit)
+        {
+            var results = new List<InboundReceiptReactivationEntry>();
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                var conditions = new List<string> { "status = 'CANCELADA'" };
+                if (!string.IsNullOrWhiteSpace(number))
+                {
+                    conditions.Add("numero = @numero");
+                    AddParameter(command, "numero", number.Trim());
+                }
+
+                if (!string.IsNullOrWhiteSpace(supplier))
+                {
+                    conditions.Add("fornecedor = @fornecedor");
+                    AddParameter(command, "fornecedor", supplier.Trim());
+                }
+
+                var sql = new StringBuilder();
+                sql.AppendLine("SELECT numero, fornecedor, almoxarifado, versao, dt_emissao, status");
+                sql.AppendLine("FROM notas");
+                sql.AppendLine("WHERE " + string.Join(" AND ", conditions));
+                sql.AppendLine("ORDER BY dt_emissao DESC");
+                if (limit > 0)
+                {
+                    sql.AppendLine("LIMIT @limit");
+                    AddParameter(command, "limit", limit);
+                }
+
+                command.CommandText = sql.ToString();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        results.Add(new InboundReceiptReactivationEntry
+                        {
+                            Number = ReadString(reader, "numero"),
+                            Supplier = ReadString(reader, "fornecedor"),
+                            Warehouse = ReadString(reader, "almoxarifado"),
+                            Version = ReadInt(reader, "versao"),
+                            EmissionDate = ReadString(reader, "dt_emissao"),
+                            Status = ReadString(reader, "status"),
+                        });
+                    }
+                }
+            }
+
+            return results;
+        }
+
+        public void ReactivateInboundReceipt(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, int version)
+        {
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var current = LoadInboundReceiptForReactivation(connection, transaction, number, supplier, version);
+                if (current == null)
+                {
+                    throw new InvalidOperationException("A nota selecionada nao esta disponivel para reativacao.");
+                }
+
+                var nowText = NowText();
+
+                ExecuteNonQuery(
+                    connection,
+                    transaction,
+                    @"UPDATE notas
+                      SET status = 'ATIVO',
+                          bloqueado_por = NULL,
+                          bloqueado_em = NULL,
+                          dt_hr_alteracao = @now
+                      WHERE numero = @numero AND fornecedor = @fornecedor AND versao = @versao",
+                    ("now", nowText),
+                    ("numero", number),
+                    ("fornecedor", supplier),
+                    ("versao", version));
+
+                ExecuteNonQuery(
+                    connection,
+                    transaction,
+                    @"UPDATE notas_itens
+                      SET status = 'ATIVO',
+                          dt_hr_alteracao = @now
+                      WHERE numero = @numero AND versao = @versao",
+                    ("now", nowText),
+                    ("numero", number),
+                    ("versao", version));
+
+                ExecuteNonQuery(
+                    connection,
+                    transaction,
+                    @"UPDATE movimentos_estoque
+                      SET status = 'ATIVO',
+                          dt_hr_alteracao = @now
+                      WHERE documento_numero = @numero
+                        AND documento_tipo = 'NOTA'
+                        AND fornecedor = @fornecedor",
+                    ("now", nowText),
+                    ("numero", number),
+                    ("fornecedor", supplier));
+
+                transaction.Commit();
+            }
+        }
+
         // ── Remove transfer ────────────────────────────────────────────────────
 
         public DocumentMaintenanceHeader LoadTransferHeader(DatabaseProfile profile, ConnectionResilienceSettings settings, string number)
@@ -2191,6 +2298,52 @@ namespace BRCSISTEM.Infrastructure.Database
             public string  Lot       { get; set; }
             public string  Warehouse { get; set; }
             public decimal Quantity  { get; set; }
+        }
+
+        private sealed class InboundReceiptReactivationState
+        {
+            public string Number { get; set; }
+
+            public string Supplier { get; set; }
+
+            public int Version { get; set; }
+
+            public string Status { get; set; }
+        }
+
+        private static InboundReceiptReactivationState LoadInboundReceiptForReactivation(DbConnection connection, DbTransaction transaction, string number, string supplier, int version)
+        {
+            using (var command = connection.CreateCommand())
+            {
+                command.Transaction = transaction;
+                command.CommandText = @"
+                    SELECT numero, fornecedor, versao, status
+                    FROM notas
+                    WHERE numero = @numero
+                      AND fornecedor = @fornecedor
+                      AND versao = @versao
+                      AND status = 'CANCELADA'";
+
+                AddParameter(command, "numero", number);
+                AddParameter(command, "fornecedor", supplier);
+                AddParameter(command, "versao", version);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    return new InboundReceiptReactivationState
+                    {
+                        Number = ReadString(reader, "numero"),
+                        Supplier = ReadString(reader, "fornecedor"),
+                        Version = ReadInt(reader, "versao"),
+                        Status = ReadString(reader, "status"),
+                    };
+                }
+            }
         }
 
         private static void ExecuteNonQuery(DbConnection connection, DbTransaction transaction, string sql, params (string name, object value)[] parameters)
