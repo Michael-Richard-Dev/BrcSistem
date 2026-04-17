@@ -20,6 +20,10 @@ namespace BRCSISTEM.Domain.Models
 
         public string Warehouse { get; set; }
 
+        public string OriginWarehouse { get; set; }
+
+        public string DestinationWarehouse { get; set; }
+
         public string UserName { get; set; }
 
         public string DisplayLabel => string.IsNullOrWhiteSpace(Supplier)

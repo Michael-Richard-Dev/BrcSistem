@@ -239,12 +239,13 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadTransferItems(profile, settings, number);
         }
 
-        public void RemoveTransfer(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveTransferResult RemoveTransfer(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.RemoveTransfer(profile, settings, number);
-            SafeAudit(profile, actorUserName, "Transferencia removida (bd_remover_transferencia)",
-                $"Tela=RemoverTransferencia; Numero={number}", settings);
+            var result = _gateway.RemoveTransfer(profile, settings, number);
+            SafeAudit(profile, actorUserName, "REMOCAO_TRANSFERENCIA",
+                $"Transferencia {result.Number} - {result.RemovedItems} itens - {result.RemovedMovements} movimentos", settings);
+            return result;
         }
 
         // ── Remove production output ───────────────────────────────────────────

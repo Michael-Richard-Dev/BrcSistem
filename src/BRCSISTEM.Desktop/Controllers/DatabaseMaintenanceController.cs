@@ -162,9 +162,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadTransferItems(configuration, profile, number);
         }
 
-        public void RemoveTransfer(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveTransferResult RemoveTransfer(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
-            _service.RemoveTransfer(configuration, profile, actorUserName, number);
+            return _service.RemoveTransfer(configuration, profile, actorUserName, number);
         }
 
         public DocumentMaintenanceHeader LoadProductionOutputHeader(AppConfiguration configuration, DatabaseProfile profile, string number)

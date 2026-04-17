@@ -789,7 +789,7 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT numero, dt_movimento, status, bloqueado_por
+                    SELECT numero, dt_movimento, almox_origem, almox_destino, status
                     FROM transferencias
                     WHERE LOWER(numero) = @num
                     LIMIT 1";
@@ -799,17 +799,18 @@ namespace BRCSISTEM.Infrastructure.Database
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
-                    {
-                        return new DocumentMaintenanceHeader
                         {
-                            DocumentNumber = ReadString(reader, "numero"),
-                            DocumentType = "TRANSFERENCIA",
-                            Date = ReadString(reader, "dt_movimento"),
-                            Status = ReadString(reader, "status"),
-                            LockedBy = ReadString(reader, "bloqueado_por"),
-                        };
+                            return new DocumentMaintenanceHeader
+                            {
+                                DocumentNumber = ReadString(reader, "numero"),
+                                DocumentType = "TRANSFERENCIA",
+                                Date = ReadString(reader, "dt_movimento"),
+                                OriginWarehouse = ReadString(reader, "almox_origem"),
+                                DestinationWarehouse = ReadString(reader, "almox_destino"),
+                                Status = ReadString(reader, "status"),
+                            };
+                        }
                     }
-                }
             }
 
             return null;
@@ -822,11 +823,10 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT ti.material, e.nome AS material_nome, ti.lote, ti.quantidade, ti.unidade,
-                           ti.almoxarifado_origem AS almoxarifado
+                    SELECT ti.material, ti.lote, ti.quantidade
                     FROM transferencias_itens ti
-                    LEFT JOIN embalagens e ON ti.material = e.codigo
                     WHERE LOWER(ti.numero) = @num
+                      AND ti.status = 'ATIVO'
                     ORDER BY ti.material, ti.lote";
 
                 AddParameter(command, "num", number.Trim().ToLowerInvariant());
@@ -834,41 +834,61 @@ namespace BRCSISTEM.Infrastructure.Database
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
-                        results.Add(new DocumentMaintenanceItem
                         {
-                            Material = ReadString(reader, "material"),
-                            MaterialName = ReadString(reader, "material_nome"),
-                            Lot = ReadString(reader, "lote"),
-                            Quantity = ReadDecimal(reader, "quantidade"),
-                            Unit = ReadString(reader, "unidade"),
-                            Warehouse = ReadString(reader, "almoxarifado"),
-                        });
-                    }
+                            results.Add(new DocumentMaintenanceItem
+                            {
+                                Material = ReadString(reader, "material"),
+                                Lot = ReadString(reader, "lote"),
+                                Quantity = ReadDecimal(reader, "quantidade"),
+                            });
+                        }
                 }
             }
 
             return results;
         }
 
-        public void RemoveTransfer(DatabaseProfile profile, ConnectionResilienceSettings settings, string number)
+        public RemoveTransferResult RemoveTransfer(DatabaseProfile profile, ConnectionResilienceSettings settings, string number)
         {
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
             {
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM movimentos_estoque WHERE LOWER(documento_numero) = @num AND documento_tipo = 'TRANSFERENCIA'",
-                    ("num", number.Trim().ToLowerInvariant()));
+                var normalizedNumber = (number ?? string.Empty).Trim().ToLowerInvariant();
+                var result = new RemoveTransferResult
+                {
+                    Number = (number ?? string.Empty).Trim(),
+                };
 
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM transferencias_itens WHERE LOWER(numero) = @num",
-                    ("num", number.Trim().ToLowerInvariant()));
+                using (var deleteMovements = connection.CreateCommand())
+                {
+                    deleteMovements.Transaction = transaction;
+                    deleteMovements.CommandText = "DELETE FROM movimentos_estoque WHERE LOWER(documento_numero) = @num AND documento_tipo = 'TRANSFERENCIA'";
+                    AddParameter(deleteMovements, "num", normalizedNumber);
+                    result.RemovedMovements = deleteMovements.ExecuteNonQuery();
+                }
 
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM transferencias WHERE LOWER(numero) = @num",
-                    ("num", number.Trim().ToLowerInvariant()));
+                using (var deleteItems = connection.CreateCommand())
+                {
+                    deleteItems.Transaction = transaction;
+                    deleteItems.CommandText = "DELETE FROM transferencias_itens WHERE LOWER(numero) = @num";
+                    AddParameter(deleteItems, "num", normalizedNumber);
+                    result.RemovedItems = deleteItems.ExecuteNonQuery();
+                }
+
+                using (var deleteHeader = connection.CreateCommand())
+                {
+                    deleteHeader.Transaction = transaction;
+                    deleteHeader.CommandText = "DELETE FROM transferencias WHERE LOWER(numero) = @num";
+                    AddParameter(deleteHeader, "num", normalizedNumber);
+                    var removedHeaders = deleteHeader.ExecuteNonQuery();
+                    if (removedHeaders == 0)
+                    {
+                        throw new InvalidOperationException("Transferencia nao encontrada para remocao.");
+                    }
+                }
 
                 transaction.Commit();
+                return result;
             }
         }
 

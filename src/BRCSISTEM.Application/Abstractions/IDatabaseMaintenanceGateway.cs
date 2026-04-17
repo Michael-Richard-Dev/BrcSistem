@@ -83,7 +83,7 @@ namespace BRCSISTEM.Application.Abstractions
 
         IReadOnlyCollection<DocumentMaintenanceItem> LoadTransferItems(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
-        void RemoveTransfer(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
+        RemoveTransferResult RemoveTransfer(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
         // ── Remove production output (bd_remover_saida) ────────────────────────
         DocumentMaintenanceHeader LoadProductionOutputHeader(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
