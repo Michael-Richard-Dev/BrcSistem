@@ -490,6 +490,106 @@ namespace BRCSISTEM.Infrastructure.Database
             return items;
         }
 
+        public IReadOnlyCollection<AccessRequest> LoadPendingAccessRequests(DatabaseProfile profile, ConnectionResilienceSettings settings)
+        {
+            var items = new List<AccessRequest>();
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    SELECT id, nome, email, mensagem, dt_hr, status, dt_hr_resposta, usuario_resposta
+                    FROM solicitacoes_acesso
+                    WHERE status = 'PENDENTE'
+                    ORDER BY dt_hr DESC";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        items.Add(new AccessRequest
+                        {
+                            Id          = ReadString(reader, "id"),
+                            Name        = ReadString(reader, "nome"),
+                            Email       = ReadString(reader, "email"),
+                            Message     = ReadString(reader, "mensagem"),
+                            RequestedAt = ReadString(reader, "dt_hr"),
+                            Status      = ReadString(reader, "status"),
+                            RespondedAt = ReadString(reader, "dt_hr_resposta"),
+                            Responder   = ReadString(reader, "usuario_resposta"),
+                        });
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        public AccessRequest LoadAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId)
+        {
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    SELECT id, nome, email, mensagem, dt_hr, status, dt_hr_resposta, usuario_resposta
+                    FROM solicitacoes_acesso
+                    WHERE id = @id";
+                command.Parameters.Add(CreateParameter(command, "@id", requestId));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    return new AccessRequest
+                    {
+                        Id          = ReadString(reader, "id"),
+                        Name        = ReadString(reader, "nome"),
+                        Email       = ReadString(reader, "email"),
+                        Message     = ReadString(reader, "mensagem"),
+                        RequestedAt = ReadString(reader, "dt_hr"),
+                        Status      = ReadString(reader, "status"),
+                        RespondedAt = ReadString(reader, "dt_hr_resposta"),
+                        Responder   = ReadString(reader, "usuario_resposta"),
+                    };
+                }
+            }
+        }
+
+        public void ApproveAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId, string actorUserName, string respondedAt)
+        {
+            UpdateAccessRequestStatus(profile, settings, requestId, "APROVADA", actorUserName, respondedAt);
+        }
+
+        public void CancelAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId, string actorUserName, string respondedAt)
+        {
+            UpdateAccessRequestStatus(profile, settings, requestId, "CANCELADA", actorUserName, respondedAt);
+        }
+
+        private void UpdateAccessRequestStatus(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId, string newStatus, string actorUserName, string respondedAt)
+        {
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    UPDATE solicitacoes_acesso
+                    SET status = @status,
+                        dt_hr_resposta = @dt_hr_resposta,
+                        usuario_resposta = @usuario_resposta
+                    WHERE id = @id";
+                command.Parameters.Add(CreateParameter(command, "@status", newStatus));
+                command.Parameters.Add(CreateParameter(command, "@dt_hr_resposta", respondedAt));
+                command.Parameters.Add(CreateParameter(command, "@usuario_resposta", actorUserName));
+                command.Parameters.Add(CreateParameter(command, "@id", requestId));
+                var affected = command.ExecuteNonQuery();
+                if (affected == 0)
+                {
+                    throw new InvalidOperationException("Solicitacao nao encontrada ou ja processada.");
+                }
+            }
+        }
+
         private static bool UserTypeExists(DbConnection connection, DbTransaction transaction, string userType)
         {
             using (var command = connection.CreateCommand())

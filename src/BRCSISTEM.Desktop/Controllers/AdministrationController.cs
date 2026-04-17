@@ -73,5 +73,30 @@ namespace BRCSISTEM.Desktop.Controllers
         {
             return _administrationService.LoadUsersByType(configuration, profile, typeName);
         }
+
+        public AccessRequest[] LoadPendingAccessRequests(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            return _administrationService.LoadPendingAccessRequests(configuration, profile);
+        }
+
+        public AccessRequest LoadAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string requestId)
+        {
+            return _administrationService.LoadAccessRequest(configuration, profile, requestId);
+        }
+
+        public void LogAccessManagementOpened(AppConfiguration configuration, DatabaseProfile profile, string actorUserName)
+        {
+            _administrationService.LogAccessManagementOpened(configuration, profile, actorUserName);
+        }
+
+        public void ApproveAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string requestId)
+        {
+            _administrationService.ApproveAccessRequest(configuration, profile, actorUserName, requestId);
+        }
+
+        public void CancelAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string requestId)
+        {
+            _administrationService.CancelAccessRequest(configuration, profile, actorUserName, requestId);
+        }
     }
 }

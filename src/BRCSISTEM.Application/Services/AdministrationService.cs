@@ -158,6 +158,80 @@ namespace BRCSISTEM.Application.Services
                 .ToArray();
         }
 
+        public AccessRequest[] LoadPendingAccessRequests(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            var settings = GetSettings(configuration, profile);
+            var items = _administrationGateway.LoadPendingAccessRequests(profile, settings);
+            return items == null ? Array.Empty<AccessRequest>() : items.ToArray();
+        }
+
+        public AccessRequest LoadAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string requestId)
+        {
+            var settings = GetSettings(configuration, profile);
+            if (string.IsNullOrWhiteSpace(requestId))
+            {
+                return null;
+            }
+            return _administrationGateway.LoadAccessRequest(profile, settings, requestId.Trim());
+        }
+
+        public void LogAccessManagementOpened(AppConfiguration configuration, DatabaseProfile profile, string actorUserName)
+        {
+            var settings = GetSettings(configuration, profile);
+            SafeAudit(profile, actorUserName, "Tela aberta", "Gerenciar Acessos", settings);
+        }
+
+        public void ApproveAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string requestId)
+        {
+            var settings = GetSettings(configuration, profile);
+            if (string.IsNullOrWhiteSpace(requestId))
+            {
+                throw new InvalidOperationException("Selecione uma solicitacao para aprovar.");
+            }
+
+            var trimmedId = requestId.Trim();
+            var current = _administrationGateway.LoadAccessRequest(profile, settings, trimmedId);
+            if (current == null)
+            {
+                throw new InvalidOperationException("Solicitacao nao encontrada.");
+            }
+
+            var actor = string.IsNullOrWhiteSpace(actorUserName) ? "sistema" : actorUserName.Trim();
+            _administrationGateway.ApproveAccessRequest(profile, settings, trimmedId, actor, NowText());
+
+            SafeAudit(profile, actor, "Solicitacao aprovada",
+                $"Aprovada solicitacao de {current.Name} ({current.Email})",
+                settings);
+        }
+
+        public void CancelAccessRequest(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string requestId)
+        {
+            var settings = GetSettings(configuration, profile);
+            if (string.IsNullOrWhiteSpace(requestId))
+            {
+                throw new InvalidOperationException("Selecione uma solicitacao para cancelar.");
+            }
+
+            var trimmedId = requestId.Trim();
+            var current = _administrationGateway.LoadAccessRequest(profile, settings, trimmedId);
+            if (current == null)
+            {
+                throw new InvalidOperationException("Solicitacao nao encontrada.");
+            }
+
+            var actor = string.IsNullOrWhiteSpace(actorUserName) ? "sistema" : actorUserName.Trim();
+            _administrationGateway.CancelAccessRequest(profile, settings, trimmedId, actor, NowText());
+
+            SafeAudit(profile, actor, "Solicitacao cancelada",
+                $"Cancelada solicitacao de {current.Name}",
+                settings);
+        }
+
+        private static string NowText()
+        {
+            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
         private static SaveUserRequest NormalizeUserRequest(SaveUserRequest request, bool creating)
         {
             if (request == null)

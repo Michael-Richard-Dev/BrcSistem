@@ -27,5 +27,13 @@ namespace BRCSISTEM.Application.Abstractions
         void DeleteUserType(DatabaseProfile profile, ConnectionResilienceSettings settings, string typeName);
 
         IReadOnlyCollection<UserSummary> LoadUsersByType(DatabaseProfile profile, ConnectionResilienceSettings settings, string typeName);
+
+        IReadOnlyCollection<AccessRequest> LoadPendingAccessRequests(DatabaseProfile profile, ConnectionResilienceSettings settings);
+
+        AccessRequest LoadAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId);
+
+        void ApproveAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId, string actorUserName, string respondedAt);
+
+        void CancelAccessRequest(DatabaseProfile profile, ConnectionResilienceSettings settings, string requestId, string actorUserName, string respondedAt);
     }
 }
