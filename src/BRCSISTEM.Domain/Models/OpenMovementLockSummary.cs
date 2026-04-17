@@ -6,6 +6,8 @@ namespace BRCSISTEM.Domain.Models
 
         public string DocumentNumber { get; set; }
 
+        public string Supplier { get; set; }
+
         public string UserName { get; set; }
 
         public string LockedAt { get; set; }

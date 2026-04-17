@@ -137,9 +137,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadNoteItems(configuration, profile, number, supplier);
         }
 
-        public void RemoveNote(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier)
+        public RemoveNoteResult RemoveNote(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier)
         {
-            _service.RemoveNote(configuration, profile, actorUserName, number, supplier);
+            return _service.RemoveNote(configuration, profile, actorUserName, number, supplier);
         }
 
         public IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(AppConfiguration configuration, DatabaseProfile profile, string number, string supplier, int limit)

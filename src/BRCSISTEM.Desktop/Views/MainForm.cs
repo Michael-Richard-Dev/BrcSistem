@@ -366,6 +366,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "bd_remover_nota", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new RemoveNoteForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

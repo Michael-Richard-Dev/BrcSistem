@@ -196,12 +196,13 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadNoteItems(profile, settings, number, supplier);
         }
 
-        public void RemoveNote(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier)
+        public RemoveNoteResult RemoveNote(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.RemoveNote(profile, settings, number, supplier);
-            SafeAudit(profile, actorUserName, "Nota fiscal removida (bd_remover_nota)",
-                $"Tela=RemoverNota; Numero={number}; Fornecedor={supplier}", settings);
+            var result = _gateway.RemoveNote(profile, settings, number, supplier);
+            SafeAudit(profile, actorUserName, "REMOCAO_NOTA",
+                $"Nota {result.Number} - Fornecedor {result.Supplier} - {result.RemovedItems} itens - {result.RemovedMovements} movimentos", settings);
+            return result;
         }
 
         public IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(AppConfiguration configuration, DatabaseProfile profile, string number, string supplier, int limit)

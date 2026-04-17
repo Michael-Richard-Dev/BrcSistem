@@ -72,7 +72,7 @@ namespace BRCSISTEM.Application.Abstractions
 
         IReadOnlyCollection<DocumentMaintenanceItem> LoadNoteItems(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier);
 
-        void RemoveNote(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier);
+        RemoveNoteResult RemoveNote(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier);
 
         IReadOnlyCollection<InboundReceiptReactivationEntry> SearchCancelledInboundReceipts(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, int limit);
 

@@ -450,7 +450,14 @@ namespace BRCSISTEM.Infrastructure.Database
                     GetDocumentColumns(table, out numberColumn, out supplierColumn);
 
                     var sb = new StringBuilder();
-                    sb.Append($"SELECT '{table}' AS tipo, {numberColumn} AS numero, bloqueado_por, bloqueado_em FROM {table} WHERE bloqueado_por IS NOT NULL");
+                    if (supplierColumn != null)
+                    {
+                        sb.Append($"SELECT '{table}' AS tipo, {numberColumn} AS numero, {supplierColumn} AS fornecedor, bloqueado_por, bloqueado_em FROM {table} WHERE bloqueado_por IS NOT NULL");
+                    }
+                    else
+                    {
+                        sb.Append($"SELECT '{table}' AS tipo, {numberColumn} AS numero, ''::text AS fornecedor, bloqueado_por, bloqueado_em FROM {table} WHERE bloqueado_por IS NOT NULL");
+                    }
 
                     if (!string.IsNullOrWhiteSpace(documentNumber))
                         sb.Append($" AND LOWER({numberColumn}::text) LIKE @docNum");
@@ -473,6 +480,7 @@ namespace BRCSISTEM.Infrastructure.Database
                                 {
                                     Type = ReadString(reader, "tipo"),
                                     DocumentNumber = ReadString(reader, "numero"),
+                                    Supplier = ReadString(reader, "fornecedor"),
                                     UserName = ReadString(reader, "bloqueado_por"),
                                     LockedAt = ReadString(reader, "bloqueado_em"),
                                 });
@@ -543,7 +551,7 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT numero, fornecedor, dt_movimento, status, bloqueado_por
+                    SELECT numero, fornecedor, almoxarifado, dt_emissao, dt_movimento, status, usuario, bloqueado_por
                     FROM notas
                     WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup
                     LIMIT 1";
@@ -560,8 +568,11 @@ namespace BRCSISTEM.Infrastructure.Database
                             DocumentNumber = ReadString(reader, "numero"),
                             Supplier = ReadString(reader, "fornecedor"),
                             DocumentType = "NOTA",
+                            Warehouse = ReadString(reader, "almoxarifado"),
+                            EmissionDate = ReadString(reader, "dt_emissao"),
                             Date = ReadString(reader, "dt_movimento"),
                             Status = ReadString(reader, "status"),
+                            UserName = ReadString(reader, "usuario"),
                             LockedBy = ReadString(reader, "bloqueado_por"),
                         };
                     }
@@ -582,6 +593,7 @@ namespace BRCSISTEM.Infrastructure.Database
                     FROM notas_itens ni
                     LEFT JOIN embalagens e ON ni.material = e.codigo
                     WHERE LOWER(ni.numero) = @num AND LOWER(ni.fornecedor) = @sup
+                      AND ni.status = 'ATIVO'
                     ORDER BY ni.material, ni.lote";
 
                 AddParameter(command, "num", number.Trim().ToLowerInvariant());
@@ -607,24 +619,58 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void RemoveNote(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier)
+        public RemoveNoteResult RemoveNote(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier)
         {
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
             {
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM movimentos_estoque WHERE LOWER(documento_numero) = @num AND documento_tipo = 'NOTA' AND LOWER(fornecedor) = @sup",
-                    ("num", number.Trim().ToLowerInvariant()), ("sup", supplier.Trim().ToLowerInvariant()));
+                var normalizedNumber = number.Trim().ToLowerInvariant();
+                var normalizedSupplier = supplier.Trim().ToLowerInvariant();
 
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM notas_itens WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup",
-                    ("num", number.Trim().ToLowerInvariant()), ("sup", supplier.Trim().ToLowerInvariant()));
+                int removedMovements;
+                int removedItems;
+                int removedNotes;
 
-                ExecuteNonQuery(connection, transaction,
-                    "DELETE FROM notas WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup",
-                    ("num", number.Trim().ToLowerInvariant()), ("sup", supplier.Trim().ToLowerInvariant()));
+                using (var command = connection.CreateCommand())
+                {
+                    command.Transaction = transaction;
+                    command.CommandText = "DELETE FROM movimentos_estoque WHERE LOWER(documento_numero) = @num AND documento_tipo = 'NOTA' AND LOWER(fornecedor) = @sup";
+                    AddParameter(command, "num", normalizedNumber);
+                    AddParameter(command, "sup", normalizedSupplier);
+                    removedMovements = command.ExecuteNonQuery();
+                }
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.Transaction = transaction;
+                    command.CommandText = "DELETE FROM notas_itens WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup";
+                    AddParameter(command, "num", normalizedNumber);
+                    AddParameter(command, "sup", normalizedSupplier);
+                    removedItems = command.ExecuteNonQuery();
+                }
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.Transaction = transaction;
+                    command.CommandText = "DELETE FROM notas WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup";
+                    AddParameter(command, "num", normalizedNumber);
+                    AddParameter(command, "sup", normalizedSupplier);
+                    removedNotes = command.ExecuteNonQuery();
+                }
+
+                if (removedNotes == 0)
+                {
+                    throw new InvalidOperationException("Nota nao encontrada para remocao.");
+                }
 
                 transaction.Commit();
+                return new RemoveNoteResult
+                {
+                    Number = number,
+                    Supplier = supplier,
+                    RemovedItems = removedItems,
+                    RemovedMovements = removedMovements,
+                };
             }
         }
 
