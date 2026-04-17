@@ -226,6 +226,11 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.DiagnoseNegativeStock(configuration, profile, filterWarehouse, filterMaterial, filterLot);
         }
 
+        public IReadOnlyCollection<LotMaterialInconsistencyEntry> DiagnoseLotMaterialInconsistencies(AppConfiguration configuration, DatabaseProfile profile, string filterWarehouse, string filterMaterial, string filterLot)
+        {
+            return _service.DiagnoseLotMaterialInconsistencies(configuration, profile, filterWarehouse, filterMaterial, filterLot);
+        }
+
         public IReadOnlyCollection<DuplicateLotEntry> DiagnoseDuplicateLotsByMaterial(AppConfiguration configuration, DatabaseProfile profile, string filterMaterial, string filterLotName, string filterLotCode)
         {
             return _service.DiagnoseDuplicateLotsByMaterial(configuration, profile, filterMaterial, filterLotName, filterLotCode);

@@ -115,6 +115,9 @@ namespace BRCSISTEM.Application.Abstractions
         // ── Alert: duplicate lots by material ─────────────────────────────────
         IReadOnlyCollection<DuplicateLotEntry> DiagnoseDuplicateLotsByMaterial(DatabaseProfile profile, ConnectionResilienceSettings settings, string filterMaterial, string filterLotName, string filterLotCode);
 
+        // ── Alert: lot x material inconsistency (bd_inconsistencias_lote_material) ──
+        IReadOnlyCollection<LotMaterialInconsistencyEntry> DiagnoseLotMaterialInconsistencies(DatabaseProfile profile, ConnectionResilienceSettings settings, string filterWarehouse, string filterMaterial, string filterLot);
+
         // ── Alert: duplicate note movements ───────────────────────────────────
         IReadOnlyCollection<DuplicateNoteMovementGroup> DiagnoseDuplicateNoteMovements(DatabaseProfile profile, ConnectionResilienceSettings settings);
 

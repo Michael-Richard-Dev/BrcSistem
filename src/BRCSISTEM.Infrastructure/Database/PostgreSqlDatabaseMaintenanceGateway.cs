@@ -1199,6 +1199,126 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
+        // ── Alert: lot x material inconsistency (bd_inconsistencias_lote_material) ──
+
+        public IReadOnlyCollection<LotMaterialInconsistencyEntry> DiagnoseLotMaterialInconsistencies(
+            DatabaseProfile profile,
+            ConnectionResilienceSettings settings,
+            string filterWarehouse,
+            string filterMaterial,
+            string filterLot)
+        {
+            var results = new List<LotMaterialInconsistencyEntry>();
+
+            // Espelha bd_inconsistencias_lote_material.py:
+            // CTE 'saldos' calcula saldo por (almoxarifado, material, lote), aplicando
+            // sinais +/- conforme o tipo de movimento; HAVING SUM > 0 mantem só quem
+            // ainda tem saldo positivo. Em seguida faz JOIN com o cadastro do lote
+            // e filtra l.material <> s.material para apontar a divergencia.
+            var conditions = new List<string>();
+            if (!string.IsNullOrWhiteSpace(filterWarehouse)) conditions.Add("s.almoxarifado = @wh");
+            if (!string.IsNullOrWhiteSpace(filterMaterial))  conditions.Add("s.material = @mat");
+            if (!string.IsNullOrWhiteSpace(filterLot))       conditions.Add("s.lote ILIKE @lot");
+
+            var whereExtra = conditions.Count > 0
+                ? " AND " + string.Join(" AND ", conditions)
+                : string.Empty;
+
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = $@"
+                    WITH saldos AS (
+                        SELECT
+                            m.almoxarifado,
+                            m.material,
+                            m.lote,
+                            SUM(CASE
+                                WHEN m.tipo IN ('ENTRADA', 'TRANSFERENCIA_ENTRADA')
+                                    THEN m.quantidade
+                                WHEN m.tipo IN ('SAIDA', 'REQUISICAO', 'TRANSFERENCIA_SAIDA', 'SAIDA_PRODUCAO')
+                                    THEN -m.quantidade
+                                ELSE 0
+                            END) AS saldo
+                        FROM movimentos_estoque m
+                        WHERE m.status = 'ATIVO'
+                        GROUP BY m.almoxarifado, m.material, m.lote
+                        HAVING SUM(CASE
+                            WHEN m.tipo IN ('ENTRADA', 'TRANSFERENCIA_ENTRADA')
+                                THEN m.quantidade
+                            WHEN m.tipo IN ('SAIDA', 'REQUISICAO', 'TRANSFERENCIA_SAIDA', 'SAIDA_PRODUCAO')
+                                THEN -m.quantidade
+                            ELSE 0
+                        END) > 0
+                    )
+                    SELECT
+                        s.lote,
+                        COALESCE(l.nome, '')          AS lote_nome,
+                        s.material                    AS material_mov,
+                        COALESCE(em.descricao, '')    AS material_mov_desc,
+                        l.material                    AS material_cad,
+                        COALESCE(ec.descricao, '')    AS material_cad_desc,
+                        s.almoxarifado,
+                        COALESCE(a.nome, '')          AS almox_nome,
+                        COALESCE(l.validade::text,'') AS validade,
+                        COALESCE(f.nome, '')          AS fornecedor_nome,
+                        s.saldo
+                    FROM saldos s
+                    LEFT JOIN lotes l
+                        ON  l.codigo  = s.lote
+                        AND l.versao  = (SELECT MAX(versao) FROM lotes x WHERE x.codigo = l.codigo)
+                        AND l.status  = 'ATIVO'
+                    LEFT JOIN embalagens em
+                        ON  em.codigo = s.material
+                        AND em.versao = (SELECT MAX(versao) FROM embalagens x WHERE x.codigo = em.codigo)
+                        AND em.status = 'ATIVO'
+                    LEFT JOIN embalagens ec
+                        ON  ec.codigo = l.material
+                        AND ec.versao = (SELECT MAX(versao) FROM embalagens x WHERE x.codigo = ec.codigo)
+                        AND ec.status = 'ATIVO'
+                    LEFT JOIN almoxarifados a
+                        ON  a.codigo  = s.almoxarifado
+                        AND a.versao  = (SELECT MAX(versao) FROM almoxarifados x WHERE x.codigo = a.codigo)
+                        AND a.status  = 'ATIVO'
+                    LEFT JOIN fornecedores f
+                        ON  f.codigo  = l.fornecedor
+                        AND f.versao  = (SELECT MAX(versao) FROM fornecedores x WHERE x.codigo = f.codigo)
+                        AND f.status  = 'ATIVO'
+                    WHERE l.material IS NOT NULL
+                      AND l.material <> ''
+                      AND s.material <> l.material
+                    {whereExtra}
+                    ORDER BY s.lote, s.material, s.almoxarifado";
+
+                if (!string.IsNullOrWhiteSpace(filterWarehouse)) AddParameter(command, "wh",  filterWarehouse.Trim());
+                if (!string.IsNullOrWhiteSpace(filterMaterial))  AddParameter(command, "mat", filterMaterial.Trim());
+                if (!string.IsNullOrWhiteSpace(filterLot))       AddParameter(command, "lot", "%" + filterLot.Trim() + "%");
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        results.Add(new LotMaterialInconsistencyEntry
+                        {
+                            Lot                    = ReadString(reader,  "lote"),
+                            LotName                = ReadString(reader,  "lote_nome"),
+                            MovementMaterial       = ReadString(reader,  "material_mov"),
+                            MovementMaterialName   = ReadString(reader,  "material_mov_desc"),
+                            RegisteredMaterial     = ReadString(reader,  "material_cad"),
+                            RegisteredMaterialName = ReadString(reader,  "material_cad_desc"),
+                            Warehouse              = ReadString(reader,  "almoxarifado"),
+                            WarehouseName          = ReadString(reader,  "almox_nome"),
+                            Validity               = ReadString(reader,  "validade"),
+                            SupplierName           = ReadString(reader,  "fornecedor_nome"),
+                            Balance                = ReadDecimal(reader, "saldo"),
+                        });
+                    }
+                }
+            }
+
+            return results;
+        }
+
         // ── Alert: duplicate lots by material ──────────────────────────────────
 
         public IReadOnlyCollection<DuplicateLotEntry> DiagnoseDuplicateLotsByMaterial(

@@ -317,6 +317,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "bd_inconsistencias_lote_material", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new LotMaterialInconsistencyForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

@@ -323,6 +323,14 @@ namespace BRCSISTEM.Application.Services
                 $"Tela=AlertaLoteDivergente; MovimentoId={movementId}", settings);
         }
 
+        // ── Alert: lot x material inconsistency ────────────────────────────────
+
+        public IReadOnlyCollection<LotMaterialInconsistencyEntry> DiagnoseLotMaterialInconsistencies(AppConfiguration configuration, DatabaseProfile profile, string filterWarehouse, string filterMaterial, string filterLot)
+        {
+            var settings = GetSettings(configuration, profile);
+            return _gateway.DiagnoseLotMaterialInconsistencies(profile, settings, filterWarehouse, filterMaterial, filterLot);
+        }
+
         // ── Alert: negative stock ──────────────────────────────────────────────
 
         public IReadOnlyCollection<NegativeStockEntry> DiagnoseNegativeStock(AppConfiguration configuration, DatabaseProfile profile, string filterWarehouse, string filterMaterial, string filterLot)
