@@ -38,7 +38,7 @@ namespace BRCSISTEM.Domain.Catalog
                 new ModuleDefinition("bd_alterar_data_transferencia", "Banco de Dados", "Alterar Data de Transferencia", "bd_alterar_data_transferencia", "views/bd_alterar_data_transferencia.py", "Correcao pontual de data de transferencia.", true),
                 new ModuleDefinition("bd_alterar_data_entrada", "Banco de Dados", "Alterar Data de Entrada", "bd_alterar_data_entrada", "views/bd_alterar_data_entrada.py", "Correcao pontual de data de entrada.", false),
                 new ModuleDefinition("bd_alterar_data_saida_producao", "Banco de Dados", "Alterar Data de Saida de Producao", "bd_alterar_data_saida_producao", "views/bd_alterar_data_saida_producao.py", "Correcao pontual de data de saida de producao.", true),
-                new ModuleDefinition("bd_consulta_logs", "Banco de Dados", "Consultar Logs e Auditoria", "bd_consulta_logs", "views/bd_consulta_logs.py", "Consulta aos logs de auditoria.", false),
+                new ModuleDefinition("bd_consulta_logs", "Banco de Dados", "Consultar Logs e Auditoria", "bd_consulta_logs", "views/bd_consulta_logs.py", "Consulta aos logs de auditoria.", true),
                 new ModuleDefinition("cadastro_usuario", "Parametros", "Cadastro de Usuarios", "cadastro_usuario", "views/cadastro_usuario.py", "Cadastro de usuarios do sistema.", true),
                 new ModuleDefinition("tipo_usuario", "Parametros", "Tipos de Usuario (Permissoes)", "tipo_usuario", "views/tipo_usuario.py", "Configuracao de perfis e permissoes.", true),
                 new ModuleDefinition("gerenciar_acessos", "Parametros", "Solicitacoes de Acesso", "", "views/gerenciar_acessos.py", "Tratamento das solicitacoes de acesso pendentes.", false),

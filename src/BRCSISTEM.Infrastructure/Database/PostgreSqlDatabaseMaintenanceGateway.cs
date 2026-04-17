@@ -28,11 +28,13 @@ namespace BRCSISTEM.Infrastructure.Database
             string filterAction,
             string filterDateFrom,
             string filterDateTo,
+            string searchText,
             int pageSize,
             int offset)
         {
             var results = new List<AuditLogEntry>();
-            var where = BuildAuditWhereClause(filterUser, filterAction, filterDateFrom, filterDateTo);
+            var where = BuildAuditWhereClause(filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
+            var dateExpression = BuildAuditDateExpression();
 
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
@@ -41,12 +43,12 @@ namespace BRCSISTEM.Infrastructure.Database
                     SELECT id, dt_hr, usuario, acao, detalhes
                     FROM logs_auditoria
                     {where}
-                    ORDER BY dt_hr DESC, id DESC
+                    ORDER BY {dateExpression} DESC NULLS LAST, dt_hr DESC, id DESC
                     LIMIT @pageSize OFFSET @offset";
 
                 AddParameter(command, "pageSize", pageSize);
                 AddParameter(command, "offset", offset);
-                AddAuditFilterParameters(command, filterUser, filterAction, filterDateFrom, filterDateTo);
+                AddAuditFilterParameters(command, filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -73,35 +75,97 @@ namespace BRCSISTEM.Infrastructure.Database
             string filterUser,
             string filterAction,
             string filterDateFrom,
-            string filterDateTo)
+            string filterDateTo,
+            string searchText)
         {
-            var where = BuildAuditWhereClause(filterUser, filterAction, filterDateFrom, filterDateTo);
+            var where = BuildAuditWhereClause(filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = $"SELECT COUNT(*) FROM logs_auditoria {where}";
-                AddAuditFilterParameters(command, filterUser, filterAction, filterDateFrom, filterDateTo);
+                AddAuditFilterParameters(command, filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
                 var result = command.ExecuteScalar();
                 return Convert.ToInt32(result);
             }
         }
 
-        private static string BuildAuditWhereClause(string filterUser, string filterAction, string filterDateFrom, string filterDateTo)
+        public IReadOnlyCollection<string> LoadAuditUsers(DatabaseProfile profile, ConnectionResilienceSettings settings)
+        {
+            var results = new List<string>();
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    SELECT DISTINCT usuario
+                    FROM logs_auditoria
+                    WHERE usuario IS NOT NULL
+                      AND TRIM(usuario) <> ''
+                    ORDER BY usuario";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        results.Add(ReadString(reader, "usuario"));
+                    }
+                }
+            }
+
+            return results;
+        }
+
+        public IReadOnlyCollection<string> LoadAuditActions(DatabaseProfile profile, ConnectionResilienceSettings settings)
+        {
+            var results = new List<string>();
+            using (var connection = _connectionFactory.Open(profile, settings))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    SELECT DISTINCT acao
+                    FROM logs_auditoria
+                    WHERE acao IS NOT NULL
+                      AND TRIM(acao) <> ''
+                    ORDER BY acao";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        results.Add(ReadString(reader, "acao"));
+                    }
+                }
+            }
+
+            return results;
+        }
+
+        private static string BuildAuditWhereClause(string filterUser, string filterAction, string filterDateFrom, string filterDateTo, string searchText)
         {
             var conditions = new List<string>();
-            if (!string.IsNullOrWhiteSpace(filterUser)) conditions.Add("LOWER(usuario) LIKE @filterUser");
-            if (!string.IsNullOrWhiteSpace(filterAction)) conditions.Add("LOWER(acao) LIKE @filterAction");
-            if (!string.IsNullOrWhiteSpace(filterDateFrom)) conditions.Add("dt_hr >= @filterDateFrom::timestamp");
-            if (!string.IsNullOrWhiteSpace(filterDateTo)) conditions.Add("dt_hr < (@filterDateTo::date + INTERVAL '1 day')");
+            var dateExpression = BuildAuditDateExpression();
+            if (!string.IsNullOrWhiteSpace(filterUser)) conditions.Add("usuario = @filterUser");
+            if (!string.IsNullOrWhiteSpace(filterAction)) conditions.Add("acao = @filterAction");
+            if (!string.IsNullOrWhiteSpace(filterDateFrom)) conditions.Add(dateExpression + " >= to_timestamp(@filterDateFrom, 'YYYY-MM-DD HH24:MI:SS')");
+            if (!string.IsNullOrWhiteSpace(filterDateTo)) conditions.Add(dateExpression + " < to_timestamp(@filterDateTo, 'YYYY-MM-DD HH24:MI:SS')");
+            if (!string.IsNullOrWhiteSpace(searchText)) conditions.Add("(usuario ILIKE @searchText OR acao ILIKE @searchText OR detalhes ILIKE @searchText)");
             return conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : string.Empty;
         }
 
-        private static void AddAuditFilterParameters(DbCommand command, string filterUser, string filterAction, string filterDateFrom, string filterDateTo)
+        private static void AddAuditFilterParameters(DbCommand command, string filterUser, string filterAction, string filterDateFrom, string filterDateTo, string searchText)
         {
-            if (!string.IsNullOrWhiteSpace(filterUser)) AddParameter(command, "filterUser", "%" + filterUser.Trim().ToLowerInvariant() + "%");
-            if (!string.IsNullOrWhiteSpace(filterAction)) AddParameter(command, "filterAction", "%" + filterAction.Trim().ToLowerInvariant() + "%");
+            if (!string.IsNullOrWhiteSpace(filterUser)) AddParameter(command, "filterUser", filterUser.Trim());
+            if (!string.IsNullOrWhiteSpace(filterAction)) AddParameter(command, "filterAction", filterAction.Trim());
             if (!string.IsNullOrWhiteSpace(filterDateFrom)) AddParameter(command, "filterDateFrom", filterDateFrom.Trim());
             if (!string.IsNullOrWhiteSpace(filterDateTo)) AddParameter(command, "filterDateTo", filterDateTo.Trim());
+            if (!string.IsNullOrWhiteSpace(searchText)) AddParameter(command, "searchText", "%" + searchText.Trim() + "%");
+        }
+
+        private static string BuildAuditDateExpression()
+        {
+            return "CASE "
+                 + "WHEN dt_hr ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN to_timestamp(dt_hr, 'DD/MM/YYYY HH24:MI:SS') "
+                 + "WHEN dt_hr ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN to_timestamp(dt_hr, 'YYYY-MM-DD HH24:MI:SS') "
+                 + "ELSE NULL END";
         }
 
         // ── System parameters ──────────────────────────────────────────────────

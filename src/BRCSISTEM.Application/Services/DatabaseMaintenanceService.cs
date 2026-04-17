@@ -25,11 +25,12 @@ namespace BRCSISTEM.Application.Services
             string filterAction,
             string filterDateFrom,
             string filterDateTo,
+            string searchText,
             int pageSize,
             int offset)
         {
             var settings = GetSettings(configuration, profile);
-            return _gateway.LoadAuditLog(profile, settings, filterUser, filterAction, filterDateFrom, filterDateTo, pageSize, offset);
+            return _gateway.LoadAuditLog(profile, settings, filterUser, filterAction, filterDateFrom, filterDateTo, searchText, pageSize, offset);
         }
 
         public int CountAuditLog(
@@ -38,10 +39,23 @@ namespace BRCSISTEM.Application.Services
             string filterUser,
             string filterAction,
             string filterDateFrom,
-            string filterDateTo)
+            string filterDateTo,
+            string searchText)
         {
             var settings = GetSettings(configuration, profile);
-            return _gateway.CountAuditLog(profile, settings, filterUser, filterAction, filterDateFrom, filterDateTo);
+            return _gateway.CountAuditLog(profile, settings, filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
+        }
+
+        public IReadOnlyCollection<string> LoadAuditUsers(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            var settings = GetSettings(configuration, profile);
+            return _gateway.LoadAuditUsers(profile, settings);
+        }
+
+        public IReadOnlyCollection<string> LoadAuditActions(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            var settings = GetSettings(configuration, profile);
+            return _gateway.LoadAuditActions(profile, settings);
         }
 
         // ── System parameters ──────────────────────────────────────────────────

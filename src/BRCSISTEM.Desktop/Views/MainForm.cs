@@ -345,6 +345,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "bd_consulta_logs", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new AuditLogQueryForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

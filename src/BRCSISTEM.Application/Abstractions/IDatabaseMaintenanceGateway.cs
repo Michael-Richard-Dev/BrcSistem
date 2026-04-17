@@ -13,6 +13,7 @@ namespace BRCSISTEM.Application.Abstractions
             string filterAction,
             string filterDateFrom,
             string filterDateTo,
+            string searchText,
             int pageSize,
             int offset);
 
@@ -22,7 +23,12 @@ namespace BRCSISTEM.Application.Abstractions
             string filterUser,
             string filterAction,
             string filterDateFrom,
-            string filterDateTo);
+            string filterDateTo,
+            string searchText);
+
+        IReadOnlyCollection<string> LoadAuditUsers(DatabaseProfile profile, ConnectionResilienceSettings settings);
+
+        IReadOnlyCollection<string> LoadAuditActions(DatabaseProfile profile, ConnectionResilienceSettings settings);
 
         // ── System parameters ──────────────────────────────────────────────────
         IReadOnlyCollection<SystemParameter> LoadSystemParameters(DatabaseProfile profile, ConnectionResilienceSettings settings);

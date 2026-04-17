@@ -15,14 +15,24 @@ namespace BRCSISTEM.Desktop.Controllers
 
         // ── Audit log ──────────────────────────────────────────────────────────
 
-        public IReadOnlyCollection<AuditLogEntry> LoadAuditLog(AppConfiguration configuration, DatabaseProfile profile, string filterUser, string filterAction, string filterDateFrom, string filterDateTo, int pageSize, int offset)
+        public IReadOnlyCollection<AuditLogEntry> LoadAuditLog(AppConfiguration configuration, DatabaseProfile profile, string filterUser, string filterAction, string filterDateFrom, string filterDateTo, string searchText, int pageSize, int offset)
         {
-            return _service.LoadAuditLog(configuration, profile, filterUser, filterAction, filterDateFrom, filterDateTo, pageSize, offset);
+            return _service.LoadAuditLog(configuration, profile, filterUser, filterAction, filterDateFrom, filterDateTo, searchText, pageSize, offset);
         }
 
-        public int CountAuditLog(AppConfiguration configuration, DatabaseProfile profile, string filterUser, string filterAction, string filterDateFrom, string filterDateTo)
+        public int CountAuditLog(AppConfiguration configuration, DatabaseProfile profile, string filterUser, string filterAction, string filterDateFrom, string filterDateTo, string searchText)
         {
-            return _service.CountAuditLog(configuration, profile, filterUser, filterAction, filterDateFrom, filterDateTo);
+            return _service.CountAuditLog(configuration, profile, filterUser, filterAction, filterDateFrom, filterDateTo, searchText);
+        }
+
+        public IReadOnlyCollection<string> LoadAuditUsers(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            return _service.LoadAuditUsers(configuration, profile);
+        }
+
+        public IReadOnlyCollection<string> LoadAuditActions(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            return _service.LoadAuditActions(configuration, profile);
         }
 
         // ── System parameters ──────────────────────────────────────────────────
