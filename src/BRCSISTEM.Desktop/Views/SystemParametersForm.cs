@@ -16,7 +16,6 @@ namespace BRCSISTEM.Desktop.Views
     {
         private readonly DatabaseMaintenanceController _databaseMaintenanceController;
         private readonly AdministrationController      _administrationController;
-        private readonly MasterDataController          _masterDataController;
         private readonly ConfigurationController       _configurationController;
         private readonly UserIdentity    _identity;
         private readonly DatabaseProfile _databaseProfile;
@@ -35,7 +34,6 @@ namespace BRCSISTEM.Desktop.Views
         {
             _databaseMaintenanceController = compositionRoot.CreateDatabaseMaintenanceController();
             _administrationController      = compositionRoot.CreateAdministrationController();
-            _masterDataController          = compositionRoot.CreateMasterDataController();
             _configurationController       = compositionRoot.CreateConfigurationController();
             _identity        = identity;
             _databaseProfile = databaseProfile;
@@ -104,7 +102,6 @@ namespace BRCSISTEM.Desktop.Views
                 LoadShiftsGrid();
                 LoadReasonsGrid();
                 LoadAccessUsers();
-                LoadAccessWarehouses();
             }
             catch (Exception exception)
             {

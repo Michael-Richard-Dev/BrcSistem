@@ -58,7 +58,7 @@ namespace BRCSISTEM.Application.Abstractions
 
         IReadOnlyCollection<WarehouseAccessEntry> LoadAvailableWarehousesForUser(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName);
 
-        void GrantWarehouseAccess(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName, string warehouseCode);
+        void GrantWarehouseAccess(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName, string warehouseCode, string createdByUser);
 
         void RevokeWarehouseAccess(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName, string warehouseCode);
 

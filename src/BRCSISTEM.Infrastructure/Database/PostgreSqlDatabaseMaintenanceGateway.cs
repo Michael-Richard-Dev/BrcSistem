@@ -244,9 +244,12 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO turnos (nome, descricao, ativo) VALUES (@nome, @descricao, true)";
+                command.CommandText = @"
+                    INSERT INTO turnos (nome, descricao, ativo, dt_hr_criacao, dt_hr_alteracao)
+                    VALUES (@nome, @descricao, true, @now, @now)";
                 AddParameter(command, "nome", name.Trim());
                 AddParameter(command, "descricao", (description ?? string.Empty).Trim());
+                AddParameter(command, "now", NowText());
                 command.ExecuteNonQuery();
             }
         }
@@ -256,9 +259,16 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "UPDATE turnos SET nome = @nome, descricao = @descricao WHERE id = @id";
+                command.CommandText = @"
+                    UPDATE turnos
+                    SET nome = @nome,
+                        descricao = @descricao,
+                        ativo = true,
+                        dt_hr_alteracao = @now
+                    WHERE id = @id";
                 AddParameter(command, "nome", name.Trim());
                 AddParameter(command, "descricao", (description ?? string.Empty).Trim());
+                AddParameter(command, "now", NowText());
                 AddParameter(command, "id", id);
                 command.ExecuteNonQuery();
             }
@@ -269,7 +279,8 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "DELETE FROM turnos WHERE id = @id";
+                command.CommandText = "UPDATE turnos SET ativo = false, dt_hr_alteracao = @now WHERE id = @id";
+                AddParameter(command, "now", NowText());
                 AddParameter(command, "id", id);
                 command.ExecuteNonQuery();
             }
@@ -307,9 +318,12 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO motivos_requisicao (nome, descricao, ativo) VALUES (@nome, @descricao, true)";
+                command.CommandText = @"
+                    INSERT INTO motivos_requisicao (nome, descricao, ativo, dt_hr_criacao, dt_hr_alteracao)
+                    VALUES (@nome, @descricao, true, @now, @now)";
                 AddParameter(command, "nome", name.Trim());
                 AddParameter(command, "descricao", (description ?? string.Empty).Trim());
+                AddParameter(command, "now", NowText());
                 command.ExecuteNonQuery();
             }
         }
@@ -319,9 +333,16 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "UPDATE motivos_requisicao SET nome = @nome, descricao = @descricao WHERE id = @id";
+                command.CommandText = @"
+                    UPDATE motivos_requisicao
+                    SET nome = @nome,
+                        descricao = @descricao,
+                        ativo = true,
+                        dt_hr_alteracao = @now
+                    WHERE id = @id";
                 AddParameter(command, "nome", name.Trim());
                 AddParameter(command, "descricao", (description ?? string.Empty).Trim());
+                AddParameter(command, "now", NowText());
                 AddParameter(command, "id", id);
                 command.ExecuteNonQuery();
             }
@@ -332,7 +353,8 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "DELETE FROM motivos_requisicao WHERE id = @id";
+                command.CommandText = "UPDATE motivos_requisicao SET ativo = false, dt_hr_alteracao = @now WHERE id = @id";
+                AddParameter(command, "now", NowText());
                 AddParameter(command, "id", id);
                 command.ExecuteNonQuery();
             }
@@ -348,10 +370,16 @@ namespace BRCSISTEM.Infrastructure.Database
             {
                 command.CommandText = @"
                     SELECT a.codigo, a.nome
-                    FROM parametros_almoxarifados pa
-                    INNER JOIN almoxarifados a ON pa.almoxarifado = a.codigo
-                    WHERE pa.usuario = @usuario
-                    ORDER BY a.nome";
+                    FROM usuario_almoxarifados ua
+                    INNER JOIN almoxarifados a ON ua.codigo_almoxarifado = a.codigo
+                    WHERE ua.usuario = @usuario
+                      AND a.status = 'ATIVO'
+                      AND a.versao = (
+                          SELECT MAX(ax.versao)
+                          FROM almoxarifados ax
+                          WHERE ax.codigo = a.codigo
+                      )
+                    ORDER BY CAST(a.codigo AS INTEGER), a.codigo";
 
                 AddParameter(command, "usuario", userName.Trim());
                 using (var reader = command.ExecuteReader())
@@ -379,11 +407,16 @@ namespace BRCSISTEM.Infrastructure.Database
                 command.CommandText = @"
                     SELECT a.codigo, a.nome
                     FROM almoxarifados a
-                    WHERE a.ativo = true
-                      AND a.codigo NOT IN (
-                          SELECT almoxarifado FROM parametros_almoxarifados WHERE usuario = @usuario
+                    WHERE a.status = 'ATIVO'
+                      AND a.versao = (
+                          SELECT MAX(ax.versao)
+                          FROM almoxarifados ax
+                          WHERE ax.codigo = a.codigo
                       )
-                    ORDER BY a.nome";
+                      AND a.codigo NOT IN (
+                          SELECT codigo_almoxarifado FROM usuario_almoxarifados WHERE usuario = @usuario
+                      )
+                    ORDER BY CAST(a.codigo AS INTEGER), a.codigo";
 
                 AddParameter(command, "usuario", userName.Trim());
                 using (var reader = command.ExecuteReader())
@@ -402,18 +435,19 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void GrantWarehouseAccess(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName, string warehouseCode)
+        public void GrantWarehouseAccess(DatabaseProfile profile, ConnectionResilienceSettings settings, string userName, string warehouseCode, string createdByUser)
         {
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    INSERT INTO parametros_almoxarifados (usuario, almoxarifado)
-                    VALUES (@usuario, @almoxarifado)
+                    INSERT INTO usuario_almoxarifados (usuario, codigo_almoxarifado, usuario_criacao)
+                    VALUES (@usuario, @codigo, @criador)
                     ON CONFLICT DO NOTHING";
 
                 AddParameter(command, "usuario", userName.Trim());
-                AddParameter(command, "almoxarifado", warehouseCode.Trim());
+                AddParameter(command, "codigo", warehouseCode.Trim());
+                AddParameter(command, "criador", (createdByUser ?? string.Empty).Trim());
                 command.ExecuteNonQuery();
             }
         }
@@ -423,9 +457,9 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "DELETE FROM parametros_almoxarifados WHERE usuario = @usuario AND almoxarifado = @almoxarifado";
+                command.CommandText = "DELETE FROM usuario_almoxarifados WHERE usuario = @usuario AND codigo_almoxarifado = @codigo";
                 AddParameter(command, "usuario", userName.Trim());
-                AddParameter(command, "almoxarifado", warehouseCode.Trim());
+                AddParameter(command, "codigo", warehouseCode.Trim());
                 command.ExecuteNonQuery();
             }
         }

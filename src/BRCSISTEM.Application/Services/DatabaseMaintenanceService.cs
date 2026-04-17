@@ -70,8 +70,6 @@ namespace BRCSISTEM.Application.Services
         {
             var settings = GetSettings(configuration, profile);
             _gateway.SaveSystemParameter(profile, settings, key, value);
-            SafeAudit(profile, actorUserName, "Alteracao de parametro",
-                $"Tela=Parametros; Chave={key}; Valor={value}", settings);
         }
 
         // ── Shifts ─────────────────────────────────────────────────────────────
@@ -87,7 +85,7 @@ namespace BRCSISTEM.Application.Services
             if (string.IsNullOrWhiteSpace(name)) throw new InvalidOperationException("Informe o nome do turno.");
             var settings = GetSettings(configuration, profile);
             _gateway.AddShift(profile, settings, name, description);
-            SafeAudit(profile, actorUserName, "Turno adicionado", $"Tela=Parametros; Turno={name.Trim()}", settings);
+            SafeAudit(profile, actorUserName, "ADICIONAR_TURNO", $"Turno: {name.Trim()}", settings);
         }
 
         public void UpdateShift(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, int id, string name, string description)
@@ -95,14 +93,14 @@ namespace BRCSISTEM.Application.Services
             if (string.IsNullOrWhiteSpace(name)) throw new InvalidOperationException("Informe o nome do turno.");
             var settings = GetSettings(configuration, profile);
             _gateway.UpdateShift(profile, settings, id, name, description);
-            SafeAudit(profile, actorUserName, "Turno atualizado", $"Tela=Parametros; Id={id}; Turno={name.Trim()}", settings);
+            SafeAudit(profile, actorUserName, "ATUALIZAR_TURNO", $"ID: {id}, Nome: {name.Trim()}", settings);
         }
 
         public void DeleteShift(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, int id, string name)
         {
             var settings = GetSettings(configuration, profile);
             _gateway.DeleteShift(profile, settings, id);
-            SafeAudit(profile, actorUserName, "Turno excluido", $"Tela=Parametros; Turno={name}", settings);
+            SafeAudit(profile, actorUserName, "DELETAR_TURNO", $"ID: {id}", settings);
         }
 
         // ── Requisition reasons ────────────────────────────────────────────────
@@ -118,7 +116,7 @@ namespace BRCSISTEM.Application.Services
             if (string.IsNullOrWhiteSpace(name)) throw new InvalidOperationException("Informe o nome do motivo.");
             var settings = GetSettings(configuration, profile);
             _gateway.AddRequisitionReason(profile, settings, name, description);
-            SafeAudit(profile, actorUserName, "Motivo de requisicao adicionado", $"Tela=Parametros; Motivo={name.Trim()}", settings);
+            SafeAudit(profile, actorUserName, "ADICIONAR_MOTIVO_REQ", $"Motivo: {name.Trim()}", settings);
         }
 
         public void UpdateRequisitionReason(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, int id, string name, string description)
@@ -126,14 +124,14 @@ namespace BRCSISTEM.Application.Services
             if (string.IsNullOrWhiteSpace(name)) throw new InvalidOperationException("Informe o nome do motivo.");
             var settings = GetSettings(configuration, profile);
             _gateway.UpdateRequisitionReason(profile, settings, id, name, description);
-            SafeAudit(profile, actorUserName, "Motivo de requisicao atualizado", $"Tela=Parametros; Id={id}; Motivo={name.Trim()}", settings);
+            SafeAudit(profile, actorUserName, "ATUALIZAR_MOTIVO_REQ", $"ID: {id}, Nome: {name.Trim()}", settings);
         }
 
         public void DeleteRequisitionReason(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, int id, string name)
         {
             var settings = GetSettings(configuration, profile);
             _gateway.DeleteRequisitionReason(profile, settings, id);
-            SafeAudit(profile, actorUserName, "Motivo de requisicao excluido", $"Tela=Parametros; Motivo={name}", settings);
+            SafeAudit(profile, actorUserName, "DELETAR_MOTIVO_REQ", $"ID: {id}", settings);
         }
 
         // ── Warehouse access ───────────────────────────────────────────────────
@@ -153,7 +151,7 @@ namespace BRCSISTEM.Application.Services
         public void GrantWarehouseAccess(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string targetUser, string warehouseCode)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.GrantWarehouseAccess(profile, settings, targetUser, warehouseCode);
+            _gateway.GrantWarehouseAccess(profile, settings, targetUser, warehouseCode, actorUserName);
             SafeAudit(profile, actorUserName, "Acesso ao almoxarifado concedido",
                 $"Tela=Parametros; Usuario={targetUser}; Almoxarifado={warehouseCode}", settings);
         }
@@ -178,8 +176,8 @@ namespace BRCSISTEM.Application.Services
         {
             var settings = GetSettings(configuration, profile);
             _gateway.UnlockRecord(profile, settings, tableName, documentNumber, supplier);
-            SafeAudit(profile, actorUserName, "Registro desbloqueado (admin)",
-                $"Tela=Parametros; Tabela={tableName}; Documento={documentNumber}", settings);
+            SafeAudit(profile, actorUserName, "DESBLOQUEAR_ADMIN_" + (tableName ?? string.Empty).Trim().ToUpperInvariant(),
+                "Desbloqueio admin | Documento=" + (documentNumber ?? string.Empty).Trim(), settings);
         }
 
         // ── Remove note ────────────────────────────────────────────────────────

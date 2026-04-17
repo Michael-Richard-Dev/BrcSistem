@@ -177,6 +177,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "parametros", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new SystemParametersForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else if (string.Equals(module.Key, "cadastro_fornecedor", StringComparison.OrdinalIgnoreCase))
             {
                 using (var dialog = new SupplierManagementForm(_compositionRoot, _identity, _databaseProfile))

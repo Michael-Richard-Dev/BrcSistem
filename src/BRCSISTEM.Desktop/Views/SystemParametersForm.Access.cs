@@ -14,8 +14,6 @@ namespace BRCSISTEM.Desktop.Views
         private DataGridView _accessGrantedGrid;
 
         private UserSummary[]      _accessUsers      = new UserSummary[0];
-        private WarehouseSummary[] _accessWarehouses = new WarehouseSummary[0];
-
         private sealed class AccessUserItem
         {
             public string UserName    { get; set; }
@@ -172,18 +170,9 @@ namespace BRCSISTEM.Desktop.Views
 
         private void LoadAccessWarehouses()
         {
-            try
-            {
-                _accessWarehouses = _masterDataController.LoadWarehouses(_configuration, _databaseProfile) ?? new WarehouseSummary[0];
-                _accessWarehouses = _accessWarehouses
-                    .OrderBy(w => w.Code, StringComparer.OrdinalIgnoreCase)
-                    .ToArray();
-            }
-            catch (Exception exception)
-            {
-                _accessWarehouses = new WarehouseSummary[0];
-                ShowError(exception);
-            }
+            // Mantido apenas para compatibilidade com o bootstrap inicial da tela.
+            // A carga efetiva dos grids segue o Python e acontece em OnAccessUserChanged
+            // via usuario_almoxarifados + almoxarifados ativos.
         }
 
         private void OnAccessUserChanged()
@@ -199,25 +188,15 @@ namespace BRCSISTEM.Desktop.Views
             {
                 var granted = _databaseMaintenanceController.LoadGrantedWarehouseAccess(_configuration, _databaseProfile, user.UserName)
                     ?? (IReadOnlyCollection<WarehouseAccessEntry>)new WarehouseAccessEntry[0];
-                var grantedCodes = new HashSet<string>(granted.Select(g => g.WarehouseCode ?? string.Empty), StringComparer.OrdinalIgnoreCase);
+                var available = _databaseMaintenanceController.LoadAvailableWarehousesForUser(_configuration, _databaseProfile, user.UserName)
+                    ?? (IReadOnlyCollection<WarehouseAccessEntry>)new WarehouseAccessEntry[0];
 
-                var available = new List<WarehouseRow>();
-                var allowed   = new List<WarehouseRow>();
-                foreach (var w in _accessWarehouses)
-                {
-                    var row = new WarehouseRow { Code = w.Code, Name = w.Name };
-                    if (grantedCodes.Contains(w.Code ?? string.Empty))
-                    {
-                        allowed.Add(row);
-                    }
-                    else
-                    {
-                        available.Add(row);
-                    }
-                }
-
-                _accessAvailableGrid.DataSource = available;
-                _accessGrantedGrid.DataSource   = allowed;
+                _accessAvailableGrid.DataSource = available
+                    .Select(w => new WarehouseRow { Code = w.WarehouseCode, Name = w.WarehouseName })
+                    .ToList();
+                _accessGrantedGrid.DataSource = granted
+                    .Select(w => new WarehouseRow { Code = w.WarehouseCode, Name = w.WarehouseName })
+                    .ToList();
                 if (_accessAvailableGrid.Rows.Count > 0) _accessAvailableGrid.ClearSelection();
                 if (_accessGrantedGrid.Rows.Count   > 0) _accessGrantedGrid.ClearSelection();
             }
