@@ -157,26 +157,32 @@ namespace BRCSISTEM.Desktop.Views
         private void ReloadSystemParameters()
         {
             var parameters = _databaseMaintenanceController.LoadSystemParameters(_configuration, _databaseProfile);
+
             _systemParameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var p in parameters ?? Enumerable.Empty<SystemParameter>())
+
+            if (parameters != null)
             {
-                if (!string.IsNullOrWhiteSpace(p?.Key))
+                foreach (var p in parameters)
                 {
-                    _systemParameters[p.Key] = p.Value ?? string.Empty;
+                    if (!string.IsNullOrWhiteSpace(p?.Key))
+                    {
+                        _systemParameters[p.Key] = p.Value ?? string.Empty;
+                    }
                 }
             }
 
-            _versionTextBox.Text       = GetParameter("versao", "3.1.20");
-            _inboundLimitTextBox.Text  = GetParameter("limite_dias_entrada", "7");
+            _versionTextBox.Text = GetParameter("versao", "3.1.20");
+            _inboundLimitTextBox.Text = GetParameter("limite_dias_entrada", "7");
             _transferLimitTextBox.Text = GetParameter("limite_dias_transferencia", "7");
             _outboundLimitTextBox.Text = GetParameter("limite_dias_saida", "7");
-            _closingDateTextBox.Text   = GetParameter("data_fechamento", string.Empty);
+            _closingDateTextBox.Text = GetParameter("data_fechamento", string.Empty);
 
             var rule = GetParameter("inventario_cancelador_diferente_criador", "SIM").Trim().ToUpperInvariant();
             if (rule != "SIM" && rule != "NAO")
             {
                 rule = "SIM";
             }
+
             _inventoryCancellerRuleCombo.SelectedItem = rule;
         }
 
