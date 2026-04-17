@@ -970,7 +970,7 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT numero, dt_movimento, almoxarifado, status, usuario
+                    SELECT numero, dt_movimento, almoxarifado, status
                     FROM requisicoes
                     WHERE LOWER(numero) = @num
                     LIMIT 1";
@@ -988,7 +988,7 @@ namespace BRCSISTEM.Infrastructure.Database
                                 Date = ReadString(reader, "dt_movimento"),
                                 Warehouse = ReadString(reader, "almoxarifado"),
                                 Status = ReadString(reader, "status"),
-                                UserName = ReadString(reader, "usuario"),
+                                UserName = string.Empty,
                             };
                         }
                     }
