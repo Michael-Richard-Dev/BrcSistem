@@ -264,13 +264,17 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadActiveNotes(profile, settings);
         }
 
-        public void ChangeNoteDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, string newDate)
+        public ChangeDateResult ChangeNoteDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, string newDate)
         {
             if (string.IsNullOrWhiteSpace(newDate)) throw new InvalidOperationException("Informe a nova data.");
             var settings = GetSettings(configuration, profile);
-            _gateway.ChangeNoteDate(profile, settings, number, supplier, newDate);
-            SafeAudit(profile, actorUserName, "Data de nota alterada (bd_alterar_data_entrada)",
-                $"Tela=AlterarDataEntrada; Numero={number}; Fornecedor={supplier}; NovaData={newDate}", settings);
+            var result = _gateway.ChangeNoteDate(profile, settings, number, supplier, newDate);
+            var resolvedSupplier = !string.IsNullOrEmpty(result.Supplier) ? result.Supplier : supplier;
+            // Mensagem segue views/bd_alterar_data_entrada.py::_alterar
+            SafeAudit(profile, actorUserName, "ALTERAR_DATA_ENTRADA",
+                $"Nota {number} - Fornecedor: {resolvedSupplier} - Data alterada para {newDate} (linhas: notas={result.HeaderRowsUpdated}, mov={result.MovementRowsUpdated})",
+                settings);
+            return result;
         }
 
         // ── Change transfer date ───────────────────────────────────────────────
@@ -298,13 +302,15 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadActiveProductionOutputs(profile, settings);
         }
 
-        public void ChangeProductionOutputDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
+        public ChangeDateResult ChangeProductionOutputDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
         {
             if (string.IsNullOrWhiteSpace(newDate)) throw new InvalidOperationException("Informe a nova data.");
             var settings = GetSettings(configuration, profile);
-            _gateway.ChangeProductionOutputDate(profile, settings, number, newDate);
-            SafeAudit(profile, actorUserName, "Data de saida alterada (bd_alterar_data_saida_producao)",
-                $"Tela=AlterarDataSaida; Numero={number}; NovaData={newDate}", settings);
+            var result = _gateway.ChangeProductionOutputDate(profile, settings, number, newDate);
+            SafeAudit(profile, actorUserName, "ALTERAR_DATA_SAIDA_PRODUCAO",
+                $"Saida {number}: data alterada para {newDate} (linhas: saida={result.HeaderRowsUpdated}, mov={result.MovementRowsUpdated})",
+                settings);
+            return result;
         }
 
         // ── Alert: divergent lot ───────────────────────────────────────────────

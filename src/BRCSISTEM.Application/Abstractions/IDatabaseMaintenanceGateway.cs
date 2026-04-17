@@ -92,7 +92,7 @@ namespace BRCSISTEM.Application.Abstractions
         // ── Change note date (bd_alterar_data_entrada) ─────────────────────────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveNotes(DatabaseProfile profile, ConnectionResilienceSettings settings);
 
-        void ChangeNoteDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, string newDate);
+        ChangeDateResult ChangeNoteDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, string newDate);
 
         // ── Change transfer date (bd_alterar_data_transferencia) ───────────────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveTransfers(DatabaseProfile profile, ConnectionResilienceSettings settings);
@@ -102,7 +102,7 @@ namespace BRCSISTEM.Application.Abstractions
         // ── Change production output date (bd_alterar_data_saida_producao) ──────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveProductionOutputs(DatabaseProfile profile, ConnectionResilienceSettings settings);
 
-        void ChangeProductionOutputDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate);
+        ChangeDateResult ChangeProductionOutputDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate);
 
         // ── Alert: divergent lot entries ───────────────────────────────────────
         IReadOnlyCollection<DivergentLotEntry> DiagnoseDivergentLotEntries(DatabaseProfile profile, ConnectionResilienceSettings settings);

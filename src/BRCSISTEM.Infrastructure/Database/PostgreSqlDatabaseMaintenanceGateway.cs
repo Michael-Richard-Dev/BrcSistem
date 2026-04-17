@@ -839,11 +839,33 @@ namespace BRCSISTEM.Infrastructure.Database
 
         public IReadOnlyCollection<DocumentDateEntry> LoadActiveNotes(DatabaseProfile profile, ConnectionResilienceSettings settings)
         {
+            // Espelha views/bd_alterar_data_entrada.py::_carregar_notas +
+            // _exibir_dados_nota em uma unica consulta (Python faz N+1 a cada selecao).
+            const string sql = @"
+                SELECT n.numero,
+                       n.fornecedor,
+                       COALESCE(f.nome, '')      AS fornecedor_nome,
+                       n.dt_movimento,
+                       n.status,
+                       n.almoxarifado,
+                       COALESCE(a.nome, '')      AS almoxarifado_nome,
+                       COALESCE(i.qtd, 0)        AS qtd_itens
+                FROM notas n
+                LEFT JOIN fornecedores  f ON f.codigo = n.fornecedor    AND f.status = 'ATIVO'
+                LEFT JOIN almoxarifados a ON a.codigo = n.almoxarifado  AND a.status = 'ATIVO'
+                LEFT JOIN (
+                    SELECT numero, fornecedor, COUNT(material) AS qtd
+                    FROM notas_itens
+                    GROUP BY numero, fornecedor
+                ) i ON i.numero = n.numero AND i.fornecedor = n.fornecedor
+                WHERE n.status = 'ATIVO'
+                ORDER BY n.dt_movimento DESC, n.numero";
+
             var results = new List<DocumentDateEntry>();
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT numero, fornecedor, dt_movimento, status FROM notas WHERE status = 'ATIVO' ORDER BY dt_movimento DESC, numero";
+                command.CommandText = sql;
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -851,9 +873,13 @@ namespace BRCSISTEM.Infrastructure.Database
                         results.Add(new DocumentDateEntry
                         {
                             DocumentNumber = ReadString(reader, "numero"),
-                            Supplier = ReadString(reader, "fornecedor"),
-                            Date = ReadString(reader, "dt_movimento"),
-                            Status = ReadString(reader, "status"),
+                            Supplier       = ReadString(reader, "fornecedor"),
+                            SupplierName   = ReadString(reader, "fornecedor_nome"),
+                            Date           = ReadString(reader, "dt_movimento"),
+                            Status         = ReadString(reader, "status"),
+                            Warehouse      = ReadString(reader, "almoxarifado"),
+                            WarehouseName  = ReadString(reader, "almoxarifado_nome"),
+                            ItemCount      = ReadInt(reader, "qtd_itens"),
                         });
                     }
                 }
@@ -862,21 +888,76 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void ChangeNoteDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, string newDate)
+        public ChangeDateResult ChangeNoteDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string supplier, string newDate)
         {
+            // Fidelidade a views/bd_alterar_data_entrada.py::_alterar:
+            //   SELECT numero, fornecedor FROM notas WHERE numero = %s   (SEM filtro por fornecedor)
+            //   UPDATE notas SET dt_movimento=ISO, dt_emissao=BR WHERE numero = %s
+            //   UPDATE movimentos_estoque SET data_movimento=ISO WHERE documento_tipo='NOTA' AND documento_numero = %s
+            // `newDate` chega ja em ISO (yyyy-MM-dd HH:mm:ss); `supplier` e opcional
+            // (Python obtem do proprio SELECT). Usamos ::timestamp para preservar hora.
+            var num = (number ?? string.Empty).Trim();
+            var iso = (newDate ?? string.Empty).Trim();
+            var br  = IsoToBrazilian(iso);
+
+            var result = new ChangeDateResult();
+
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
             {
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE notas SET dt_movimento = @newDate::date, dt_emissao = @newDate::date WHERE LOWER(numero) = @num AND LOWER(fornecedor) = @sup",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()), ("sup", supplier.Trim().ToLowerInvariant()));
+                // 1. Localiza nota e captura fornecedor
+                using (var lookup = connection.CreateCommand())
+                {
+                    lookup.Transaction = transaction;
+                    lookup.CommandText = "SELECT numero, fornecedor FROM notas WHERE LOWER(numero) = @num LIMIT 1";
+                    AddParameter(lookup, "num", num.ToLowerInvariant());
+                    using (var reader = lookup.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            transaction.Rollback();
+                            throw new InvalidOperationException("Nota " + num + " nao encontrada.");
+                        }
+                        result.Supplier = ReadString(reader, "fornecedor");
+                    }
+                }
 
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE movimentos_estoque SET data_movimento = @newDate::date WHERE documento_tipo = 'NOTA' AND LOWER(documento_numero) = @num AND LOWER(fornecedor) = @sup",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()), ("sup", supplier.Trim().ToLowerInvariant()));
+                // 2. UPDATE notas (dt_movimento ISO, dt_emissao BR)
+                using (var upd = connection.CreateCommand())
+                {
+                    upd.Transaction = transaction;
+                    upd.CommandText = "UPDATE notas SET dt_movimento = @iso::timestamp, dt_emissao = @br WHERE LOWER(numero) = @num";
+                    AddParameter(upd, "iso", iso);
+                    AddParameter(upd, "br",  br);
+                    AddParameter(upd, "num", num.ToLowerInvariant());
+                    result.HeaderRowsUpdated = upd.ExecuteNonQuery();
+                }
+
+                // 3. UPDATE movimentos_estoque
+                using (var upd = connection.CreateCommand())
+                {
+                    upd.Transaction = transaction;
+                    upd.CommandText = "UPDATE movimentos_estoque SET data_movimento = @iso::timestamp WHERE documento_tipo = 'NOTA' AND LOWER(documento_numero) = @num";
+                    AddParameter(upd, "iso", iso);
+                    AddParameter(upd, "num", num.ToLowerInvariant());
+                    result.MovementRowsUpdated = upd.ExecuteNonQuery();
+                }
 
                 transaction.Commit();
             }
+
+            return result;
+        }
+
+        private static string IsoToBrazilian(string iso)
+        {
+            if (string.IsNullOrWhiteSpace(iso)) return iso;
+            DateTime dt;
+            if (DateTime.TryParseExact(iso, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                return dt.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            if (DateTime.TryParseExact(iso, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                return dt.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            return iso;
         }
 
         // ── Change transfer date ───────────────────────────────────────────────
@@ -938,10 +1019,22 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT numero, dt_movimento, status, almoxarifado
-                    FROM saidas_producao
-                    WHERE status = 'ATIVO'
-                    ORDER BY dt_movimento DESC, numero";
+                    SELECT sp.numero,
+                           sp.dt_movimento,
+                           sp.status,
+                           sp.almoxarifado,
+                           COALESCE(sp.turno, '') AS turno,
+                           COALESCE(sp.finalidade, '') AS finalidade,
+                           COALESCE(i.qtd_itens, 0) AS qtd_itens
+                    FROM saidas_producao sp
+                    LEFT JOIN (
+                        SELECT numero, COUNT(material) AS qtd_itens
+                        FROM saidas_producao_itens
+                        WHERE status = 'ATIVO'
+                        GROUP BY numero
+                    ) i ON i.numero = sp.numero
+                    WHERE sp.status = 'ATIVO'
+                    ORDER BY sp.dt_movimento DESC, sp.numero";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -953,6 +1046,9 @@ namespace BRCSISTEM.Infrastructure.Database
                             Date = ReadString(reader, "dt_movimento"),
                             Status = ReadString(reader, "status"),
                             OriginWarehouse = ReadString(reader, "almoxarifado"),
+                            Shift = ReadString(reader, "turno"),
+                            Purpose = ReadString(reader, "finalidade"),
+                            ItemCount = ReadInt(reader, "qtd_itens"),
                         });
                     }
                 }
@@ -961,21 +1057,49 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void ChangeProductionOutputDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate)
+        public ChangeDateResult ChangeProductionOutputDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate)
         {
+            var result = new ChangeDateResult();
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
             {
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE saidas_producao SET dt_movimento = @newDate::date WHERE LOWER(numero) = @num",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()));
+                using (var lookup = connection.CreateCommand())
+                {
+                    lookup.Transaction = transaction;
+                    lookup.CommandText = "SELECT numero FROM saidas_producao WHERE LOWER(numero) = @num AND status = 'ATIVO' LIMIT 1";
+                    AddParameter(lookup, "num", number.Trim().ToLowerInvariant());
+                    using (var reader = lookup.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            transaction.Rollback();
+                            throw new InvalidOperationException("Saida " + number.Trim() + " nao encontrada.");
+                        }
+                    }
+                }
 
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE movimentos_estoque SET data_movimento = @newDate::date WHERE documento_tipo = 'SAIDA_PRODUCAO' AND LOWER(documento_numero) = @num",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()));
+                using (var updateHeader = connection.CreateCommand())
+                {
+                    updateHeader.Transaction = transaction;
+                    updateHeader.CommandText = "UPDATE saidas_producao SET dt_movimento = @newDate::timestamp WHERE LOWER(numero) = @num AND status = 'ATIVO'";
+                    AddParameter(updateHeader, "newDate", newDate.Trim());
+                    AddParameter(updateHeader, "num", number.Trim().ToLowerInvariant());
+                    result.HeaderRowsUpdated = updateHeader.ExecuteNonQuery();
+                }
+
+                using (var updateMovements = connection.CreateCommand())
+                {
+                    updateMovements.Transaction = transaction;
+                    updateMovements.CommandText = "UPDATE movimentos_estoque SET data_movimento = @newDate::timestamp WHERE documento_tipo = 'SAIDA_PRODUCAO' AND LOWER(documento_numero) = @num AND status = 'ATIVO'";
+                    AddParameter(updateMovements, "newDate", newDate.Trim());
+                    AddParameter(updateMovements, "num", number.Trim().ToLowerInvariant());
+                    result.MovementRowsUpdated = updateMovements.ExecuteNonQuery();
+                }
 
                 transaction.Commit();
             }
+
+            return result;
         }
 
         // ── Alert: divergent lot entries ───────────────────────────────────────

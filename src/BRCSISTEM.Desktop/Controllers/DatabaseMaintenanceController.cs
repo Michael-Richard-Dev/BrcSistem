@@ -184,9 +184,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadActiveNotes(configuration, profile);
         }
 
-        public void ChangeNoteDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, string newDate)
+        public ChangeDateResult ChangeNoteDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string supplier, string newDate)
         {
-            _service.ChangeNoteDate(configuration, profile, actorUserName, number, supplier, newDate);
+            return _service.ChangeNoteDate(configuration, profile, actorUserName, number, supplier, newDate);
         }
 
         public IReadOnlyCollection<DocumentDateEntry> LoadActiveTransfers(AppConfiguration configuration, DatabaseProfile profile)
@@ -204,9 +204,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadActiveProductionOutputs(configuration, profile);
         }
 
-        public void ChangeProductionOutputDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
+        public ChangeDateResult ChangeProductionOutputDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
         {
-            _service.ChangeProductionOutputDate(configuration, profile, actorUserName, number, newDate);
+            return _service.ChangeProductionOutputDate(configuration, profile, actorUserName, number, newDate);
         }
 
         // ── Alerts ─────────────────────────────────────────────────────────────
