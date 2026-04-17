@@ -10,7 +10,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Infrastructure.Database
 {
-    public sealed class PostgreSqlDatabaseMaintenanceGateway : IDatabaseMaintenanceGateway
+    public sealed partial class PostgreSqlDatabaseMaintenanceGateway : IDatabaseMaintenanceGateway
     {
         private readonly IDatabaseConnectionFactory _connectionFactory;
 

@@ -134,5 +134,9 @@ namespace BRCSISTEM.Application.Abstractions
         IReadOnlyCollection<DuplicateNoteMovementDetail> LoadDuplicateNoteMovementDetails(DatabaseProfile profile, ConnectionResilienceSettings settings, string noteNumber, string supplier);
 
         InactivateDuplicatesResult InactivateDuplicateNoteMovements(DatabaseProfile profile, ConnectionResilienceSettings settings, long[] movementIds);
+
+        StockMovementSyncDiagnostic DiagnoseStockMovementSynchronization(DatabaseProfile profile, ConnectionResilienceSettings settings);
+
+        StockMovementSyncResult SynchronizeMissingStockMovements(DatabaseProfile profile, ConnectionResilienceSettings settings);
     }
 }

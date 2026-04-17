@@ -419,6 +419,26 @@ namespace BRCSISTEM.Application.Services
 
         // ── Private helpers ────────────────────────────────────────────────────
 
+        public StockMovementSyncDiagnostic DiagnoseStockMovementSynchronization(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            var settings = GetSettings(configuration, profile);
+            return _gateway.DiagnoseStockMovementSynchronization(profile, settings);
+        }
+
+        public StockMovementSyncResult SynchronizeMissingStockMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName)
+        {
+            var settings = GetSettings(configuration, profile);
+            var result = _gateway.SynchronizeMissingStockMovements(profile, settings);
+
+            if (result.InsertedItems > 0)
+            {
+                SafeAudit(profile, actorUserName, "Forcar sincronizacao movimentos_estoque",
+                    $"Inseridos: {result.InsertedItems} | Usuario gravado: admin", settings);
+            }
+
+            return result;
+        }
+
         private static ConnectionResilienceSettings GetSettings(AppConfiguration configuration, DatabaseProfile profile)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));

@@ -43,7 +43,7 @@ namespace BRCSISTEM.Domain.Catalog
                 new ModuleDefinition("tipo_usuario", "Parametros", "Tipos de Usuario (Permissoes)", "tipo_usuario", "views/tipo_usuario.py", "Configuracao de perfis e permissoes.", true),
                 new ModuleDefinition("gerenciar_acessos", "Parametros", "Solicitacoes de Acesso", "", "views/gerenciar_acessos.py", "Tratamento das solicitacoes de acesso pendentes.", false),
                 new ModuleDefinition("parametros", "Parametros", "Parametros do Sistema", "parametros", "views/parametros.py", "Configuracoes funcionais e datas de fechamento.", true),
-                new ModuleDefinition("parametro_sincronizar_movimentos_estoque", "Parametros", "Sincronizar Movimentos x Estoque", "parametro_sincronizar_movimentos_estoque", "views/parametro_sincronizar_movimentos_estoque.py", "Rotina de conciliacao entre movimentos e saldo.", false),
+                new ModuleDefinition("parametro_sincronizar_movimentos_estoque", "Parametros", "Sincronizar Movimentos x Estoque", "parametro_sincronizar_movimentos_estoque", "views/parametro_sincronizar_movimentos_estoque.py", "Rotina de conciliacao entre movimentos e saldo.", true),
             };
         }
     }

@@ -270,5 +270,15 @@ namespace BRCSISTEM.Desktop.Controllers
         {
             return _service.InactivateDuplicateNoteMovements(configuration, profile, actorUserName, movementIds, noteNumber);
         }
+
+        public StockMovementSyncDiagnostic DiagnoseStockMovementSynchronization(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            return _service.DiagnoseStockMovementSynchronization(configuration, profile);
+        }
+
+        public StockMovementSyncResult SynchronizeMissingStockMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName)
+        {
+            return _service.SynchronizeMissingStockMovements(configuration, profile, actorUserName);
+        }
     }
 }
