@@ -64,6 +64,21 @@ namespace BRCSISTEM.Domain.Models
             }
         }
 
+        // Espelha "{numero} - {forn_nome} - {data_br}" de
+        // views/bd_alterar_data_entrada.py::_carregar_notas.
+        public string NoteDisplayLabel
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(DocumentNumber))
+                {
+                    return string.Empty;
+                }
+
+                return DocumentNumber + " - " + (SupplierName ?? string.Empty) + " - " + FormatDateTime(Date);
+            }
+        }
+
         private static string FormatDateTime(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

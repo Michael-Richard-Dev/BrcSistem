@@ -338,6 +338,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "bd_alterar_data_entrada", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new NoteDateChangeForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else if (string.Equals(module.Key, "bd_alterar_data_transferencia", StringComparison.OrdinalIgnoreCase))
             {
                 using (var dialog = new TransferDateChangeForm(_compositionRoot, _identity, _databaseProfile))
