@@ -1022,13 +1022,15 @@ namespace BRCSISTEM.Infrastructure.Database
                     SELECT sp.numero,
                            sp.dt_movimento,
                            sp.status,
-                           sp.almoxarifado,
+                           COALESCE(i.almoxarifado, '') AS almoxarifado,
                            COALESCE(sp.turno, '') AS turno,
                            COALESCE(sp.finalidade, '') AS finalidade,
                            COALESCE(i.qtd_itens, 0) AS qtd_itens
                     FROM saidas_producao sp
                     LEFT JOIN (
-                        SELECT numero, COUNT(material) AS qtd_itens
+                        SELECT numero,
+                        MAX(almoxarifado) AS almoxarifado,
+                        COUNT(material) AS qtd_itens
                         FROM saidas_producao_itens
                         WHERE status = 'ATIVO'
                         GROUP BY numero
