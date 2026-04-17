@@ -969,10 +969,39 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
-                    SELECT numero, dt_movimento, status, almoxarifado_origem, almoxarifado_destino
-                    FROM transferencias
-                    WHERE status = 'ATIVO'
-                    ORDER BY dt_movimento DESC, numero";
+                    SELECT t.numero,
+                           t.dt_movimento,
+                           t.status,
+                           COALESCE(t.almox_origem, '') AS almox_origem,
+                           COALESCE(ao.nome, '') AS almox_origem_nome,
+                           COALESCE(t.almox_destino, '') AS almox_destino,
+                           COALESCE(ad.nome, '') AS almox_destino_nome,
+                           COALESCE(i.qtd_itens, 0) AS qtd_itens
+                    FROM transferencias t
+                    INNER JOIN (
+                        SELECT numero, MAX(versao) AS max_versao
+                        FROM transferencias
+                        GROUP BY numero
+                    ) tx ON tx.numero = t.numero AND tx.max_versao = t.versao
+                    LEFT JOIN almoxarifados ao ON ao.codigo = t.almox_origem
+                        AND ao.versao = (
+                            SELECT MAX(x.versao)
+                            FROM almoxarifados x
+                            WHERE x.codigo = ao.codigo
+                        )
+                    LEFT JOIN almoxarifados ad ON ad.codigo = t.almox_destino
+                        AND ad.versao = (
+                            SELECT MAX(x.versao)
+                            FROM almoxarifados x
+                            WHERE x.codigo = ad.codigo
+                        )
+                    LEFT JOIN (
+                        SELECT numero, versao, COUNT(material) AS qtd_itens
+                        FROM transferencias_itens
+                        GROUP BY numero, versao
+                    ) i ON i.numero = t.numero AND i.versao = t.versao
+                    WHERE t.status = 'ATIVO'
+                    ORDER BY t.dt_movimento DESC, t.numero DESC";
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -983,8 +1012,11 @@ namespace BRCSISTEM.Infrastructure.Database
                             DocumentNumber = ReadString(reader, "numero"),
                             Date = ReadString(reader, "dt_movimento"),
                             Status = ReadString(reader, "status"),
-                            OriginWarehouse = ReadString(reader, "almoxarifado_origem"),
-                            DestinationWarehouse = ReadString(reader, "almoxarifado_destino"),
+                            OriginWarehouse = ReadString(reader, "almox_origem"),
+                            OriginWarehouseName = ReadString(reader, "almox_origem_nome"),
+                            DestinationWarehouse = ReadString(reader, "almox_destino"),
+                            DestinationWarehouseName = ReadString(reader, "almox_destino_nome"),
+                            ItemCount = ReadInt(reader, "qtd_itens"),
                         });
                     }
                 }
@@ -993,21 +1025,63 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void ChangeTransferDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate)
+        public ChangeDateResult ChangeTransferDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate)
         {
+            var result = new ChangeDateResult();
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
             {
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE transferencias SET dt_movimento = @newDate::date WHERE LOWER(numero) = @num",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()));
+                var normalizedNumber = (number ?? string.Empty).Trim().ToLowerInvariant();
+                var normalizedDate = (newDate ?? string.Empty).Trim();
 
-                ExecuteNonQuery(connection, transaction,
-                    "UPDATE movimentos_estoque SET data_movimento = @newDate::date WHERE documento_tipo = 'TRANSFERENCIA' AND LOWER(documento_numero) = @num",
-                    ("newDate", newDate.Trim()), ("num", number.Trim().ToLowerInvariant()));
+                using (var verify = connection.CreateCommand())
+                {
+                    verify.Transaction = transaction;
+                    verify.CommandText = @"
+                        SELECT numero
+                        FROM transferencias
+                        WHERE LOWER(numero) = @num
+                          AND status = 'ATIVO'
+                        LIMIT 1";
+                    AddParameter(verify, "num", normalizedNumber);
+                    var exists = verify.ExecuteScalar();
+                    if (exists == null || exists == DBNull.Value)
+                    {
+                        throw new InvalidOperationException("Transferencia " + number + " nao encontrada!");
+                    }
+                }
+
+                using (var updateTransfer = connection.CreateCommand())
+                {
+                    updateTransfer.Transaction = transaction;
+                    updateTransfer.CommandText = @"
+                        UPDATE transferencias
+                        SET dt_movimento = @newDate
+                        WHERE LOWER(numero) = @num
+                          AND status = 'ATIVO'";
+                    AddParameter(updateTransfer, "newDate", normalizedDate);
+                    AddParameter(updateTransfer, "num", normalizedNumber);
+                    result.HeaderRowsUpdated = updateTransfer.ExecuteNonQuery();
+                }
+
+                using (var updateMovements = connection.CreateCommand())
+                {
+                    updateMovements.Transaction = transaction;
+                    updateMovements.CommandText = @"
+                        UPDATE movimentos_estoque
+                        SET data_movimento = @newDate
+                        WHERE documento_tipo = 'TRANSFERENCIA'
+                          AND LOWER(documento_numero) = @num
+                          AND status = 'ATIVO'";
+                    AddParameter(updateMovements, "newDate", normalizedDate);
+                    AddParameter(updateMovements, "num", normalizedNumber);
+                    result.MovementRowsUpdated = updateMovements.ExecuteNonQuery();
+                }
 
                 transaction.Commit();
             }
+
+            return result;
         }
 
         // ── Change production output date ──────────────────────────────────────

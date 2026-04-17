@@ -97,7 +97,7 @@ namespace BRCSISTEM.Application.Abstractions
         // ── Change transfer date (bd_alterar_data_transferencia) ───────────────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveTransfers(DatabaseProfile profile, ConnectionResilienceSettings settings);
 
-        void ChangeTransferDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate);
+        ChangeDateResult ChangeTransferDate(DatabaseProfile profile, ConnectionResilienceSettings settings, string number, string newDate);
 
         // ── Change production output date (bd_alterar_data_saida_producao) ──────
         IReadOnlyCollection<DocumentDateEntry> LoadActiveProductionOutputs(DatabaseProfile profile, ConnectionResilienceSettings settings);

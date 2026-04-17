@@ -194,9 +194,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadActiveTransfers(configuration, profile);
         }
 
-        public void ChangeTransferDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
+        public ChangeDateResult ChangeTransferDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
         {
-            _service.ChangeTransferDate(configuration, profile, actorUserName, number, newDate);
+            return _service.ChangeTransferDate(configuration, profile, actorUserName, number, newDate);
         }
 
         public IReadOnlyCollection<DocumentDateEntry> LoadActiveProductionOutputs(AppConfiguration configuration, DatabaseProfile profile)

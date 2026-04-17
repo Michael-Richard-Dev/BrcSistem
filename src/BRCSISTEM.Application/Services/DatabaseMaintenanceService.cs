@@ -285,13 +285,15 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadActiveTransfers(profile, settings);
         }
 
-        public void ChangeTransferDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
+        public ChangeDateResult ChangeTransferDate(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number, string newDate)
         {
             if (string.IsNullOrWhiteSpace(newDate)) throw new InvalidOperationException("Informe a nova data.");
             var settings = GetSettings(configuration, profile);
-            _gateway.ChangeTransferDate(profile, settings, number, newDate);
-            SafeAudit(profile, actorUserName, "Data de transferencia alterada (bd_alterar_data_transferencia)",
-                $"Tela=AlterarDataTransferencia; Numero={number}; NovaData={newDate}", settings);
+            var result = _gateway.ChangeTransferDate(profile, settings, number, newDate);
+            SafeAudit(profile, actorUserName, "ALTERAR_DATA_TRANSFERENCIA",
+                $"Transferencia {number}: data alterada para {newDate} (linhas: transf={result.HeaderRowsUpdated}, mov={result.MovementRowsUpdated})",
+                settings);
+            return result;
         }
 
         // ── Change production output date ──────────────────────────────────────

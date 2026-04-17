@@ -30,9 +30,26 @@ namespace BRCSISTEM.Domain.Models
 
         public string Purpose { get; set; }
 
+        public string OriginWarehouseName { get; set; }
+
+        public string DestinationWarehouseName { get; set; }
+
         public string DisplayLabel => string.IsNullOrWhiteSpace(Supplier)
             ? DocumentNumber
             : $"{DocumentNumber} / {Supplier}";
+
+        public string TransferDisplayLabel
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(DocumentNumber))
+                {
+                    return string.Empty;
+                }
+
+                return DocumentNumber + " - " + FormatDateTime(Date);
+            }
+        }
 
         public string ProductionOutputDisplayLabel
         {
