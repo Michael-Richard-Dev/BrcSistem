@@ -324,6 +324,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "alerta_movimentos_duplicados_nota", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new DuplicateNoteMovementsAlertForm(_compositionRoot, _identity, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else
             {
                 using (var dialog = new ModulePlaceholderForm(module, _databaseProfile))

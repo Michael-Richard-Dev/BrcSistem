@@ -361,12 +361,16 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadDuplicateNoteMovementDetails(profile, settings, noteNumber, supplier);
         }
 
-        public void InactivateDuplicateNoteMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, long[] movementIds, string noteNumber)
+        public InactivateDuplicatesResult InactivateDuplicateNoteMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, long[] movementIds, string noteNumber)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.InactivateDuplicateNoteMovements(profile, settings, movementIds);
-            SafeAudit(profile, actorUserName, "Movimentos duplicados inativados (alerta_movimentos_duplicados_nota)",
-                $"Tela=AlertaMovDuplicados; Nota={noteNumber}; Ids={string.Join(",", movementIds)}", settings);
+            var result = _gateway.InactivateDuplicateNoteMovements(profile, settings, movementIds);
+            // Espelha registrar_log do Python inativar_movimentos_duplicados_notas:
+            //   LIMPEZA_DUPLICIDADE_NOTA | IDs solicitados=[..] | IDs encontrados=[..] | IDs inativados=[..]
+            SafeAudit(profile, actorUserName, "LIMPEZA_DUPLICIDADE_NOTA",
+                $"Tela=AlertaMovDuplicados; Nota={noteNumber}; Solicitados=[{string.Join(",", result.RequestedIds)}]; Encontrados=[{string.Join(",", result.FoundIds)}]; Inativados=[{string.Join(",", result.InactivatedIds)}]",
+                settings);
+            return result;
         }
 
         // ── Private helpers ────────────────────────────────────────────────────

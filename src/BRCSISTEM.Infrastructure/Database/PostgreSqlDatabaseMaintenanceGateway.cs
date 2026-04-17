@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using BRCSISTEM.Application.Abstractions;
 using BRCSISTEM.Domain.Models;
@@ -1419,139 +1421,350 @@ namespace BRCSISTEM.Infrastructure.Database
         }
 
         // ── Alert: duplicate note movements ───────────────────────────────────
+        // Porte fiel de database.py::diagnosticar_movimentos_duplicados_notas
+        // - 3 queries: notas_ativas, movimentos ATIVOS de NOTA, notas_itens ATIVOS
+        // - Regra 1: movimento cuja (material,lote,almox,qty_chave) NAO esta
+        //            nas assinaturas dos itens ATIVOS da versao ativa da nota
+        //            E usuario_mov != usuario_nota  => propor inativar
+        // - Regra 2: duplicidade exata de assinatura entre movimentos que casam
+        //            com os itens ativos (match_rows): mantem menor ID, propoe
+        //            inativar os demais
+        // - Consolida por NF (UM grupo por NF, uniao das duas regras)
 
         public IReadOnlyCollection<DuplicateNoteMovementGroup> DiagnoseDuplicateNoteMovements(DatabaseProfile profile, ConnectionResilienceSettings settings)
         {
-            // Load all active note movements and diagnose in memory
-            var allMovements = new List<RawNoteMovement>();
+            var notas      = new List<RawActiveNote>();
+            var movimentos = new List<RawNoteMovement>();
+            var itens      = new List<RawNoteItemSignature>();
 
             using (var connection = _connectionFactory.Open(profile, settings))
-            using (var command = connection.CreateCommand())
             {
-                command.CommandText = @"
-                    SELECT me.id, me.documento_numero, me.fornecedor, me.almoxarifado,
-                           me.material, me.lote, me.quantidade, me.data_movimento, me.versao_nota
-                    FROM movimentos_estoque me
-                    WHERE me.documento_tipo = 'NOTA' AND me.status = 'ATIVO'
-                    ORDER BY me.documento_numero, me.fornecedor, me.material, me.lote, me.id";
-
-                using (var reader = command.ExecuteReader())
+                // Query 1: notas ATIVAS (versao max por numero+fornecedor)
+                using (var cmd = connection.CreateCommand())
                 {
-                    while (reader.Read())
+                    cmd.CommandText = @"
+                        WITH notas_ativas AS (
+                            SELECT n.numero, n.fornecedor, n.versao, n.usuario, n.dt_movimento
+                            FROM notas n
+                            WHERE n.status = 'ATIVO'
+                              AND n.versao = (
+                                    SELECT MAX(nx.versao) FROM notas nx
+                                    WHERE nx.numero = n.numero AND nx.fornecedor = n.fornecedor
+                              )
+                        )
+                        SELECT numero, fornecedor, versao, usuario, dt_movimento
+                        FROM notas_ativas
+                        ORDER BY numero, fornecedor";
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        allMovements.Add(new RawNoteMovement
+                        while (rdr.Read())
                         {
-                            Id = ReadLong(reader, "id"),
-                            NoteNumber = ReadString(reader, "documento_numero"),
-                            Supplier = ReadString(reader, "fornecedor"),
-                            Warehouse = ReadString(reader, "almoxarifado"),
-                            Material = ReadString(reader, "material"),
-                            Lot = ReadString(reader, "lote"),
-                            Quantity = ReadDecimal(reader, "quantidade"),
-                            Date = ReadString(reader, "data_movimento"),
-                            NoteVersion = ReadString(reader, "versao_nota"),
-                        });
+                            notas.Add(new RawActiveNote
+                            {
+                                Number     = ReadString(rdr, "numero"),
+                                Supplier   = ReadString(rdr, "fornecedor"),
+                                Version    = ReadString(rdr, "versao"),
+                                User       = ReadString(rdr, "usuario"),
+                                NoteDate   = ReadString(rdr, "dt_movimento"),
+                            });
+                        }
+                    }
+                }
+
+                if (notas.Count == 0) return new List<DuplicateNoteMovementGroup>();
+
+                // Query 2: todos os movimentos ATIVOS de NOTA
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT
+                            m.id, m.documento_numero AS numero, m.fornecedor,
+                            m.data_movimento, m.almoxarifado, m.material, m.lote,
+                            m.quantidade, m.usuario, m.dt_hr_criacao
+                        FROM movimentos_estoque m
+                        WHERE m.status = 'ATIVO'
+                          AND m.documento_tipo = 'NOTA'
+                        ORDER BY m.documento_numero, m.fornecedor, m.id";
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            movimentos.Add(new RawNoteMovement
+                            {
+                                Id           = ReadLong(rdr,    "id"),
+                                NoteNumber   = ReadString(rdr,  "numero"),
+                                Supplier     = ReadString(rdr,  "fornecedor"),
+                                MovementDate = ReadString(rdr,  "data_movimento"),
+                                Warehouse    = ReadString(rdr,  "almoxarifado"),
+                                Material     = ReadString(rdr,  "material"),
+                                Lot          = ReadString(rdr,  "lote"),
+                                Quantity     = ReadDecimal(rdr, "quantidade"),
+                                User         = ReadString(rdr,  "usuario"),
+                                CreatedAt    = ReadString(rdr,  "dt_hr_criacao"),
+                            });
+                        }
+                    }
+                }
+
+                // Query 3: assinaturas dos itens ATIVOS das notas ATIVAS
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        WITH notas_ativas AS (
+                            SELECT n.numero, n.fornecedor, n.versao
+                            FROM notas n
+                            WHERE n.status = 'ATIVO'
+                              AND n.versao = (
+                                    SELECT MAX(nx.versao) FROM notas nx
+                                    WHERE nx.numero = n.numero AND nx.fornecedor = n.fornecedor
+                              )
+                        )
+                        SELECT i.numero, i.fornecedor, i.material, i.lote, i.almoxarifado, i.quantidade
+                        FROM notas_itens i
+                        JOIN notas_ativas n
+                          ON  n.numero     = i.numero
+                          AND n.fornecedor = i.fornecedor
+                          AND n.versao     = i.versao
+                        WHERE i.status = 'ATIVO'";
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            itens.Add(new RawNoteItemSignature
+                            {
+                                Number    = ReadString(rdr,  "numero"),
+                                Supplier  = ReadString(rdr,  "fornecedor"),
+                                Material  = ReadString(rdr,  "material"),
+                                Lot       = ReadString(rdr,  "lote"),
+                                Warehouse = ReadString(rdr,  "almoxarifado"),
+                                Quantity  = ReadDecimal(rdr, "quantidade"),
+                            });
+                        }
                     }
                 }
             }
 
-            // Diagnose duplicates using the same logic as the Python algorithm
-            return FindDuplicateGroups(allMovements);
+            return BuildDuplicateNoteGroups(notas, movimentos, itens);
         }
 
-        private static IReadOnlyCollection<DuplicateNoteMovementGroup> FindDuplicateGroups(List<RawNoteMovement> allMovements)
+        private static IReadOnlyCollection<DuplicateNoteMovementGroup> BuildDuplicateNoteGroups(
+            List<RawActiveNote> notas,
+            List<RawNoteMovement> movimentos,
+            List<RawNoteItemSignature> itens)
         {
-            var groups = new List<DuplicateNoteMovementGroup>();
-
-            // Group by note + supplier
-            var byNote = new Dictionary<string, List<RawNoteMovement>>(StringComparer.OrdinalIgnoreCase);
-            foreach (var mov in allMovements)
+            // Index notas ativas por (numero, fornecedor)
+            var notaMap = new Dictionary<string, RawActiveNote>(StringComparer.Ordinal);
+            foreach (var n in notas)
             {
-                var key = $"{mov.NoteNumber}||{mov.Supplier}";
-                if (!byNote.ContainsKey(key)) byNote[key] = new List<RawNoteMovement>();
-                byNote[key].Add(mov);
+                notaMap[NoteKey(n.Number, n.Supplier)] = n;
             }
 
-            foreach (var pair in byNote)
+            // Index movimentos por (numero, fornecedor) — somente os que estao em notas ativas
+            var movimentosMap = new Dictionary<string, List<RawNoteMovement>>(StringComparer.Ordinal);
+            foreach (var m in movimentos)
             {
-                var noteMovs = pair.Value;
-                if (noteMovs.Count < 2) continue;
-
-                // Rule 1: movements not belonging to the current latest version
-                var latestVersion = string.Empty;
-                foreach (var m in noteMovs)
+                var key = NoteKey(m.NoteNumber, m.Supplier);
+                if (!notaMap.ContainsKey(key)) continue;
+                if (!movimentosMap.TryGetValue(key, out var bucket))
                 {
-                    if (string.Compare(m.NoteVersion, latestVersion, StringComparison.OrdinalIgnoreCase) > 0)
-                        latestVersion = m.NoteVersion;
+                    bucket = new List<RawNoteMovement>();
+                    movimentosMap[key] = bucket;
+                }
+                bucket.Add(m);
+            }
+
+            // Index assinaturas dos itens por (numero, fornecedor)
+            var itensPorNota = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+            foreach (var i in itens)
+            {
+                var key = NoteKey(i.Number, i.Supplier);
+                if (!itensPorNota.TryGetValue(key, out var set))
+                {
+                    set = new HashSet<string>(StringComparer.Ordinal);
+                    itensPorNota[key] = set;
+                }
+                set.Add(Signature(i.Material, i.Lot, i.Warehouse, i.Quantity));
+            }
+
+            var relatorio = new List<DuplicateNoteMovementGroup>();
+
+            // Ordenacao por numero+fornecedor (igual ao "sorted(movimentos_map.items())" do Python)
+            var chavesOrdenadas = movimentosMap.Keys
+                .OrderBy(k => k, StringComparer.Ordinal)
+                .ToList();
+
+            foreach (var chave in chavesOrdenadas)
+            {
+                var nota = notaMap[chave];
+                var rows = movimentosMap[chave];
+
+                var usuarioNotaNorm = (nota.User ?? string.Empty).Trim().ToLowerInvariant();
+                var assinaturasAtivas = itensPorNota.TryGetValue(chave, out var sig)
+                    ? sig
+                    : new HashSet<string>(StringComparer.Ordinal);
+
+                var matchRows    = new List<RawNoteMovement>();
+                var nonmatchRows = new List<RawNoteMovement>();
+                foreach (var m in rows)
+                {
+                    var s = Signature(m.Material, m.Lot, m.Warehouse, m.Quantity);
+                    if (assinaturasAtivas.Contains(s)) matchRows.Add(m);
+                    else                                nonmatchRows.Add(m);
                 }
 
-                var staleIds = new List<long>();
-                foreach (var m in noteMovs)
+                var propostas = new Dictionary<long, DuplicateNoteMovementDetail>();
+
+                // Regra 1: item nao pertence a versao ativa + usuario divergente
+                foreach (var m in nonmatchRows)
                 {
-                    if (!string.IsNullOrEmpty(latestVersion) &&
-                        !string.Equals(m.NoteVersion, latestVersion, StringComparison.OrdinalIgnoreCase))
+                    var usuarioMovNorm = (m.User ?? string.Empty).Trim().ToLowerInvariant();
+                    if (string.Equals(usuarioMovNorm, usuarioNotaNorm, StringComparison.Ordinal)) continue;
+                    if (m.Id <= 0) continue;
+                    if (propostas.ContainsKey(m.Id)) continue;
+
+                    propostas[m.Id] = BuildDetail(
+                        m, nota,
+                        reasonCode:  "item_nao_pertence_versao_ativa_e_usuario_diferente",
+                        reasonLabel: "Item nao pertence a versao ativa + usuario divergente",
+                        keepReference: null);
+                }
+
+                // Regra 2: duplicidade exata de assinatura dentro de match_rows (mantem menor ID)
+                var porAssinatura = new Dictionary<string, List<RawNoteMovement>>(StringComparer.Ordinal);
+                foreach (var m in matchRows)
+                {
+                    var s = Signature(m.Material, m.Lot, m.Warehouse, m.Quantity);
+                    if (!porAssinatura.TryGetValue(s, out var bucket))
                     {
-                        staleIds.Add(m.Id);
+                        bucket = new List<RawNoteMovement>();
+                        porAssinatura[s] = bucket;
+                    }
+                    bucket.Add(m);
+                }
+
+                foreach (var dupRows in porAssinatura.Values)
+                {
+                    if (dupRows.Count <= 1) continue;
+                    var ordenados = dupRows.OrderBy(x => x.Id).ToList();
+                    var idManter  = ordenados[0].Id;
+                    for (int i = 1; i < ordenados.Count; i++)
+                    {
+                        var m = ordenados[i];
+                        if (m.Id <= 0) continue;
+                        if (propostas.ContainsKey(m.Id)) continue;
+
+                        propostas[m.Id] = BuildDetail(
+                            m, nota,
+                            reasonCode:  "duplicidade_exata_mesma_assinatura_item",
+                            reasonLabel: "Duplicidade exata da mesma assinatura do item",
+                            keepReference: idManter);
                     }
                 }
 
-                if (staleIds.Count > 0)
-                {
-                    groups.Add(new DuplicateNoteMovementGroup
-                    {
-                        NoteNumber = noteMovs[0].NoteNumber,
-                        Supplier = noteMovs[0].Supplier,
-                        Reason = "Movimentos de versao desatualizada da nota",
-                        DuplicateMovementIds = staleIds,
-                    });
-                    continue;
-                }
+                if (propostas.Count == 0) continue;
 
-                // Rule 2: exact signature duplicates (material+lot+qty+warehouse)
-                var signatures = new Dictionary<string, List<long>>(StringComparer.OrdinalIgnoreCase);
-                foreach (var m in noteMovs)
-                {
-                    var sig = $"{m.Material}||{m.Lot}||{m.Quantity}||{m.Warehouse}";
-                    if (!signatures.ContainsKey(sig)) signatures[sig] = new List<long>();
-                    signatures[sig].Add(m.Id);
-                }
+                var idsPropostos = propostas.Keys.OrderBy(x => x).ToList();
+                var details      = idsPropostos.Select(id => propostas[id]).ToList();
 
-                var duplicateIds = new List<long>();
-                foreach (var sigPair in signatures)
-                {
-                    if (sigPair.Value.Count > 1)
-                    {
-                        // Keep first, mark rest as duplicates
-                        for (int i = 1; i < sigPair.Value.Count; i++)
-                            duplicateIds.Add(sigPair.Value[i]);
-                    }
-                }
+                // "usuarios_mov_ativos": distinto dos usuarios de todos os movimentos ATIVOS da NF
+                var usuariosMov = rows
+                    .Select(m => (m.User ?? string.Empty).Trim().ToLowerInvariant())
+                    .Where(u => u.Length > 0)
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(u => u, StringComparer.Ordinal)
+                    .ToList();
 
-                if (duplicateIds.Count > 0)
+                // Rotulo da(s) regra(s) para o campo Group.Reason
+                var motivosDistintos = details
+                    .Select(d => d.ReasonLabel ?? string.Empty)
+                    .Where(r => r.Length > 0)
+                    .Distinct(StringComparer.Ordinal)
+                    .ToList();
+
+                relatorio.Add(new DuplicateNoteMovementGroup
                 {
-                    groups.Add(new DuplicateNoteMovementGroup
-                    {
-                        NoteNumber = noteMovs[0].NoteNumber,
-                        Supplier = noteMovs[0].Supplier,
-                        Reason = "Movimentos duplicados (mesma assinatura)",
-                        DuplicateMovementIds = duplicateIds,
-                    });
-                }
+                    NoteNumber          = nota.Number,
+                    Supplier            = nota.Supplier,
+                    NoteVersion         = nota.Version,
+                    NoteUser            = nota.User,
+                    NoteDate            = nota.NoteDate,
+                    TotalActiveMovements = rows.Count,
+                    ActiveMovementUsers = string.Join(", ", usuariosMov),
+                    Reason              = string.Join(" + ", motivosDistintos),
+                    DuplicateMovementIds = idsPropostos,
+                    Details             = details,
+                });
             }
 
-            return groups;
+            return relatorio;
+        }
+
+        private static DuplicateNoteMovementDetail BuildDetail(
+            RawNoteMovement m,
+            RawActiveNote nota,
+            string reasonCode,
+            string reasonLabel,
+            long? keepReference)
+        {
+            return new DuplicateNoteMovementDetail
+            {
+                MovementId    = m.Id,
+                NoteNumber    = m.NoteNumber,
+                Supplier      = m.Supplier,
+                Material      = m.Material,
+                MaterialName  = string.Empty, // view nao mostra nome do material (apenas codigo)
+                Lot           = m.Lot,
+                Warehouse     = m.Warehouse,
+                Quantity      = m.Quantity,
+                MovementDate  = m.MovementDate,
+                CreatedAt     = m.CreatedAt,
+                MovementUser  = m.User,
+                NoteUser      = nota.User,
+                ReasonCode    = reasonCode,
+                ReasonLabel   = reasonLabel,
+                Reason        = reasonLabel,
+                KeepReferenceId = keepReference,
+            };
+        }
+
+        private static string NoteKey(string number, string supplier)
+        {
+            return (number ?? string.Empty) + "||" + (supplier ?? string.Empty);
+        }
+
+        /// <summary>Assinatura (material|lote|almox|qty-normalizada) igual ao Python.</summary>
+        private static string Signature(string material, string lot, string warehouse, decimal quantity)
+        {
+            return (material ?? string.Empty) + "|"
+                 + (lot      ?? string.Empty) + "|"
+                 + (warehouse ?? string.Empty) + "|"
+                 + NormalizeQuantityKey(quantity);
+        }
+
+        /// <summary>Equivalente a _quantidade_chave do Python: Decimal.normalize().</summary>
+        private static string NormalizeQuantityKey(decimal value)
+        {
+            var text = value.ToString("0.############################", CultureInfo.InvariantCulture);
+            if (text.IndexOf('.') >= 0)
+            {
+                text = text.TrimEnd('0').TrimEnd('.');
+            }
+            return text.Length == 0 ? "0" : text;
         }
 
         public IReadOnlyCollection<DuplicateNoteMovementDetail> LoadDuplicateNoteMovementDetails(DatabaseProfile profile, ConnectionResilienceSettings settings, string noteNumber, string supplier)
         {
+            // Mantido por compatibilidade com a API publica. Retorna os movimentos
+            // ATIVOS da NF para referencia visual (a tela nova consome Details
+            // direto do Group retornado por DiagnoseDuplicateNoteMovements).
             var results = new List<DuplicateNoteMovementDetail>();
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = @"
                     SELECT me.id, me.documento_numero, me.fornecedor, me.material,
-                           e.nome AS material_nome, me.lote, me.almoxarifado,
-                           me.quantidade, me.data_movimento
+                           e.descricao AS material_nome, me.lote, me.almoxarifado,
+                           me.quantidade, me.data_movimento, me.usuario, me.dt_hr_criacao
                     FROM movimentos_estoque me
                     LEFT JOIN embalagens e ON me.material = e.codigo
                     WHERE me.documento_tipo = 'NOTA'
@@ -1560,8 +1773,8 @@ namespace BRCSISTEM.Infrastructure.Database
                       AND LOWER(me.fornecedor) = @sup
                     ORDER BY me.material, me.lote, me.id";
 
-                AddParameter(command, "num", noteNumber.Trim().ToLowerInvariant());
-                AddParameter(command, "sup", supplier.Trim().ToLowerInvariant());
+                AddParameter(command, "num", (noteNumber ?? string.Empty).Trim().ToLowerInvariant());
+                AddParameter(command, "sup", (supplier   ?? string.Empty).Trim().ToLowerInvariant());
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -1569,15 +1782,17 @@ namespace BRCSISTEM.Infrastructure.Database
                     {
                         results.Add(new DuplicateNoteMovementDetail
                         {
-                            MovementId = ReadLong(reader, "id"),
-                            NoteNumber = ReadString(reader, "documento_numero"),
-                            Supplier = ReadString(reader, "fornecedor"),
-                            Material = ReadString(reader, "material"),
-                            MaterialName = ReadString(reader, "material_nome"),
-                            Lot = ReadString(reader, "lote"),
-                            Warehouse = ReadString(reader, "almoxarifado"),
-                            Quantity = ReadDecimal(reader, "quantidade"),
-                            MovementDate = ReadString(reader, "data_movimento"),
+                            MovementId   = ReadLong(reader,    "id"),
+                            NoteNumber   = ReadString(reader,  "documento_numero"),
+                            Supplier     = ReadString(reader,  "fornecedor"),
+                            Material     = ReadString(reader,  "material"),
+                            MaterialName = ReadString(reader,  "material_nome"),
+                            Lot          = ReadString(reader,  "lote"),
+                            Warehouse    = ReadString(reader,  "almoxarifado"),
+                            Quantity     = ReadDecimal(reader, "quantidade"),
+                            MovementDate = ReadString(reader,  "data_movimento"),
+                            MovementUser = ReadString(reader,  "usuario"),
+                            CreatedAt    = ReadString(reader,  "dt_hr_criacao"),
                         });
                     }
                 }
@@ -1586,51 +1801,132 @@ namespace BRCSISTEM.Infrastructure.Database
             return results;
         }
 
-        public void InactivateDuplicateNoteMovements(DatabaseProfile profile, ConnectionResilienceSettings settings, long[] movementIds)
+        public InactivateDuplicatesResult InactivateDuplicateNoteMovements(DatabaseProfile profile, ConnectionResilienceSettings settings, long[] movementIds)
         {
-            if (movementIds == null || movementIds.Length == 0) return;
+            // Espelha database.py::inativar_movimentos_duplicados_notas:
+            // - normaliza (>0, distinct, sorted)
+            // - SELECT id, status por ANY(@ids) AND documento_tipo='NOTA'
+            // - UPDATE status='INATIVO' onde status='ATIVO'
+            // - retorna ids_solicitados/encontrados/inativados
+            var result = new InactivateDuplicatesResult();
+
+            var cleaned = new List<long>();
+            if (movementIds != null)
+            {
+                foreach (var v in movementIds)
+                {
+                    if (v > 0) cleaned.Add(v);
+                }
+            }
+            cleaned = cleaned.Distinct().OrderBy(x => x).ToList();
+            result.RequestedIds = cleaned;
+
+            if (cleaned.Count == 0) return result;
 
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var transaction = connection.BeginTransaction(IsolationLevel.Serializable))
-            using (var command = connection.CreateCommand())
             {
-                command.Transaction = transaction;
-
-                // Build id list as parameters
+                // 1. SELECT para ids_encontrados / ids_ativos
                 var paramNames = new List<string>();
-                for (int i = 0; i < movementIds.Length; i++)
+                var foundIds   = new List<long>();
+                var activeIds  = new List<long>();
+
+                using (var select = connection.CreateCommand())
                 {
-                    var pName = $"id{i}";
-                    paramNames.Add("@" + pName);
-                    AddParameter(command, pName, movementIds[i]);
+                    select.Transaction = transaction;
+                    for (int i = 0; i < cleaned.Count; i++)
+                    {
+                        var pName = "id" + i.ToString(CultureInfo.InvariantCulture);
+                        paramNames.Add("@" + pName);
+                        AddParameter(select, pName, cleaned[i]);
+                    }
+
+                    select.CommandText = $@"
+                        SELECT m.id, m.status
+                        FROM movimentos_estoque m
+                        WHERE m.id IN ({string.Join(",", paramNames)})
+                          AND m.documento_tipo = 'NOTA'
+                        ORDER BY m.id";
+
+                    using (var rdr = select.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            var id = ReadLong(rdr, "id");
+                            foundIds.Add(id);
+                            var status = (ReadString(rdr, "status") ?? string.Empty).Trim().ToUpperInvariant();
+                            if (status == "ATIVO") activeIds.Add(id);
+                        }
+                    }
                 }
 
-                AddParameter(command, "now", NowText());
-                command.CommandText = $@"
-                    UPDATE movimentos_estoque
-                    SET status = 'INATIVO', dt_hr_alteracao = @now
-                    WHERE id IN ({string.Join(",", paramNames)})
-                      AND documento_tipo = 'NOTA'
-                      AND status = 'ATIVO'";
+                result.FoundIds       = foundIds;
+                result.InactivatedIds = activeIds;
 
-                command.ExecuteNonQuery();
+                if (activeIds.Count > 0)
+                {
+                    using (var update = connection.CreateCommand())
+                    {
+                        update.Transaction = transaction;
+                        var updParamNames = new List<string>();
+                        for (int i = 0; i < activeIds.Count; i++)
+                        {
+                            var pName = "aid" + i.ToString(CultureInfo.InvariantCulture);
+                            updParamNames.Add("@" + pName);
+                            AddParameter(update, pName, activeIds[i]);
+                        }
+                        AddParameter(update, "now", NowText());
+
+                        update.CommandText = $@"
+                            UPDATE movimentos_estoque
+                            SET status = 'INATIVO', dt_hr_alteracao = @now
+                            WHERE id IN ({string.Join(",", updParamNames)})
+                              AND documento_tipo = 'NOTA'
+                              AND status = 'ATIVO'";
+
+                        update.ExecuteNonQuery();
+                    }
+                }
+
                 transaction.Commit();
             }
+
+            return result;
         }
 
         // ── Helpers ────────────────────────────────────────────────────────────
 
         private sealed class RawNoteMovement
         {
-            public long Id { get; set; }
-            public string NoteNumber { get; set; }
+            public long    Id           { get; set; }
+            public string  NoteNumber   { get; set; }
+            public string  Supplier     { get; set; }
+            public string  Warehouse    { get; set; }
+            public string  Material     { get; set; }
+            public string  Lot          { get; set; }
+            public decimal Quantity     { get; set; }
+            public string  MovementDate { get; set; }
+            public string  User         { get; set; }
+            public string  CreatedAt    { get; set; }
+        }
+
+        private sealed class RawActiveNote
+        {
+            public string Number   { get; set; }
             public string Supplier { get; set; }
-            public string Warehouse { get; set; }
-            public string Material { get; set; }
-            public string Lot { get; set; }
-            public decimal Quantity { get; set; }
-            public string Date { get; set; }
-            public string NoteVersion { get; set; }
+            public string Version  { get; set; }
+            public string User     { get; set; }
+            public string NoteDate { get; set; }
+        }
+
+        private sealed class RawNoteItemSignature
+        {
+            public string  Number    { get; set; }
+            public string  Supplier  { get; set; }
+            public string  Material  { get; set; }
+            public string  Lot       { get; set; }
+            public string  Warehouse { get; set; }
+            public decimal Quantity  { get; set; }
         }
 
         private static void ExecuteNonQuery(DbConnection connection, DbTransaction transaction, string sql, params (string name, object value)[] parameters)

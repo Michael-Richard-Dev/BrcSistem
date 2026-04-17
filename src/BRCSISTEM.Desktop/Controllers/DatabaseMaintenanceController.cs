@@ -246,9 +246,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadDuplicateNoteMovementDetails(configuration, profile, noteNumber, supplier);
         }
 
-        public void InactivateDuplicateNoteMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, long[] movementIds, string noteNumber)
+        public InactivateDuplicatesResult InactivateDuplicateNoteMovements(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, long[] movementIds, string noteNumber)
         {
-            _service.InactivateDuplicateNoteMovements(configuration, profile, actorUserName, movementIds, noteNumber);
+            return _service.InactivateDuplicateNoteMovements(configuration, profile, actorUserName, movementIds, noteNumber);
         }
     }
 }
