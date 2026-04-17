@@ -261,12 +261,13 @@ namespace BRCSISTEM.Application.Services
             return _gateway.LoadProductionOutputItems(profile, settings, number);
         }
 
-        public void RemoveProductionOutput(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveProductionOutputResult RemoveProductionOutput(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
             var settings = GetSettings(configuration, profile);
-            _gateway.RemoveProductionOutput(profile, settings, number);
-            SafeAudit(profile, actorUserName, "Saida de producao removida (bd_remover_saida)",
-                $"Tela=RemoverSaida; Numero={number}", settings);
+            var result = _gateway.RemoveProductionOutput(profile, settings, number);
+            SafeAudit(profile, actorUserName, "REMOCAO_SAIDA",
+                $"Saida de Producao {result.Number} - {result.RemovedItems} itens - {result.RemovedMovements} movimentos", settings);
+            return result;
         }
 
         // ── Remove requisition ─────────────────────────────────────────────────

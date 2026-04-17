@@ -12,6 +12,8 @@ namespace BRCSISTEM.Domain.Models
 
         public string EmissionDate { get; set; }
 
+        public string Purpose { get; set; }
+
         public string Status { get; set; }
 
         public string LockedBy { get; set; }

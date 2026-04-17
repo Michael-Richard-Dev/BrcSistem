@@ -90,7 +90,7 @@ namespace BRCSISTEM.Application.Abstractions
 
         IReadOnlyCollection<DocumentMaintenanceItem> LoadProductionOutputItems(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
-        void RemoveProductionOutput(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
+        RemoveProductionOutputResult RemoveProductionOutput(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);
 
         // ── Remove requisition (bd_remover_requisicao) ─────────────────────────
         DocumentMaintenanceHeader LoadRequisitionHeader(DatabaseProfile profile, ConnectionResilienceSettings settings, string number);

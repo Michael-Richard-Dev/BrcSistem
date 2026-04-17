@@ -177,9 +177,9 @@ namespace BRCSISTEM.Desktop.Controllers
             return _service.LoadProductionOutputItems(configuration, profile, number);
         }
 
-        public void RemoveProductionOutput(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
+        public RemoveProductionOutputResult RemoveProductionOutput(AppConfiguration configuration, DatabaseProfile profile, string actorUserName, string number)
         {
-            _service.RemoveProductionOutput(configuration, profile, actorUserName, number);
+            return _service.RemoveProductionOutput(configuration, profile, actorUserName, number);
         }
 
         public DocumentMaintenanceHeader LoadRequisitionHeader(AppConfiguration configuration, DatabaseProfile profile, string number)
