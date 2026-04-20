@@ -51,7 +51,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             Text = AppName + " " + AppVersion + " - Acesso ao Sistema";
             StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(720, 450);
+            ClientSize = new Size(740, 470);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             BackColor = CinzaClaro;
@@ -68,7 +68,7 @@ namespace BRCSISTEM.Desktop.Views
             var left = new Panel
             {
                 Dock = DockStyle.Left,
-                Width = 300,
+                Width = 320,
                 BackColor = AzulPrincipal,
             };
 
@@ -198,9 +198,9 @@ namespace BRCSISTEM.Desktop.Views
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 BackColor = Branco,
-                Padding = new Padding(30, 15, 30, 15),
+                Padding = new Padding(35, 20, 35, 15),
             };
-            const int fieldWidth = 260;
+            const int fieldWidth = 240;
 
             form.Controls.Add(new Label
             {
@@ -218,45 +218,39 @@ namespace BRCSISTEM.Desktop.Views
                 Font = new Font("Segoe UI", 10F, FontStyle.Regular),
                 ForeColor = CinzaEscuro,
                 BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 25),
+                Margin = new Padding(0, 0, 0, 22),
             });
 
             var bancoHeader = new Panel
             {
                 Width = fieldWidth,
-                Height = 26,
+                Height = 28,
                 BackColor = Branco,
                 Margin = new Padding(0, 0, 0, 2),
             };
 
-            var iconsPanel = new FlowLayoutPanel
-            {
-                FlowDirection = FlowDirection.LeftToRight,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                BackColor = Branco,
-                Margin = new Padding(0),
-                Dock = DockStyle.Right,
-            };
-            var btnCache = BuildIconButton("\uD83E\uDDF9");
-            btnCache.Click += (s, e) => LoadConfiguration();
-            var btnConfig = BuildIconButton("\u2699");
-            btnConfig.Click += OpenProfilesManager;
-            iconsPanel.Controls.Add(btnCache);
-            iconsPanel.Controls.Add(btnConfig);
-            bancoHeader.Controls.Add(iconsPanel);
-
-            bancoHeader.Controls.Add(new Label
+            var bancoLabel = new Label
             {
                 AutoSize = false,
-                Dock = DockStyle.Left,
-                Width = fieldWidth - 70,
+                Location = new Point(0, 5),
+                Size = new Size(fieldWidth - 64, 20),
                 Text = "Banco de Dados",
                 Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 ForeColor = AzulPrincipal,
                 BackColor = Branco,
                 TextAlign = ContentAlignment.MiddleLeft,
-            });
+            };
+            bancoHeader.Controls.Add(bancoLabel);
+
+            var btnCache = BuildIconButton("\uD83E\uDDF9");
+            btnCache.Location = new Point(fieldWidth - 60, 2);
+            btnCache.Click += (s, e) => LoadConfiguration();
+            bancoHeader.Controls.Add(btnCache);
+
+            var btnConfig = BuildIconButton("\u2699");
+            btnConfig.Location = new Point(fieldWidth - 30, 2);
+            btnConfig.Click += OpenProfilesManager;
+            bancoHeader.Controls.Add(btnConfig);
 
             form.Controls.Add(bancoHeader);
 
@@ -268,7 +262,7 @@ namespace BRCSISTEM.Desktop.Views
                 FlatStyle = FlatStyle.Flat,
                 BackColor = CinzaClaro,
                 FormattingEnabled = true,
-                Margin = new Padding(0, 0, 0, 14),
+                Margin = new Padding(0, 0, 0, 16),
             };
             _profilesComboBox.Format += OnProfileFormat;
             form.Controls.Add(_profilesComboBox);
@@ -282,8 +276,8 @@ namespace BRCSISTEM.Desktop.Views
                 BackColor = Branco,
                 Margin = new Padding(0, 0, 0, 2),
             });
-            _userNameTextBox = BuildFieldTextBox(fieldWidth);
-            _userNameTextBox.Margin = new Padding(0, 0, 0, 12);
+            var userHost = BuildFieldHost(fieldWidth, out _userNameTextBox);
+            userHost.Margin = new Padding(0, 0, 0, 12);
             _userNameTextBox.KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -292,7 +286,7 @@ namespace BRCSISTEM.Desktop.Views
                     e.SuppressKeyPress = true;
                 }
             };
-            form.Controls.Add(_userNameTextBox);
+            form.Controls.Add(userHost);
 
             form.Controls.Add(new Label
             {
@@ -303,9 +297,9 @@ namespace BRCSISTEM.Desktop.Views
                 BackColor = Branco,
                 Margin = new Padding(0, 0, 0, 2),
             });
-            _passwordTextBox = BuildFieldTextBox(fieldWidth);
+            var passHost = BuildFieldHost(fieldWidth, out _passwordTextBox);
             _passwordTextBox.UseSystemPasswordChar = true;
-            _passwordTextBox.Margin = new Padding(0, 0, 0, 8);
+            passHost.Margin = new Padding(0, 0, 0, 10);
             _passwordTextBox.KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -314,7 +308,7 @@ namespace BRCSISTEM.Desktop.Views
                     e.SuppressKeyPress = true;
                 }
             };
-            form.Controls.Add(_passwordTextBox);
+            form.Controls.Add(passHost);
 
             _statusLabel = new Label
             {
@@ -326,7 +320,7 @@ namespace BRCSISTEM.Desktop.Views
                 BackColor = Branco,
                 Font = new Font("Segoe UI", 8F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
-                Margin = new Padding(0, 0, 0, 8),
+                Margin = new Padding(0, 0, 0, 10),
             };
             form.Controls.Add(_statusLabel);
 
@@ -345,6 +339,7 @@ namespace BRCSISTEM.Desktop.Views
             _loginButton.FlatAppearance.BorderSize = 0;
             _loginButton.FlatAppearance.MouseOverBackColor = AzulSecundario;
             _loginButton.Click += (s, e) => TryLogin();
+            _loginButton.Margin = new Padding(0, 0, 0, 8);
             form.Controls.Add(_loginButton);
 
             var secondaryButtons = new TableLayoutPanel
@@ -412,16 +407,30 @@ namespace BRCSISTEM.Desktop.Views
             return btn;
         }
 
-        private static TextBox BuildFieldTextBox(int width)
+        private static Panel BuildFieldHost(int width, out TextBox textBox)
         {
-            return new TextBox
+            var host = new Panel
             {
                 Width = width,
+                Height = 30,
+                BackColor = CinzaClaro,
+                BorderStyle = BorderStyle.FixedSingle,
+                Padding = new Padding(8, 6, 8, 4),
+            };
+
+            textBox = new TextBox
+            {
+                Dock = DockStyle.Fill,
                 Font = new Font("Segoe UI", 10F),
                 BackColor = CinzaClaro,
                 ForeColor = CinzaEscuro,
-                BorderStyle = BorderStyle.FixedSingle,
+                BorderStyle = BorderStyle.None,
             };
+
+            var innerBox = textBox;
+            host.GotFocus += (s, e) => innerBox.Focus();
+            host.Controls.Add(textBox);
+            return host;
         }
 
         private static Button BuildSecondaryButton(string text)
