@@ -22,6 +22,7 @@ namespace BRCSISTEM.Desktop.Views
         private void InitializeComponent()
         {
             this._leftPanel = new Panel();
+            this._leftContentLayout = new TableLayoutPanel();
             this._logoPictureBox = new PictureBox();
             this._brandingTitleLabel = new Label();
             this._brandingSubtitleLabel = new Label();
@@ -31,6 +32,7 @@ namespace BRCSISTEM.Desktop.Views
             this._rightPanel = new Panel();
             this._footerPanel = new Panel();
             this._footerLabel = new Label();
+            this._rightContentPanel = new Panel();
             this._formContainer = new TableLayoutPanel();
             this._welcomeLabel = new Label();
             this._welcomeSubtitleLabel = new Label();
@@ -53,8 +55,10 @@ namespace BRCSISTEM.Desktop.Views
 
             ((ISupportInitialize)this._logoPictureBox).BeginInit();
             this._leftPanel.SuspendLayout();
+            this._leftContentLayout.SuspendLayout();
             this._rightPanel.SuspendLayout();
             this._footerPanel.SuspendLayout();
+            this._rightContentPanel.SuspendLayout();
             this._formContainer.SuspendLayout();
             this._bancoHeaderPanel.SuspendLayout();
             this._userHostPanel.SuspendLayout();
@@ -67,63 +71,89 @@ namespace BRCSISTEM.Desktop.Views
             this._leftPanel.Dock = DockStyle.Left;
             this._leftPanel.Name = "_leftPanel";
             this._leftPanel.Size = new Size(360, 540);
-            this._leftPanel.Controls.Add(this._brandingBulletsLabel);
-            this._leftPanel.Controls.Add(this._brandingSeparator);
-            this._leftPanel.Controls.Add(this._brandingVersionLabel);
-            this._leftPanel.Controls.Add(this._brandingSubtitleLabel);
-            this._leftPanel.Controls.Add(this._brandingTitleLabel);
-            this._leftPanel.Controls.Add(this._logoPictureBox);
+            this._leftPanel.Controls.Add(this._leftContentLayout);
+
+            // _leftContentLayout
+            this._leftContentLayout.AutoSize = true;
+            this._leftContentLayout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this._leftContentLayout.BackColor = Color.FromArgb(27, 54, 93);
+            this._leftContentLayout.ColumnCount = 1;
+            this._leftContentLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            this._leftContentLayout.Controls.Add(this._logoPictureBox, 0, 0);
+            this._leftContentLayout.Controls.Add(this._brandingTitleLabel, 0, 1);
+            this._leftContentLayout.Controls.Add(this._brandingSubtitleLabel, 0, 2);
+            this._leftContentLayout.Controls.Add(this._brandingVersionLabel, 0, 3);
+            this._leftContentLayout.Controls.Add(this._brandingSeparator, 0, 4);
+            this._leftContentLayout.Controls.Add(this._brandingBulletsLabel, 0, 5);
+            this._leftContentLayout.Location = new Point(47, 82);
+            this._leftContentLayout.Margin = new Padding(0);
+            this._leftContentLayout.Name = "_leftContentLayout";
+            this._leftContentLayout.Padding = new Padding(0);
+            this._leftContentLayout.RowCount = 6;
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.RowStyles.Add(new RowStyle());
+            this._leftContentLayout.Size = new Size(266, 377);
 
             // _logoPictureBox
+            this._logoPictureBox.Anchor = AnchorStyles.None;
             this._logoPictureBox.BackColor = Color.FromArgb(27, 54, 93);
-            this._logoPictureBox.Location = new Point(132, 80);
+            this._logoPictureBox.Margin = new Padding(0, 0, 0, 15);
             this._logoPictureBox.Name = "_logoPictureBox";
             this._logoPictureBox.Size = new Size(96, 96);
             this._logoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             this._logoPictureBox.TabStop = false;
 
             // _brandingTitleLabel
+            this._brandingTitleLabel.Anchor = AnchorStyles.None;
             this._brandingTitleLabel.AutoSize = true;
             this._brandingTitleLabel.BackColor = Color.FromArgb(27, 54, 93);
             this._brandingTitleLabel.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             this._brandingTitleLabel.ForeColor = Color.White;
-            this._brandingTitleLabel.Location = new Point(100, 188);
+            this._brandingTitleLabel.Margin = new Padding(0, 0, 0, 5);
             this._brandingTitleLabel.Name = "_brandingTitleLabel";
             this._brandingTitleLabel.Text = "BRCSISTEM";
             this._brandingTitleLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             // _brandingSubtitleLabel
+            this._brandingSubtitleLabel.Anchor = AnchorStyles.None;
             this._brandingSubtitleLabel.AutoSize = true;
             this._brandingSubtitleLabel.BackColor = Color.FromArgb(27, 54, 93);
             this._brandingSubtitleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Regular);
             this._brandingSubtitleLabel.ForeColor = Color.FromArgb(74, 144, 194);
-            this._brandingSubtitleLabel.Location = new Point(70, 236);
+            this._brandingSubtitleLabel.Margin = new Padding(0, 0, 0, 3);
             this._brandingSubtitleLabel.Name = "_brandingSubtitleLabel";
             this._brandingSubtitleLabel.Text = "Sistema de Controle de Estoque";
             this._brandingSubtitleLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             // _brandingVersionLabel
+            this._brandingVersionLabel.Anchor = AnchorStyles.None;
             this._brandingVersionLabel.AutoSize = true;
             this._brandingVersionLabel.BackColor = Color.FromArgb(27, 54, 93);
             this._brandingVersionLabel.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
             this._brandingVersionLabel.ForeColor = Color.FromArgb(74, 144, 194);
-            this._brandingVersionLabel.Location = new Point(143, 266);
+            this._brandingVersionLabel.Margin = new Padding(0, 0, 0, 15);
             this._brandingVersionLabel.Name = "_brandingVersionLabel";
             this._brandingVersionLabel.Text = "Versao v3.1.20";
             this._brandingVersionLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             // _brandingSeparator
+            this._brandingSeparator.Anchor = AnchorStyles.None;
             this._brandingSeparator.BackColor = Color.FromArgb(204, 173, 0);
-            this._brandingSeparator.Location = new Point(95, 300);
+            this._brandingSeparator.Margin = new Padding(0, 0, 0, 12);
             this._brandingSeparator.Name = "_brandingSeparator";
             this._brandingSeparator.Size = new Size(170, 2);
 
             // _brandingBulletsLabel
+            this._brandingBulletsLabel.Anchor = AnchorStyles.None;
             this._brandingBulletsLabel.AutoSize = true;
             this._brandingBulletsLabel.BackColor = Color.FromArgb(27, 54, 93);
             this._brandingBulletsLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._brandingBulletsLabel.ForeColor = Color.FromArgb(74, 144, 194);
-            this._brandingBulletsLabel.Location = new Point(95, 318);
+            this._brandingBulletsLabel.Margin = new Padding(0);
             this._brandingBulletsLabel.Name = "_brandingBulletsLabel";
             this._brandingBulletsLabel.Text =
                 "- Gestao Inteligente de Estoque\r\n" +
@@ -136,7 +166,7 @@ namespace BRCSISTEM.Desktop.Views
             this._rightPanel.BackColor = Color.White;
             this._rightPanel.Dock = DockStyle.Fill;
             this._rightPanel.Name = "_rightPanel";
-            this._rightPanel.Controls.Add(this._formContainer);
+            this._rightPanel.Controls.Add(this._rightContentPanel);
             this._rightPanel.Controls.Add(this._footerPanel);
 
             // _footerPanel
@@ -155,26 +185,49 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLabel.Text = " 2025 BRCSISTEM - Todos os direitos reservados ";
             this._footerLabel.TextAlign = ContentAlignment.MiddleCenter;
 
+            // _rightContentPanel
+            this._rightContentPanel.BackColor = Color.White;
+            this._rightContentPanel.Controls.Add(this._formContainer);
+            this._rightContentPanel.Dock = DockStyle.Fill;
+            this._rightContentPanel.Name = "_rightContentPanel";
+
             // _formContainer
+            this._formContainer.Anchor = AnchorStyles.None;
+            this._formContainer.AutoSize = true;
+            this._formContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this._formContainer.BackColor = Color.White;
             this._formContainer.ColumnCount = 1;
-            this._formContainer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            this._formContainer.Dock = DockStyle.Fill;
+            this._formContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 280F));
             this._formContainer.Name = "_formContainer";
-            this._formContainer.Padding = new Padding(45, 50, 40, 20);
-            this._formContainer.Controls.Add(this._welcomeLabel);
-            this._formContainer.Controls.Add(this._welcomeSubtitleLabel);
-            this._formContainer.Controls.Add(this._bancoHeaderPanel);
-            this._formContainer.Controls.Add(this._profilesComboBox);
-            this._formContainer.Controls.Add(this._userLabel);
-            this._formContainer.Controls.Add(this._userHostPanel);
-            this._formContainer.Controls.Add(this._passwordLabel);
-            this._formContainer.Controls.Add(this._passwordHostPanel);
-            this._formContainer.Controls.Add(this._statusLabel);
-            this._formContainer.Controls.Add(this._loginButton);
-            this._formContainer.Controls.Add(this._secondaryButtonsLayout);
+            this._formContainer.Padding = new Padding(0);
+            this._formContainer.RowCount = 11;
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle(SizeType.Absolute, 1F));
+            this._formContainer.Size = new Size(280, 308);
+            this._formContainer.Location = new Point(90, 99);
+            this._formContainer.Controls.Add(this._welcomeLabel, 0, 0);
+            this._formContainer.Controls.Add(this._welcomeSubtitleLabel, 0, 1);
+            this._formContainer.Controls.Add(this._bancoHeaderPanel, 0, 2);
+            this._formContainer.Controls.Add(this._profilesComboBox, 0, 3);
+            this._formContainer.Controls.Add(this._userLabel, 0, 4);
+            this._formContainer.Controls.Add(this._userHostPanel, 0, 5);
+            this._formContainer.Controls.Add(this._passwordLabel, 0, 6);
+            this._formContainer.Controls.Add(this._passwordHostPanel, 0, 7);
+            this._formContainer.Controls.Add(this._statusLabel, 0, 8);
+            this._formContainer.Controls.Add(this._loginButton, 0, 9);
+            this._formContainer.Controls.Add(this._secondaryButtonsLayout, 0, 10);
 
             // _welcomeLabel
+            this._welcomeLabel.Anchor = AnchorStyles.Left;
             this._welcomeLabel.AutoSize = true;
             this._welcomeLabel.BackColor = Color.White;
             this._welcomeLabel.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
@@ -184,6 +237,7 @@ namespace BRCSISTEM.Desktop.Views
             this._welcomeLabel.Text = "Bem-vindo!";
 
             // _welcomeSubtitleLabel
+            this._welcomeSubtitleLabel.Anchor = AnchorStyles.Left;
             this._welcomeSubtitleLabel.AutoSize = true;
             this._welcomeSubtitleLabel.BackColor = Color.White;
             this._welcomeSubtitleLabel.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular);
@@ -193,6 +247,7 @@ namespace BRCSISTEM.Desktop.Views
             this._welcomeSubtitleLabel.Text = "Faca login para acessar o sistema";
 
             // _bancoHeaderPanel
+            this._bancoHeaderPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._bancoHeaderPanel.BackColor = Color.White;
             this._bancoHeaderPanel.Margin = new Padding(0, 0, 0, 4);
             this._bancoHeaderPanel.Name = "_bancoHeaderPanel";
@@ -244,6 +299,7 @@ namespace BRCSISTEM.Desktop.Views
             this._configIconButton.Cursor = Cursors.Hand;
 
             // _profilesComboBox
+            this._profilesComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._profilesComboBox.BackColor = Color.FromArgb(248, 249, 250);
             this._profilesComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             this._profilesComboBox.FlatStyle = FlatStyle.Flat;
@@ -255,6 +311,7 @@ namespace BRCSISTEM.Desktop.Views
             this._profilesComboBox.Format += LoginForm.OnProfileFormat;
 
             // _userLabel
+            this._userLabel.Anchor = AnchorStyles.Left;
             this._userLabel.AutoSize = true;
             this._userLabel.BackColor = Color.White;
             this._userLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -264,12 +321,13 @@ namespace BRCSISTEM.Desktop.Views
             this._userLabel.Text = "Usuario";
 
             // _userHostPanel
+            this._userHostPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._userHostPanel.BackColor = Color.FromArgb(248, 249, 250);
             this._userHostPanel.BorderStyle = BorderStyle.FixedSingle;
             this._userHostPanel.Margin = new Padding(0, 0, 0, 14);
             this._userHostPanel.Name = "_userHostPanel";
             this._userHostPanel.Padding = new Padding(10, 8, 10, 6);
-            this._userHostPanel.Size = new Size(280, 34);
+            this._userHostPanel.Size = new Size(280, 38);
             this._userHostPanel.Controls.Add(this._userNameTextBox);
 
             // _userNameTextBox
@@ -281,6 +339,7 @@ namespace BRCSISTEM.Desktop.Views
             this._userNameTextBox.Name = "_userNameTextBox";
 
             // _passwordLabel
+            this._passwordLabel.Anchor = AnchorStyles.Left;
             this._passwordLabel.AutoSize = true;
             this._passwordLabel.BackColor = Color.White;
             this._passwordLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -290,12 +349,13 @@ namespace BRCSISTEM.Desktop.Views
             this._passwordLabel.Text = "Senha";
 
             // _passwordHostPanel
+            this._passwordHostPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._passwordHostPanel.BackColor = Color.FromArgb(248, 249, 250);
             this._passwordHostPanel.BorderStyle = BorderStyle.FixedSingle;
             this._passwordHostPanel.Margin = new Padding(0, 0, 0, 14);
             this._passwordHostPanel.Name = "_passwordHostPanel";
             this._passwordHostPanel.Padding = new Padding(10, 8, 10, 6);
-            this._passwordHostPanel.Size = new Size(280, 34);
+            this._passwordHostPanel.Size = new Size(280, 38);
             this._passwordHostPanel.Controls.Add(this._passwordTextBox);
 
             // _passwordTextBox
@@ -308,6 +368,7 @@ namespace BRCSISTEM.Desktop.Views
             this._passwordTextBox.UseSystemPasswordChar = true;
 
             // _statusLabel
+            this._statusLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._statusLabel.BackColor = Color.White;
             this._statusLabel.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             this._statusLabel.ForeColor = Color.FromArgb(220, 53, 69);
@@ -318,6 +379,7 @@ namespace BRCSISTEM.Desktop.Views
             this._statusLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // _loginButton
+            this._loginButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._loginButton.BackColor = Color.FromArgb(27, 54, 93);
             this._loginButton.Cursor = Cursors.Hand;
             this._loginButton.FlatAppearance.BorderSize = 0;
@@ -332,6 +394,7 @@ namespace BRCSISTEM.Desktop.Views
             this._loginButton.UseVisualStyleBackColor = false;
 
             // _secondaryButtonsLayout
+            this._secondaryButtonsLayout.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._secondaryButtonsLayout.BackColor = Color.White;
             this._secondaryButtonsLayout.ColumnCount = 2;
             this._secondaryButtonsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
@@ -389,9 +452,12 @@ namespace BRCSISTEM.Desktop.Views
 
             ((ISupportInitialize)this._logoPictureBox).EndInit();
             this._leftPanel.ResumeLayout(false);
-            this._leftPanel.PerformLayout();
+            this._leftContentLayout.ResumeLayout(false);
+            this._leftContentLayout.PerformLayout();
             this._rightPanel.ResumeLayout(false);
             this._footerPanel.ResumeLayout(false);
+            this._rightContentPanel.ResumeLayout(false);
+            this._rightContentPanel.PerformLayout();
             this._formContainer.ResumeLayout(false);
             this._formContainer.PerformLayout();
             this._bancoHeaderPanel.ResumeLayout(false);
@@ -406,6 +472,7 @@ namespace BRCSISTEM.Desktop.Views
         #endregion
 
         private Panel _leftPanel;
+        private TableLayoutPanel _leftContentLayout;
         private PictureBox _logoPictureBox;
         private Label _brandingTitleLabel;
         private Label _brandingSubtitleLabel;
@@ -415,6 +482,7 @@ namespace BRCSISTEM.Desktop.Views
         private Panel _rightPanel;
         private Panel _footerPanel;
         private Label _footerLabel;
+        private Panel _rightContentPanel;
         private TableLayoutPanel _formContainer;
         private Label _welcomeLabel;
         private Label _welcomeSubtitleLabel;

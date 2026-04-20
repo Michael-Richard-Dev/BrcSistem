@@ -76,6 +76,8 @@ namespace BRCSISTEM.Desktop.Views
         private void WireEvents()
         {
             Load += OnLoad;
+            _leftPanel.Resize += LeftPanel_Resize;
+            _rightContentPanel.Resize += RightContentPanel_Resize;
             _cacheIconButton.Click += CacheIconButton_Click;
             _configIconButton.Click += OpenProfilesManager;
             _loginButton.Click += LoginButton_Click;
@@ -95,6 +97,9 @@ namespace BRCSISTEM.Desktop.Views
 
             _logoPictureBox.Image = TryLoadLogo();
             _logoPictureBox.Visible = _logoPictureBox.Image != null;
+
+            CenterLeftContent();
+            CenterFormContent();
         }
 
         private Image TryLoadLogo()
@@ -150,6 +155,16 @@ namespace BRCSISTEM.Desktop.Views
         private void CacheIconButton_Click(object sender, EventArgs e)
         {
             LoadConfiguration();
+        }
+
+        private void LeftPanel_Resize(object sender, EventArgs e)
+        {
+            CenterLeftContent();
+        }
+
+        private void RightContentPanel_Resize(object sender, EventArgs e)
+        {
+            CenterFormContent();
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -329,6 +344,30 @@ namespace BRCSISTEM.Desktop.Views
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Close();
+        }
+
+        private void CenterLeftContent()
+        {
+            if (_leftContentLayout == null || _leftContentLayout.IsDisposed)
+            {
+                return;
+            }
+
+            var left = (_leftPanel.ClientSize.Width - _leftContentLayout.Width) / 2;
+            var top = (_leftPanel.ClientSize.Height - _leftContentLayout.Height) / 2;
+            _leftContentLayout.Location = new Point(Math.Max(0, left), Math.Max(24, top));
+        }
+
+        private void CenterFormContent()
+        {
+            if (_formContainer == null || _formContainer.IsDisposed)
+            {
+                return;
+            }
+
+            var left = (_rightContentPanel.ClientSize.Width - _formContainer.Width) / 2;
+            var top = (_rightContentPanel.ClientSize.Height - _formContainer.Height) / 2;
+            _formContainer.Location = new Point(Math.Max(24, left), Math.Max(24, top));
         }
 
         private static void OnProfileFormat(object sender, ListControlConvertEventArgs e)
