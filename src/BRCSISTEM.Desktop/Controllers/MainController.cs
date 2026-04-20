@@ -9,11 +9,13 @@ namespace BRCSISTEM.Desktop.Controllers
     {
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
+        private readonly MainSidebarService _mainSidebarService;
 
-        public MainController(ModuleCatalogService moduleCatalogService, SessionStateService sessionStateService)
+        public MainController(ModuleCatalogService moduleCatalogService, SessionStateService sessionStateService, MainSidebarService mainSidebarService)
         {
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
+            _mainSidebarService = mainSidebarService;
         }
 
         public ModuleDefinition[] LoadModules(UserIdentity identity)
@@ -29,6 +31,11 @@ namespace BRCSISTEM.Desktop.Controllers
             }
 
             return _sessionStateService.Load(identity.UserName);
+        }
+
+        public MainSidebarSnapshot LoadSidebarSnapshot(AppConfiguration configuration, DatabaseProfile profile)
+        {
+            return _mainSidebarService.LoadSnapshot(configuration, profile);
         }
 
         public void RegisterModuleOpen(UserIdentity identity, ModuleDefinition module)

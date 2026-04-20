@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
@@ -28,8 +29,9 @@ namespace BRCSISTEM.Desktop.Views
         private readonly MainController _mainController;
         private readonly UserIdentity _identity;
         private readonly DatabaseProfile _databaseProfile;
+        private readonly AppConfiguration _configuration;
 
-        private ListBox _recentModulesListBox;
+        private FlowLayoutPanel _sidebarContentFlow;
         private Label _footerDateLabel;
         private Timer _footerDateTimer;
 
@@ -39,10 +41,11 @@ namespace BRCSISTEM.Desktop.Views
             _mainController = compositionRoot.CreateMainController();
             _identity = identity;
             _databaseProfile = databaseProfile;
+            _configuration = compositionRoot.CreateConfigurationController().LoadConfiguration();
 
             InitializeComponent();
             BuildMenus();
-            LoadRecentModules();
+            RefreshSidebar();
         }
 
         private void InitializeComponent()
@@ -104,7 +107,7 @@ namespace BRCSISTEM.Desktop.Views
             sidebar.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             sidebar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-            // Conteudo com scroll (unica secao funcional portada: "Ultimos Modulos Abertos")
+            // Conteudo com scroll equivalente ao SidebarIndicadores do Python.
             var content = new Panel
             {
                 Dock         = DockStyle.Fill,
@@ -113,30 +116,18 @@ namespace BRCSISTEM.Desktop.Views
                 Padding      = new Padding(0, 4, 0, 4),
             };
 
-            var section = BuildSidebarSection("Ultimos Modulos Abertos");
-            section.Dock = DockStyle.Top;
-            content.Controls.Add(section);
-
-            _recentModulesListBox = new ListBox
+            _sidebarContentFlow = new FlowLayoutPanel
             {
-                Dock         = DockStyle.Top,
-                Height       = 220,
-                BorderStyle  = BorderStyle.None,
-                Font         = new Font("Segoe UI", 9F),
-                BackColor    = ColorSidebarBg,
-                ForeColor    = Color.FromArgb(93, 109, 126), // #5d6d7e
-                Margin       = new Padding(10, 0, 10, 6),
-                IntegralHeight = false,
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                BackColor = ColorSidebarBg,
+                Margin = new Padding(0),
+                Padding = new Padding(0),
             };
-            _recentModulesListBox.DoubleClick += (sender, args) => ReopenSelectedModule();
-            var listWrapper = new Panel { Dock = DockStyle.Top, Height = 220, BackColor = ColorSidebarBg, Padding = new Padding(10, 0, 10, 6) };
-            listWrapper.Controls.Add(_recentModulesListBox);
-            _recentModulesListBox.Dock = DockStyle.Fill;
-            content.Controls.Add(listWrapper);
-
-            // Ordem invertida porque Dock=Top em Panel renderiza do primeiro para o ultimo
-            content.Controls.SetChildIndex(section, 0);
-            content.Controls.SetChildIndex(listWrapper, 1);
+            content.Controls.Add(_sidebarContentFlow);
 
             sidebar.Controls.Add(content, 0, 0);
 
@@ -160,7 +151,7 @@ namespace BRCSISTEM.Desktop.Views
                 Anchor    = AnchorStyles.Top,
             };
             refreshButton.FlatAppearance.BorderSize = 0;
-            refreshButton.Click += (sender, args) => LoadRecentModules();
+            refreshButton.Click += (sender, args) => RefreshSidebar();
             // Centraliza horizontalmente
             sidebarFooter.Resize += (sender, args) =>
             {
@@ -210,6 +201,269 @@ namespace BRCSISTEM.Desktop.Views
             holder.Controls.Add(label,     0, 0);
             holder.Controls.Add(separator, 0, 1);
             return holder;
+        }
+
+        private void RefreshSidebar()
+        {
+            if (_sidebarContentFlow == null || _sidebarContentFlow.IsDisposed)
+            {
+                return;
+            }
+
+            _sidebarContentFlow.SuspendLayout();
+            try
+            {
+                _sidebarContentFlow.Controls.Clear();
+
+                var snapshot = _mainController.LoadSidebarSnapshot(_configuration, _databaseProfile);
+                BuildFifoSection(snapshot);
+                BuildCadastrosSection(snapshot);
+                BuildVolumeEstoqueSection(snapshot);
+                BuildAuditoriaSection(snapshot);
+                BuildUsuariosSection(snapshot);
+            }
+            catch (Exception ex)
+            {
+                _sidebarContentFlow.Controls.Clear();
+                _sidebarContentFlow.Controls.Add(BuildSidebarSection("Indicadores"));
+                _sidebarContentFlow.Controls.Add(CreateSidebarText("Erro: " + ShortenText(ex.Message, 80), Color.FromArgb(231, 76, 60), false, new Padding(10, 0, 10, 6)));
+            }
+            finally
+            {
+                _sidebarContentFlow.ResumeLayout(true);
+            }
+        }
+
+        private void BuildFifoSection(MainSidebarSnapshot snapshot)
+        {
+            _sidebarContentFlow.Controls.Add(BuildSidebarSection(" FIFO - Vencimento 60 dias"));
+            if (snapshot.FifoEntries == null || snapshot.FifoEntries.Length == 0)
+            {
+                _sidebarContentFlow.Controls.Add(CreateSidebarText(" Sem lotes criticos", Color.FromArgb(39, 174, 96), false, new Padding(10, 0, 10, 4)));
+                return;
+            }
+
+            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Lote", "Material", "Val", "Saldo" }, new[] { 39F, 29F, 14F, 18F }));
+            foreach (var entry in snapshot.FifoEntries)
+            {
+                var lot = entry.LotCode ?? string.Empty;
+                if (!string.IsNullOrWhiteSpace(entry.LotName))
+                {
+                    lot += " - " + ShortenText(entry.LotName, 15);
+                }
+
+                _sidebarContentFlow.Controls.Add(CreateTableRow(
+                    new[]
+                    {
+                        ShortenText(lot, 11),
+                        ShortenText(entry.Material, 9),
+                        ShortenText(entry.ExpirationDate, 9),
+                        FormatInteger(entry.Balance),
+                    },
+                    new[] { 39F, 29F, 14F, 18F }));
+            }
+        }
+
+        private void BuildCadastrosSection(MainSidebarSnapshot snapshot)
+        {
+            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Cadastros"));
+            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Tabela", "Ativo", "Inativo", "Total", "BRC" }, new[] { 34F, 16.5F, 16.5F, 16.5F, 16.5F }));
+            foreach (var row in snapshot.CadastroRows ?? new MainSidebarCadastroRow[0])
+            {
+                _sidebarContentFlow.Controls.Add(CreateTableRow(
+                    new[]
+                    {
+                        ShortenText(row.TableName, 11),
+                        row.ActiveCount.ToString(CultureInfo.InvariantCulture),
+                        row.InactiveCount.ToString(CultureInfo.InvariantCulture),
+                        row.TotalCount.ToString(CultureInfo.InvariantCulture),
+                        row.BrcCount.HasValue ? row.BrcCount.Value.ToString(CultureInfo.InvariantCulture) : "-",
+                    },
+                    new[] { 34F, 16.5F, 16.5F, 16.5F, 16.5F }));
+            }
+        }
+
+        private void BuildVolumeEstoqueSection(MainSidebarSnapshot snapshot)
+        {
+            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Volume Estoque"));
+            if (snapshot.VolumeRows == null || snapshot.VolumeRows.Length == 0)
+            {
+                _sidebarContentFlow.Controls.Add(CreateSidebarText("Sem estoque", Color.FromArgb(93, 109, 126), false, new Padding(10, 0, 10, 4)));
+                return;
+            }
+
+            foreach (var row in snapshot.VolumeRows)
+            {
+                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                    ShortenText(row.WarehouseDisplay, 34),
+                    FormatInteger(row.Volume),
+                    ColorTextDark,
+                    ColorSidebarBg,
+                    false));
+            }
+        }
+
+        private void BuildAuditoriaSection(MainSidebarSnapshot snapshot)
+        {
+            _sidebarContentFlow.Controls.Add(BuildSidebarSection(" Auditoria"));
+            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Auditoria", "Qtd" }, new[] { 74F, 26F }));
+            foreach (var row in snapshot.AuditRows ?? new MainSidebarAuditRow[0])
+            {
+                var hasAlert = row.Count > 0;
+                var backColor = hasAlert ? Color.FromArgb(255, 243, 205) : ColorSidebarBg;
+                var foreColor = hasAlert ? Color.FromArgb(138, 109, 59) : Color.FromArgb(39, 174, 96);
+                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                    ShortenText(row.Label, 24),
+                    row.Count.ToString(CultureInfo.InvariantCulture),
+                    foreColor,
+                    backColor,
+                    true));
+            }
+        }
+
+        private void BuildUsuariosSection(MainSidebarSnapshot snapshot)
+        {
+            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Usuarios e Acessos"));
+            _sidebarContentFlow.Controls.Add(CreateValueRow("Total ativos:", snapshot.ActiveUsersCount.ToString(CultureInfo.InvariantCulture), ColorTextDark, ColorSidebarBg, false));
+
+            if (snapshot.RecentAccesses == null || snapshot.RecentAccesses.Length == 0)
+            {
+                _sidebarContentFlow.Controls.Add(CreateSidebarText("Sem registros de acesso", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 4)));
+                return;
+            }
+
+            _sidebarContentFlow.Controls.Add(CreateSidebarText("Ultimos acessos por usuario:", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 2)));
+            foreach (var access in snapshot.RecentAccesses)
+            {
+                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                    "  " + ShortenText(access.UserName, 32),
+                    access.LastAccessText ?? "-",
+                    ColorTextDark,
+                    ColorSidebarBg,
+                    false));
+            }
+        }
+
+        private Control CreateSidebarText(string text, Color color, bool bold, Padding margin)
+        {
+            return new Label
+            {
+                AutoSize = true,
+                MaximumSize = new Size(280, 0),
+                Text = text,
+                Font = new Font("Segoe UI", 8F, bold ? FontStyle.Bold : FontStyle.Regular),
+                ForeColor = color,
+                BackColor = ColorSidebarBg,
+                Margin = margin,
+                Padding = new Padding(0),
+            };
+        }
+
+        private Control CreateValueRow(string labelText, string valueText, Color valueColor, Color backColor, bool boldValue)
+        {
+            var row = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 2,
+                BackColor = backColor,
+                Margin = new Padding(10, 1, 10, 1),
+                Padding = new Padding(0),
+                Width = 270,
+                MinimumSize = new Size(270, 0),
+                MaximumSize = new Size(270, 200),
+            };
+            row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68F));
+            row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
+
+            row.Controls.Add(new Label
+            {
+                AutoSize = true,
+                Text = labelText,
+                Font = new Font("Segoe UI", 8F),
+                ForeColor = Color.FromArgb(93, 109, 126),
+                BackColor = backColor,
+                Margin = new Padding(0),
+                Anchor = AnchorStyles.Left,
+            }, 0, 0);
+
+            row.Controls.Add(new Label
+            {
+                AutoSize = true,
+                Text = valueText,
+                Font = new Font("Segoe UI", 8F, boldValue ? FontStyle.Bold : FontStyle.Regular),
+                ForeColor = valueColor,
+                BackColor = backColor,
+                Margin = new Padding(0),
+                Anchor = AnchorStyles.Right,
+            }, 1, 0);
+
+            return row;
+        }
+
+        private Control CreateTableHeader(string[] values, float[] widths)
+        {
+            return CreateTableRow(values, widths, true);
+        }
+
+        private Control CreateTableRow(string[] values, float[] widths)
+        {
+            return CreateTableRow(values, widths, false);
+        }
+
+        private Control CreateTableRow(string[] values, float[] widths, bool header)
+        {
+            var row = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = values.Length,
+                BackColor = ColorSidebarBg,
+                Margin = header ? new Padding(10, 5, 10, 2) : new Padding(10, 0, 10, 0),
+                Padding = new Padding(0),
+                Width = 270,
+                MinimumSize = new Size(270, 0),
+                MaximumSize = new Size(270, 200),
+            };
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, widths[i]));
+                row.Controls.Add(new Label
+                {
+                    AutoSize = true,
+                    Text = values[i],
+                    Font = new Font("Segoe UI", header ? 7F : 7.5F, header ? FontStyle.Bold : FontStyle.Regular),
+                    ForeColor = header ? ColorTextDark : Color.FromArgb(93, 109, 126),
+                    BackColor = ColorSidebarBg,
+                    Margin = new Padding(0),
+                    Anchor = i == 0 ? AnchorStyles.Left : AnchorStyles.None,
+                    TextAlign = i == 0 ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter,
+                }, i, 0);
+            }
+
+            return row;
+        }
+
+        private static string ShortenText(string value, int maxLength)
+        {
+            var text = value ?? string.Empty;
+            if (text.Length <= maxLength)
+            {
+                return text;
+            }
+
+            if (maxLength <= 3)
+            {
+                return text.Substring(0, maxLength);
+            }
+
+            return text.Substring(0, maxLength - 3) + "...";
+        }
+
+        private static string FormatInteger(decimal value)
+        {
+            return value.ToString("#,0", CultureInfo.InvariantCulture).Replace(",", ".");
         }
 
         // ── Rodape azul (Python: utils/ui.adicionar_rodape) ──────────────────
@@ -759,25 +1013,7 @@ namespace BRCSISTEM.Desktop.Views
                 }
             }
 
-            LoadRecentModules();
-        }
-
-        private void ReopenSelectedModule()
-        {
-            // Equivalente a um double-click numa linha da sidebar: apenas recarrega visualmente
-            // (Python nao tem esta lista no sidebar; mantido so para nao quebrar comportamento antigo).
-            LoadRecentModules();
-        }
-
-        private void LoadRecentModules()
-        {
-            if (_recentModulesListBox == null)
-            {
-                return;
-            }
-            var session = _mainController.LoadSession(_identity);
-            var items = session.OpenModules.Select(item => item.Title ?? item.ModuleKey).ToArray();
-            _recentModulesListBox.DataSource = items.Length > 0 ? items : new[] { "(nenhum modulo recente)" };
+            RefreshSidebar();
         }
     }
 }

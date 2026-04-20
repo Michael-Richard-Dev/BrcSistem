@@ -27,6 +27,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
         private readonly StockTransferReportService _stockTransferReportService;
         private readonly StockSummaryService _stockSummaryService;
         private readonly StockMovementReportService _stockMovementReportService;
+        private readonly MainSidebarService _mainSidebarService;
         private readonly ModuleCatalogService _moduleCatalogService;
         private readonly SessionStateService _sessionStateService;
         private readonly DatabaseMaintenanceService _databaseMaintenanceService;
@@ -48,6 +49,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             StockTransferReportService stockTransferReportService,
             StockSummaryService stockSummaryService,
             StockMovementReportService stockMovementReportService,
+            MainSidebarService mainSidebarService,
             ModuleCatalogService moduleCatalogService,
             SessionStateService sessionStateService,
             DatabaseMaintenanceService databaseMaintenanceService)
@@ -68,6 +70,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             _stockTransferReportService = stockTransferReportService;
             _stockSummaryService = stockSummaryService;
             _stockMovementReportService = stockMovementReportService;
+            _mainSidebarService = mainSidebarService;
             _moduleCatalogService = moduleCatalogService;
             _sessionStateService = sessionStateService;
             _databaseMaintenanceService = databaseMaintenanceService;
@@ -95,6 +98,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
             var stockTransferReportGateway = new PostgreSqlStockTransferReportGateway(connectionFactory);
             var stockSummaryGateway = new PostgreSqlStockSummaryGateway(connectionFactory);
             var stockMovementReportGateway = new PostgreSqlStockMovementReportGateway(connectionFactory);
+            var mainSidebarGateway = new PostgreSqlMainSidebarGateway(connectionFactory);
             var auditTrailService = new PostgreSqlAuditTrailService(connectionFactory);
             var sessionStore = new JsonSessionStateStore(Path.Combine(configDirectory, "session_state.json"));
             var databaseMaintenanceGateway = new PostgreSqlDatabaseMaintenanceGateway(connectionFactory);
@@ -116,6 +120,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
                 new StockTransferReportService(masterDataGateway, stockTransferReportGateway, auditTrailService),
                 new StockSummaryService(stockSummaryGateway, auditTrailService),
                 new StockMovementReportService(stockMovementReportGateway, auditTrailService),
+                new MainSidebarService(mainSidebarGateway),
                 new ModuleCatalogService(),
                 new SessionStateService(sessionStore),
                 new DatabaseMaintenanceService(databaseMaintenanceGateway, auditTrailService));
@@ -133,7 +138,7 @@ namespace BRCSISTEM.Desktop.Bootstrap
 
         public MainController CreateMainController()
         {
-            return new MainController(_moduleCatalogService, _sessionStateService);
+            return new MainController(_moduleCatalogService, _sessionStateService, _mainSidebarService);
         }
 
         public AdministrationController CreateAdministrationController()
