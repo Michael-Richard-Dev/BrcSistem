@@ -17,7 +17,6 @@ namespace BRCSISTEM.Desktop.Views
                 _configuration = _configurationController.LoadConfiguration();
                 _configuration.Normalize();
                 _permissions = _inventoryController.ResolvePermissions(_identity);
-                ReloadAllReferences(null, null, null);
                 ClearForm(confirm: false, releaseLock: true, regenerateNumber: true);
             }
             catch (Exception exception)
@@ -36,11 +35,40 @@ namespace BRCSISTEM.Desktop.Views
                 lotCode = lotCode ?? GetSelectedCode(_lotComboBox);
 
                 _warehouseOptions = ToLookupOptions(_inventoryController.LoadWarehousesForUser(_configuration, _databaseProfile, _identity.UserName));
-                _materialOptions = ToLookupOptions(_inventoryController.LoadMaterialsByWarehouse(_configuration, _databaseProfile, warehouseCode, _createdTextBox?.Text, _onlyBrcCheckBox?.Checked ?? false));
-                _lotOptions = ToLookupOptions(_inventoryController.LoadLotsByWarehouseAndMaterial(_configuration, _databaseProfile, warehouseCode, materialCode, _createdTextBox?.Text));
-
                 BindCombo(_warehouseComboBox, _warehouseOptions, warehouseCode);
+
+                warehouseCode = GetSelectedCode(_warehouseComboBox);
+                if (string.IsNullOrWhiteSpace(warehouseCode))
+                {
+                    _materialOptions = Array.Empty<LookupOption>();
+                    _lotOptions = Array.Empty<LookupOption>();
+                    BindCombo(_materialComboBox, _materialOptions, null);
+                    BindCombo(_lotComboBox, _lotOptions, null);
+                    return;
+                }
+
+                _materialOptions = ToLookupOptions(_inventoryController.LoadMaterialsByWarehouse(
+                    _configuration,
+                    _databaseProfile,
+                    warehouseCode,
+                    _createdTextBox?.Text,
+                    _onlyBrcCheckBox?.Checked ?? false));
                 BindCombo(_materialComboBox, _materialOptions, materialCode);
+
+                materialCode = GetSelectedCode(_materialComboBox);
+                if (string.IsNullOrWhiteSpace(materialCode))
+                {
+                    _lotOptions = Array.Empty<LookupOption>();
+                    BindCombo(_lotComboBox, _lotOptions, null);
+                    return;
+                }
+
+                _lotOptions = ToLookupOptions(_inventoryController.LoadLotsByWarehouseAndMaterial(
+                    _configuration,
+                    _databaseProfile,
+                    warehouseCode,
+                    materialCode,
+                    _createdTextBox?.Text));
                 BindCombo(_lotComboBox, _lotOptions, lotCode);
             }
             finally
@@ -60,6 +88,17 @@ namespace BRCSISTEM.Desktop.Views
         {
             var warehouseCode = GetSelectedCode(_warehouseComboBox);
             var selectedMaterial = GetSelectedCode(_materialComboBox);
+
+            if (string.IsNullOrWhiteSpace(warehouseCode))
+            {
+                _materialOptions = Array.Empty<LookupOption>();
+                BindCombo(_materialComboBox, _materialOptions, null);
+                _lotOptions = Array.Empty<LookupOption>();
+                BindCombo(_lotComboBox, _lotOptions, null);
+                UpdateStockIndicator();
+                return;
+            }
+
             _materialOptions = ToLookupOptions(_inventoryController.LoadMaterialsByWarehouse(_configuration, _databaseProfile, warehouseCode, _createdTextBox.Text, _onlyBrcCheckBox.Checked));
             BindCombo(_materialComboBox, _materialOptions, selectedMaterial);
             ReloadLots();
@@ -70,6 +109,15 @@ namespace BRCSISTEM.Desktop.Views
             var warehouseCode = GetSelectedCode(_warehouseComboBox);
             var materialCode = GetSelectedCode(_materialComboBox);
             var selectedLot = GetSelectedCode(_lotComboBox);
+
+            if (string.IsNullOrWhiteSpace(warehouseCode) || string.IsNullOrWhiteSpace(materialCode))
+            {
+                _lotOptions = Array.Empty<LookupOption>();
+                BindCombo(_lotComboBox, _lotOptions, null);
+                UpdateStockIndicator();
+                return;
+            }
+
             _lotOptions = ToLookupOptions(_inventoryController.LoadLotsByWarehouseAndMaterial(_configuration, _databaseProfile, warehouseCode, materialCode, _createdTextBox.Text));
             BindCombo(_lotComboBox, _lotOptions, selectedLot);
             UpdateStockIndicator();
