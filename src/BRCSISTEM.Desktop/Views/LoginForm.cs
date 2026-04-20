@@ -51,7 +51,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             Text = AppName + " " + AppVersion + " - Acesso ao Sistema";
             StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(740, 470);
+            ClientSize = new Size(820, 540);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             BackColor = CinzaClaro;
@@ -68,7 +68,7 @@ namespace BRCSISTEM.Desktop.Views
             var left = new Panel
             {
                 Dock = DockStyle.Left,
-                Width = 320,
+                Width = 360,
                 BackColor = AzulPrincipal,
             };
 
@@ -87,7 +87,7 @@ namespace BRCSISTEM.Desktop.Views
                 {
                     Image = logoImage,
                     SizeMode = PictureBoxSizeMode.Zoom,
-                    Size = new Size(80, 80),
+                    Size = new Size(96, 96),
                     BackColor = AzulPrincipal,
                     Margin = new Padding(0, 0, 0, 15),
                     Anchor = AnchorStyles.None,
@@ -100,7 +100,7 @@ namespace BRCSISTEM.Desktop.Views
                 Text = AppName,
                 ForeColor = Branco,
                 BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 22F, FontStyle.Bold),
                 Anchor = AnchorStyles.None,
                 Margin = new Padding(0, 0, 0, 5),
             });
@@ -111,7 +111,7 @@ namespace BRCSISTEM.Desktop.Views
                 Text = "Sistema de Controle de Estoque",
                 ForeColor = AzulClaro,
                 BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 11F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 12F, FontStyle.Regular),
                 Anchor = AnchorStyles.None,
                 Margin = new Padding(0, 0, 0, 3),
             });
@@ -122,7 +122,7 @@ namespace BRCSISTEM.Desktop.Views
                 Text = "Versao v3.1.20",
                 ForeColor = AzulClaro,
                 BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Regular),
                 Anchor = AnchorStyles.None,
                 Margin = new Padding(0, 0, 0, 15),
             });
@@ -130,7 +130,7 @@ namespace BRCSISTEM.Desktop.Views
             content.Controls.Add(new Panel
             {
                 Height = 2,
-                Width = 150,
+                Width = 170,
                 BackColor = Dourado,
                 Anchor = AnchorStyles.None,
                 Margin = new Padding(0, 0, 0, 12),
@@ -145,7 +145,7 @@ namespace BRCSISTEM.Desktop.Views
                        "- Acesso Seguro e Auditado",
                 ForeColor = AzulClaro,
                 BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 10F, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Anchor = AnchorStyles.None,
                 Margin = new Padding(0),
@@ -178,7 +178,7 @@ namespace BRCSISTEM.Desktop.Views
             var footer = new Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 30,
+                Height = 34,
                 BackColor = CinzaClaro,
             };
             footer.Controls.Add(new Label
@@ -186,7 +186,7 @@ namespace BRCSISTEM.Desktop.Views
                 Text = " 2025 " + AppName + " - Todos os direitos reservados ",
                 ForeColor = CinzaEscuro,
                 BackColor = CinzaClaro,
-                Font = new Font("Segoe UI", 8F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
                 AutoSize = false,
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -198,42 +198,42 @@ namespace BRCSISTEM.Desktop.Views
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 BackColor = Branco,
-                Padding = new Padding(35, 20, 35, 15),
+                Padding = new Padding(40, 28, 40, 20),
             };
-            const int fieldWidth = 240;
+            const int fieldWidth = 280;
 
             form.Controls.Add(new Label
             {
                 AutoSize = true,
                 Text = "Bem-vindo!",
-                Font = new Font("Segoe UI", 18F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
                 ForeColor = AzulPrincipal,
                 BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 3),
+                Margin = new Padding(0, 0, 0, 4),
             });
             form.Controls.Add(new Label
             {
                 AutoSize = true,
                 Text = "Faca login para acessar o sistema",
-                Font = new Font("Segoe UI", 10F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 10.5F, FontStyle.Regular),
                 ForeColor = CinzaEscuro,
                 BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 22),
+                Margin = new Padding(0, 0, 0, 28),
             });
 
             var bancoHeader = new Panel
             {
                 Width = fieldWidth,
-                Height = 28,
+                Height = 30,
                 BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 2),
+                Margin = new Padding(0, 0, 0, 4),
             };
 
             var bancoLabel = new Label
             {
                 AutoSize = false,
-                Location = new Point(0, 5),
-                Size = new Size(fieldWidth - 64, 20),
+                Location = new Point(0, 6),
+                Size = new Size(fieldWidth - 68, 20),
                 Text = "Banco de Dados",
                 Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 ForeColor = AzulPrincipal,
@@ -243,12 +243,12 @@ namespace BRCSISTEM.Desktop.Views
             bancoHeader.Controls.Add(bancoLabel);
 
             var btnCache = BuildIconButton("\uD83E\uDDF9");
-            btnCache.Location = new Point(fieldWidth - 60, 2);
+            btnCache.Location = new Point(fieldWidth - 64, 3);
             btnCache.Click += (s, e) => LoadConfiguration();
             bancoHeader.Controls.Add(btnCache);
 
             var btnConfig = BuildIconButton("\u2699");
-            btnConfig.Location = new Point(fieldWidth - 30, 2);
+            btnConfig.Location = new Point(fieldWidth - 32, 3);
             btnConfig.Click += OpenProfilesManager;
             bancoHeader.Controls.Add(btnConfig);
 
@@ -262,7 +262,7 @@ namespace BRCSISTEM.Desktop.Views
                 FlatStyle = FlatStyle.Flat,
                 BackColor = CinzaClaro,
                 FormattingEnabled = true,
-                Margin = new Padding(0, 0, 0, 16),
+                Margin = new Padding(0, 0, 0, 20),
             };
             _profilesComboBox.Format += OnProfileFormat;
             form.Controls.Add(_profilesComboBox);
@@ -277,7 +277,7 @@ namespace BRCSISTEM.Desktop.Views
                 Margin = new Padding(0, 0, 0, 2),
             });
             var userHost = BuildFieldHost(fieldWidth, out _userNameTextBox);
-            userHost.Margin = new Padding(0, 0, 0, 12);
+            userHost.Margin = new Padding(0, 0, 0, 14);
             _userNameTextBox.KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -299,7 +299,7 @@ namespace BRCSISTEM.Desktop.Views
             });
             var passHost = BuildFieldHost(fieldWidth, out _passwordTextBox);
             _passwordTextBox.UseSystemPasswordChar = true;
-            passHost.Margin = new Padding(0, 0, 0, 10);
+            passHost.Margin = new Padding(0, 0, 0, 14);
             _passwordTextBox.KeyDown += (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -318,9 +318,9 @@ namespace BRCSISTEM.Desktop.Views
                 Text = string.Empty,
                 ForeColor = VermelhoErro,
                 BackColor = Branco,
-                Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
-                Margin = new Padding(0, 0, 0, 10),
+                Margin = new Padding(0, 0, 0, 14),
             };
             form.Controls.Add(_statusLabel);
 
@@ -328,8 +328,8 @@ namespace BRCSISTEM.Desktop.Views
             {
                 Text = "ACESSAR SISTEMA",
                 Width = fieldWidth,
-                Height = 34,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                Height = 40,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                 BackColor = AzulPrincipal,
                 ForeColor = Branco,
                 FlatStyle = FlatStyle.Flat,
@@ -339,7 +339,7 @@ namespace BRCSISTEM.Desktop.Views
             _loginButton.FlatAppearance.BorderSize = 0;
             _loginButton.FlatAppearance.MouseOverBackColor = AzulSecundario;
             _loginButton.Click += (s, e) => TryLogin();
-            _loginButton.Margin = new Padding(0, 0, 0, 8);
+            _loginButton.Margin = new Padding(0, 0, 0, 10);
             form.Controls.Add(_loginButton);
 
             var secondaryButtons = new TableLayoutPanel
@@ -347,9 +347,9 @@ namespace BRCSISTEM.Desktop.Views
                 ColumnCount = 2,
                 RowCount = 1,
                 Width = fieldWidth,
-                Height = 30,
+                Height = 34,
                 BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 10),
+                Margin = new Padding(0, 0, 0, 12),
             };
             secondaryButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             secondaryButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
@@ -412,10 +412,10 @@ namespace BRCSISTEM.Desktop.Views
             var host = new Panel
             {
                 Width = width,
-                Height = 30,
+                Height = 34,
                 BackColor = CinzaClaro,
                 BorderStyle = BorderStyle.FixedSingle,
-                Padding = new Padding(8, 6, 8, 4),
+                Padding = new Padding(10, 8, 10, 6),
             };
 
             textBox = new TextBox
@@ -438,12 +438,12 @@ namespace BRCSISTEM.Desktop.Views
             var btn = new Button
             {
                 Text = text,
-                Font = new Font("Segoe UI", 8F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
                 BackColor = CinzaMedio,
                 ForeColor = AzulPrincipal,
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand,
-                Height = 28,
+                Height = 32,
             };
             btn.FlatAppearance.BorderSize = 0;
             btn.FlatAppearance.MouseOverBackColor = CinzaEscuro;
