@@ -198,9 +198,9 @@ namespace BRCSISTEM.Desktop.Views
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 BackColor = Branco,
-                Padding = new Padding(35, 15, 35, 15),
+                Padding = new Padding(30, 15, 30, 15),
             };
-            const int fieldWidth = 320;
+            const int fieldWidth = 260;
 
             form.Controls.Add(new Label
             {
@@ -221,35 +221,22 @@ namespace BRCSISTEM.Desktop.Views
                 Margin = new Padding(0, 0, 0, 25),
             });
 
-            var bancoHeader = new TableLayoutPanel
+            var bancoHeader = new Panel
             {
-                ColumnCount = 2,
-                AutoSize = true,
-                BackColor = Branco,
                 Width = fieldWidth,
+                Height = 26,
+                BackColor = Branco,
                 Margin = new Padding(0, 0, 0, 2),
             };
-            bancoHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            bancoHeader.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            bancoHeader.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Banco de Dados",
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                ForeColor = AzulPrincipal,
-                BackColor = Branco,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Anchor = AnchorStyles.Left,
-                Margin = new Padding(0, 4, 0, 0),
-            }, 0, 0);
 
             var iconsPanel = new FlowLayoutPanel
             {
                 FlowDirection = FlowDirection.LeftToRight,
                 AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 BackColor = Branco,
                 Margin = new Padding(0),
-                Anchor = AnchorStyles.Right,
+                Dock = DockStyle.Right,
             };
             var btnCache = BuildIconButton("\uD83E\uDDF9");
             btnCache.Click += (s, e) => LoadConfiguration();
@@ -257,7 +244,20 @@ namespace BRCSISTEM.Desktop.Views
             btnConfig.Click += OpenProfilesManager;
             iconsPanel.Controls.Add(btnCache);
             iconsPanel.Controls.Add(btnConfig);
-            bancoHeader.Controls.Add(iconsPanel, 1, 0);
+            bancoHeader.Controls.Add(iconsPanel);
+
+            bancoHeader.Controls.Add(new Label
+            {
+                AutoSize = false,
+                Dock = DockStyle.Left,
+                Width = fieldWidth - 70,
+                Text = "Banco de Dados",
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                ForeColor = AzulPrincipal,
+                BackColor = Branco,
+                TextAlign = ContentAlignment.MiddleLeft,
+            });
+
             form.Controls.Add(bancoHeader);
 
             _profilesComboBox = new ComboBox
@@ -267,8 +267,10 @@ namespace BRCSISTEM.Desktop.Views
                 Font = new Font("Segoe UI", 9F),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = CinzaClaro,
-                Margin = new Padding(0, 0, 0, 12),
+                FormattingEnabled = true,
+                Margin = new Padding(0, 0, 0, 14),
             };
+            _profilesComboBox.Format += OnProfileFormat;
             form.Controls.Add(_profilesComboBox);
 
             form.Controls.Add(new Label
@@ -488,7 +490,7 @@ namespace BRCSISTEM.Desktop.Views
             _configuration = _configurationController.LoadConfiguration();
             var profiles = _configuration.GetOrderedProfiles().ToArray();
             _profilesComboBox.DataSource = profiles;
-            _profilesComboBox.DisplayMember = nameof(DatabaseProfile.DisplayName);
+            _profilesComboBox.DisplayMember = null;
             _profilesComboBox.ValueMember = nameof(DatabaseProfile.Id);
 
             if (profiles.Length > 0)
@@ -571,6 +573,19 @@ namespace BRCSISTEM.Desktop.Views
             mainForm.FormClosed += (sender, args) => Close();
             Hide();
             mainForm.Show();
+        }
+
+        private static void OnProfileFormat(object sender, ListControlConvertEventArgs e)
+        {
+            var profile = e.ListItem as DatabaseProfile;
+            if (profile == null)
+            {
+                return;
+            }
+
+            var kind = string.IsNullOrWhiteSpace(profile.Kind) ? "LOCAL" : profile.Kind.Trim().ToUpperInvariant();
+            var name = string.IsNullOrWhiteSpace(profile.Name) ? profile.Id : profile.Name.Trim();
+            e.Value = "[" + kind + "] " + name;
         }
 
         private void SetStatus(string message, bool error)
