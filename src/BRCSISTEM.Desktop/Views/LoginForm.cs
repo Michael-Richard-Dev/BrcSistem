@@ -95,6 +95,7 @@ namespace BRCSISTEM.Desktop.Views
             _brandingVersionLabel.Text = "Versao " + AppVersion;
             _footerLabel.Text = " 2025 " + AppName + " - Todos os direitos reservados ";
 
+            ApplyToolbarImages();
             _logoPictureBox.Image = TryLoadLogo();
             _logoPictureBox.Visible = _logoPictureBox.Image != null;
 
@@ -102,13 +103,33 @@ namespace BRCSISTEM.Desktop.Views
             CenterFormContent();
         }
 
+        private void ApplyToolbarImages()
+        {
+            var broomImage = TryLoadEmbeddedImage("vassoura.png");
+            if (broomImage != null)
+            {
+                _cacheIconButton.Image = broomImage;
+            }
+
+            var configImage = TryLoadEmbeddedImage("configuracoes-cog.png");
+            if (configImage != null)
+            {
+                _configIconButton.Image = configImage;
+            }
+        }
+
         private Image TryLoadLogo()
+        {
+            return TryLoadEmbeddedImage("logo.png") ?? TryLoadImageFromOutput("Assets", "logo.png");
+        }
+
+        private Image TryLoadEmbeddedImage(string fileName)
         {
             try
             {
                 var asm = Assembly.GetExecutingAssembly();
                 var resourceName = asm.GetManifestResourceNames()
-                    .FirstOrDefault(n => n.EndsWith("logo.png", StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(n => n.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
                 if (resourceName != null)
                 {
                     using (var stream = asm.GetManifestResourceStream(resourceName))
@@ -124,8 +145,19 @@ namespace BRCSISTEM.Desktop.Views
                         }
                     }
                 }
+            }
+            catch
+            {
+            }
 
-                var probe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
+            return null;
+        }
+
+        private static Image TryLoadImageFromOutput(string folder, string fileName)
+        {
+            try
+            {
+                var probe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folder, fileName);
                 if (File.Exists(probe))
                 {
                     using (var original = Image.FromFile(probe))

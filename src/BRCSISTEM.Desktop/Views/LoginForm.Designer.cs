@@ -214,7 +214,27 @@ namespace BRCSISTEM.Desktop.Views
             this._formContainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._formContainer.BackColor = System.Drawing.Color.White;
             this._formContainer.ColumnCount = 1;
+<<<<<<< HEAD
             this._formContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
+=======
+            this._formContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 280F));
+            this._formContainer.Name = "_formContainer";
+            this._formContainer.Padding = new Padding(0);
+            this._formContainer.RowCount = 11;
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.RowStyles.Add(new RowStyle());
+            this._formContainer.Size = new Size(280, 284);
+            this._formContainer.Location = new Point(90, 111);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._formContainer.Controls.Add(this._welcomeLabel, 0, 0);
             this._formContainer.Controls.Add(this._welcomeSubtitleLabel, 0, 1);
             this._formContainer.Controls.Add(this._bancoHeaderPanel, 0, 2);
@@ -261,20 +281,35 @@ namespace BRCSISTEM.Desktop.Views
             // 
             this._welcomeSubtitleLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this._welcomeSubtitleLabel.AutoSize = true;
+<<<<<<< HEAD
             this._welcomeSubtitleLabel.BackColor = System.Drawing.Color.White;
             this._welcomeSubtitleLabel.Font = new System.Drawing.Font("Segoe UI", 10.5F);
             this._welcomeSubtitleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(80)))), ((int)(((byte)(87)))));
             this._welcomeSubtitleLabel.Location = new System.Drawing.Point(0, 41);
             this._welcomeSubtitleLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 28);
+=======
+            this._welcomeSubtitleLabel.BackColor = Color.White;
+            this._welcomeSubtitleLabel.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular);
+            this._welcomeSubtitleLabel.ForeColor = Color.FromArgb(73, 80, 87);
+            this._welcomeSubtitleLabel.Margin = new Padding(0, 0, 0, 20);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._welcomeSubtitleLabel.Name = "_welcomeSubtitleLabel";
             this._welcomeSubtitleLabel.Size = new System.Drawing.Size(211, 19);
             this._welcomeSubtitleLabel.TabIndex = 1;
             this._welcomeSubtitleLabel.Text = "Faca login para acessar o sistema";
             // 
             // _bancoHeaderPanel
+<<<<<<< HEAD
             // 
             this._bancoHeaderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._bancoHeaderPanel.BackColor = System.Drawing.Color.White;
+=======
+            this._bancoHeaderPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            this._bancoHeaderPanel.BackColor = Color.White;
+            this._bancoHeaderPanel.Margin = new Padding(0, 0, 0, 3);
+            this._bancoHeaderPanel.Name = "_bancoHeaderPanel";
+            this._bancoHeaderPanel.Size = new Size(280, 30);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._bancoHeaderPanel.Controls.Add(this._bancoLabel);
             this._bancoHeaderPanel.Controls.Add(this._cacheIconButton);
             this._bancoHeaderPanel.Controls.Add(this._configIconButton);
@@ -301,6 +336,7 @@ namespace BRCSISTEM.Desktop.Views
             this._cacheIconButton.BackColor = System.Drawing.Color.White;
             this._cacheIconButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this._cacheIconButton.FlatAppearance.BorderSize = 0;
+<<<<<<< HEAD
             this._cacheIconButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this._cacheIconButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._cacheIconButton.Font = new System.Drawing.Font("Segoe UI Symbol", 10F);
@@ -311,6 +347,17 @@ namespace BRCSISTEM.Desktop.Views
             this._cacheIconButton.TabIndex = 1;
             this._cacheIconButton.TabStop = false;
             this._cacheIconButton.Text = "🧹";
+=======
+            this._cacheIconButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(248, 249, 250);
+            this._cacheIconButton.FlatStyle = FlatStyle.Flat;
+            this._cacheIconButton.ForeColor = Color.FromArgb(73, 80, 87);
+            this._cacheIconButton.ImageAlign = ContentAlignment.MiddleCenter;
+            this._cacheIconButton.Location = new Point(216, 2);
+            this._cacheIconButton.Name = "_cacheIconButton";
+            this._cacheIconButton.Size = new Size(26, 26);
+            this._cacheIconButton.TabStop = false;
+            this._cacheIconButton.Text = "";
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._cacheIconButton.UseVisualStyleBackColor = false;
             // 
             // _configIconButton
@@ -318,6 +365,7 @@ namespace BRCSISTEM.Desktop.Views
             this._configIconButton.BackColor = System.Drawing.Color.White;
             this._configIconButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this._configIconButton.FlatAppearance.BorderSize = 0;
+<<<<<<< HEAD
             this._configIconButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this._configIconButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._configIconButton.Font = new System.Drawing.Font("Segoe UI Symbol", 10F);
@@ -328,6 +376,17 @@ namespace BRCSISTEM.Desktop.Views
             this._configIconButton.TabIndex = 2;
             this._configIconButton.TabStop = false;
             this._configIconButton.Text = "⚙";
+=======
+            this._configIconButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(248, 249, 250);
+            this._configIconButton.FlatStyle = FlatStyle.Flat;
+            this._configIconButton.ForeColor = Color.FromArgb(73, 80, 87);
+            this._configIconButton.ImageAlign = ContentAlignment.MiddleCenter;
+            this._configIconButton.Location = new Point(248, 2);
+            this._configIconButton.Name = "_configIconButton";
+            this._configIconButton.Size = new Size(26, 26);
+            this._configIconButton.TabStop = false;
+            this._configIconButton.Text = "";
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._configIconButton.UseVisualStyleBackColor = false;
             // 
             // _profilesComboBox
@@ -338,8 +397,12 @@ namespace BRCSISTEM.Desktop.Views
             this._profilesComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._profilesComboBox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this._profilesComboBox.FormattingEnabled = true;
+<<<<<<< HEAD
             this._profilesComboBox.Location = new System.Drawing.Point(0, 122);
             this._profilesComboBox.Margin = new System.Windows.Forms.Padding(0, 0, 0, 20);
+=======
+            this._profilesComboBox.Margin = new Padding(0, 0, 0, 16);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._profilesComboBox.Name = "_profilesComboBox";
             this._profilesComboBox.Size = new System.Drawing.Size(280, 23);
             this._profilesComboBox.TabIndex = 3;
@@ -359,10 +422,20 @@ namespace BRCSISTEM.Desktop.Views
             this._userLabel.Text = "Usuario";
             // 
             // _userHostPanel
+<<<<<<< HEAD
             // 
             this._userHostPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._userHostPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this._userHostPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+=======
+            this._userHostPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            this._userHostPanel.BackColor = Color.FromArgb(248, 249, 250);
+            this._userHostPanel.BorderStyle = BorderStyle.FixedSingle;
+            this._userHostPanel.Margin = new Padding(0, 0, 0, 10);
+            this._userHostPanel.Name = "_userHostPanel";
+            this._userHostPanel.Padding = new Padding(10, 8, 10, 6);
+            this._userHostPanel.Size = new Size(280, 38);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._userHostPanel.Controls.Add(this._userNameTextBox);
             this._userHostPanel.Location = new System.Drawing.Point(0, 182);
             this._userHostPanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 14);
@@ -398,10 +471,20 @@ namespace BRCSISTEM.Desktop.Views
             this._passwordLabel.Text = "Senha";
             // 
             // _passwordHostPanel
+<<<<<<< HEAD
             // 
             this._passwordHostPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._passwordHostPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this._passwordHostPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+=======
+            this._passwordHostPanel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            this._passwordHostPanel.BackColor = Color.FromArgb(248, 249, 250);
+            this._passwordHostPanel.BorderStyle = BorderStyle.FixedSingle;
+            this._passwordHostPanel.Margin = new Padding(0, 0, 0, 10);
+            this._passwordHostPanel.Name = "_passwordHostPanel";
+            this._passwordHostPanel.Padding = new Padding(10, 8, 10, 6);
+            this._passwordHostPanel.Size = new Size(280, 38);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._passwordHostPanel.Controls.Add(this._passwordTextBox);
             this._passwordHostPanel.Location = new System.Drawing.Point(0, 251);
             this._passwordHostPanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 14);
@@ -424,6 +507,7 @@ namespace BRCSISTEM.Desktop.Views
             this._passwordTextBox.UseSystemPasswordChar = true;
             // 
             // _statusLabel
+<<<<<<< HEAD
             // 
             this._statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._statusLabel.BackColor = System.Drawing.Color.White;
@@ -431,6 +515,13 @@ namespace BRCSISTEM.Desktop.Views
             this._statusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
             this._statusLabel.Location = new System.Drawing.Point(0, 303);
             this._statusLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 14);
+=======
+            this._statusLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            this._statusLabel.BackColor = Color.White;
+            this._statusLabel.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            this._statusLabel.ForeColor = Color.FromArgb(220, 53, 69);
+            this._statusLabel.Margin = new Padding(0, 0, 0, 10);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._statusLabel.Name = "_statusLabel";
             this._statusLabel.Size = new System.Drawing.Size(280, 22);
             this._statusLabel.TabIndex = 8;
@@ -442,6 +533,7 @@ namespace BRCSISTEM.Desktop.Views
             this._loginButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._loginButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this._loginButton.FlatAppearance.BorderSize = 0;
+<<<<<<< HEAD
             this._loginButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(89)))), ((int)(((byte)(132)))));
             this._loginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._loginButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -451,6 +543,15 @@ namespace BRCSISTEM.Desktop.Views
             this._loginButton.Name = "_loginButton";
             this._loginButton.Size = new System.Drawing.Size(280, 40);
             this._loginButton.TabIndex = 9;
+=======
+            this._loginButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(46, 89, 132);
+            this._loginButton.FlatStyle = FlatStyle.Flat;
+            this._loginButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._loginButton.ForeColor = Color.White;
+            this._loginButton.Margin = new Padding(0, 0, 0, 8);
+            this._loginButton.Name = "_loginButton";
+            this._loginButton.Size = new Size(280, 38);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._loginButton.Text = "ACESSAR SISTEMA";
             this._loginButton.UseVisualStyleBackColor = false;
             // 
@@ -459,8 +560,18 @@ namespace BRCSISTEM.Desktop.Views
             this._secondaryButtonsLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._secondaryButtonsLayout.BackColor = System.Drawing.Color.White;
             this._secondaryButtonsLayout.ColumnCount = 2;
+<<<<<<< HEAD
             this._secondaryButtonsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._secondaryButtonsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+=======
+            this._secondaryButtonsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            this._secondaryButtonsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            this._secondaryButtonsLayout.Margin = new Padding(0);
+            this._secondaryButtonsLayout.Name = "_secondaryButtonsLayout";
+            this._secondaryButtonsLayout.RowCount = 1;
+            this._secondaryButtonsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            this._secondaryButtonsLayout.Size = new Size(280, 36);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._secondaryButtonsLayout.Controls.Add(this._requestAccessButton, 0, 0);
             this._secondaryButtonsLayout.Controls.Add(this._closeButton, 1, 0);
             this._secondaryButtonsLayout.Location = new System.Drawing.Point(0, 389);
@@ -484,8 +595,12 @@ namespace BRCSISTEM.Desktop.Views
             this._requestAccessButton.Location = new System.Drawing.Point(0, 0);
             this._requestAccessButton.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this._requestAccessButton.Name = "_requestAccessButton";
+<<<<<<< HEAD
             this._requestAccessButton.Size = new System.Drawing.Size(135, 1);
             this._requestAccessButton.TabIndex = 0;
+=======
+            this._requestAccessButton.Size = new Size(137, 36);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._requestAccessButton.Text = "Solicitar Acesso";
             this._requestAccessButton.UseVisualStyleBackColor = false;
             // 
@@ -502,8 +617,12 @@ namespace BRCSISTEM.Desktop.Views
             this._closeButton.Location = new System.Drawing.Point(145, 0);
             this._closeButton.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this._closeButton.Name = "_closeButton";
+<<<<<<< HEAD
             this._closeButton.Size = new System.Drawing.Size(135, 1);
             this._closeButton.TabIndex = 1;
+=======
+            this._closeButton.Size = new Size(138, 36);
+>>>>>>> 959a27c (Codex Repaginacao Tela Login para Designer V4)
             this._closeButton.Text = "Fechar";
             this._closeButton.UseVisualStyleBackColor = false;
             // 

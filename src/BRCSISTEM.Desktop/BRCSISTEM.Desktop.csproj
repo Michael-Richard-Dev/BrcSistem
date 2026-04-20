@@ -16,6 +16,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Assets\logo.png" />
+    <EmbeddedResource Include="..\..\images\vassoura.png">
+      <LogicalName>BRCSISTEM.Desktop.Assets.vassoura.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\images\configuracoes-cog.png">
+      <LogicalName>BRCSISTEM.Desktop.Assets.configuracoes-cog.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
