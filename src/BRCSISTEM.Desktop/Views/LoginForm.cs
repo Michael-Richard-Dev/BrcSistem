@@ -450,9 +450,14 @@ namespace BRCSISTEM.Desktop.Views
                 {
                     using (var stream = asm.GetManifestResourceStream(resourceName))
                     {
-                        if (stream != null)
+                        if (stream == null)
                         {
-                            return Image.FromStream(stream);
+                            throw new InvalidOperationException("Recurso embutido '" + resourceName + "' nao pode ser lido.");
+                        }
+
+                        using (var original = Image.FromStream(stream, useEmbeddedColorManagement: false, validateImageData: true))
+                        {
+                            return new Bitmap(original);
                         }
                     }
                 }
@@ -460,7 +465,10 @@ namespace BRCSISTEM.Desktop.Views
                 var probe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
                 if (File.Exists(probe))
                 {
-                    return Image.FromFile(probe);
+                    using (var original = Image.FromFile(probe))
+                    {
+                        return new Bitmap(original);
+                    }
                 }
             }
             catch
