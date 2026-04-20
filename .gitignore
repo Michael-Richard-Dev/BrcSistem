@@ -8,3 +8,4 @@
 *.log
 session_state.json
 Thumbs.db
+.claude/
