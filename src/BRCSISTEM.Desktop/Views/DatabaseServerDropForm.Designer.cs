@@ -1,0 +1,236 @@
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace BRCSISTEM.Desktop.Views
+{
+    public sealed partial class DatabaseServerDropForm
+    {
+        private IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            this._rootLayout = new TableLayoutPanel();
+            this._headerLayout = new TableLayoutPanel();
+            this._titleLabel = new Label();
+            this._warningLabel = new Label();
+            this._serverGroup = new GroupBox();
+            this._serverLayout = new TableLayoutPanel();
+            this._hostLabel = new Label();
+            this._hostTextBox = new TextBox();
+            this._portLabel = new Label();
+            this._portTextBox = new TextBox();
+            this._adminUserLabel = new Label();
+            this._adminUserTextBox = new TextBox();
+            this._adminPasswordLabel = new Label();
+            this._adminPasswordTextBox = new TextBox();
+            this._statusLabel = new Label();
+            this._resultsGroup = new GroupBox();
+            this._databasesListBox = new ListBox();
+            this._buttonsLayout = new TableLayoutPanel();
+            this._listButton = new Button();
+            this._deleteButton = new Button();
+            this._cancelButton = new Button();
+            this._rootLayout.SuspendLayout();
+            this._headerLayout.SuspendLayout();
+            this._serverGroup.SuspendLayout();
+            this._serverLayout.SuspendLayout();
+            this._resultsGroup.SuspendLayout();
+            this._buttonsLayout.SuspendLayout();
+            this.SuspendLayout();
+            //
+            // _rootLayout
+            //
+            this._rootLayout.ColumnCount = 1;
+            this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._rootLayout.Controls.Add(this._headerLayout, 0, 0);
+            this._rootLayout.Controls.Add(this._serverGroup, 0, 1);
+            this._rootLayout.Controls.Add(this._statusLabel, 0, 2);
+            this._rootLayout.Controls.Add(this._resultsGroup, 0, 3);
+            this._rootLayout.Controls.Add(this._buttonsLayout, 0, 4);
+            this._rootLayout.Dock = DockStyle.Fill;
+            this._rootLayout.Padding = new Padding(20);
+            this._rootLayout.RowCount = 5;
+            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            this._rootLayout.RowStyles.Add(new RowStyle());
+            //
+            // _headerLayout
+            //
+            this._headerLayout.AutoSize = true;
+            this._headerLayout.ColumnCount = 1;
+            this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._headerLayout.Controls.Add(this._titleLabel, 0, 0);
+            this._headerLayout.Controls.Add(this._warningLabel, 0, 1);
+            this._headerLayout.Dock = DockStyle.Fill;
+            //
+            this._titleLabel.AutoSize = true;
+            this._titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            this._titleLabel.ForeColor = Color.Firebrick;
+            this._titleLabel.Margin = new Padding(0, 0, 0, 3);
+            this._titleLabel.Text = "EXCLUIR Banco do Servidor";
+            this._warningLabel.AutoSize = true;
+            this._warningLabel.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            this._warningLabel.ForeColor = Color.Firebrick;
+            this._warningLabel.Margin = new Padding(0, 0, 0, 15);
+            this._warningLabel.Text = "ATENCAO: esta acao apaga o banco e todos os dados do servidor.";
+            //
+            // _serverGroup
+            //
+            this._serverGroup.Controls.Add(this._serverLayout);
+            this._serverGroup.Dock = DockStyle.Fill;
+            this._serverGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._serverGroup.Padding = new Padding(10);
+            this._serverGroup.Text = " Conectar ao Servidor ";
+            //
+            this._serverLayout.ColumnCount = 2;
+            this._serverLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            this._serverLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._serverLayout.Controls.Add(this._hostLabel, 0, 0);
+            this._serverLayout.Controls.Add(this._hostTextBox, 1, 0);
+            this._serverLayout.Controls.Add(this._portLabel, 0, 1);
+            this._serverLayout.Controls.Add(this._portTextBox, 1, 1);
+            this._serverLayout.Controls.Add(this._adminUserLabel, 0, 2);
+            this._serverLayout.Controls.Add(this._adminUserTextBox, 1, 2);
+            this._serverLayout.Controls.Add(this._adminPasswordLabel, 0, 3);
+            this._serverLayout.Controls.Add(this._adminPasswordTextBox, 1, 3);
+            this._serverLayout.Dock = DockStyle.Fill;
+            this._serverLayout.RowCount = 4;
+            this._serverLayout.RowStyles.Add(new RowStyle());
+            this._serverLayout.RowStyles.Add(new RowStyle());
+            this._serverLayout.RowStyles.Add(new RowStyle());
+            this._serverLayout.RowStyles.Add(new RowStyle());
+            ConfigureFieldLabel(this._hostLabel, "Host:");
+            ConfigureFieldLabel(this._portLabel, "Porta:");
+            ConfigureFieldLabel(this._adminUserLabel, "Usuario Admin:");
+            ConfigureFieldLabel(this._adminPasswordLabel, "Senha:");
+            ConfigureTextBox(this._hostTextBox);
+            ConfigureTextBox(this._portTextBox);
+            ConfigureTextBox(this._adminUserTextBox);
+            ConfigureTextBox(this._adminPasswordTextBox);
+            this._adminPasswordTextBox.UseSystemPasswordChar = true;
+            //
+            // _statusLabel
+            //
+            this._statusLabel.AutoSize = true;
+            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.ForeColor = Color.SeaGreen;
+            this._statusLabel.Margin = new Padding(0, 10, 0, 10);
+            //
+            // _resultsGroup
+            //
+            this._resultsGroup.Controls.Add(this._databasesListBox);
+            this._resultsGroup.Dock = DockStyle.Fill;
+            this._resultsGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._resultsGroup.Padding = new Padding(10);
+            this._resultsGroup.Text = " Selecione o Banco para EXCLUIR ";
+            //
+            this._databasesListBox.Dock = DockStyle.Fill;
+            this._databasesListBox.Font = new Font("Segoe UI", 9F);
+            this._databasesListBox.IntegralHeight = false;
+            //
+            // _buttonsLayout
+            //
+            this._buttonsLayout.ColumnCount = 4;
+            this._buttonsLayout.ColumnStyles.Add(new ColumnStyle());
+            this._buttonsLayout.ColumnStyles.Add(new ColumnStyle());
+            this._buttonsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._buttonsLayout.ColumnStyles.Add(new ColumnStyle());
+            this._buttonsLayout.Controls.Add(this._listButton, 0, 0);
+            this._buttonsLayout.Controls.Add(this._deleteButton, 1, 0);
+            this._buttonsLayout.Controls.Add(this._cancelButton, 3, 0);
+            this._buttonsLayout.Dock = DockStyle.Fill;
+            ConfigureButton(this._listButton, "Listar Bancos", 0, 120);
+            ConfigureButton(this._deleteButton, "EXCLUIR Banco", 1, 140);
+            ConfigureButton(this._cancelButton, "Cancelar", 2, 110);
+            this._deleteButton.Enabled = false;
+            //
+            // DatabaseServerDropForm
+            //
+            this.AcceptButton = this._listButton;
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackColor = Color.FromArgb(240, 240, 240);
+            this.CancelButton = this._cancelButton;
+            this.ClientSize = new Size(600, 480);
+            this.Controls.Add(this._rootLayout);
+            this.Font = new Font("Segoe UI", 9F);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "DatabaseServerDropForm";
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.Text = "Excluir Banco do Servidor PostgreSQL";
+            this._rootLayout.ResumeLayout(false);
+            this._rootLayout.PerformLayout();
+            this._headerLayout.ResumeLayout(false);
+            this._headerLayout.PerformLayout();
+            this._serverGroup.ResumeLayout(false);
+            this._serverLayout.ResumeLayout(false);
+            this._serverLayout.PerformLayout();
+            this._resultsGroup.ResumeLayout(false);
+            this._buttonsLayout.ResumeLayout(false);
+            this.ResumeLayout(false);
+        }
+
+        private static void ConfigureFieldLabel(Label label, string text)
+        {
+            label.AutoSize = true;
+            label.Margin = new Padding(0, 8, 10, 0);
+            label.Text = text;
+        }
+
+        private static void ConfigureTextBox(TextBox textBox)
+        {
+            textBox.Dock = DockStyle.Top;
+            textBox.Margin = new Padding(0, 5, 0, 5);
+        }
+
+        private static void ConfigureButton(Button button, string text, int tabIndex, int width)
+        {
+            button.FlatStyle = FlatStyle.System;
+            button.Size = new Size(width, 28);
+            button.TabIndex = tabIndex;
+            button.Text = text;
+            button.UseVisualStyleBackColor = true;
+        }
+
+        #endregion
+
+        private TableLayoutPanel _rootLayout;
+        private TableLayoutPanel _headerLayout;
+        private Label _titleLabel;
+        private Label _warningLabel;
+        private GroupBox _serverGroup;
+        private TableLayoutPanel _serverLayout;
+        private Label _hostLabel;
+        private TextBox _hostTextBox;
+        private Label _portLabel;
+        private TextBox _portTextBox;
+        private Label _adminUserLabel;
+        private TextBox _adminUserTextBox;
+        private Label _adminPasswordLabel;
+        private TextBox _adminPasswordTextBox;
+        private Label _statusLabel;
+        private GroupBox _resultsGroup;
+        private ListBox _databasesListBox;
+        private TableLayoutPanel _buttonsLayout;
+        private Button _listButton;
+        private Button _deleteButton;
+        private Button _cancelButton;
+    }
+}

@@ -12,13 +12,16 @@ namespace BRCSISTEM.Desktop.Views
     {
         private static readonly Color ActiveRowColor = Color.FromArgb(232, 245, 233);
 
+        private readonly CompositionRoot _compositionRoot;
         private readonly ConfigurationController _configurationController;
 
         private AppConfiguration _configuration;
         private bool _hasChanges;
+        private DatabaseManualForm _manualForm;
 
         public DatabaseProfilesForm(CompositionRoot compositionRoot)
         {
+            _compositionRoot = compositionRoot;
             _configurationController = compositionRoot.CreateConfigurationController();
             InitializeComponent();
             WireEvents();
@@ -27,7 +30,7 @@ namespace BRCSISTEM.Desktop.Views
         private void WireEvents()
         {
             Load += DatabaseProfilesForm_Load;
-            _profilesListView.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
+            _profilesListView.DoubleClick += (s, e) => EditButton_Click(s, EventArgs.Empty);
             _searchButton.Click += SearchButton_Click;
             _newButton.Click += NewButton_Click;
             _editButton.Click += EditButton_Click;
@@ -36,8 +39,6 @@ namespace BRCSISTEM.Desktop.Views
             _createDatabaseButton.Click += CreateDatabaseButton_Click;
             _dropDatabaseButton.Click += DropDatabaseButton_Click;
             _manualButton.Click += ManualButton_Click;
-            _saveButton.Click += SaveProfile;
-            _testButton.Click += TestConnection;
             _closeButton.Click += CloseButton_Click;
             KeyPreview = true;
             KeyDown += DatabaseProfilesForm_KeyDown;
@@ -52,46 +53,18 @@ namespace BRCSISTEM.Desktop.Views
         {
             switch (e.KeyCode)
             {
-                case Keys.F2:
-                    NewButton_Click(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-                case Keys.F3:
-                    EditButton_Click(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-                case Keys.F4:
-                    CloseButton_Click(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-                case Keys.F6:
-                    DeleteSelectedProfile(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-                case Keys.F7:
-                    SearchButton_Click(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-                case Keys.F8:
-                    ActivateSelectedProfile(sender, EventArgs.Empty);
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void ProfilesListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var profile = GetSelectedProfile();
-            if (profile != null)
-            {
-                PopulateForm(profile);
+                case Keys.F2: NewButton_Click(sender, EventArgs.Empty); e.Handled = true; break;
+                case Keys.F3: EditButton_Click(sender, EventArgs.Empty); e.Handled = true; break;
+                case Keys.F4: CloseButton_Click(sender, EventArgs.Empty); e.Handled = true; break;
+                case Keys.F6: DeleteSelectedProfile(sender, EventArgs.Empty); e.Handled = true; break;
+                case Keys.F7: SearchButton_Click(sender, EventArgs.Empty); e.Handled = true; break;
+                case Keys.F8: ActivateSelectedProfile(sender, EventArgs.Empty); e.Handled = true; break;
             }
         }
 
         private void NewButton_Click(object sender, EventArgs e)
         {
-            ClearForm();
-            _nameTextBox.Focus();
+            OpenEditor(null);
         }
 
         private void EditButton_Click(object sender, EventArgs e)
@@ -103,33 +76,76 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
-            PopulateForm(profile);
-            _nameTextBox.Focus();
+            OpenEditor(profile);
+        }
+
+        private void OpenEditor(DatabaseProfile profile)
+        {
+            using (var editor = new DatabaseProfileEditorForm(_compositionRoot, _configuration, profile))
+            {
+                var result = editor.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    _hasChanges = true;
+                    LoadConfiguration();
+                    if (!string.IsNullOrEmpty(editor.SavedProfileId))
+                    {
+                        SelectProfileById(editor.SavedProfileId);
+                    }
+                    SetStatus("Perfil salvo com sucesso.", false);
+                }
+            }
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            ShowUnavailableFeature("Buscar e Adicionar");
+            using (var form = new DatabaseServerBrowserForm(_compositionRoot, _configuration))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    _hasChanges = true;
+                    LoadConfiguration();
+                    SetStatus(form.ResultMessage ?? "Bancos adicionados com sucesso.", false);
+                }
+            }
         }
 
         private void CreateDatabaseButton_Click(object sender, EventArgs e)
         {
-            ShowUnavailableFeature("Criar Novo Banco");
+            using (var form = new DatabaseServerCreateForm(_compositionRoot, _configuration))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    _hasChanges = true;
+                    LoadConfiguration();
+                    SetStatus(form.ResultMessage ?? "Banco criado com sucesso.", false);
+                }
+            }
         }
 
         private void DropDatabaseButton_Click(object sender, EventArgs e)
         {
-            ShowUnavailableFeature("Excluir Banco");
+            using (var form = new DatabaseServerDropForm(_compositionRoot, _configuration))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    _hasChanges = true;
+                    LoadConfiguration();
+                    SetStatus(form.ResultMessage ?? "Banco excluido com sucesso.", false);
+                }
+            }
         }
 
         private void ManualButton_Click(object sender, EventArgs e)
         {
-            ShowUnavailableFeature("Manual");
-        }
+            if (_manualForm == null || _manualForm.IsDisposed)
+            {
+                _manualForm = new DatabaseManualForm();
+                _manualForm.FormClosed += (_, __) => _manualForm = null;
+            }
 
-        private void ShowUnavailableFeature(string featureName)
-        {
-            SetStatus($"'{featureName}' ainda nao esta disponivel neste modulo.", true);
+            _manualForm.Show(this);
+            _manualForm.BringToFront();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -142,10 +158,6 @@ namespace BRCSISTEM.Desktop.Views
         {
             _configuration = _configurationController.LoadConfiguration();
             RefreshProfileList();
-            if (_profilesListView.Items.Count == 0)
-            {
-                ClearForm();
-            }
         }
 
         private void RefreshProfileList()
@@ -157,7 +169,6 @@ namespace BRCSISTEM.Desktop.Views
             try
             {
                 _profilesListView.Items.Clear();
-
                 foreach (var profile in profiles)
                 {
                     var isActive = !string.IsNullOrEmpty(activeId)
@@ -184,21 +195,7 @@ namespace BRCSISTEM.Desktop.Views
 
                 if (_profilesListView.Items.Count > 0)
                 {
-                    ListViewItem target = null;
-                    foreach (ListViewItem item in _profilesListView.Items)
-                    {
-                        if (item.Tag is DatabaseProfile candidate
-                            && !string.IsNullOrEmpty(activeId)
-                            && string.Equals(candidate.Id, activeId, StringComparison.OrdinalIgnoreCase))
-                        {
-                            target = item;
-                            break;
-                        }
-                    }
-
-                    target = target ?? _profilesListView.Items[0];
-                    target.Selected = true;
-                    target.EnsureVisible();
+                    SelectProfileById(activeId) ;
                 }
             }
             finally
@@ -207,90 +204,31 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
+        private bool SelectProfileById(string profileId)
+        {
+            if (_profilesListView.Items.Count == 0) return false;
+
+            foreach (ListViewItem item in _profilesListView.Items)
+            {
+                if (item.Tag is DatabaseProfile candidate
+                    && !string.IsNullOrEmpty(profileId)
+                    && string.Equals(candidate.Id, profileId, StringComparison.OrdinalIgnoreCase))
+                {
+                    item.Selected = true;
+                    item.EnsureVisible();
+                    return true;
+                }
+            }
+
+            _profilesListView.Items[0].Selected = true;
+            _profilesListView.Items[0].EnsureVisible();
+            return false;
+        }
+
         private DatabaseProfile GetSelectedProfile()
         {
-            if (_profilesListView.SelectedItems.Count == 0)
-            {
-                return null;
-            }
-
+            if (_profilesListView.SelectedItems.Count == 0) return null;
             return _profilesListView.SelectedItems[0].Tag as DatabaseProfile;
-        }
-
-        private void PopulateForm(DatabaseProfile profile)
-        {
-            _nameTextBox.Text = profile.Name;
-            _descriptionTextBox.Text = profile.Description;
-            _hostTextBox.Text = profile.Host;
-            _portNumericUpDown.Value = profile.Port <= 0 ? 5432 : profile.Port;
-            _databaseTextBox.Text = profile.Database;
-            _userTextBox.Text = profile.User;
-            _passwordTextBox.Text = profile.Password;
-            SetStatus("Perfil carregado.", false);
-        }
-
-        private void ClearForm()
-        {
-            _profilesListView.SelectedItems.Clear();
-            _nameTextBox.Text = string.Empty;
-            _descriptionTextBox.Text = string.Empty;
-            _hostTextBox.Text = string.Empty;
-            _portNumericUpDown.Value = 5432;
-            _databaseTextBox.Text = string.Empty;
-            _userTextBox.Text = string.Empty;
-            _passwordTextBox.Text = string.Empty;
-            SetStatus("Preencha os dados do novo banco.", false);
-        }
-
-        private void SaveProfile(object sender, EventArgs e)
-        {
-            try
-            {
-                var selectedId = GetSelectedProfile()?.Id;
-                var profile = BuildProfileFromForm(selectedId);
-                var profileId = _configuration.EnsureProfileId(profile);
-                _configuration.DatabaseProfiles[profileId] = profile;
-                if (string.IsNullOrWhiteSpace(_configuration.ActiveDatabaseId))
-                {
-                    _configuration.ActiveDatabaseId = profileId;
-                }
-
-                _configuration.IsConfigured = true;
-                _configurationController.SaveConfiguration(_configuration);
-                _hasChanges = true;
-                LoadConfiguration();
-
-                foreach (ListViewItem item in _profilesListView.Items)
-                {
-                    if (item.Tag is DatabaseProfile candidate
-                        && string.Equals(candidate.Id, profileId, StringComparison.OrdinalIgnoreCase))
-                    {
-                        item.Selected = true;
-                        item.EnsureVisible();
-                        break;
-                    }
-                }
-
-                SetStatus("Perfil salvo com sucesso.", false);
-            }
-            catch (Exception exception)
-            {
-                SetStatus(exception.Message, true);
-            }
-        }
-
-        private void TestConnection(object sender, EventArgs e)
-        {
-            try
-            {
-                var previewProfile = BuildProfileFromForm(GetSelectedProfile()?.Id);
-                var result = _configurationController.TestConnection(_configuration, previewProfile);
-                SetStatus(result.Message, !result.Success);
-            }
-            catch (Exception exception)
-            {
-                SetStatus(exception.Message, true);
-            }
         }
 
         private void DeleteSelectedProfile(object sender, EventArgs e)
@@ -334,38 +272,6 @@ namespace BRCSISTEM.Desktop.Views
             _hasChanges = true;
             RefreshProfileList();
             SetStatus("Perfil ativo atualizado.", false);
-        }
-
-        private DatabaseProfile BuildProfileFromForm(string existingId)
-        {
-            if (string.IsNullOrWhiteSpace(_nameTextBox.Text))
-            {
-                throw new InvalidOperationException("Informe o nome do perfil.");
-            }
-
-            if (string.IsNullOrWhiteSpace(_hostTextBox.Text) || string.IsNullOrWhiteSpace(_databaseTextBox.Text) || string.IsNullOrWhiteSpace(_userTextBox.Text))
-            {
-                throw new InvalidOperationException("Host, database e usuario sao obrigatorios.");
-            }
-
-            return new DatabaseProfile
-            {
-                Id = existingId,
-                Name = _nameTextBox.Text.Trim(),
-                Description = _descriptionTextBox.Text.Trim(),
-                Host = _hostTextBox.Text.Trim(),
-                Port = Convert.ToInt32(_portNumericUpDown.Value),
-                Database = _databaseTextBox.Text.Trim(),
-                User = _userTextBox.Text.Trim(),
-                Password = _passwordTextBox.Text,
-                Kind = IsLocalHost(_hostTextBox.Text) ? "local" : "rede",
-            };
-        }
-
-        private static bool IsLocalHost(string host)
-        {
-            var normalized = (host ?? string.Empty).Trim().ToLowerInvariant();
-            return normalized == "localhost" || normalized == "127.0.0.1" || normalized == "::1";
         }
 
         private void SetStatus(string message, bool error)

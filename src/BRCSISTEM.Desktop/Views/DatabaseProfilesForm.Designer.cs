@@ -26,7 +26,6 @@ namespace BRCSISTEM.Desktop.Views
             this._headerPanel = new FlowLayoutPanel();
             this._headerTitleLabel = new Label();
             this._headerSubtitleLabel = new Label();
-            this._dataArea = new TableLayoutPanel();
             this._profilesGroup = new GroupBox();
             this._profilesListView = new ListView();
             this._colId = new ColumnHeader();
@@ -36,26 +35,6 @@ namespace BRCSISTEM.Desktop.Views
             this._colHost = new ColumnHeader();
             this._colDatabase = new ColumnHeader();
             this._colStatus = new ColumnHeader();
-            this._formGroup = new GroupBox();
-            this._formLayout = new TableLayoutPanel();
-            this._nameLabel = new Label();
-            this._nameTextBox = new TextBox();
-            this._descriptionLabel = new Label();
-            this._descriptionTextBox = new TextBox();
-            this._hostLabel = new Label();
-            this._hostTextBox = new TextBox();
-            this._portLabel = new Label();
-            this._portNumericUpDown = new NumericUpDown();
-            this._databaseLabel = new Label();
-            this._databaseTextBox = new TextBox();
-            this._userFormLabel = new Label();
-            this._userTextBox = new TextBox();
-            this._passwordFormLabel = new Label();
-            this._passwordTextBox = new TextBox();
-            this._statusLabel = new Label();
-            this._formActionsPanel = new FlowLayoutPanel();
-            this._saveButton = new Button();
-            this._testButton = new Button();
             this._actionBar = new TableLayoutPanel();
             this._configGroup = new GroupBox();
             this._configGroupLayout = new TableLayoutPanel();
@@ -75,14 +54,10 @@ namespace BRCSISTEM.Desktop.Views
             this._auxPanel = new FlowLayoutPanel();
             this._manualButton = new Button();
             this._closeButton = new Button();
+            this._statusLabel = new Label();
             this._rootLayout.SuspendLayout();
             this._headerPanel.SuspendLayout();
-            this._dataArea.SuspendLayout();
             this._profilesGroup.SuspendLayout();
-            this._formGroup.SuspendLayout();
-            this._formLayout.SuspendLayout();
-            ((ISupportInitialize)(this._portNumericUpDown)).BeginInit();
-            this._formActionsPanel.SuspendLayout();
             this._actionBar.SuspendLayout();
             this._configGroup.SuspendLayout();
             this._configGroupLayout.SuspendLayout();
@@ -98,17 +73,17 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._rootLayout.Controls.Add(this._headerPanel, 0, 0);
-            this._rootLayout.Controls.Add(this._dataArea, 0, 1);
+            this._rootLayout.Controls.Add(this._profilesGroup, 0, 1);
             this._rootLayout.Controls.Add(this._actionBar, 0, 2);
+            this._rootLayout.Controls.Add(this._statusLabel, 0, 3);
             this._rootLayout.Dock = DockStyle.Fill;
-            this._rootLayout.Location = new Point(0, 0);
-            this._rootLayout.Name = "_rootLayout";
             this._rootLayout.Padding = new Padding(15);
-            this._rootLayout.RowCount = 3;
+            this._rootLayout.RowCount = 4;
             this._rootLayout.RowStyles.Add(new RowStyle());
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._rootLayout.RowStyles.Add(new RowStyle());
-            this._rootLayout.Size = new Size(1100, 600);
+            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.Name = "_rootLayout";
             this._rootLayout.TabIndex = 0;
             //
             // _headerPanel
@@ -129,9 +104,7 @@ namespace BRCSISTEM.Desktop.Views
             this._headerTitleLabel.AutoSize = true;
             this._headerTitleLabel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             this._headerTitleLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._headerTitleLabel.Margin = new Padding(3, 0, 3, 0);
             this._headerTitleLabel.Name = "_headerTitleLabel";
-            this._headerTitleLabel.TabIndex = 0;
             this._headerTitleLabel.Text = "Gerenciador de Bancos de Dados";
             //
             // _headerSubtitleLabel
@@ -141,44 +114,25 @@ namespace BRCSISTEM.Desktop.Views
             this._headerSubtitleLabel.ForeColor = Color.Gray;
             this._headerSubtitleLabel.Margin = new Padding(3, 5, 3, 0);
             this._headerSubtitleLabel.Name = "_headerSubtitleLabel";
-            this._headerSubtitleLabel.TabIndex = 1;
             this._headerSubtitleLabel.Text = "Gerencia configuracoes de acesso aos bancos PostgreSQL";
-            //
-            // _dataArea
-            //
-            this._dataArea.ColumnCount = 2;
-            this._dataArea.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._dataArea.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 420F));
-            this._dataArea.Controls.Add(this._profilesGroup, 0, 0);
-            this._dataArea.Controls.Add(this._formGroup, 1, 0);
-            this._dataArea.Dock = DockStyle.Fill;
-            this._dataArea.Margin = new Padding(0, 0, 0, 15);
-            this._dataArea.Name = "_dataArea";
-            this._dataArea.RowCount = 1;
-            this._dataArea.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._dataArea.TabIndex = 1;
             //
             // _profilesGroup
             //
             this._profilesGroup.Controls.Add(this._profilesListView);
             this._profilesGroup.Dock = DockStyle.Fill;
             this._profilesGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._profilesGroup.Margin = new Padding(0, 0, 0, 10);
             this._profilesGroup.Name = "_profilesGroup";
             this._profilesGroup.Padding = new Padding(10);
-            this._profilesGroup.TabIndex = 0;
+            this._profilesGroup.TabIndex = 1;
             this._profilesGroup.TabStop = false;
             this._profilesGroup.Text = " Configuracoes Registradas ";
             //
             // _profilesListView
             //
             this._profilesListView.Columns.AddRange(new ColumnHeader[] {
-                this._colId,
-                this._colName,
-                this._colDescription,
-                this._colKind,
-                this._colHost,
-                this._colDatabase,
-                this._colStatus});
+                this._colId, this._colName, this._colDescription, this._colKind,
+                this._colHost, this._colDatabase, this._colStatus});
             this._profilesListView.Dock = DockStyle.Fill;
             this._profilesListView.Font = new Font("Segoe UI", 9F);
             this._profilesListView.FullRowSelect = true;
@@ -190,253 +144,13 @@ namespace BRCSISTEM.Desktop.Views
             this._profilesListView.UseCompatibleStateImageBehavior = false;
             this._profilesListView.View = View.Details;
             //
-            // _colId
-            //
-            this._colId.Text = "ID";
-            this._colId.Width = 180;
-            //
-            // _colName
-            //
-            this._colName.Text = "NOME";
-            this._colName.Width = 130;
-            //
-            // _colDescription
-            //
-            this._colDescription.Text = "DESCRICAO";
-            this._colDescription.Width = 200;
-            //
-            // _colKind
-            //
-            this._colKind.Text = "TIPO";
-            this._colKind.TextAlign = HorizontalAlignment.Center;
-            this._colKind.Width = 70;
-            //
-            // _colHost
-            //
-            this._colHost.Text = "HOST";
-            this._colHost.Width = 120;
-            //
-            // _colDatabase
-            //
-            this._colDatabase.Text = "DATABASE";
-            this._colDatabase.Width = 120;
-            //
-            // _colStatus
-            //
-            this._colStatus.Text = "STATUS";
-            this._colStatus.TextAlign = HorizontalAlignment.Center;
-            this._colStatus.Width = 90;
-            //
-            // _formGroup
-            //
-            this._formGroup.Controls.Add(this._formLayout);
-            this._formGroup.Dock = DockStyle.Fill;
-            this._formGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._formGroup.Name = "_formGroup";
-            this._formGroup.Padding = new Padding(12);
-            this._formGroup.TabIndex = 1;
-            this._formGroup.TabStop = false;
-            this._formGroup.Text = " Dados do Banco ";
-            //
-            // _formLayout
-            //
-            this._formLayout.ColumnCount = 2;
-            this._formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
-            this._formLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._formLayout.Controls.Add(this._nameLabel, 0, 0);
-            this._formLayout.Controls.Add(this._nameTextBox, 1, 0);
-            this._formLayout.Controls.Add(this._descriptionLabel, 0, 1);
-            this._formLayout.Controls.Add(this._descriptionTextBox, 1, 1);
-            this._formLayout.Controls.Add(this._hostLabel, 0, 2);
-            this._formLayout.Controls.Add(this._hostTextBox, 1, 2);
-            this._formLayout.Controls.Add(this._portLabel, 0, 3);
-            this._formLayout.Controls.Add(this._portNumericUpDown, 1, 3);
-            this._formLayout.Controls.Add(this._databaseLabel, 0, 4);
-            this._formLayout.Controls.Add(this._databaseTextBox, 1, 4);
-            this._formLayout.Controls.Add(this._userFormLabel, 0, 5);
-            this._formLayout.Controls.Add(this._userTextBox, 1, 5);
-            this._formLayout.Controls.Add(this._passwordFormLabel, 0, 6);
-            this._formLayout.Controls.Add(this._passwordTextBox, 1, 6);
-            this._formLayout.Controls.Add(this._statusLabel, 0, 7);
-            this._formLayout.SetColumnSpan(this._statusLabel, 2);
-            this._formLayout.Controls.Add(this._formActionsPanel, 0, 8);
-            this._formLayout.SetColumnSpan(this._formActionsPanel, 2);
-            this._formLayout.Dock = DockStyle.Fill;
-            this._formLayout.Font = new Font("Segoe UI", 9F);
-            this._formLayout.Name = "_formLayout";
-            this._formLayout.RowCount = 9;
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.RowStyles.Add(new RowStyle());
-            this._formLayout.TabIndex = 0;
-            //
-            // _nameLabel
-            //
-            this._nameLabel.AutoSize = true;
-            this._nameLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._nameLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._nameLabel.Margin = new Padding(0, 8, 0, 4);
-            this._nameLabel.Name = "_nameLabel";
-            this._nameLabel.TabIndex = 0;
-            this._nameLabel.Text = "Nome";
-            //
-            // _nameTextBox
-            //
-            this._nameTextBox.Dock = DockStyle.Top;
-            this._nameTextBox.Font = new Font("Segoe UI", 9F);
-            this._nameTextBox.Name = "_nameTextBox";
-            this._nameTextBox.TabIndex = 1;
-            //
-            // _descriptionLabel
-            //
-            this._descriptionLabel.AutoSize = true;
-            this._descriptionLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._descriptionLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._descriptionLabel.Margin = new Padding(0, 8, 0, 4);
-            this._descriptionLabel.Name = "_descriptionLabel";
-            this._descriptionLabel.TabIndex = 2;
-            this._descriptionLabel.Text = "Descricao";
-            //
-            // _descriptionTextBox
-            //
-            this._descriptionTextBox.Dock = DockStyle.Top;
-            this._descriptionTextBox.Font = new Font("Segoe UI", 9F);
-            this._descriptionTextBox.Name = "_descriptionTextBox";
-            this._descriptionTextBox.TabIndex = 3;
-            //
-            // _hostLabel
-            //
-            this._hostLabel.AutoSize = true;
-            this._hostLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._hostLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._hostLabel.Margin = new Padding(0, 8, 0, 4);
-            this._hostLabel.Name = "_hostLabel";
-            this._hostLabel.TabIndex = 4;
-            this._hostLabel.Text = "Host";
-            //
-            // _hostTextBox
-            //
-            this._hostTextBox.Dock = DockStyle.Top;
-            this._hostTextBox.Font = new Font("Segoe UI", 9F);
-            this._hostTextBox.Name = "_hostTextBox";
-            this._hostTextBox.TabIndex = 5;
-            //
-            // _portLabel
-            //
-            this._portLabel.AutoSize = true;
-            this._portLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._portLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._portLabel.Margin = new Padding(0, 8, 0, 4);
-            this._portLabel.Name = "_portLabel";
-            this._portLabel.TabIndex = 6;
-            this._portLabel.Text = "Porta";
-            //
-            // _portNumericUpDown
-            //
-            this._portNumericUpDown.Anchor = AnchorStyles.Left;
-            this._portNumericUpDown.Font = new Font("Segoe UI", 9F);
-            this._portNumericUpDown.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            this._portNumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this._portNumericUpDown.Name = "_portNumericUpDown";
-            this._portNumericUpDown.Size = new Size(130, 23);
-            this._portNumericUpDown.TabIndex = 7;
-            this._portNumericUpDown.Value = new decimal(new int[] { 5432, 0, 0, 0 });
-            //
-            // _databaseLabel
-            //
-            this._databaseLabel.AutoSize = true;
-            this._databaseLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._databaseLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._databaseLabel.Margin = new Padding(0, 8, 0, 4);
-            this._databaseLabel.Name = "_databaseLabel";
-            this._databaseLabel.TabIndex = 8;
-            this._databaseLabel.Text = "Database";
-            //
-            // _databaseTextBox
-            //
-            this._databaseTextBox.Dock = DockStyle.Top;
-            this._databaseTextBox.Font = new Font("Segoe UI", 9F);
-            this._databaseTextBox.Name = "_databaseTextBox";
-            this._databaseTextBox.TabIndex = 9;
-            //
-            // _userFormLabel
-            //
-            this._userFormLabel.AutoSize = true;
-            this._userFormLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._userFormLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._userFormLabel.Margin = new Padding(0, 8, 0, 4);
-            this._userFormLabel.Name = "_userFormLabel";
-            this._userFormLabel.TabIndex = 10;
-            this._userFormLabel.Text = "Usuario";
-            //
-            // _userTextBox
-            //
-            this._userTextBox.Dock = DockStyle.Top;
-            this._userTextBox.Font = new Font("Segoe UI", 9F);
-            this._userTextBox.Name = "_userTextBox";
-            this._userTextBox.TabIndex = 11;
-            //
-            // _passwordFormLabel
-            //
-            this._passwordFormLabel.AutoSize = true;
-            this._passwordFormLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._passwordFormLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._passwordFormLabel.Margin = new Padding(0, 8, 0, 4);
-            this._passwordFormLabel.Name = "_passwordFormLabel";
-            this._passwordFormLabel.TabIndex = 12;
-            this._passwordFormLabel.Text = "Senha";
-            //
-            // _passwordTextBox
-            //
-            this._passwordTextBox.Dock = DockStyle.Top;
-            this._passwordTextBox.Font = new Font("Segoe UI", 9F);
-            this._passwordTextBox.Name = "_passwordTextBox";
-            this._passwordTextBox.TabIndex = 13;
-            this._passwordTextBox.UseSystemPasswordChar = true;
-            //
-            // _statusLabel
-            //
-            this._statusLabel.AutoSize = true;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._statusLabel.ForeColor = Color.Firebrick;
-            this._statusLabel.Margin = new Padding(0, 14, 0, 10);
-            this._statusLabel.Name = "_statusLabel";
-            this._statusLabel.TabIndex = 14;
-            //
-            // _formActionsPanel
-            //
-            this._formActionsPanel.AutoSize = true;
-            this._formActionsPanel.Controls.Add(this._saveButton);
-            this._formActionsPanel.Controls.Add(this._testButton);
-            this._formActionsPanel.Dock = DockStyle.Fill;
-            this._formActionsPanel.FlowDirection = FlowDirection.LeftToRight;
-            this._formActionsPanel.Margin = new Padding(0);
-            this._formActionsPanel.Name = "_formActionsPanel";
-            this._formActionsPanel.TabIndex = 15;
-            //
-            // _saveButton
-            //
-            this._saveButton.FlatStyle = FlatStyle.System;
-            this._saveButton.Name = "_saveButton";
-            this._saveButton.Size = new Size(90, 27);
-            this._saveButton.TabIndex = 0;
-            this._saveButton.Text = "Salvar";
-            this._saveButton.UseVisualStyleBackColor = true;
-            //
-            // _testButton
-            //
-            this._testButton.FlatStyle = FlatStyle.System;
-            this._testButton.Name = "_testButton";
-            this._testButton.Size = new Size(130, 27);
-            this._testButton.TabIndex = 1;
-            this._testButton.Text = "Testar Conexao";
-            this._testButton.UseVisualStyleBackColor = true;
+            this._colId.Text = "ID"; this._colId.Width = 200;
+            this._colName.Text = "NOME"; this._colName.Width = 150;
+            this._colDescription.Text = "DESCRICAO"; this._colDescription.Width = 250;
+            this._colKind.Text = "TIPO"; this._colKind.Width = 80; this._colKind.TextAlign = HorizontalAlignment.Center;
+            this._colHost.Text = "HOST"; this._colHost.Width = 130;
+            this._colDatabase.Text = "DATABASE"; this._colDatabase.Width = 130;
+            this._colStatus.Text = "STATUS"; this._colStatus.Width = 100; this._colStatus.TextAlign = HorizontalAlignment.Center;
             //
             // _actionBar
             //
@@ -482,16 +196,12 @@ namespace BRCSISTEM.Desktop.Views
             this._configGroupLayout.RowCount = 2;
             this._configGroupLayout.RowStyles.Add(new RowStyle());
             this._configGroupLayout.RowStyles.Add(new RowStyle());
-            this._configGroupLayout.TabIndex = 0;
-            //
-            // _configCaptionLabel
             //
             this._configCaptionLabel.AutoSize = true;
             this._configCaptionLabel.Font = new Font("Segoe UI", 8F);
             this._configCaptionLabel.ForeColor = Color.Blue;
             this._configCaptionLabel.Margin = new Padding(3, 0, 3, 5);
             this._configCaptionLabel.Name = "_configCaptionLabel";
-            this._configCaptionLabel.TabIndex = 0;
             this._configCaptionLabel.Text = "Gerencia quais bancos aparecem na lista";
             //
             // _configButtonsTable
@@ -512,62 +222,12 @@ namespace BRCSISTEM.Desktop.Views
             this._configButtonsTable.RowStyles.Add(new RowStyle());
             this._configButtonsTable.RowStyles.Add(new RowStyle());
             this._configButtonsTable.RowStyles.Add(new RowStyle());
-            this._configButtonsTable.TabIndex = 1;
             //
-            // _searchButton
-            //
-            this._searchButton.Dock = DockStyle.Fill;
-            this._searchButton.FlatStyle = FlatStyle.System;
-            this._searchButton.Margin = new Padding(2);
-            this._searchButton.Name = "_searchButton";
-            this._searchButton.Size = new Size(180, 25);
-            this._searchButton.TabIndex = 0;
-            this._searchButton.Text = "Buscar e Adicionar (F7)";
-            this._searchButton.UseVisualStyleBackColor = true;
-            //
-            // _newButton
-            //
-            this._newButton.Dock = DockStyle.Fill;
-            this._newButton.FlatStyle = FlatStyle.System;
-            this._newButton.Margin = new Padding(2);
-            this._newButton.Name = "_newButton";
-            this._newButton.Size = new Size(180, 25);
-            this._newButton.TabIndex = 1;
-            this._newButton.Text = "Adicionar Manual (F2)";
-            this._newButton.UseVisualStyleBackColor = true;
-            //
-            // _editButton
-            //
-            this._editButton.Dock = DockStyle.Fill;
-            this._editButton.FlatStyle = FlatStyle.System;
-            this._editButton.Margin = new Padding(2);
-            this._editButton.Name = "_editButton";
-            this._editButton.Size = new Size(180, 25);
-            this._editButton.TabIndex = 2;
-            this._editButton.Text = "Editar Selecionado (F3)";
-            this._editButton.UseVisualStyleBackColor = true;
-            //
-            // _deleteButton
-            //
-            this._deleteButton.Dock = DockStyle.Fill;
-            this._deleteButton.FlatStyle = FlatStyle.System;
-            this._deleteButton.Margin = new Padding(2);
-            this._deleteButton.Name = "_deleteButton";
-            this._deleteButton.Size = new Size(180, 25);
-            this._deleteButton.TabIndex = 3;
-            this._deleteButton.Text = "Remover da Lista (F6)";
-            this._deleteButton.UseVisualStyleBackColor = true;
-            //
-            // _activateButton
-            //
-            this._activateButton.Dock = DockStyle.Fill;
-            this._activateButton.FlatStyle = FlatStyle.System;
-            this._activateButton.Margin = new Padding(2);
-            this._activateButton.Name = "_activateButton";
-            this._activateButton.Size = new Size(180, 25);
-            this._activateButton.TabIndex = 4;
-            this._activateButton.Text = "Ativar Banco (F8)";
-            this._activateButton.UseVisualStyleBackColor = true;
+            ConfigureConfigButton(this._searchButton, "Buscar e Adicionar (F7)", 0);
+            ConfigureConfigButton(this._newButton, "Adicionar Manual (F2)", 1);
+            ConfigureConfigButton(this._editButton, "Editar Selecionado (F3)", 2);
+            ConfigureConfigButton(this._deleteButton, "Remover da Lista (F6)", 3);
+            ConfigureConfigButton(this._activateButton, "Ativar Banco (F8)", 4);
             //
             // _serverGroup
             //
@@ -582,8 +242,6 @@ namespace BRCSISTEM.Desktop.Views
             this._serverGroup.TabStop = false;
             this._serverGroup.Text = " Gerenciar Servidor PostgreSQL ";
             //
-            // _serverGroupLayout
-            //
             this._serverGroupLayout.AutoSize = true;
             this._serverGroupLayout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this._serverGroupLayout.ColumnCount = 1;
@@ -595,19 +253,13 @@ namespace BRCSISTEM.Desktop.Views
             this._serverGroupLayout.RowCount = 2;
             this._serverGroupLayout.RowStyles.Add(new RowStyle());
             this._serverGroupLayout.RowStyles.Add(new RowStyle());
-            this._serverGroupLayout.TabIndex = 0;
-            //
-            // _serverCaptionLabel
             //
             this._serverCaptionLabel.AutoSize = true;
             this._serverCaptionLabel.Font = new Font("Segoe UI", 8F);
             this._serverCaptionLabel.ForeColor = Color.Red;
             this._serverCaptionLabel.Margin = new Padding(3, 0, 3, 5);
             this._serverCaptionLabel.Name = "_serverCaptionLabel";
-            this._serverCaptionLabel.TabIndex = 0;
             this._serverCaptionLabel.Text = "Cria/exclui bancos no servidor PostgreSQL";
-            //
-            // _serverButtonsTable
             //
             this._serverButtonsTable.AutoSize = true;
             this._serverButtonsTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -620,29 +272,9 @@ namespace BRCSISTEM.Desktop.Views
             this._serverButtonsTable.Name = "_serverButtonsTable";
             this._serverButtonsTable.RowCount = 1;
             this._serverButtonsTable.RowStyles.Add(new RowStyle());
-            this._serverButtonsTable.TabIndex = 1;
             //
-            // _createDatabaseButton
-            //
-            this._createDatabaseButton.Dock = DockStyle.Fill;
-            this._createDatabaseButton.FlatStyle = FlatStyle.System;
-            this._createDatabaseButton.Margin = new Padding(2);
-            this._createDatabaseButton.Name = "_createDatabaseButton";
-            this._createDatabaseButton.Size = new Size(160, 25);
-            this._createDatabaseButton.TabIndex = 0;
-            this._createDatabaseButton.Text = "Criar Novo Banco";
-            this._createDatabaseButton.UseVisualStyleBackColor = true;
-            //
-            // _dropDatabaseButton
-            //
-            this._dropDatabaseButton.Dock = DockStyle.Fill;
-            this._dropDatabaseButton.FlatStyle = FlatStyle.System;
-            this._dropDatabaseButton.Margin = new Padding(2);
-            this._dropDatabaseButton.Name = "_dropDatabaseButton";
-            this._dropDatabaseButton.Size = new Size(160, 25);
-            this._dropDatabaseButton.TabIndex = 1;
-            this._dropDatabaseButton.Text = "Excluir Banco";
-            this._dropDatabaseButton.UseVisualStyleBackColor = true;
+            ConfigureServerButton(this._createDatabaseButton, "Criar Novo Banco", 0);
+            ConfigureServerButton(this._dropDatabaseButton, "Excluir Banco", 1);
             //
             // _auxPanel
             //
@@ -657,8 +289,6 @@ namespace BRCSISTEM.Desktop.Views
             this._auxPanel.TabIndex = 2;
             this._auxPanel.WrapContents = false;
             //
-            // _manualButton
-            //
             this._manualButton.FlatStyle = FlatStyle.System;
             this._manualButton.Margin = new Padding(3, 3, 3, 2);
             this._manualButton.Name = "_manualButton";
@@ -667,8 +297,6 @@ namespace BRCSISTEM.Desktop.Views
             this._manualButton.Text = "Manual";
             this._manualButton.UseVisualStyleBackColor = true;
             //
-            // _closeButton
-            //
             this._closeButton.FlatStyle = FlatStyle.System;
             this._closeButton.Margin = new Padding(3, 2, 3, 3);
             this._closeButton.Name = "_closeButton";
@@ -676,6 +304,15 @@ namespace BRCSISTEM.Desktop.Views
             this._closeButton.TabIndex = 1;
             this._closeButton.Text = "Fechar (F4)";
             this._closeButton.UseVisualStyleBackColor = true;
+            //
+            // _statusLabel
+            //
+            this._statusLabel.AutoSize = true;
+            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.ForeColor = Color.SeaGreen;
+            this._statusLabel.Margin = new Padding(0, 10, 0, 0);
+            this._statusLabel.Name = "_statusLabel";
+            this._statusLabel.Text = string.Empty;
             //
             // DatabaseProfilesForm
             //
@@ -693,14 +330,7 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.PerformLayout();
             this._headerPanel.ResumeLayout(false);
             this._headerPanel.PerformLayout();
-            this._dataArea.ResumeLayout(false);
             this._profilesGroup.ResumeLayout(false);
-            this._formGroup.ResumeLayout(false);
-            this._formLayout.ResumeLayout(false);
-            this._formLayout.PerformLayout();
-            ((ISupportInitialize)(this._portNumericUpDown)).EndInit();
-            this._formActionsPanel.ResumeLayout(false);
-            this._formActionsPanel.PerformLayout();
             this._actionBar.ResumeLayout(false);
             this._actionBar.PerformLayout();
             this._configGroup.ResumeLayout(false);
@@ -716,6 +346,29 @@ namespace BRCSISTEM.Desktop.Views
             this._auxPanel.ResumeLayout(false);
             this._auxPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
+        private static void ConfigureConfigButton(Button button, string text, int tabIndex)
+        {
+            button.Dock = DockStyle.Fill;
+            button.FlatStyle = FlatStyle.System;
+            button.Margin = new Padding(2);
+            button.Size = new Size(180, 25);
+            button.TabIndex = tabIndex;
+            button.Text = text;
+            button.UseVisualStyleBackColor = true;
+        }
+
+        private static void ConfigureServerButton(Button button, string text, int tabIndex)
+        {
+            button.Dock = DockStyle.Fill;
+            button.FlatStyle = FlatStyle.System;
+            button.Margin = new Padding(2);
+            button.Size = new Size(160, 25);
+            button.TabIndex = tabIndex;
+            button.Text = text;
+            button.UseVisualStyleBackColor = true;
         }
 
         #endregion
@@ -724,7 +377,6 @@ namespace BRCSISTEM.Desktop.Views
         private FlowLayoutPanel _headerPanel;
         private Label _headerTitleLabel;
         private Label _headerSubtitleLabel;
-        private TableLayoutPanel _dataArea;
         private GroupBox _profilesGroup;
         private ListView _profilesListView;
         private ColumnHeader _colId;
@@ -734,26 +386,6 @@ namespace BRCSISTEM.Desktop.Views
         private ColumnHeader _colHost;
         private ColumnHeader _colDatabase;
         private ColumnHeader _colStatus;
-        private GroupBox _formGroup;
-        private TableLayoutPanel _formLayout;
-        private Label _nameLabel;
-        private TextBox _nameTextBox;
-        private Label _descriptionLabel;
-        private TextBox _descriptionTextBox;
-        private Label _hostLabel;
-        private TextBox _hostTextBox;
-        private Label _portLabel;
-        private NumericUpDown _portNumericUpDown;
-        private Label _databaseLabel;
-        private TextBox _databaseTextBox;
-        private Label _userFormLabel;
-        private TextBox _userTextBox;
-        private Label _passwordFormLabel;
-        private TextBox _passwordTextBox;
-        private Label _statusLabel;
-        private FlowLayoutPanel _formActionsPanel;
-        private Button _saveButton;
-        private Button _testButton;
         private TableLayoutPanel _actionBar;
         private GroupBox _configGroup;
         private TableLayoutPanel _configGroupLayout;
@@ -773,5 +405,6 @@ namespace BRCSISTEM.Desktop.Views
         private FlowLayoutPanel _auxPanel;
         private Button _manualButton;
         private Button _closeButton;
+        private Label _statusLabel;
     }
 }
