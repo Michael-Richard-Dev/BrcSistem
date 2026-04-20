@@ -10,6 +10,8 @@ namespace BRCSISTEM.Desktop.Views
 {
     public sealed partial class DatabaseProfilesForm : Form
     {
+        private static readonly Color ActiveRowColor = Color.FromArgb(232, 245, 233);
+
         private readonly ConfigurationController _configurationController;
 
         private AppConfiguration _configuration;
@@ -25,13 +27,15 @@ namespace BRCSISTEM.Desktop.Views
         private void WireEvents()
         {
             Load += DatabaseProfilesForm_Load;
-            _profilesListBox.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
+            _profilesListView.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
             _newButton.Click += NewButton_Click;
             _deleteButton.Click += DeleteSelectedProfile;
             _activateButton.Click += ActivateSelectedProfile;
             _saveButton.Click += SaveProfile;
             _testButton.Click += TestConnection;
             _closeButton.Click += CloseButton_Click;
+            KeyPreview = true;
+            KeyDown += DatabaseProfilesForm_KeyDown;
         }
 
         private void DatabaseProfilesForm_Load(object sender, EventArgs e)
@@ -39,9 +43,33 @@ namespace BRCSISTEM.Desktop.Views
             LoadConfiguration();
         }
 
+        private void DatabaseProfilesForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F2:
+                    NewButton_Click(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+                case Keys.F4:
+                    CloseButton_Click(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+                case Keys.F6:
+                    DeleteSelectedProfile(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+                case Keys.F8:
+                    ActivateSelectedProfile(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
         private void ProfilesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_profilesListBox.SelectedItem is DatabaseProfile profile)
+            var profile = GetSelectedProfile();
+            if (profile != null)
             {
                 PopulateForm(profile);
             }
@@ -62,7 +90,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             _configuration = _configurationController.LoadConfiguration();
             RefreshProfileList();
-            if (_profilesListBox.Items.Count == 0)
+            if (_profilesListView.Items.Count == 0)
             {
                 ClearForm();
             }
@@ -71,13 +99,70 @@ namespace BRCSISTEM.Desktop.Views
         private void RefreshProfileList()
         {
             var profiles = _configuration.GetOrderedProfiles().ToArray();
-            _profilesListBox.DataSource = profiles;
-            _profilesListBox.DisplayMember = nameof(DatabaseProfile.DisplayName);
-            if (profiles.Length > 0)
+            var activeId = _configuration.ActiveDatabaseId;
+
+            _profilesListView.BeginUpdate();
+            try
             {
-                var selected = profiles.FirstOrDefault(profile => string.Equals(profile.Id, _configuration.ActiveDatabaseId, StringComparison.OrdinalIgnoreCase));
-                _profilesListBox.SelectedItem = selected ?? profiles[0];
+                _profilesListView.Items.Clear();
+
+                foreach (var profile in profiles)
+                {
+                    var isActive = !string.IsNullOrEmpty(activeId)
+                        && string.Equals(profile.Id, activeId, StringComparison.OrdinalIgnoreCase);
+
+                    var item = new ListViewItem(new[]
+                    {
+                        profile.Id ?? string.Empty,
+                        profile.Name ?? string.Empty,
+                        profile.Description ?? string.Empty,
+                        (profile.Kind ?? string.Empty).ToUpperInvariant(),
+                        profile.Host ?? string.Empty,
+                        profile.Database ?? string.Empty,
+                        isActive ? "ATIVO" : "INATIVO",
+                    })
+                    {
+                        Tag = profile,
+                        UseItemStyleForSubItems = true,
+                        BackColor = isActive ? ActiveRowColor : Color.White,
+                    };
+
+                    _profilesListView.Items.Add(item);
+                }
+
+                if (_profilesListView.Items.Count > 0)
+                {
+                    ListViewItem target = null;
+                    foreach (ListViewItem item in _profilesListView.Items)
+                    {
+                        if (item.Tag is DatabaseProfile candidate
+                            && !string.IsNullOrEmpty(activeId)
+                            && string.Equals(candidate.Id, activeId, StringComparison.OrdinalIgnoreCase))
+                        {
+                            target = item;
+                            break;
+                        }
+                    }
+
+                    target = target ?? _profilesListView.Items[0];
+                    target.Selected = true;
+                    target.EnsureVisible();
+                }
             }
+            finally
+            {
+                _profilesListView.EndUpdate();
+            }
+        }
+
+        private DatabaseProfile GetSelectedProfile()
+        {
+            if (_profilesListView.SelectedItems.Count == 0)
+            {
+                return null;
+            }
+
+            return _profilesListView.SelectedItems[0].Tag as DatabaseProfile;
         }
 
         private void PopulateForm(DatabaseProfile profile)
@@ -94,7 +179,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void ClearForm()
         {
-            _profilesListBox.ClearSelected();
+            _profilesListView.SelectedItems.Clear();
             _nameTextBox.Text = string.Empty;
             _descriptionTextBox.Text = string.Empty;
             _hostTextBox.Text = string.Empty;
@@ -109,7 +194,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             try
             {
-                var selectedId = (_profilesListBox.SelectedItem as DatabaseProfile)?.Id;
+                var selectedId = GetSelectedProfile()?.Id;
                 var profile = BuildProfileFromForm(selectedId);
                 var profileId = _configuration.EnsureProfileId(profile);
                 _configuration.DatabaseProfiles[profileId] = profile;
@@ -122,7 +207,18 @@ namespace BRCSISTEM.Desktop.Views
                 _configurationController.SaveConfiguration(_configuration);
                 _hasChanges = true;
                 LoadConfiguration();
-                _profilesListBox.SelectedItem = _configuration.GetProfile(profileId);
+
+                foreach (ListViewItem item in _profilesListView.Items)
+                {
+                    if (item.Tag is DatabaseProfile candidate
+                        && string.Equals(candidate.Id, profileId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        item.Selected = true;
+                        item.EnsureVisible();
+                        break;
+                    }
+                }
+
                 SetStatus("Perfil salvo com sucesso.", false);
             }
             catch (Exception exception)
@@ -135,7 +231,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             try
             {
-                var previewProfile = BuildProfileFromForm((_profilesListBox.SelectedItem as DatabaseProfile)?.Id);
+                var previewProfile = BuildProfileFromForm(GetSelectedProfile()?.Id);
                 var result = _configurationController.TestConnection(_configuration, previewProfile);
                 SetStatus(result.Message, !result.Success);
             }
@@ -147,7 +243,8 @@ namespace BRCSISTEM.Desktop.Views
 
         private void DeleteSelectedProfile(object sender, EventArgs e)
         {
-            if (!(_profilesListBox.SelectedItem is DatabaseProfile profile))
+            var profile = GetSelectedProfile();
+            if (profile == null)
             {
                 SetStatus("Selecione um perfil para excluir.", true);
                 return;
@@ -173,7 +270,8 @@ namespace BRCSISTEM.Desktop.Views
 
         private void ActivateSelectedProfile(object sender, EventArgs e)
         {
-            if (!(_profilesListBox.SelectedItem is DatabaseProfile profile))
+            var profile = GetSelectedProfile();
+            if (profile == null)
             {
                 SetStatus("Selecione um perfil para ativar.", true);
                 return;
