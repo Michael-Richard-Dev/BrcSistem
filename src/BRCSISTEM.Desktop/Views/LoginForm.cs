@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    public sealed class LoginForm : Form
+    public sealed partial class LoginForm : Form
     {
         private const string AppName = "BRCSISTEM";
         private const string AppVersion = "v3.1.20";
@@ -31,423 +32,69 @@ namespace BRCSISTEM.Desktop.Views
         private readonly AuthenticationController _authenticationController;
 
         private AppConfiguration _configuration;
-        private ComboBox _profilesComboBox;
-        private TextBox _userNameTextBox;
-        private TextBox _passwordTextBox;
-        private Label _statusLabel;
-        private Button _loginButton;
+
+        public LoginForm()
+            : this(null, true)
+        {
+        }
 
         public LoginForm(CompositionRoot compositionRoot)
+            : this(compositionRoot, false)
+        {
+        }
+
+        private LoginForm(CompositionRoot compositionRoot, bool designerCtor)
         {
             _compositionRoot = compositionRoot;
-            _configurationController = compositionRoot.CreateConfigurationController();
-            _authenticationController = compositionRoot.CreateAuthenticationController();
 
-            InitializeComponent();
-            Load += OnLoad;
-        }
-
-        private void InitializeComponent()
-        {
-            Text = AppName + " " + AppVersion + " - Acesso ao Sistema";
-            StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(820, 540);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
-            BackColor = CinzaClaro;
-
-            var leftPanel = BuildLeftPanel();
-            var rightPanel = BuildRightPanel();
-
-            Controls.Add(rightPanel);
-            Controls.Add(leftPanel);
-        }
-
-        private Panel BuildLeftPanel()
-        {
-            var left = new Panel
+            if (!designerCtor)
             {
-                Dock = DockStyle.Left,
-                Width = 360,
-                BackColor = AzulPrincipal,
-            };
-
-            var content = new TableLayoutPanel
-            {
-                ColumnCount = 1,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                BackColor = AzulPrincipal,
-            };
-
-            var logoImage = TryLoadLogo();
-            if (logoImage != null)
-            {
-                content.Controls.Add(new PictureBox
+                if (_compositionRoot == null)
                 {
-                    Image = logoImage,
-                    SizeMode = PictureBoxSizeMode.Zoom,
-                    Size = new Size(96, 96),
-                    BackColor = AzulPrincipal,
-                    Margin = new Padding(0, 0, 0, 15),
-                    Anchor = AnchorStyles.None,
-                });
+                    throw new ArgumentNullException(nameof(compositionRoot));
+                }
+
+                _configurationController = _compositionRoot.CreateConfigurationController();
+                _authenticationController = _compositionRoot.CreateAuthenticationController();
             }
 
-            content.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = AppName,
-                ForeColor = Branco,
-                BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 22F, FontStyle.Bold),
-                Anchor = AnchorStyles.None,
-                Margin = new Padding(0, 0, 0, 5),
-            });
-
-            content.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Sistema de Controle de Estoque",
-                ForeColor = AzulClaro,
-                BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular),
-                Anchor = AnchorStyles.None,
-                Margin = new Padding(0, 0, 0, 3),
-            });
-
-            content.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Versao v3.1.20",
-                ForeColor = AzulClaro,
-                BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Regular),
-                Anchor = AnchorStyles.None,
-                Margin = new Padding(0, 0, 0, 15),
-            });
-
-            content.Controls.Add(new Panel
-            {
-                Height = 2,
-                Width = 170,
-                BackColor = Dourado,
-                Anchor = AnchorStyles.None,
-                Margin = new Padding(0, 0, 0, 12),
-            });
-
-            content.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "- Gestao Inteligente de Estoque" + Environment.NewLine +
-                       "- Controle Total de Movimentacoes" + Environment.NewLine +
-                       "- Relatorios Detalhados" + Environment.NewLine +
-                       "- Acesso Seguro e Auditado",
-                ForeColor = AzulClaro,
-                BackColor = AzulPrincipal,
-                Font = new Font("Segoe UI", 10F, FontStyle.Regular),
-                TextAlign = ContentAlignment.MiddleLeft,
-                Anchor = AnchorStyles.None,
-                Margin = new Padding(0),
-            });
-
-            var centerHost = new Panel { Dock = DockStyle.Fill, BackColor = AzulPrincipal };
-            centerHost.Controls.Add(content);
-            centerHost.Resize += (s, e) =>
-            {
-                content.Left = Math.Max(0, (centerHost.Width - content.Width) / 2);
-                content.Top = Math.Max(0, (centerHost.Height - content.Height) / 2);
-            };
-            left.Controls.Add(centerHost);
-            left.Resize += (s, e) =>
-            {
-                content.Left = Math.Max(0, (centerHost.Width - content.Width) / 2);
-                content.Top = Math.Max(0, (centerHost.Height - content.Height) / 2);
-            };
-            return left;
+            InitializeComponent();
+            WireEvents();
+            ApplyRuntimeState();
         }
 
-        private Panel BuildRightPanel()
+        private bool IsDesignModeActive
         {
-            var right = new Panel
+            get
             {
-                Dock = DockStyle.Fill,
-                BackColor = Branco,
-            };
-
-            var footer = new Panel
-            {
-                Dock = DockStyle.Bottom,
-                Height = 34,
-                BackColor = CinzaClaro,
-            };
-            footer.Controls.Add(new Label
-            {
-                Text = " 2025 " + AppName + " - Todos os direitos reservados ",
-                ForeColor = CinzaEscuro,
-                BackColor = CinzaClaro,
-                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
-                AutoSize = false,
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-            });
-
-            var form = new TableLayoutPanel
-            {
-                ColumnCount = 1,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                BackColor = Branco,
-                Padding = new Padding(40, 28, 40, 20),
-            };
-            const int fieldWidth = 280;
-
-            form.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Bem-vindo!",
-                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
-                ForeColor = AzulPrincipal,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 4),
-            });
-            form.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Faca login para acessar o sistema",
-                Font = new Font("Segoe UI", 10.5F, FontStyle.Regular),
-                ForeColor = CinzaEscuro,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 28),
-            });
-
-            var bancoHeader = new Panel
-            {
-                Width = fieldWidth,
-                Height = 30,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 4),
-            };
-
-            var bancoLabel = new Label
-            {
-                AutoSize = false,
-                Location = new Point(0, 6),
-                Size = new Size(fieldWidth - 68, 20),
-                Text = "Banco de Dados",
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                ForeColor = AzulPrincipal,
-                BackColor = Branco,
-                TextAlign = ContentAlignment.MiddleLeft,
-            };
-            bancoHeader.Controls.Add(bancoLabel);
-
-            var btnCache = BuildIconButton("\uD83E\uDDF9");
-            btnCache.Location = new Point(fieldWidth - 64, 3);
-            btnCache.Click += (s, e) => LoadConfiguration();
-            bancoHeader.Controls.Add(btnCache);
-
-            var btnConfig = BuildIconButton("\u2699");
-            btnConfig.Location = new Point(fieldWidth - 32, 3);
-            btnConfig.Click += OpenProfilesManager;
-            bancoHeader.Controls.Add(btnConfig);
-
-            form.Controls.Add(bancoHeader);
-
-            _profilesComboBox = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Width = fieldWidth,
-                Font = new Font("Segoe UI", 9F),
-                FlatStyle = FlatStyle.Flat,
-                BackColor = CinzaClaro,
-                FormattingEnabled = true,
-                Margin = new Padding(0, 0, 0, 20),
-            };
-            _profilesComboBox.Format += OnProfileFormat;
-            form.Controls.Add(_profilesComboBox);
-
-            form.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Usuario",
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                ForeColor = AzulPrincipal,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 2),
-            });
-            var userHost = BuildFieldHost(fieldWidth, out _userNameTextBox);
-            userHost.Margin = new Padding(0, 0, 0, 14);
-            _userNameTextBox.KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    _passwordTextBox.Focus();
-                    e.SuppressKeyPress = true;
-                }
-            };
-            form.Controls.Add(userHost);
-
-            form.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Senha",
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                ForeColor = AzulPrincipal,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 2),
-            });
-            var passHost = BuildFieldHost(fieldWidth, out _passwordTextBox);
-            _passwordTextBox.UseSystemPasswordChar = true;
-            passHost.Margin = new Padding(0, 0, 0, 14);
-            _passwordTextBox.KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    TryLogin();
-                    e.SuppressKeyPress = true;
-                }
-            };
-            form.Controls.Add(passHost);
-
-            _statusLabel = new Label
-            {
-                AutoSize = false,
-                Width = fieldWidth,
-                Height = 22,
-                Text = string.Empty,
-                ForeColor = VermelhoErro,
-                BackColor = Branco,
-                Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleLeft,
-                Margin = new Padding(0, 0, 0, 14),
-            };
-            form.Controls.Add(_statusLabel);
-
-            _loginButton = new Button
-            {
-                Text = "ACESSAR SISTEMA",
-                Width = fieldWidth,
-                Height = 40,
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-                BackColor = AzulPrincipal,
-                ForeColor = Branco,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Margin = new Padding(0, 0, 0, 6),
-            };
-            _loginButton.FlatAppearance.BorderSize = 0;
-            _loginButton.FlatAppearance.MouseOverBackColor = AzulSecundario;
-            _loginButton.Click += (s, e) => TryLogin();
-            _loginButton.Margin = new Padding(0, 0, 0, 10);
-            form.Controls.Add(_loginButton);
-
-            var secondaryButtons = new TableLayoutPanel
-            {
-                ColumnCount = 2,
-                RowCount = 1,
-                Width = fieldWidth,
-                Height = 34,
-                BackColor = Branco,
-                Margin = new Padding(0, 0, 0, 12),
-            };
-            secondaryButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            secondaryButtons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-
-            var btnSolicitar = BuildSecondaryButton("Solicitar Acesso");
-            btnSolicitar.Dock = DockStyle.Fill;
-            btnSolicitar.Margin = new Padding(0, 0, 5, 0);
-            btnSolicitar.Click += (s, e) =>
-                MessageBox.Show(this,
-                    "Solicitacao de acesso indisponivel nesta versao. Contate o administrador.",
-                    "Solicitar Acesso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            var btnFechar = BuildSecondaryButton("Fechar");
-            btnFechar.Dock = DockStyle.Fill;
-            btnFechar.Margin = new Padding(5, 0, 0, 0);
-            btnFechar.FlatAppearance.MouseOverBackColor = VermelhoErro;
-            btnFechar.Click += (s, e) => Close();
-
-            secondaryButtons.Controls.Add(btnSolicitar, 0, 0);
-            secondaryButtons.Controls.Add(btnFechar, 1, 0);
-            form.Controls.Add(secondaryButtons);
-
-            var center = new Panel { Dock = DockStyle.Fill, BackColor = Branco };
-            center.Controls.Add(form);
-            center.Resize += (s, e) =>
-            {
-                form.Left = Math.Max(0, (center.Width - form.Width) / 2);
-                form.Top = Math.Max(0, (center.Height - form.Height) / 2);
-            };
-
-            right.Controls.Add(center);
-            right.Controls.Add(footer);
-            return right;
+                return LicenseManager.UsageMode == LicenseUsageMode.Designtime
+                    || DesignMode
+                    || Site != null && Site.DesignMode;
+            }
         }
 
-        private static Button BuildIconButton(string glyph)
+        private void WireEvents()
         {
-            var btn = new Button
-            {
-                Text = glyph,
-                Font = new Font("Segoe UI Symbol", 10F),
-                Width = 26,
-                Height = 24,
-                BackColor = Branco,
-                ForeColor = CinzaEscuro,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Margin = new Padding(2, 0, 2, 0),
-                TextAlign = ContentAlignment.MiddleCenter,
-                TabStop = false,
-            };
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = CinzaClaro;
-            return btn;
+            Load += OnLoad;
+            _cacheIconButton.Click += CacheIconButton_Click;
+            _configIconButton.Click += OpenProfilesManager;
+            _loginButton.Click += LoginButton_Click;
+            _requestAccessButton.Click += RequestAccessButton_Click;
+            _closeButton.Click += CloseButton_Click;
+            _userNameTextBox.KeyDown += UserNameTextBox_KeyDown;
+            _passwordTextBox.KeyDown += PasswordTextBox_KeyDown;
+            _userHostPanel.GotFocus += UserHostPanel_GotFocus;
+            _passwordHostPanel.GotFocus += PasswordHostPanel_GotFocus;
         }
 
-        private static Panel BuildFieldHost(int width, out TextBox textBox)
+        private void ApplyRuntimeState()
         {
-            var host = new Panel
-            {
-                Width = width,
-                Height = 34,
-                BackColor = CinzaClaro,
-                BorderStyle = BorderStyle.FixedSingle,
-                Padding = new Padding(10, 8, 10, 6),
-            };
+            _brandingTitleLabel.Text = AppName;
+            _brandingVersionLabel.Text = "Versao " + AppVersion;
+            _footerLabel.Text = " 2025 " + AppName + " - Todos os direitos reservados ";
 
-            textBox = new TextBox
-            {
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 10F),
-                BackColor = CinzaClaro,
-                ForeColor = CinzaEscuro,
-                BorderStyle = BorderStyle.None,
-            };
-
-            var innerBox = textBox;
-            host.GotFocus += (s, e) => innerBox.Focus();
-            host.Controls.Add(textBox);
-            return host;
-        }
-
-        private static Button BuildSecondaryButton(string text)
-        {
-            var btn = new Button
-            {
-                Text = text,
-                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
-                BackColor = CinzaMedio,
-                ForeColor = AzulPrincipal,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Height = 32,
-            };
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = CinzaEscuro;
-            return btn;
+            _logoPictureBox.Image = TryLoadLogo();
+            _logoPictureBox.Visible = _logoPictureBox.Image != null;
         }
 
         private Image TryLoadLogo()
@@ -485,17 +132,86 @@ namespace BRCSISTEM.Desktop.Views
             catch
             {
             }
+
             return null;
         }
 
         private void OnLoad(object sender, EventArgs e)
         {
+            if (IsDesignModeActive)
+            {
+                return;
+            }
+
             LoadConfiguration();
             _userNameTextBox.Focus();
         }
 
+        private void CacheIconButton_Click(object sender, EventArgs e)
+        {
+            LoadConfiguration();
+        }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            TryLogin();
+        }
+
+        private void RequestAccessButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                this,
+                "Solicitacao de acesso indisponivel nesta versao. Contate o administrador.",
+                "Solicitar Acesso",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void UserNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+            {
+                return;
+            }
+
+            _passwordTextBox.Focus();
+            e.SuppressKeyPress = true;
+        }
+
+        private void PasswordTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+            {
+                return;
+            }
+
+            TryLogin();
+            e.SuppressKeyPress = true;
+        }
+
+        private void UserHostPanel_GotFocus(object sender, EventArgs e)
+        {
+            _userNameTextBox.Focus();
+        }
+
+        private void PasswordHostPanel_GotFocus(object sender, EventArgs e)
+        {
+            _passwordTextBox.Focus();
+        }
+
         private void LoadConfiguration()
         {
+            if (IsDesignModeActive || _configurationController == null)
+            {
+                SetStatus(string.Empty, false);
+                return;
+            }
+
             _configuration = _configurationController.LoadConfiguration();
             var profiles = _configuration.GetOrderedProfiles().ToArray();
             _profilesComboBox.DataSource = profiles;
@@ -504,7 +220,9 @@ namespace BRCSISTEM.Desktop.Views
 
             if (profiles.Length > 0)
             {
-                var activeIndex = Array.FindIndex(profiles, profile => string.Equals(profile.Id, _configuration.ActiveDatabaseId, StringComparison.OrdinalIgnoreCase));
+                var activeIndex = Array.FindIndex(
+                    profiles,
+                    profile => string.Equals(profile.Id, _configuration.ActiveDatabaseId, StringComparison.OrdinalIgnoreCase));
                 _profilesComboBox.SelectedIndex = activeIndex >= 0 ? activeIndex : 0;
                 SetStatus(string.Empty, false);
             }
@@ -516,6 +234,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenProfilesManager(object sender, EventArgs e)
         {
+            if (IsDesignModeActive || _compositionRoot == null)
+            {
+                return;
+            }
+
             using (var dialog = new DatabaseProfilesForm(_compositionRoot))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK)
@@ -527,6 +250,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void TryLogin()
         {
+            if (IsDesignModeActive || _authenticationController == null || _compositionRoot == null)
+            {
+                return;
+            }
+
             if (_configuration == null)
             {
                 LoadConfiguration();
@@ -542,7 +270,11 @@ namespace BRCSISTEM.Desktop.Views
             LoginResult result;
             try
             {
-                result = _authenticationController.Login(_configuration, selectedProfile.Id, _userNameTextBox.Text, _passwordTextBox.Text);
+                result = _authenticationController.Login(
+                    _configuration,
+                    selectedProfile.Id,
+                    _userNameTextBox.Text,
+                    _passwordTextBox.Text);
             }
             catch (Exception exception)
             {
@@ -558,12 +290,22 @@ namespace BRCSISTEM.Desktop.Views
 
             if (result.RequiresPasswordChange)
             {
-                using (var changePasswordForm = new ChangePasswordForm(_compositionRoot, _configuration, result.DatabaseProfile, result.Identity.UserName, true))
+                using (var changePasswordForm = new ChangePasswordForm(
+                    _compositionRoot,
+                    _configuration,
+                    result.DatabaseProfile,
+                    result.Identity.UserName,
+                    true))
                 {
                     var dialogResult = changePasswordForm.ShowDialog(this);
                     if (dialogResult == DialogResult.OK)
                     {
-                        MessageBox.Show(this, "Senha alterada. Faca login novamente com a nova senha.", "Senha Atualizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(
+                            this,
+                            "Senha alterada. Faca login novamente com a nova senha.",
+                            "Senha Atualizada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
                         _passwordTextBox.Clear();
                         _passwordTextBox.Focus();
                     }
@@ -579,9 +321,14 @@ namespace BRCSISTEM.Desktop.Views
             }
 
             var mainForm = new MainForm(_compositionRoot, result.Identity, result.DatabaseProfile);
-            mainForm.FormClosed += (sender, args) => Close();
+            mainForm.FormClosed += MainForm_FormClosed;
             Hide();
             mainForm.Show();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Close();
         }
 
         private static void OnProfileFormat(object sender, ListControlConvertEventArgs e)
