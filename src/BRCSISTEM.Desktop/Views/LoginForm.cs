@@ -32,6 +32,7 @@ namespace BRCSISTEM.Desktop.Views
         private readonly AuthenticationController _authenticationController;
 
         private AppConfiguration _configuration;
+        private EnvironmentOption[] _environmentOptions = Array.Empty<EnvironmentOption>();
 
         public LoginForm()
             : this(null, true)
@@ -83,6 +84,7 @@ namespace BRCSISTEM.Desktop.Views
             _loginButton.Click += LoginButton_Click;
             _requestAccessButton.Click += RequestAccessButton_Click;
             _closeButton.Click += CloseButton_Click;
+            _profilesComboBox.SelectedIndexChanged += ProfilesComboBox_SelectedIndexChanged;
             _userNameTextBox.KeyDown += UserNameTextBox_KeyDown;
             _passwordTextBox.KeyDown += PasswordTextBox_KeyDown;
             _userHostPanel.GotFocus += UserHostPanel_GotFocus;
@@ -94,10 +96,13 @@ namespace BRCSISTEM.Desktop.Views
             _brandingTitleLabel.Text = AppName;
             _brandingVersionLabel.Text = "Versao " + AppVersion;
             _footerLabel.Text = " 2025 " + AppName + " - Todos os direitos reservados ";
+            _bancoLabel.Text = "Ambiente";
 
             ApplyToolbarImages();
             _logoPictureBox.Image = TryLoadLogo();
             _logoPictureBox.Visible = _logoPictureBox.Image != null;
+            _cacheIconButton.Visible = false;
+            _configIconButton.Visible = false;
 
             CenterLeftContent();
             CenterFormContent();
@@ -255,28 +260,45 @@ namespace BRCSISTEM.Desktop.Views
         {
             if (IsDesignModeActive || _configurationController == null)
             {
+                ConfigureDesignTimeEnvironmentOptions();
                 SetStatus(string.Empty, false);
                 return;
             }
 
             _configuration = _configurationController.LoadConfiguration();
-            var profiles = _configuration.GetOrderedProfiles().ToArray();
-            _profilesComboBox.DataSource = profiles;
-            _profilesComboBox.DisplayMember = null;
-            _profilesComboBox.ValueMember = nameof(DatabaseProfile.Id);
+            _environmentOptions = BuildEnvironmentOptions(_configuration);
+            _profilesComboBox.DataSource = null;
+            _profilesComboBox.DisplayMember = nameof(EnvironmentOption.DisplayName);
+            _profilesComboBox.ValueMember = nameof(EnvironmentOption.Key);
+            _profilesComboBox.DataSource = _environmentOptions;
 
-            if (profiles.Length > 0)
+            if (_environmentOptions.Length > 0)
             {
-                var activeIndex = Array.FindIndex(
-                    profiles,
-                    profile => string.Equals(profile.Id, _configuration.ActiveDatabaseId, StringComparison.OrdinalIgnoreCase));
+                var activeIndex = ResolveSelectedEnvironmentIndex();
                 _profilesComboBox.SelectedIndex = activeIndex >= 0 ? activeIndex : 0;
                 SetStatus(string.Empty, false);
             }
             else
             {
-                SetStatus("Nenhum banco configurado. Use o icone de configuracao para adicionar um perfil.", true);
+                SetStatus("Nenhum ambiente valido foi encontrado. Configure Producao e Homologacao antes de continuar.", true);
             }
+        }
+
+        private void ConfigureDesignTimeEnvironmentOptions()
+        {
+            if (_profilesComboBox.DataSource != null)
+            {
+                return;
+            }
+
+            _profilesComboBox.DisplayMember = nameof(EnvironmentOption.DisplayName);
+            _profilesComboBox.ValueMember = nameof(EnvironmentOption.Key);
+            _profilesComboBox.DataSource = new[]
+            {
+                new EnvironmentOption("production", "Producao", null),
+                new EnvironmentOption("homologation", "Homologacao", null),
+            };
+            _profilesComboBox.SelectedIndex = 0;
         }
 
         private void OpenProfilesManager(object sender, EventArgs e)
@@ -307,19 +329,27 @@ namespace BRCSISTEM.Desktop.Views
                 LoadConfiguration();
             }
 
-            if (_profilesComboBox.SelectedItem == null)
+            var selectedOption = _profilesComboBox.SelectedItem as EnvironmentOption;
+            if (selectedOption == null)
             {
-                SetStatus("Selecione um banco configurado antes de continuar.", true);
+                SetStatus("Selecione um ambiente antes de continuar.", true);
                 return;
             }
 
-            var selectedProfile = (DatabaseProfile)_profilesComboBox.SelectedItem;
+            if (selectedOption.Profile == null)
+            {
+                SetStatus("O ambiente selecionado nao esta configurado internamente.", true);
+                return;
+            }
+
+            ActivateEnvironmentProfile(selectedOption.Profile, persistConfiguration: false);
+
             LoginResult result;
             try
             {
                 result = _authenticationController.Login(
                     _configuration,
-                    selectedProfile.Id,
+                    selectedOption.Profile.Id,
                     _userNameTextBox.Text,
                     _passwordTextBox.Text);
             }
@@ -419,6 +449,159 @@ namespace BRCSISTEM.Desktop.Views
         {
             _statusLabel.Text = message ?? string.Empty;
             _statusLabel.ForeColor = error ? VermelhoErro : Color.SeaGreen;
+        }
+
+        private void ProfilesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsDesignModeActive || _configuration == null)
+            {
+                return;
+            }
+
+            var selectedOption = _profilesComboBox.SelectedItem as EnvironmentOption;
+            if (selectedOption == null || selectedOption.Profile == null)
+            {
+                return;
+            }
+
+            ActivateEnvironmentProfile(selectedOption.Profile, persistConfiguration: true);
+            SetStatus(string.Empty, false);
+        }
+
+        private void ActivateEnvironmentProfile(DatabaseProfile profile, bool persistConfiguration)
+        {
+            if (_configuration == null || profile == null || string.IsNullOrWhiteSpace(profile.Id))
+            {
+                return;
+            }
+
+            if (string.Equals(_configuration.ActiveDatabaseId, profile.Id, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            _configuration.ActiveDatabaseId = profile.Id;
+            if (persistConfiguration && _configurationController != null)
+            {
+                _configurationController.SaveConfiguration(_configuration);
+            }
+        }
+
+        private int ResolveSelectedEnvironmentIndex()
+        {
+            if (_environmentOptions.Length == 0)
+            {
+                return -1;
+            }
+
+            if (!string.IsNullOrWhiteSpace(_configuration?.ActiveDatabaseId))
+            {
+                for (var index = 0; index < _environmentOptions.Length; index++)
+                {
+                    var profile = _environmentOptions[index].Profile;
+                    if (profile != null
+                        && string.Equals(profile.Id, _configuration.ActiveDatabaseId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return index;
+                    }
+                }
+            }
+
+            var productionIndex = Array.FindIndex(_environmentOptions, option =>
+                string.Equals(option.Key, "production", StringComparison.OrdinalIgnoreCase) && option.Profile != null);
+
+            return productionIndex >= 0 ? productionIndex : 0;
+        }
+
+        private static EnvironmentOption[] BuildEnvironmentOptions(AppConfiguration configuration)
+        {
+            if (configuration == null)
+            {
+                return Array.Empty<EnvironmentOption>();
+            }
+
+            var profiles = configuration.GetOrderedProfiles().ToArray();
+            var productionProfile = SelectPreferredProfile(profiles, production: true, configuration.ActiveDatabaseId);
+            var homologationProfile = SelectPreferredProfile(profiles, production: false, configuration.ActiveDatabaseId);
+
+            return new[]
+            {
+                new EnvironmentOption("production", "Producao", productionProfile),
+                new EnvironmentOption("homologation", "Homologacao", homologationProfile),
+            };
+        }
+
+        private static DatabaseProfile SelectPreferredProfile(DatabaseProfile[] profiles, bool production, string activeDatabaseId)
+        {
+            var candidates = profiles
+                .Where(profile => IsHomologationProfile(profile) != production)
+                .ToArray();
+
+            if (candidates.Length == 0)
+            {
+                return null;
+            }
+
+            var activeCandidate = candidates.FirstOrDefault(profile =>
+                string.Equals(profile.Id, activeDatabaseId, StringComparison.OrdinalIgnoreCase));
+            if (activeCandidate != null)
+            {
+                return activeCandidate;
+            }
+
+            if (production)
+            {
+                var brcCandidate = candidates.FirstOrDefault(profile =>
+                    ContainsAny(profile.Name, "brc", "producao")
+                    || ContainsAny(profile.Database, "brc", "producao")
+                    || ContainsAny(profile.Description, "producao"));
+                if (brcCandidate != null)
+                {
+                    return brcCandidate;
+                }
+            }
+            else
+            {
+                var homologCandidate = candidates.FirstOrDefault(IsHomologationProfile);
+                if (homologCandidate != null)
+                {
+                    return homologCandidate;
+                }
+            }
+
+            return candidates
+                .OrderBy(profile => profile.Name ?? profile.Id, StringComparer.CurrentCultureIgnoreCase)
+                .First();
+        }
+
+        private static bool IsHomologationProfile(DatabaseProfile profile)
+        {
+            return ContainsAny(profile?.Id, "hml", "homolog", "homologa")
+                || ContainsAny(profile?.Name, "hml", "homolog", "homologa")
+                || ContainsAny(profile?.Database, "hml", "homolog", "homologa")
+                || ContainsAny(profile?.Description, "hml", "homolog", "homologa");
+        }
+
+        private static bool ContainsAny(string value, params string[] markers)
+        {
+            var normalized = (value ?? string.Empty).Trim().ToLowerInvariant();
+            return markers.Any(marker => normalized.Contains(marker));
+        }
+
+        private sealed class EnvironmentOption
+        {
+            public EnvironmentOption(string key, string displayName, DatabaseProfile profile)
+            {
+                Key = key;
+                DisplayName = displayName;
+                Profile = profile;
+            }
+
+            public string Key { get; }
+
+            public string DisplayName { get; }
+
+            public DatabaseProfile Profile { get; }
         }
     }
 }
