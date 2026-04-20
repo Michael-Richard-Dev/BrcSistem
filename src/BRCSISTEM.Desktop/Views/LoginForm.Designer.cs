@@ -22,7 +22,6 @@ namespace BRCSISTEM.Desktop.Views
 
         private void InitializeComponent()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(LoginForm));
             this._leftPanel = new Panel();
             this._leftContentLayout = new TableLayoutPanel();
             this._logoPictureBox = new PictureBox();
@@ -107,7 +106,6 @@ namespace BRCSISTEM.Desktop.Views
             // 
             this._logoPictureBox.Anchor = AnchorStyles.None;
             this._logoPictureBox.BackColor = Color.FromArgb(27, 54, 93);
-            this._logoPictureBox.Image = ((Image)(resources.GetObject("_logoPictureBox.Image")));
             this._logoPictureBox.Location = new Point(67, 0);
             this._logoPictureBox.Margin = new Padding(0, 0, 0, 15);
             this._logoPictureBox.Name = "_logoPictureBox";
@@ -541,7 +539,6 @@ namespace BRCSISTEM.Desktop.Views
             this.Controls.Add(this._rightPanel);
             this.Controls.Add(this._leftPanel);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.Icon = ((Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = FormStartPosition.CenterScreen;

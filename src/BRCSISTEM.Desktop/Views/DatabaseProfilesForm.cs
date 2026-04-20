@@ -8,159 +8,54 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    public sealed class DatabaseProfilesForm : Form
+    public sealed partial class DatabaseProfilesForm : Form
     {
         private readonly ConfigurationController _configurationController;
 
         private AppConfiguration _configuration;
         private bool _hasChanges;
-        private ListBox _profilesListBox;
-        private TextBox _nameTextBox;
-        private TextBox _descriptionTextBox;
-        private TextBox _hostTextBox;
-        private NumericUpDown _portNumericUpDown;
-        private TextBox _databaseTextBox;
-        private TextBox _userTextBox;
-        private TextBox _passwordTextBox;
-        private Label _statusLabel;
 
         public DatabaseProfilesForm(CompositionRoot compositionRoot)
         {
             _configurationController = compositionRoot.CreateConfigurationController();
             InitializeComponent();
-            Load += (sender, args) => LoadConfiguration();
+            WireEvents();
         }
 
-        private void InitializeComponent()
+        private void WireEvents()
         {
-            Text = "BRCSISTEM - Gerenciar Bancos";
-            StartPosition = FormStartPosition.CenterParent;
-            Size = new Size(900, 560);
-            MinimumSize = new Size(900, 560);
+            Load += DatabaseProfilesForm_Load;
+            _profilesListBox.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
+            _newButton.Click += NewButton_Click;
+            _deleteButton.Click += DeleteSelectedProfile;
+            _activateButton.Click += ActivateSelectedProfile;
+            _saveButton.Click += SaveProfile;
+            _testButton.Click += TestConnection;
+            _closeButton.Click += CloseButton_Click;
+        }
 
-            var root = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                Padding = new Padding(12),
-            };
-            root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 260F));
-            root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        private void DatabaseProfilesForm_Load(object sender, EventArgs e)
+        {
+            LoadConfiguration();
+        }
 
-            var leftPanel = new TableLayoutPanel
+        private void ProfilesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_profilesListBox.SelectedItem is DatabaseProfile profile)
             {
-                Dock = DockStyle.Fill,
-                RowCount = 3,
-            };
-            leftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            leftPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            leftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            leftPanel.Controls.Add(new Label
-            {
-                AutoSize = true,
-                Text = "Perfis configurados",
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(27, 54, 93),
-                Margin = new Padding(0, 0, 0, 8),
-            }, 0, 0);
+                PopulateForm(profile);
+            }
+        }
 
-            _profilesListBox = new ListBox
-            {
-                Dock = DockStyle.Fill,
-                Font = new Font("Segoe UI", 10F),
-            };
-            _profilesListBox.SelectedIndexChanged += (sender, args) =>
-            {
-                if (_profilesListBox.SelectedItem is DatabaseProfile profile)
-                {
-                    PopulateForm(profile);
-                }
-            };
-            leftPanel.Controls.Add(_profilesListBox, 0, 1);
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
 
-            var listButtons = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                AutoSize = true,
-            };
-            var newButton = new Button { Text = "Novo", AutoSize = true, FlatStyle = FlatStyle.System };
-            newButton.Click += (sender, args) => ClearForm();
-            var deleteButton = new Button { Text = "Excluir", AutoSize = true, FlatStyle = FlatStyle.System };
-            deleteButton.Click += DeleteSelectedProfile;
-            var activateButton = new Button { Text = "Definir Ativo", AutoSize = true, FlatStyle = FlatStyle.System };
-            activateButton.Click += ActivateSelectedProfile;
-            listButtons.Controls.Add(newButton);
-            listButtons.Controls.Add(deleteButton);
-            listButtons.Controls.Add(activateButton);
-            leftPanel.Controls.Add(listButtons, 0, 2);
-
-            var rightPanel = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                AutoScroll = true,
-            };
-            rightPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
-            rightPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-
-            AddField(rightPanel, 0, "Nome", out _nameTextBox);
-            AddField(rightPanel, 1, "Descricao", out _descriptionTextBox);
-            AddField(rightPanel, 2, "Host", out _hostTextBox);
-
-            rightPanel.Controls.Add(CreateFieldLabel("Porta"), 0, 3);
-            _portNumericUpDown = new NumericUpDown
-            {
-                Minimum = 1,
-                Maximum = 65535,
-                Value = 5432,
-                Width = 140,
-                Font = new Font("Segoe UI", 10F),
-                Dock = DockStyle.Top,
-            };
-            rightPanel.Controls.Add(_portNumericUpDown, 1, 3);
-
-            AddField(rightPanel, 4, "Database", out _databaseTextBox);
-            AddField(rightPanel, 5, "Usuario", out _userTextBox);
-            AddField(rightPanel, 6, "Senha", out _passwordTextBox);
-            _passwordTextBox.UseSystemPasswordChar = true;
-
-            _statusLabel = new Label
-            {
-                AutoSize = true,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                ForeColor = Color.Firebrick,
-                Margin = new Padding(0, 16, 0, 12),
-            };
-            rightPanel.Controls.Add(_statusLabel, 0, 7);
-            rightPanel.SetColumnSpan(_statusLabel, 2);
-
-            var actions = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Top,
-                FlowDirection = FlowDirection.LeftToRight,
-                AutoSize = true,
-                Margin = new Padding(0, 10, 0, 0),
-            };
-            var saveButton = new Button { Text = "Salvar", AutoSize = true, FlatStyle = FlatStyle.System };
-            saveButton.Click += SaveProfile;
-            var testButton = new Button { Text = "Testar Conexao", AutoSize = true, FlatStyle = FlatStyle.System };
-            testButton.Click += TestConnection;
-            var closeButton = new Button { Text = "Fechar", AutoSize = true, FlatStyle = FlatStyle.System };
-            closeButton.Click += (sender, args) =>
-            {
-                DialogResult = _hasChanges ? DialogResult.OK : DialogResult.Cancel;
-                Close();
-            };
-            actions.Controls.Add(saveButton);
-            actions.Controls.Add(testButton);
-            actions.Controls.Add(closeButton);
-            rightPanel.Controls.Add(actions, 0, 8);
-            rightPanel.SetColumnSpan(actions, 2);
-
-            root.Controls.Add(leftPanel, 0, 0);
-            root.Controls.Add(rightPanel, 1, 0);
-            Controls.Add(root);
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = _hasChanges ? DialogResult.OK : DialogResult.Cancel;
+            Close();
         }
 
         private void LoadConfiguration()
@@ -327,29 +222,6 @@ namespace BRCSISTEM.Desktop.Views
         {
             _statusLabel.Text = message ?? string.Empty;
             _statusLabel.ForeColor = error ? Color.Firebrick : Color.SeaGreen;
-        }
-
-        private static void AddField(TableLayoutPanel panel, int row, string label, out TextBox textBox)
-        {
-            panel.Controls.Add(CreateFieldLabel(label), 0, row);
-            textBox = new TextBox
-            {
-                Dock = DockStyle.Top,
-                Font = new Font("Segoe UI", 10F),
-            };
-            panel.Controls.Add(textBox, 1, row);
-        }
-
-        private static Label CreateFieldLabel(string text)
-        {
-            return new Label
-            {
-                AutoSize = true,
-                Text = text,
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(27, 54, 93),
-                Margin = new Padding(0, 8, 0, 4),
-            };
         }
     }
 }
