@@ -60,7 +60,7 @@ namespace BRCSISTEM.Desktop.Views
                 }
 
                 SetStatus("Conectando ao servidor e listando bancos...", false);
-                Application.DoEvents();
+                System.Windows.Forms.Application.DoEvents();
 
                 var databases = DatabaseServerSupport.ListDatabases(host, port, user, _passwordTextBox.Text);
                 _resultsCheckedListBox.Items.Clear();

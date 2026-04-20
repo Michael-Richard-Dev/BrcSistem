@@ -80,7 +80,7 @@ namespace BRCSISTEM.Desktop.Views
                 }
 
                 SetStatus("Criando banco no servidor...", false);
-                Application.DoEvents();
+                System.Windows.Forms.Application.DoEvents();
 
                 DatabaseServerSupport.CreateDatabase(host, port, user, password, databaseName);
 

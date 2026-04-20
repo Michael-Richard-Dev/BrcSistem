@@ -60,7 +60,7 @@ namespace BRCSISTEM.Desktop.Views
                 }
 
                 SetStatus("Conectando ao servidor...", false);
-                Application.DoEvents();
+                System.Windows.Forms.Application.DoEvents();
 
                 var databases = DatabaseServerSupport.ListDatabases(host, port, user, _adminPasswordTextBox.Text);
                 _databasesListBox.Items.Clear();
@@ -144,7 +144,7 @@ namespace BRCSISTEM.Desktop.Views
             try
             {
                 SetStatus("Excluindo banco do servidor...", false);
-                Application.DoEvents();
+                System.Windows.Forms.Application.DoEvents();
 
                 DatabaseServerSupport.DropDatabase(host, port, user, password, databaseName);
                 ResultMessage = "Banco '" + databaseName + "' excluido do servidor.";

@@ -128,7 +128,7 @@ namespace BRCSISTEM.Desktop.Views
                 using (var createCommand = connection.CreateCommand())
                 {
                     createCommand.CommandText =
-                        "CREATE DATABASE " + NpgsqlCommandBuilder.QuoteIdentifier(databaseName) + " WITH ENCODING = 'UTF8'";
+                        "CREATE DATABASE " + new NpgsqlCommandBuilder().QuoteIdentifier(databaseName) + " WITH ENCODING = 'UTF8'";
                     createCommand.ExecuteNonQuery();
                 }
             }
@@ -151,7 +151,8 @@ namespace BRCSISTEM.Desktop.Views
 
                 using (var dropCommand = connection.CreateCommand())
                 {
-                    dropCommand.CommandText = "DROP DATABASE IF EXISTS " + NpgsqlCommandBuilder.QuoteIdentifier(databaseName);
+                    var quotedName = new NpgsqlCommandBuilder().QuoteIdentifier(databaseName);
+                    dropCommand.CommandText = "DROP DATABASE IF EXISTS " + quotedName;
                     dropCommand.ExecuteNonQuery();
                 }
             }
