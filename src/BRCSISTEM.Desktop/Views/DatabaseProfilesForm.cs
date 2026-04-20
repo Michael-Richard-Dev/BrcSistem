@@ -28,9 +28,14 @@ namespace BRCSISTEM.Desktop.Views
         {
             Load += DatabaseProfilesForm_Load;
             _profilesListView.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
+            _searchButton.Click += SearchButton_Click;
             _newButton.Click += NewButton_Click;
+            _editButton.Click += EditButton_Click;
             _deleteButton.Click += DeleteSelectedProfile;
             _activateButton.Click += ActivateSelectedProfile;
+            _createDatabaseButton.Click += CreateDatabaseButton_Click;
+            _dropDatabaseButton.Click += DropDatabaseButton_Click;
+            _manualButton.Click += ManualButton_Click;
             _saveButton.Click += SaveProfile;
             _testButton.Click += TestConnection;
             _closeButton.Click += CloseButton_Click;
@@ -51,12 +56,20 @@ namespace BRCSISTEM.Desktop.Views
                     NewButton_Click(sender, EventArgs.Empty);
                     e.Handled = true;
                     break;
+                case Keys.F3:
+                    EditButton_Click(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
                 case Keys.F4:
                     CloseButton_Click(sender, EventArgs.Empty);
                     e.Handled = true;
                     break;
                 case Keys.F6:
                     DeleteSelectedProfile(sender, EventArgs.Empty);
+                    e.Handled = true;
+                    break;
+                case Keys.F7:
+                    SearchButton_Click(sender, EventArgs.Empty);
                     e.Handled = true;
                     break;
                 case Keys.F8:
@@ -78,6 +91,45 @@ namespace BRCSISTEM.Desktop.Views
         private void NewButton_Click(object sender, EventArgs e)
         {
             ClearForm();
+            _nameTextBox.Focus();
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            var profile = GetSelectedProfile();
+            if (profile == null)
+            {
+                SetStatus("Selecione um perfil para editar.", true);
+                return;
+            }
+
+            PopulateForm(profile);
+            _nameTextBox.Focus();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            ShowUnavailableFeature("Buscar e Adicionar");
+        }
+
+        private void CreateDatabaseButton_Click(object sender, EventArgs e)
+        {
+            ShowUnavailableFeature("Criar Novo Banco");
+        }
+
+        private void DropDatabaseButton_Click(object sender, EventArgs e)
+        {
+            ShowUnavailableFeature("Excluir Banco");
+        }
+
+        private void ManualButton_Click(object sender, EventArgs e)
+        {
+            ShowUnavailableFeature("Manual");
+        }
+
+        private void ShowUnavailableFeature(string featureName)
+        {
+            SetStatus($"'{featureName}' ainda nao esta disponivel neste modulo.", true);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
