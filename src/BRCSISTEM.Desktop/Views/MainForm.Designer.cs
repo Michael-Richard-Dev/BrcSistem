@@ -12,6 +12,7 @@ namespace BRCSISTEM.Desktop.Views
         private IContainer components = null;
 
         // Controles visuais persistentes (equivalente ao Designer do VS).
+        private TableLayoutPanel rootLayout;
         private MenuStrip mainMenuStrip;
         private TableLayoutPanel tableLayoutBody;
         private Panel panelCentral;
@@ -56,6 +57,7 @@ namespace BRCSISTEM.Desktop.Views
         private void InitializeComponent()
         {
             this.components = new Container();
+            this.rootLayout = new TableLayoutPanel();
             this.mainMenuStrip = new MenuStrip();
             this.tableLayoutBody = new TableLayoutPanel();
             this.panelCentral = new Panel();
@@ -69,17 +71,39 @@ namespace BRCSISTEM.Desktop.Views
             this._footerDateLabel = new Label();
             this._footerDateTimer = new Timer(this.components);
 
+            this.rootLayout.SuspendLayout();
             this.tableLayoutBody.SuspendLayout();
             this.tableLayoutSidebar.SuspendLayout();
             this.panelSidebarFooter.SuspendLayout();
             this.tableLayoutFooter.SuspendLayout();
             this.SuspendLayout();
             //
+            // rootLayout
+            //
+            this.rootLayout.BackColor = Color.White;
+            this.rootLayout.ColumnCount = 1;
+            this.rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this.rootLayout.Controls.Add(this.mainMenuStrip, 0, 0);
+            this.rootLayout.Controls.Add(this.tableLayoutBody, 0, 1);
+            this.rootLayout.Controls.Add(this.tableLayoutFooter, 0, 2);
+            this.rootLayout.Dock = DockStyle.Fill;
+            this.rootLayout.Location = new Point(0, 0);
+            this.rootLayout.Margin = new Padding(0);
+            this.rootLayout.Name = "rootLayout";
+            this.rootLayout.Padding = new Padding(0);
+            this.rootLayout.RowCount = 3;
+            this.rootLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            this.rootLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.rootLayout.Size = new Size(1280, 720);
+            this.rootLayout.TabIndex = 0;
+            //
             // mainMenuStrip
             //
-            this.mainMenuStrip.Dock = DockStyle.Top;
+            this.mainMenuStrip.Dock = DockStyle.Fill;
             this.mainMenuStrip.Font = new Font("Segoe UI", 10F);
             this.mainMenuStrip.Location = new Point(0, 0);
+            this.mainMenuStrip.Margin = new Padding(0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new Size(1280, 27);
             this.mainMenuStrip.TabIndex = 0;
@@ -189,7 +213,7 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutFooter.Controls.Add(this.labelFooterSystem, 0, 0);
             this.tableLayoutFooter.Controls.Add(this.labelFooterUser, 1, 0);
             this.tableLayoutFooter.Controls.Add(this._footerDateLabel, 2, 0);
-            this.tableLayoutFooter.Dock = DockStyle.Bottom;
+            this.tableLayoutFooter.Dock = DockStyle.Fill;
             this.tableLayoutFooter.Location = new Point(0, 692);
             this.tableLayoutFooter.Margin = new Padding(0);
             this.tableLayoutFooter.Name = "tableLayoutFooter";
@@ -253,9 +277,7 @@ namespace BRCSISTEM.Desktop.Views
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = Color.White;
             this.ClientSize = new Size(1280, 720);
-            this.Controls.Add(this.tableLayoutBody);
-            this.Controls.Add(this.tableLayoutFooter);
-            this.Controls.Add(this.mainMenuStrip);
+            this.Controls.Add(this.rootLayout);
             this.MainMenuStrip = this.mainMenuStrip;
             this.MinimumSize = new Size(1000, 600);
             this.Name = "MainForm";
@@ -263,6 +285,8 @@ namespace BRCSISTEM.Desktop.Views
             this.Text = "BRCSISTEM v3.1.20 - Principal";
             this.WindowState = FormWindowState.Maximized;
 
+            this.rootLayout.ResumeLayout(false);
+            this.rootLayout.PerformLayout();
             this.tableLayoutBody.ResumeLayout(false);
             this.tableLayoutSidebar.ResumeLayout(false);
             this.tableLayoutSidebar.PerformLayout();
