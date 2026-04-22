@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -19,12 +20,12 @@ namespace BRCSISTEM.Desktop.Views
     public sealed partial class MainForm : Form
     {
         // Espelha utils/theme.py e config/constantes.py do projeto Python.
-        private const string AppName     = "BRCSISTEM";
-        private const string AppVersion  = "v3.1.20";
-        private static readonly Color ColorFooterBg  = Color.FromArgb(0, 122, 204);   // FOOTER_BG
-        private static readonly Color ColorSidebarBg = Color.FromArgb(248, 249, 250); // sidebar_indicadores
-        private static readonly Color ColorSeparator = Color.FromArgb(213, 216, 220); // separador fino dos titulos
-        private static readonly Color ColorTextDark  = Color.FromArgb(44, 62, 80);    // #2c3e50
+        private const string AppName = "BRCSISTEM";
+        private const string AppVersion = "v3.1.20";
+        private static readonly Color ColorFooterBg = Color.FromArgb(0, 122, 204);
+        private static readonly Color ColorSidebarBg = Color.FromArgb(248, 249, 250);
+        private static readonly Color ColorSeparator = Color.FromArgb(213, 216, 220);
+        private static readonly Color ColorTextDark = Color.FromArgb(44, 62, 80);
 
         private readonly CompositionRoot _compositionRoot;
         private readonly MainController _mainController;
@@ -32,7 +33,19 @@ namespace BRCSISTEM.Desktop.Views
         private readonly DatabaseProfile _databaseProfile;
         private readonly AppConfiguration _configuration;
 
+        public MainForm()
+        {
+            InitializeComponent();
+            ApplyBaseVisualTexts();
+
+            if (IsInDesignMode())
+            {
+                ApplyDesignTimeVisualTexts();
+            }
+        }
+
         public MainForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+            : this()
         {
             _compositionRoot = compositionRoot;
             _mainController = compositionRoot.CreateMainController();
@@ -40,18 +53,50 @@ namespace BRCSISTEM.Desktop.Views
             _databaseProfile = databaseProfile;
             _configuration = compositionRoot.CreateConfigurationController().LoadConfiguration();
 
-            InitializeComponent();
-
-            // Dados e eventos que dependem de runtime (nao ficam no Designer)
-            labelFooterUser.Text = "Usuario: " + _identity.UserName + " (" + _identity.UserType + ")";
-
-            buttonRefreshSidebar.Click += ButtonRefreshSidebar_Click;
-            panelSidebarFooter.Resize += PanelSidebarFooter_Resize;
-            _footerDateTimer.Tick += FooterDateTimer_Tick;
-            _footerDateTimer.Start();
+            ApplyRuntimeVisualTexts();
+            WireRuntimeEvents();
 
             BuildMenus();
             RefreshSidebar();
+        }
+
+        private static bool IsInDesignMode()
+        {
+            return LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+        }
+
+        private void ApplyBaseVisualTexts()
+        {
+            labelFooterSystem.Text = AppName + " - " + AppVersion;
+            _footerDateLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            Text = AppName + " " + AppVersion + " - Principal";
+        }
+
+        private void ApplyDesignTimeVisualTexts()
+        {
+            labelFooterUser.Text = "Usuario: Design (Administrador)";
+        }
+
+        private void ApplyRuntimeVisualTexts()
+        {
+            labelFooterUser.Text = "Usuario: " + _identity.UserName + " (" + _identity.UserType + ")";
+            FooterDateTimer_Tick(this, EventArgs.Empty);
+        }
+
+        private void WireRuntimeEvents()
+        {
+            buttonRefreshSidebar.Click -= ButtonRefreshSidebar_Click;
+            buttonRefreshSidebar.Click += ButtonRefreshSidebar_Click;
+
+            panelSidebarFooter.Resize -= PanelSidebarFooter_Resize;
+            panelSidebarFooter.Resize += PanelSidebarFooter_Resize;
+
+            _footerDateTimer.Tick -= FooterDateTimer_Tick;
+            _footerDateTimer.Tick += FooterDateTimer_Tick;
+            _footerDateTimer.Interval = 60000;
+            _footerDateTimer.Start();
+
+            PanelSidebarFooter_Resize(this, EventArgs.Empty);
         }
 
         // ── Eventos dos controles visuais ────────────────────────────────────
@@ -77,17 +122,16 @@ namespace BRCSISTEM.Desktop.Views
         // ── Sidebar: conteudo dinamico (indicadores) ─────────────────────────
         private Control BuildSidebarSection(string title)
         {
-            // Python (_titulo): Label bold + Frame 1px #d5d8dc como separador horizontal
             var holder = new TableLayoutPanel
             {
-                Dock         = DockStyle.Top,
-                AutoSize     = true,
+                Dock = DockStyle.Top,
+                AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                ColumnCount  = 1,
-                RowCount     = 2,
-                BackColor    = ColorSidebarBg,
-                Margin       = new Padding(0),
-                Padding      = new Padding(10, 10, 10, 5),
+                ColumnCount = 1,
+                RowCount = 2,
+                BackColor = ColorSidebarBg,
+                Margin = new Padding(0),
+                Padding = new Padding(10, 10, 10, 5),
             };
             holder.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             holder.RowStyles.Add(new RowStyle(SizeType.AutoSize));
@@ -95,28 +139,30 @@ namespace BRCSISTEM.Desktop.Views
 
             var label = new Label
             {
-                Text      = title,
-                AutoSize  = true,
-                Font      = new Font("Segoe UI", 9F, FontStyle.Bold),
+                Text = title,
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 ForeColor = ColorTextDark,
                 BackColor = ColorSidebarBg,
-                Margin    = new Padding(0, 0, 0, 3),
+                Margin = new Padding(0, 0, 0, 3),
             };
+
             var separator = new Panel
             {
-                Dock      = DockStyle.Top,
-                Height    = 1,
+                Dock = DockStyle.Top,
+                Height = 1,
                 BackColor = ColorSeparator,
-                Margin    = new Padding(0, 0, 0, 5),
+                Margin = new Padding(0, 0, 0, 5),
             };
-            holder.Controls.Add(label,     0, 0);
+
+            holder.Controls.Add(label, 0, 0);
             holder.Controls.Add(separator, 0, 1);
             return holder;
         }
 
         private void RefreshSidebar()
         {
-            if (_sidebarContentFlow == null || _sidebarContentFlow.IsDisposed)
+            if (_sidebarContentFlow == null || _sidebarContentFlow.IsDisposed || _mainController == null)
             {
                 return;
             }
@@ -223,6 +269,7 @@ namespace BRCSISTEM.Desktop.Views
                 var hasAlert = row.Count > 0;
                 var backColor = hasAlert ? Color.FromArgb(255, 243, 205) : ColorSidebarBg;
                 var foreColor = hasAlert ? Color.FromArgb(138, 109, 59) : Color.FromArgb(39, 174, 96);
+
                 _sidebarContentFlow.Controls.Add(CreateValueRow(
                     ShortenText(row.Label, 24),
                     row.Count.ToString(CultureInfo.InvariantCulture),
@@ -385,7 +432,6 @@ namespace BRCSISTEM.Desktop.Views
                 .GroupBy(module => module.Group ?? string.Empty)
                 .ToDictionary(g => g.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
 
-            // Ordem de cascades espelhando views/tela_principal.py
             AddGroupMenu(grouped, "Cadastros");
             AddGroupMenu(grouped, "Movimentacoes");
             AddGroupMenu(grouped, "Inventario");
@@ -409,12 +455,12 @@ namespace BRCSISTEM.Desktop.Views
             {
                 groupMenu.DropDownItems.Add(BuildModuleMenuItem(module));
             }
+
             mainMenuStrip.Items.Add(groupMenu);
         }
 
         private void AddDatabaseMenu(Dictionary<string, List<ModuleDefinition>> grouped)
         {
-            // Python: submenus Retirar Informacoes / Reativar / Alterar Data + Consultar Logs
             List<ModuleDefinition> items;
             if (!grouped.TryGetValue("Banco de Dados", out items) || items.Count == 0)
             {
@@ -423,19 +469,15 @@ namespace BRCSISTEM.Desktop.Views
 
             var bdMenu = new ToolStripMenuItem("Banco de Dados");
 
-            // Retirar Informacoes
             var removerKeys = new[] { "bd_remover_nota", "bd_remover_transferencia", "bd_remover_saida", "bd_remover_requisicao" };
             AddSubCascade(bdMenu, "Retirar Informacoes", items, removerKeys);
 
-            // Reativar
             var reativarKeys = new[] { "bd_reativar_nota_entrada" };
             AddSubCascade(bdMenu, "Reativar", items, reativarKeys);
 
-            // Alterar Data
             var alterarKeys = new[] { "bd_alterar_data_transferencia", "bd_alterar_data_entrada", "bd_alterar_data_saida_producao" };
             AddSubCascade(bdMenu, "Alterar Data", items, alterarKeys);
 
-            // Separador + Consultar Logs e Auditoria
             var logItem = items.FirstOrDefault(m => string.Equals(m.Key, "bd_consulta_logs", StringComparison.OrdinalIgnoreCase));
             if (logItem != null)
             {
@@ -443,10 +485,10 @@ namespace BRCSISTEM.Desktop.Views
                 {
                     bdMenu.DropDownItems.Add(new ToolStripSeparator());
                 }
+
                 bdMenu.DropDownItems.Add(BuildModuleMenuItem(logItem));
             }
 
-            // Itens extras do catalogo que nao se encaixam em nenhum submenu conhecido
             var handled = new HashSet<string>(removerKeys.Concat(reativarKeys).Concat(alterarKeys).Concat(new[] { "bd_consulta_logs" }), StringComparer.OrdinalIgnoreCase);
             foreach (var extra in items.Where(m => !handled.Contains(m.Key)))
             {
@@ -470,6 +512,7 @@ namespace BRCSISTEM.Desktop.Views
                     sub.DropDownItems.Add(BuildModuleMenuItem(mod));
                 }
             }
+
             if (sub.DropDownItems.Count > 0)
             {
                 parent.DropDownItems.Add(sub);
@@ -478,9 +521,6 @@ namespace BRCSISTEM.Desktop.Views
 
         private void AddParametersMenu(Dictionary<string, List<ModuleDefinition>> grouped)
         {
-            // Python:
-            //   Cadastro Usuarios | Tipos Usuario | [sep + Solicitacoes Acesso se admin]
-            //   sep | Parametros do Sistema | Sincronizar Movimentos x Estoque
             List<ModuleDefinition> items;
             if (!grouped.TryGetValue("Parametros", out items) || items.Count == 0)
             {
@@ -498,18 +538,18 @@ namespace BRCSISTEM.Desktop.Views
                 {
                     menu.DropDownItems.Add(new ToolStripSeparator());
                 }
+
                 menu.DropDownItems.Add(BuildModuleMenuItem(gerenciar));
             }
 
-            // Separador entre bloco de usuarios e bloco de parametros
             if (menu.DropDownItems.Count > 0)
             {
                 menu.DropDownItems.Add(new ToolStripSeparator());
             }
+
             TryAddByKey(menu, items, "parametros");
             TryAddByKey(menu, items, "parametro_sincronizar_movimentos_estoque");
 
-            // Itens extras eventualmente adicionados ao catalogo
             var handled = new HashSet<string>(new[] { "cadastro_usuario", "tipo_usuario", "gerenciar_acessos", "parametros", "parametro_sincronizar_movimentos_estoque" }, StringComparer.OrdinalIgnoreCase);
             foreach (var extra in items.Where(m => !handled.Contains(m.Key)))
             {
@@ -540,8 +580,6 @@ namespace BRCSISTEM.Desktop.Views
 
         private void AddSystemMenu()
         {
-            // Python (Sistema): Trocar Senha | sep | Versao do Sistema: v3.1.20 | sep | Sair
-            // Mantemos "Gerenciar Bancos" (especifico do C# multi-profile, sem equivalente Python).
             var systemMenu = new ToolStripMenuItem("Sistema");
 
             var manageProfilesItem = new ToolStripMenuItem("Gerenciar Bancos");
