@@ -11,13 +11,13 @@ namespace BRCSISTEM.Desktop.Views
         /// </summary>
         private IContainer components = null;
 
+        // Controles visuais persistentes (equivalente ao Designer do VS).
         private MenuStrip mainMenuStrip;
         private TableLayoutPanel tableLayoutBody;
         private Panel panelCentral;
         private TableLayoutPanel tableLayoutSidebar;
         private Panel panelSidebarContent;
         private FlowLayoutPanel _sidebarContentFlow;
-        private Panel panelSidebarFooter;
         private Button buttonRefreshSidebar;
         private TableLayoutPanel tableLayoutFooter;
         private Label labelFooterSystem;
@@ -62,7 +62,6 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutSidebar = new TableLayoutPanel();
             this.panelSidebarContent = new Panel();
             this._sidebarContentFlow = new FlowLayoutPanel();
-            this.panelSidebarFooter = new Panel();
             this.buttonRefreshSidebar = new Button();
             this.tableLayoutFooter = new TableLayoutPanel();
             this.labelFooterSystem = new Label();
@@ -73,25 +72,21 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutBody.SuspendLayout();
             this.tableLayoutSidebar.SuspendLayout();
             this.panelSidebarContent.SuspendLayout();
-            this.panelSidebarFooter.SuspendLayout();
             this.tableLayoutFooter.SuspendLayout();
             this.SuspendLayout();
-
-            // 
+            //
             // mainMenuStrip
-            // 
+            //
             this.mainMenuStrip.Dock = DockStyle.Top;
             this.mainMenuStrip.Font = new Font("Segoe UI", 10F);
             this.mainMenuStrip.Location = new Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Padding = new Padding(7, 2, 0, 2);
             this.mainMenuStrip.Size = new Size(1280, 27);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "mainMenuStrip";
-
-            // 
+            //
             // tableLayoutBody
-            // 
+            //
             this.tableLayoutBody.BackColor = Color.White;
             this.tableLayoutBody.ColumnCount = 2;
             this.tableLayoutBody.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -107,10 +102,9 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutBody.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this.tableLayoutBody.Size = new Size(1280, 665);
             this.tableLayoutBody.TabIndex = 1;
-
-            // 
+            //
             // panelCentral
-            // 
+            //
             this.panelCentral.BackColor = Color.White;
             this.panelCentral.Dock = DockStyle.Fill;
             this.panelCentral.Location = new Point(0, 0);
@@ -118,15 +112,14 @@ namespace BRCSISTEM.Desktop.Views
             this.panelCentral.Name = "panelCentral";
             this.panelCentral.Size = new Size(970, 665);
             this.panelCentral.TabIndex = 0;
-
-            // 
+            //
             // tableLayoutSidebar
-            // 
+            //
             this.tableLayoutSidebar.BackColor = Color.FromArgb(248, 249, 250);
             this.tableLayoutSidebar.ColumnCount = 1;
             this.tableLayoutSidebar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this.tableLayoutSidebar.Controls.Add(this.panelSidebarContent, 0, 0);
-            this.tableLayoutSidebar.Controls.Add(this.panelSidebarFooter, 0, 1);
+            this.tableLayoutSidebar.Controls.Add(this.buttonRefreshSidebar, 0, 1);
             this.tableLayoutSidebar.Dock = DockStyle.Fill;
             this.tableLayoutSidebar.Location = new Point(970, 0);
             this.tableLayoutSidebar.Margin = new Padding(0);
@@ -137,10 +130,9 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutSidebar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             this.tableLayoutSidebar.Size = new Size(310, 665);
             this.tableLayoutSidebar.TabIndex = 1;
-
-            // 
+            //
             // panelSidebarContent
-            // 
+            //
             this.panelSidebarContent.AutoScroll = true;
             this.panelSidebarContent.BackColor = Color.FromArgb(248, 249, 250);
             this.panelSidebarContent.Controls.Add(this._sidebarContentFlow);
@@ -151,10 +143,9 @@ namespace BRCSISTEM.Desktop.Views
             this.panelSidebarContent.Padding = new Padding(0, 4, 0, 4);
             this.panelSidebarContent.Size = new Size(310, 625);
             this.panelSidebarContent.TabIndex = 0;
-
-            // 
+            //
             // _sidebarContentFlow
-            // 
+            //
             this._sidebarContentFlow.AutoSize = true;
             this._sidebarContentFlow.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this._sidebarContentFlow.BackColor = Color.FromArgb(248, 249, 250);
@@ -167,24 +158,10 @@ namespace BRCSISTEM.Desktop.Views
             this._sidebarContentFlow.Size = new Size(310, 0);
             this._sidebarContentFlow.TabIndex = 0;
             this._sidebarContentFlow.WrapContents = false;
-
-            // 
-            // panelSidebarFooter
-            // 
-            this.panelSidebarFooter.BackColor = Color.FromArgb(248, 249, 250);
-            this.panelSidebarFooter.Controls.Add(this.buttonRefreshSidebar);
-            this.panelSidebarFooter.Dock = DockStyle.Fill;
-            this.panelSidebarFooter.Location = new Point(0, 625);
-            this.panelSidebarFooter.Margin = new Padding(0);
-            this.panelSidebarFooter.Name = "panelSidebarFooter";
-            this.panelSidebarFooter.Padding = new Padding(0, 4, 0, 6);
-            this.panelSidebarFooter.Size = new Size(310, 40);
-            this.panelSidebarFooter.TabIndex = 1;
-
-            // 
-            // buttonRefreshSidebar
-            // 
-            this.buttonRefreshSidebar.Anchor = AnchorStyles.Top;
+            //
+            // buttonRefreshSidebar  (direto no tableLayoutSidebar, linha 1 AutoSize, centralizado por Anchor=None)
+            //
+            this.buttonRefreshSidebar.Anchor = AnchorStyles.None;
             this.buttonRefreshSidebar.AutoSize = true;
             this.buttonRefreshSidebar.BackColor = Color.FromArgb(248, 249, 250);
             this.buttonRefreshSidebar.Cursor = Cursors.Hand;
@@ -192,16 +169,14 @@ namespace BRCSISTEM.Desktop.Views
             this.buttonRefreshSidebar.FlatStyle = FlatStyle.Flat;
             this.buttonRefreshSidebar.Font = new Font("Segoe UI", 9F);
             this.buttonRefreshSidebar.ForeColor = Color.FromArgb(44, 62, 80);
-            this.buttonRefreshSidebar.Location = new Point(102, 4);
+            this.buttonRefreshSidebar.Margin = new Padding(0, 4, 0, 6);
             this.buttonRefreshSidebar.Name = "buttonRefreshSidebar";
-            this.buttonRefreshSidebar.Size = new Size(107, 27);
             this.buttonRefreshSidebar.TabIndex = 0;
             this.buttonRefreshSidebar.Text = "⟳ Atualizar";
             this.buttonRefreshSidebar.UseVisualStyleBackColor = false;
-
-            // 
+            //
             // tableLayoutFooter
-            // 
+            //
             this.tableLayoutFooter.BackColor = Color.FromArgb(0, 122, 204);
             this.tableLayoutFooter.ColumnCount = 3;
             this.tableLayoutFooter.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -219,58 +194,57 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutFooter.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this.tableLayoutFooter.Size = new Size(1280, 28);
             this.tableLayoutFooter.TabIndex = 2;
-
-            // 
+            //
             // labelFooterSystem
-            // 
+            //
             this.labelFooterSystem.Anchor = AnchorStyles.Left;
             this.labelFooterSystem.AutoSize = true;
             this.labelFooterSystem.BackColor = Color.FromArgb(0, 122, 204);
+            this.labelFooterSystem.Font = new Font("Segoe UI", 9F);
             this.labelFooterSystem.ForeColor = Color.White;
             this.labelFooterSystem.Location = new Point(10, 6);
             this.labelFooterSystem.Margin = new Padding(0);
             this.labelFooterSystem.Name = "labelFooterSystem";
-            this.labelFooterSystem.Size = new Size(116, 15);
+            this.labelFooterSystem.Size = new Size(128, 15);
             this.labelFooterSystem.TabIndex = 0;
             this.labelFooterSystem.Text = "BRCSISTEM - v3.1.20";
             this.labelFooterSystem.TextAlign = ContentAlignment.MiddleLeft;
-
-            // 
-            // labelFooterUser
-            // 
+            //
+            // labelFooterUser  (texto real e completo definido em runtime no construtor)
+            //
             this.labelFooterUser.BackColor = Color.FromArgb(0, 122, 204);
             this.labelFooterUser.Dock = DockStyle.Fill;
+            this.labelFooterUser.Font = new Font("Segoe UI", 9F);
             this.labelFooterUser.ForeColor = Color.White;
-            this.labelFooterUser.Location = new Point(126, 0);
+            this.labelFooterUser.Location = new Point(138, 0);
             this.labelFooterUser.Margin = new Padding(0);
             this.labelFooterUser.Name = "labelFooterUser";
-            this.labelFooterUser.Size = new Size(1028, 28);
+            this.labelFooterUser.Size = new Size(1016, 28);
             this.labelFooterUser.TabIndex = 1;
             this.labelFooterUser.Text = "Usuario:";
             this.labelFooterUser.TextAlign = ContentAlignment.MiddleCenter;
-
-            // 
+            //
             // _footerDateLabel
-            // 
+            //
             this._footerDateLabel.Anchor = AnchorStyles.Right;
             this._footerDateLabel.AutoSize = true;
             this._footerDateLabel.BackColor = Color.FromArgb(0, 122, 204);
+            this._footerDateLabel.Font = new Font("Segoe UI", 9F);
             this._footerDateLabel.ForeColor = Color.White;
-            this._footerDateLabel.Location = new Point(1162, 6);
+            this._footerDateLabel.Location = new Point(1154, 6);
+            this._footerDateLabel.Margin = new Padding(0);
             this._footerDateLabel.Name = "_footerDateLabel";
-            this._footerDateLabel.Size = new Size(108, 15);
+            this._footerDateLabel.Size = new Size(116, 15);
             this._footerDateLabel.TabIndex = 2;
             this._footerDateLabel.Text = "dd/MM/yyyy";
             this._footerDateLabel.TextAlign = ContentAlignment.MiddleRight;
-
-            // 
+            //
             // _footerDateTimer
-            // 
+            //
             this._footerDateTimer.Interval = 60000;
-
-            // 
+            //
             // MainForm
-            // 
+            //
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = Color.White;
@@ -287,10 +261,9 @@ namespace BRCSISTEM.Desktop.Views
 
             this.tableLayoutBody.ResumeLayout(false);
             this.tableLayoutSidebar.ResumeLayout(false);
+            this.tableLayoutSidebar.PerformLayout();
             this.panelSidebarContent.ResumeLayout(false);
             this.panelSidebarContent.PerformLayout();
-            this.panelSidebarFooter.ResumeLayout(false);
-            this.panelSidebarFooter.PerformLayout();
             this.tableLayoutFooter.ResumeLayout(false);
             this.tableLayoutFooter.PerformLayout();
             this.ResumeLayout(false);

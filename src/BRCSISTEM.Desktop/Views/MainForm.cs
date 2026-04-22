@@ -88,27 +88,16 @@ namespace BRCSISTEM.Desktop.Views
             buttonRefreshSidebar.Click -= ButtonRefreshSidebar_Click;
             buttonRefreshSidebar.Click += ButtonRefreshSidebar_Click;
 
-            panelSidebarFooter.Resize -= PanelSidebarFooter_Resize;
-            panelSidebarFooter.Resize += PanelSidebarFooter_Resize;
-
             _footerDateTimer.Tick -= FooterDateTimer_Tick;
             _footerDateTimer.Tick += FooterDateTimer_Tick;
             _footerDateTimer.Interval = 60000;
             _footerDateTimer.Start();
-
-            PanelSidebarFooter_Resize(this, EventArgs.Empty);
         }
 
         // ── Eventos dos controles visuais ────────────────────────────────────
         private void ButtonRefreshSidebar_Click(object sender, EventArgs e)
         {
             RefreshSidebar();
-        }
-
-        private void PanelSidebarFooter_Resize(object sender, EventArgs e)
-        {
-            buttonRefreshSidebar.Left = Math.Max(0, (panelSidebarFooter.ClientSize.Width - buttonRefreshSidebar.Width) / 2);
-            buttonRefreshSidebar.Top = 4;
         }
 
         private void FooterDateTimer_Tick(object sender, EventArgs e)
