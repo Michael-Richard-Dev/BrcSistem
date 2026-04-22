@@ -14,8 +14,9 @@ namespace BRCSISTEM.Desktop.Views
     /// Porte fiel da tela principal do sistema Python (views/tela_principal.py):
     /// menubar no topo, area central vazia, sidebar direito (310px, bg #F8F9FA)
     /// e rodape azul (#007ACC) com nome do sistema, usuario e data.
+    /// A parte visual fica em MainForm.Designer.cs (padrao Windows Forms Designer).
     /// </summary>
-    public sealed class MainForm : Form
+    public sealed partial class MainForm : Form
     {
         // Espelha utils/theme.py e config/constantes.py do projeto Python.
         private const string AppName     = "BRCSISTEM";
@@ -31,10 +32,6 @@ namespace BRCSISTEM.Desktop.Views
         private readonly DatabaseProfile _databaseProfile;
         private readonly AppConfiguration _configuration;
 
-        private FlowLayoutPanel _sidebarContentFlow;
-        private Label _footerDateLabel;
-        private Timer _footerDateTimer;
-
         public MainForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
         {
             _compositionRoot = compositionRoot;
@@ -44,126 +41,40 @@ namespace BRCSISTEM.Desktop.Views
             _configuration = compositionRoot.CreateConfigurationController().LoadConfiguration();
 
             InitializeComponent();
+
+            // Dados e eventos que dependem de runtime (nao ficam no Designer)
+            labelFooterUser.Text = "Usuario: " + _identity.UserName + " (" + _identity.UserType + ")";
+
+            buttonRefreshSidebar.Click += ButtonRefreshSidebar_Click;
+            panelSidebarFooter.Resize += PanelSidebarFooter_Resize;
+            _footerDateTimer.Tick += FooterDateTimer_Tick;
+            _footerDateTimer.Start();
+
             BuildMenus();
             RefreshSidebar();
         }
 
-        private void InitializeComponent()
+        // ── Eventos dos controles visuais ────────────────────────────────────
+        private void ButtonRefreshSidebar_Click(object sender, EventArgs e)
         {
-            // Python: master.title(f"{APP_NAME} {APP_VERSION} - Principal")
-            Text = AppName + " " + AppVersion + " - Principal";
-            WindowState = FormWindowState.Maximized;
-            MinimumSize = new Size(1000, 600);
-            BackColor = Color.White;
-
-            // Ordem de docking (WinForms empilha do ultimo para o primeiro):
-            //   1) rodape (Bottom)    <- adicionado por ultimo, fica mais interno? Nao: Dock Bottom eh baseado em ordem inversa de add.
-            //   Para garantir "rodape colado ao fundo + central acima", adicionamos rodape antes e central depois com Dock=Fill.
-            Controls.Add(BuildBody());
-            Controls.Add(BuildFooter());
+            RefreshSidebar();
         }
 
-        // ── Corpo principal: area central vazia + sidebar direito ────────────
-        private Control BuildBody()
+        private void PanelSidebarFooter_Resize(object sender, EventArgs e)
         {
-            // Python: frame_principal (bg=RIGHT_BG) > container_main > (frame_central | sidebar)
-            var body = new TableLayoutPanel
-            {
-                Dock        = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount    = 1,
-                BackColor   = Color.White,
-                Margin      = new Padding(0),
-                Padding     = new Padding(0),
-            };
-            body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            body.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 310F));
-            body.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-
-            // Area central (Python: frame_central vazio, reservado para conteudo futuro)
-            var central = new Panel
-            {
-                Dock      = DockStyle.Fill,
-                BackColor = Color.White,
-            };
-            body.Controls.Add(central, 0, 0);
-
-            // Sidebar direito (Python: SidebarIndicadores width=310, bg #F8F9FA)
-            body.Controls.Add(BuildSidebar(), 1, 0);
-            return body;
+            buttonRefreshSidebar.Left = Math.Max(0, (panelSidebarFooter.ClientSize.Width - buttonRefreshSidebar.Width) / 2);
+            buttonRefreshSidebar.Top = 4;
         }
 
-        private Control BuildSidebar()
+        private void FooterDateTimer_Tick(object sender, EventArgs e)
         {
-            var sidebar = new TableLayoutPanel
+            if (_footerDateLabel != null && !_footerDateLabel.IsDisposed)
             {
-                Dock        = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount    = 2,
-                BackColor   = ColorSidebarBg,
-                Margin      = new Padding(0),
-                Padding     = new Padding(0),
-            };
-            sidebar.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            sidebar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-            // Conteudo com scroll equivalente ao SidebarIndicadores do Python.
-            var content = new Panel
-            {
-                Dock         = DockStyle.Fill,
-                BackColor    = ColorSidebarBg,
-                AutoScroll   = true,
-                Padding      = new Padding(0, 4, 0, 4),
-            };
-
-            _sidebarContentFlow = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Top,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown,
-                WrapContents = false,
-                BackColor = ColorSidebarBg,
-                Margin = new Padding(0),
-                Padding = new Padding(0),
-            };
-            content.Controls.Add(_sidebarContentFlow);
-
-            sidebar.Controls.Add(content, 0, 0);
-
-            // Rodape do sidebar com botao "Atualizar" (Python: rodape + btn_atualizar)
-            var sidebarFooter = new Panel
-            {
-                Dock      = DockStyle.Fill,
-                Height    = 30,
-                BackColor = ColorSidebarBg,
-                Padding   = new Padding(0, 4, 0, 6),
-            };
-            var refreshButton = new Button
-            {
-                Text      = "\u27f3 Atualizar",
-                Font      = new Font("Segoe UI", 9F),
-                FlatStyle = FlatStyle.Flat,
-                BackColor = ColorSidebarBg,
-                ForeColor = ColorTextDark,
-                AutoSize  = true,
-                Cursor    = Cursors.Hand,
-                Anchor    = AnchorStyles.Top,
-            };
-            refreshButton.FlatAppearance.BorderSize = 0;
-            refreshButton.Click += (sender, args) => RefreshSidebar();
-            // Centraliza horizontalmente
-            sidebarFooter.Resize += (sender, args) =>
-            {
-                refreshButton.Left = Math.Max(0, (sidebarFooter.ClientSize.Width - refreshButton.Width) / 2);
-                refreshButton.Top  = 4;
-            };
-            sidebarFooter.Controls.Add(refreshButton);
-            sidebar.Controls.Add(sidebarFooter, 0, 1);
-
-            return sidebar;
+                _footerDateLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            }
         }
 
+        // ── Sidebar: conteudo dinamico (indicadores) ─────────────────────────
         private Control BuildSidebarSection(string title)
         {
             // Python (_titulo): Label bold + Frame 1px #d5d8dc como separador horizontal
@@ -466,109 +377,26 @@ namespace BRCSISTEM.Desktop.Views
             return value.ToString("#,0", CultureInfo.InvariantCulture).Replace(",", ".");
         }
 
-        // ── Rodape azul (Python: utils/ui.adicionar_rodape) ──────────────────
-        private Control BuildFooter()
-        {
-            var footer = new TableLayoutPanel
-            {
-                Dock        = DockStyle.Bottom,
-                Height      = 28,
-                ColumnCount = 3,
-                RowCount    = 1,
-                BackColor   = ColorFooterBg,
-                Margin      = new Padding(0),
-                Padding     = new Padding(10, 0, 10, 0),
-            };
-            footer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            footer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            footer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-
-            var systemLabel = new Label
-            {
-                Text      = AppName + " - " + AppVersion,
-                AutoSize  = true,
-                Font      = new Font("Segoe UI", 9F),
-                ForeColor = Color.White,
-                BackColor = ColorFooterBg,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Anchor    = AnchorStyles.Left,
-                Margin    = new Padding(0, 0, 0, 0),
-            };
-            var userText = "Usuario: " + _identity.UserName + " (" + _identity.UserType + ")";
-            var userLabel = new Label
-            {
-                Text      = userText,
-                AutoSize  = false,
-                Dock      = DockStyle.Fill,
-                Font      = new Font("Segoe UI", 9F),
-                ForeColor = Color.White,
-                BackColor = ColorFooterBg,
-                TextAlign = ContentAlignment.MiddleCenter,
-            };
-            _footerDateLabel = new Label
-            {
-                Text      = DateTime.Now.ToString("dd/MM/yyyy"),
-                AutoSize  = true,
-                Font      = new Font("Segoe UI", 9F),
-                ForeColor = Color.White,
-                BackColor = ColorFooterBg,
-                TextAlign = ContentAlignment.MiddleRight,
-                Anchor    = AnchorStyles.Right,
-            };
-
-            footer.Controls.Add(systemLabel,      0, 0);
-            footer.Controls.Add(userLabel,        1, 0);
-            footer.Controls.Add(_footerDateLabel, 2, 0);
-
-            // Timer leve para manter a data atualizada (Python faz o mesmo via after())
-            _footerDateTimer = new Timer { Interval = 60 * 1000 };
-            _footerDateTimer.Tick += (sender, args) =>
-            {
-                if (_footerDateLabel != null && !_footerDateLabel.IsDisposed)
-                {
-                    _footerDateLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                }
-            };
-            _footerDateTimer.Start();
-            FormClosed += (sender, args) =>
-            {
-                if (_footerDateTimer != null)
-                {
-                    _footerDateTimer.Stop();
-                    _footerDateTimer.Dispose();
-                    _footerDateTimer = null;
-                }
-            };
-
-            return footer;
-        }
-
-        // ── Menus ────────────────────────────────────────────────────────────
+        // ── Menus (populados em runtime a partir do catalogo) ────────────────
         private void BuildMenus()
         {
-            var menuStrip = new MenuStrip { Font = new Font("Segoe UI", 10F) };
-
             var modules = _mainController.LoadModules(_identity) ?? Array.Empty<ModuleDefinition>();
             var grouped = modules
                 .GroupBy(module => module.Group ?? string.Empty)
                 .ToDictionary(g => g.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
 
             // Ordem de cascades espelhando views/tela_principal.py
-            AddGroupMenu(menuStrip, grouped, "Cadastros");
-            AddGroupMenu(menuStrip, grouped, "Movimentacoes");
-            AddGroupMenu(menuStrip, grouped, "Inventario");
-            AddGroupMenu(menuStrip, grouped, "Consultas e Relatorios");
-            AddGroupMenu(menuStrip, grouped, "Auditoria");
-            AddDatabaseMenu(menuStrip, grouped);
-            AddParametersMenu(menuStrip, grouped);
-            AddSystemMenu(menuStrip);
-
-            MainMenuStrip = menuStrip;
-            Controls.Add(menuStrip);
+            AddGroupMenu(grouped, "Cadastros");
+            AddGroupMenu(grouped, "Movimentacoes");
+            AddGroupMenu(grouped, "Inventario");
+            AddGroupMenu(grouped, "Consultas e Relatorios");
+            AddGroupMenu(grouped, "Auditoria");
+            AddDatabaseMenu(grouped);
+            AddParametersMenu(grouped);
+            AddSystemMenu();
         }
 
-        private void AddGroupMenu(MenuStrip menuStrip, Dictionary<string, List<ModuleDefinition>> grouped, string groupName)
+        private void AddGroupMenu(Dictionary<string, List<ModuleDefinition>> grouped, string groupName)
         {
             List<ModuleDefinition> items;
             if (!grouped.TryGetValue(groupName, out items) || items.Count == 0)
@@ -581,10 +409,10 @@ namespace BRCSISTEM.Desktop.Views
             {
                 groupMenu.DropDownItems.Add(BuildModuleMenuItem(module));
             }
-            menuStrip.Items.Add(groupMenu);
+            mainMenuStrip.Items.Add(groupMenu);
         }
 
-        private void AddDatabaseMenu(MenuStrip menuStrip, Dictionary<string, List<ModuleDefinition>> grouped)
+        private void AddDatabaseMenu(Dictionary<string, List<ModuleDefinition>> grouped)
         {
             // Python: submenus Retirar Informacoes / Reativar / Alterar Data + Consultar Logs
             List<ModuleDefinition> items;
@@ -627,7 +455,7 @@ namespace BRCSISTEM.Desktop.Views
 
             if (bdMenu.DropDownItems.Count > 0)
             {
-                menuStrip.Items.Add(bdMenu);
+                mainMenuStrip.Items.Add(bdMenu);
             }
         }
 
@@ -648,7 +476,7 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
-        private void AddParametersMenu(MenuStrip menuStrip, Dictionary<string, List<ModuleDefinition>> grouped)
+        private void AddParametersMenu(Dictionary<string, List<ModuleDefinition>> grouped)
         {
             // Python:
             //   Cadastro Usuarios | Tipos Usuario | [sep + Solicitacoes Acesso se admin]
@@ -690,7 +518,7 @@ namespace BRCSISTEM.Desktop.Views
 
             if (menu.DropDownItems.Count > 0)
             {
-                menuStrip.Items.Add(menu);
+                mainMenuStrip.Items.Add(menu);
             }
         }
 
@@ -710,7 +538,7 @@ namespace BRCSISTEM.Desktop.Views
             return item;
         }
 
-        private void AddSystemMenu(MenuStrip menuStrip)
+        private void AddSystemMenu()
         {
             // Python (Sistema): Trocar Senha | sep | Versao do Sistema: v3.1.20 | sep | Sair
             // Mantemos "Gerenciar Bancos" (especifico do C# multi-profile, sem equivalente Python).
@@ -746,10 +574,10 @@ namespace BRCSISTEM.Desktop.Views
             systemMenu.DropDownItems.Add(new ToolStripSeparator());
             systemMenu.DropDownItems.Add(exitItem);
 
-            menuStrip.Items.Add(systemMenu);
+            mainMenuStrip.Items.Add(systemMenu);
         }
 
-        // ── Dispatch inalterado (apenas funcao existente) ────────────────────
+        // ── Dispatch inalterado ──────────────────────────────────────────────
         private void OpenModule(ModuleDefinition module)
         {
             _mainController.RegisterModuleOpen(_identity, module);
