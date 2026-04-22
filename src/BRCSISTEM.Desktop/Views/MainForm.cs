@@ -32,6 +32,7 @@ namespace BRCSISTEM.Desktop.Views
         private readonly UserIdentity _identity;
         private readonly DatabaseProfile _databaseProfile;
         private readonly AppConfiguration _configuration;
+        private bool _runtimeChromeInitialized;
 
         public MainForm()
         {
@@ -55,9 +56,7 @@ namespace BRCSISTEM.Desktop.Views
 
             ApplyRuntimeVisualTexts();
             WireRuntimeEvents();
-
-            BuildMenus();
-            RefreshSidebar();
+            EnsureRuntimeChrome();
         }
 
         private static bool IsInDesignMode()
@@ -88,10 +87,31 @@ namespace BRCSISTEM.Desktop.Views
             buttonRefreshSidebar.Click -= ButtonRefreshSidebar_Click;
             buttonRefreshSidebar.Click += ButtonRefreshSidebar_Click;
 
+            Shown -= MainForm_Shown;
+            Shown += MainForm_Shown;
+
             _footerDateTimer.Tick -= FooterDateTimer_Tick;
             _footerDateTimer.Tick += FooterDateTimer_Tick;
             _footerDateTimer.Interval = 60000;
             _footerDateTimer.Start();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            EnsureRuntimeChrome();
+        }
+
+        private void EnsureRuntimeChrome()
+        {
+            if (_runtimeChromeInitialized)
+            {
+                RefreshSidebar();
+                return;
+            }
+
+            BuildMenus();
+            RefreshSidebar();
+            _runtimeChromeInitialized = true;
         }
 
         // ── Eventos dos controles visuais ────────────────────────────────────
@@ -159,7 +179,7 @@ namespace BRCSISTEM.Desktop.Views
             _sidebarContentFlow.SuspendLayout();
             try
             {
-                _sidebarContentFlow.Controls.Clear();
+                ResetSidebar();
 
                 var snapshot = _mainController.LoadSidebarSnapshot(_configuration, _databaseProfile);
                 BuildFifoSection(snapshot);
@@ -170,9 +190,9 @@ namespace BRCSISTEM.Desktop.Views
             }
             catch (Exception ex)
             {
-                _sidebarContentFlow.Controls.Clear();
-                _sidebarContentFlow.Controls.Add(BuildSidebarSection("Indicadores"));
-                _sidebarContentFlow.Controls.Add(CreateSidebarText("Erro: " + ShortenText(ex.Message, 80), Color.FromArgb(231, 76, 60), false, new Padding(10, 0, 10, 6)));
+                ResetSidebar();
+                AddSidebarControl(BuildSidebarSection("Indicadores"));
+                AddSidebarControl(CreateSidebarText("Erro: " + ShortenText(ex.Message, 80), Color.FromArgb(231, 76, 60), false, new Padding(10, 0, 10, 6)));
             }
             finally
             {
@@ -180,16 +200,36 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
-        private void BuildFifoSection(MainSidebarSnapshot snapshot)
+        private void ResetSidebar()
         {
-            _sidebarContentFlow.Controls.Add(BuildSidebarSection(" FIFO - Vencimento 60 dias"));
-            if (snapshot.FifoEntries == null || snapshot.FifoEntries.Length == 0)
+            _sidebarContentFlow.Controls.Clear();
+            _sidebarContentFlow.RowStyles.Clear();
+            _sidebarContentFlow.RowCount = 0;
+        }
+
+        private void AddSidebarControl(Control control)
+        {
+            if (control == null)
             {
-                _sidebarContentFlow.Controls.Add(CreateSidebarText(" Sem lotes criticos", Color.FromArgb(39, 174, 96), false, new Padding(10, 0, 10, 4)));
                 return;
             }
 
-            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Lote", "Material", "Val", "Saldo" }, new[] { 39F, 29F, 14F, 18F }));
+            var rowIndex = _sidebarContentFlow.RowCount;
+            _sidebarContentFlow.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            _sidebarContentFlow.Controls.Add(control, 0, rowIndex);
+            _sidebarContentFlow.RowCount = rowIndex + 1;
+        }
+
+        private void BuildFifoSection(MainSidebarSnapshot snapshot)
+        {
+            AddSidebarControl(BuildSidebarSection(" FIFO - Vencimento 60 dias"));
+            if (snapshot.FifoEntries == null || snapshot.FifoEntries.Length == 0)
+            {
+                AddSidebarControl(CreateSidebarText(" Sem lotes criticos", Color.FromArgb(39, 174, 96), false, new Padding(10, 0, 10, 4)));
+                return;
+            }
+
+            AddSidebarControl(CreateTableHeader(new[] { "Lote", "Material", "Val", "Saldo" }, new[] { 39F, 29F, 14F, 18F }));
             foreach (var entry in snapshot.FifoEntries)
             {
                 var lot = entry.LotCode ?? string.Empty;
@@ -198,7 +238,7 @@ namespace BRCSISTEM.Desktop.Views
                     lot += " - " + ShortenText(entry.LotName, 15);
                 }
 
-                _sidebarContentFlow.Controls.Add(CreateTableRow(
+                AddSidebarControl(CreateTableRow(
                     new[]
                     {
                         ShortenText(lot, 11),
@@ -212,11 +252,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void BuildCadastrosSection(MainSidebarSnapshot snapshot)
         {
-            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Cadastros"));
-            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Tabela", "Ativo", "Inativo", "Total", "BRC" }, new[] { 34F, 16.5F, 16.5F, 16.5F, 16.5F }));
+            AddSidebarControl(BuildSidebarSection("Cadastros"));
+            AddSidebarControl(CreateTableHeader(new[] { "Tabela", "Ativo", "Inativo", "Total", "BRC" }, new[] { 34F, 16.5F, 16.5F, 16.5F, 16.5F }));
             foreach (var row in snapshot.CadastroRows ?? new MainSidebarCadastroRow[0])
             {
-                _sidebarContentFlow.Controls.Add(CreateTableRow(
+                AddSidebarControl(CreateTableRow(
                     new[]
                     {
                         ShortenText(row.TableName, 11),
@@ -231,16 +271,16 @@ namespace BRCSISTEM.Desktop.Views
 
         private void BuildVolumeEstoqueSection(MainSidebarSnapshot snapshot)
         {
-            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Volume Estoque"));
+            AddSidebarControl(BuildSidebarSection("Volume Estoque"));
             if (snapshot.VolumeRows == null || snapshot.VolumeRows.Length == 0)
             {
-                _sidebarContentFlow.Controls.Add(CreateSidebarText("Sem estoque", Color.FromArgb(93, 109, 126), false, new Padding(10, 0, 10, 4)));
+                AddSidebarControl(CreateSidebarText("Sem estoque", Color.FromArgb(93, 109, 126), false, new Padding(10, 0, 10, 4)));
                 return;
             }
 
             foreach (var row in snapshot.VolumeRows)
             {
-                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                AddSidebarControl(CreateValueRow(
                     ShortenText(row.WarehouseDisplay, 34),
                     FormatInteger(row.Volume),
                     ColorTextDark,
@@ -251,15 +291,15 @@ namespace BRCSISTEM.Desktop.Views
 
         private void BuildAuditoriaSection(MainSidebarSnapshot snapshot)
         {
-            _sidebarContentFlow.Controls.Add(BuildSidebarSection(" Auditoria"));
-            _sidebarContentFlow.Controls.Add(CreateTableHeader(new[] { "Auditoria", "Qtd" }, new[] { 74F, 26F }));
+            AddSidebarControl(BuildSidebarSection(" Auditoria"));
+            AddSidebarControl(CreateTableHeader(new[] { "Auditoria", "Qtd" }, new[] { 74F, 26F }));
             foreach (var row in snapshot.AuditRows ?? new MainSidebarAuditRow[0])
             {
                 var hasAlert = row.Count > 0;
                 var backColor = hasAlert ? Color.FromArgb(255, 243, 205) : ColorSidebarBg;
                 var foreColor = hasAlert ? Color.FromArgb(138, 109, 59) : Color.FromArgb(39, 174, 96);
 
-                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                AddSidebarControl(CreateValueRow(
                     ShortenText(row.Label, 24),
                     row.Count.ToString(CultureInfo.InvariantCulture),
                     foreColor,
@@ -270,19 +310,19 @@ namespace BRCSISTEM.Desktop.Views
 
         private void BuildUsuariosSection(MainSidebarSnapshot snapshot)
         {
-            _sidebarContentFlow.Controls.Add(BuildSidebarSection("Usuarios e Acessos"));
-            _sidebarContentFlow.Controls.Add(CreateValueRow("Total ativos:", snapshot.ActiveUsersCount.ToString(CultureInfo.InvariantCulture), ColorTextDark, ColorSidebarBg, false));
+            AddSidebarControl(BuildSidebarSection("Usuarios e Acessos"));
+            AddSidebarControl(CreateValueRow("Total ativos:", snapshot.ActiveUsersCount.ToString(CultureInfo.InvariantCulture), ColorTextDark, ColorSidebarBg, false));
 
             if (snapshot.RecentAccesses == null || snapshot.RecentAccesses.Length == 0)
             {
-                _sidebarContentFlow.Controls.Add(CreateSidebarText("Sem registros de acesso", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 4)));
+                AddSidebarControl(CreateSidebarText("Sem registros de acesso", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 4)));
                 return;
             }
 
-            _sidebarContentFlow.Controls.Add(CreateSidebarText("Ultimos acessos por usuario:", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 2)));
+            AddSidebarControl(CreateSidebarText("Ultimos acessos por usuario:", Color.FromArgb(93, 109, 126), false, new Padding(10, 1, 10, 2)));
             foreach (var access in snapshot.RecentAccesses)
             {
-                _sidebarContentFlow.Controls.Add(CreateValueRow(
+                AddSidebarControl(CreateValueRow(
                     "  " + ShortenText(access.UserName, 32),
                     access.LastAccessText ?? "-",
                     ColorTextDark,
@@ -293,10 +333,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private Control CreateSidebarText(string text, Color color, bool bold, Padding margin)
         {
-            return new Label
+            var label = new Label
             {
                 AutoSize = true,
-                MaximumSize = new Size(280, 0),
+                MaximumSize = new Size(286, 0),
+                Dock = DockStyle.Top,
                 Text = text,
                 Font = new Font("Segoe UI", 8F, bold ? FontStyle.Bold : FontStyle.Regular),
                 ForeColor = color,
@@ -304,6 +345,8 @@ namespace BRCSISTEM.Desktop.Views
                 Margin = margin,
                 Padding = new Padding(0),
             };
+
+            return label;
         }
 
         private Control CreateValueRow(string labelText, string valueText, Color valueColor, Color backColor, bool boldValue)
@@ -316,9 +359,7 @@ namespace BRCSISTEM.Desktop.Views
                 BackColor = backColor,
                 Margin = new Padding(10, 1, 10, 1),
                 Padding = new Padding(0),
-                Width = 270,
-                MinimumSize = new Size(270, 0),
-                MaximumSize = new Size(270, 200),
+                Dock = DockStyle.Top,
             };
             row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68F));
             row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
@@ -368,9 +409,7 @@ namespace BRCSISTEM.Desktop.Views
                 BackColor = ColorSidebarBg,
                 Margin = header ? new Padding(10, 5, 10, 2) : new Padding(10, 0, 10, 0),
                 Padding = new Padding(0),
-                Width = 270,
-                MinimumSize = new Size(270, 0),
-                MaximumSize = new Size(270, 200),
+                Dock = DockStyle.Top,
             };
 
             for (var i = 0; i < values.Length; i++)
@@ -416,6 +455,9 @@ namespace BRCSISTEM.Desktop.Views
         // ── Menus (populados em runtime a partir do catalogo) ────────────────
         private void BuildMenus()
         {
+            mainMenuStrip.SuspendLayout();
+            mainMenuStrip.Items.Clear();
+
             var modules = _mainController.LoadModules(_identity) ?? Array.Empty<ModuleDefinition>();
             var grouped = modules
                 .GroupBy(module => module.Group ?? string.Empty)
@@ -429,6 +471,10 @@ namespace BRCSISTEM.Desktop.Views
             AddDatabaseMenu(grouped);
             AddParametersMenu(grouped);
             AddSystemMenu();
+
+            mainMenuStrip.Visible = true;
+            mainMenuStrip.ResumeLayout(true);
+            mainMenuStrip.PerformLayout();
         }
 
         private void AddGroupMenu(Dictionary<string, List<ModuleDefinition>> grouped, string groupName)

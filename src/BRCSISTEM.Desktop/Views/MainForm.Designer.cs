@@ -16,8 +16,8 @@ namespace BRCSISTEM.Desktop.Views
         private TableLayoutPanel tableLayoutBody;
         private Panel panelCentral;
         private TableLayoutPanel tableLayoutSidebar;
-        private Panel panelSidebarContent;
-        private FlowLayoutPanel _sidebarContentFlow;
+        private TableLayoutPanel _sidebarContentFlow;
+        private Panel panelSidebarFooter;
         private Button buttonRefreshSidebar;
         private TableLayoutPanel tableLayoutFooter;
         private Label labelFooterSystem;
@@ -60,8 +60,8 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutBody = new TableLayoutPanel();
             this.panelCentral = new Panel();
             this.tableLayoutSidebar = new TableLayoutPanel();
-            this.panelSidebarContent = new Panel();
-            this._sidebarContentFlow = new FlowLayoutPanel();
+            this._sidebarContentFlow = new TableLayoutPanel();
+            this.panelSidebarFooter = new Panel();
             this.buttonRefreshSidebar = new Button();
             this.tableLayoutFooter = new TableLayoutPanel();
             this.labelFooterSystem = new Label();
@@ -71,7 +71,7 @@ namespace BRCSISTEM.Desktop.Views
 
             this.tableLayoutBody.SuspendLayout();
             this.tableLayoutSidebar.SuspendLayout();
-            this.panelSidebarContent.SuspendLayout();
+            this.panelSidebarFooter.SuspendLayout();
             this.tableLayoutFooter.SuspendLayout();
             this.SuspendLayout();
             //
@@ -114,12 +114,14 @@ namespace BRCSISTEM.Desktop.Views
             this.panelCentral.TabIndex = 0;
             //
             // tableLayoutSidebar
+            //   row 0: Percent 100% -> _sidebarContentFlow (Dock.Fill + AutoScroll)
+            //   row 1: Absolute  40 -> panelSidebarFooter (Dock.Fill) com botao centralizado
             //
             this.tableLayoutSidebar.BackColor = Color.FromArgb(248, 249, 250);
             this.tableLayoutSidebar.ColumnCount = 1;
             this.tableLayoutSidebar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this.tableLayoutSidebar.Controls.Add(this.panelSidebarContent, 0, 0);
-            this.tableLayoutSidebar.Controls.Add(this.buttonRefreshSidebar, 0, 1);
+            this.tableLayoutSidebar.Controls.Add(this._sidebarContentFlow, 0, 0);
+            this.tableLayoutSidebar.Controls.Add(this.panelSidebarFooter, 0, 1);
             this.tableLayoutSidebar.Dock = DockStyle.Fill;
             this.tableLayoutSidebar.Location = new Point(970, 0);
             this.tableLayoutSidebar.Margin = new Padding(0);
@@ -127,41 +129,40 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutSidebar.Padding = new Padding(0);
             this.tableLayoutSidebar.RowCount = 2;
             this.tableLayoutSidebar.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this.tableLayoutSidebar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.tableLayoutSidebar.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             this.tableLayoutSidebar.Size = new Size(310, 665);
             this.tableLayoutSidebar.TabIndex = 1;
             //
-            // panelSidebarContent
-            //
-            this.panelSidebarContent.AutoScroll = true;
-            this.panelSidebarContent.BackColor = Color.FromArgb(248, 249, 250);
-            this.panelSidebarContent.Controls.Add(this._sidebarContentFlow);
-            this.panelSidebarContent.Dock = DockStyle.Fill;
-            this.panelSidebarContent.Location = new Point(0, 0);
-            this.panelSidebarContent.Margin = new Padding(0);
-            this.panelSidebarContent.Name = "panelSidebarContent";
-            this.panelSidebarContent.Padding = new Padding(0, 4, 0, 4);
-            this.panelSidebarContent.Size = new Size(310, 625);
-            this.panelSidebarContent.TabIndex = 0;
-            //
             // _sidebarContentFlow
             //
-            this._sidebarContentFlow.AutoSize = true;
-            this._sidebarContentFlow.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this._sidebarContentFlow.AutoScroll = true;
             this._sidebarContentFlow.BackColor = Color.FromArgb(248, 249, 250);
-            this._sidebarContentFlow.Dock = DockStyle.Top;
-            this._sidebarContentFlow.FlowDirection = FlowDirection.TopDown;
-            this._sidebarContentFlow.Location = new Point(0, 4);
+            this._sidebarContentFlow.ColumnCount = 1;
+            this._sidebarContentFlow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._sidebarContentFlow.Dock = DockStyle.Fill;
+            this._sidebarContentFlow.Location = new Point(0, 0);
             this._sidebarContentFlow.Margin = new Padding(0);
             this._sidebarContentFlow.Name = "_sidebarContentFlow";
-            this._sidebarContentFlow.Padding = new Padding(0);
-            this._sidebarContentFlow.Size = new Size(310, 0);
+            this._sidebarContentFlow.Padding = new Padding(0, 4, 0, 4);
+            this._sidebarContentFlow.RowCount = 0;
+            this._sidebarContentFlow.Size = new Size(310, 625);
             this._sidebarContentFlow.TabIndex = 0;
-            this._sidebarContentFlow.WrapContents = false;
             //
-            // buttonRefreshSidebar  (direto no tableLayoutSidebar, linha 1 AutoSize, centralizado por Anchor=None)
+            // panelSidebarFooter  (altura fixa de celula -> nao colapsa o botao)
             //
-            this.buttonRefreshSidebar.Anchor = AnchorStyles.None;
+            this.panelSidebarFooter.BackColor = Color.FromArgb(248, 249, 250);
+            this.panelSidebarFooter.Controls.Add(this.buttonRefreshSidebar);
+            this.panelSidebarFooter.Dock = DockStyle.Fill;
+            this.panelSidebarFooter.Location = new Point(0, 625);
+            this.panelSidebarFooter.Margin = new Padding(0);
+            this.panelSidebarFooter.Name = "panelSidebarFooter";
+            this.panelSidebarFooter.Padding = new Padding(0);
+            this.panelSidebarFooter.Size = new Size(310, 40);
+            this.panelSidebarFooter.TabIndex = 1;
+            //
+            // buttonRefreshSidebar  (Anchor=Top, posicao recalculada via Layout event)
+            //
+            this.buttonRefreshSidebar.Anchor = AnchorStyles.Top;
             this.buttonRefreshSidebar.AutoSize = true;
             this.buttonRefreshSidebar.BackColor = Color.FromArgb(248, 249, 250);
             this.buttonRefreshSidebar.Cursor = Cursors.Hand;
@@ -169,8 +170,11 @@ namespace BRCSISTEM.Desktop.Views
             this.buttonRefreshSidebar.FlatStyle = FlatStyle.Flat;
             this.buttonRefreshSidebar.Font = new Font("Segoe UI", 9F);
             this.buttonRefreshSidebar.ForeColor = Color.FromArgb(44, 62, 80);
-            this.buttonRefreshSidebar.Margin = new Padding(0, 4, 0, 6);
+            this.buttonRefreshSidebar.Location = new Point(100, 7);
+            this.buttonRefreshSidebar.Margin = new Padding(0);
+            this.buttonRefreshSidebar.MinimumSize = new Size(110, 26);
             this.buttonRefreshSidebar.Name = "buttonRefreshSidebar";
+            this.buttonRefreshSidebar.Size = new Size(110, 26);
             this.buttonRefreshSidebar.TabIndex = 0;
             this.buttonRefreshSidebar.Text = "⟳ Atualizar";
             this.buttonRefreshSidebar.UseVisualStyleBackColor = false;
@@ -210,7 +214,7 @@ namespace BRCSISTEM.Desktop.Views
             this.labelFooterSystem.Text = "BRCSISTEM - v3.1.20";
             this.labelFooterSystem.TextAlign = ContentAlignment.MiddleLeft;
             //
-            // labelFooterUser  (texto real e completo definido em runtime no construtor)
+            // labelFooterUser  (texto real definido em runtime)
             //
             this.labelFooterUser.BackColor = Color.FromArgb(0, 122, 204);
             this.labelFooterUser.Dock = DockStyle.Fill;
@@ -262,8 +266,8 @@ namespace BRCSISTEM.Desktop.Views
             this.tableLayoutBody.ResumeLayout(false);
             this.tableLayoutSidebar.ResumeLayout(false);
             this.tableLayoutSidebar.PerformLayout();
-            this.panelSidebarContent.ResumeLayout(false);
-            this.panelSidebarContent.PerformLayout();
+            this.panelSidebarFooter.ResumeLayout(false);
+            this.panelSidebarFooter.PerformLayout();
             this.tableLayoutFooter.ResumeLayout(false);
             this.tableLayoutFooter.PerformLayout();
             this.ResumeLayout(false);
