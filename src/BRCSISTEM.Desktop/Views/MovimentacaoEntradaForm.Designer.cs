@@ -33,7 +33,6 @@ namespace BRCSISTEM.Desktop.Views
         private ComboBox _warehouseComboBox;
         private Button _btnWarehouseRefresh;
         private Button _btnWarehouseLookup;
-        private Button _btnWarehouseNew;
 
         private Label _emissionDateLabel;
         private TextBox _emissionDateTextBox;
@@ -121,7 +120,6 @@ namespace BRCSISTEM.Desktop.Views
             this._warehouseComboBox = new ComboBox();
             this._btnWarehouseRefresh = new Button();
             this._btnWarehouseLookup = new Button();
-            this._btnWarehouseNew = new Button();
 
             this._emissionDateLabel = new Label();
             this._emissionDateTextBox = new TextBox();
@@ -186,15 +184,15 @@ namespace BRCSISTEM.Desktop.Views
             // _rootLayout
             //
             this._rootLayout.Dock = DockStyle.Fill;
-            this._rootLayout.Padding = new Padding(12);
+            this._rootLayout.Padding = new Padding(10);
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._rootLayout.RowCount = 5;
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 88F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));   // title
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 114F));  // Dados da Nota
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76F));   // Adicionar/Editar Item
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));   // Itens Lançados
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));   // footer
             this._rootLayout.Controls.Add(this._titleLabel, 0, 0);
             this._rootLayout.Controls.Add(this._headerGroup, 0, 1);
             this._rootLayout.Controls.Add(this._itemGroup, 0, 2);
@@ -210,6 +208,7 @@ namespace BRCSISTEM.Desktop.Views
             this._titleLabel.ForeColor = Color.FromArgb(27, 54, 93);
             this._titleLabel.TextAlign = ContentAlignment.MiddleLeft;
             this._titleLabel.AutoSize = false;
+            this._titleLabel.Margin = new Padding(0, 0, 0, 4);
 
             //
             // _headerGroup
@@ -217,7 +216,8 @@ namespace BRCSISTEM.Desktop.Views
             this._headerGroup.Dock = DockStyle.Fill;
             this._headerGroup.Text = "Dados da Nota";
             this._headerGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._headerGroup.Padding = new Padding(8);
+            this._headerGroup.Padding = new Padding(8, 4, 8, 6);
+            this._headerGroup.Margin = new Padding(0, 0, 0, 4);
             this._headerGroup.Controls.Add(this._headerLayout);
 
             //
@@ -227,34 +227,34 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLayout.ColumnCount = 1;
             this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._headerLayout.RowCount = 3;
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));  // line1
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));  // line2
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));  // status
             this._headerLayout.Controls.Add(this._headerLine1, 0, 0);
             this._headerLayout.Controls.Add(this._headerLine2, 0, 1);
             this._headerLayout.Controls.Add(this._statusLabel, 0, 2);
 
             //
             // _headerLine1
+            // 13 colunas: NºNota lbl, NºNota tb, 🔍 | Forn lbl, Forn combo, ⟳, 🔍, + | Almox lbl, Almox combo, ⟳, 🔍 | trailing
             //
             this._headerLine1.Dock = DockStyle.Fill;
-            this._headerLine1.ColumnCount = 14;
+            this._headerLine1.ColumnCount = 13;
             this._headerLine1.RowCount = 1;
             this._headerLine1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));   // Nº Nota lbl
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));  // NumberTextBox
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));   // btnNumberLookup
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 140F));  // NumberTextBox
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));   // btn 🔍
             this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));   // Fornecedor lbl
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));    // SupplierCombo
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));   // Almox lbl
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));    // WarehouseCombo
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));    // trailing gap
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));    // Fornecedor combo
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));   // Almoxarifado lbl
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));    // Almoxarifado combo
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 6F));    // trailing
 
             this._headerLine1.Controls.Add(this._numberLabel, 0, 0);
             this._headerLine1.Controls.Add(this._numberTextBox, 1, 0);
@@ -268,7 +268,6 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine1.Controls.Add(this._warehouseComboBox, 9, 0);
             this._headerLine1.Controls.Add(this._btnWarehouseRefresh, 10, 0);
             this._headerLine1.Controls.Add(this._btnWarehouseLookup, 11, 0);
-            this._headerLine1.Controls.Add(this._btnWarehouseNew, 12, 0);
 
             ConfigureFieldLabel(this._numberLabel, "Nº Nota:");
             ConfigureCellTextBox(this._numberTextBox);
@@ -292,20 +291,19 @@ namespace BRCSISTEM.Desktop.Views
             this._btnWarehouseRefresh.Click += this.OnBtnWarehouseRefreshClick;
             ConfigureIconButton(this._btnWarehouseLookup, "🔍", "Buscar");
             this._btnWarehouseLookup.Click += this.OnBtnWarehouseLookupClick;
-            ConfigureIconButton(this._btnWarehouseNew, "+", "Novo almoxarifado");
-            this._btnWarehouseNew.Click += this.OnBtnWarehouseNewClick;
 
             //
             // _headerLine2
+            // 5 colunas: Emissão lbl, Emissão tb, Recebimento lbl, Recebimento tb, trailing
             //
             this._headerLine2.Dock = DockStyle.Fill;
             this._headerLine2.ColumnCount = 5;
             this._headerLine2.RowCount = 1;
             this._headerLine2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
+            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 175F));
+            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
             this._headerLine2.Controls.Add(this._emissionDateLabel, 0, 0);
@@ -321,13 +319,14 @@ namespace BRCSISTEM.Desktop.Views
             this._receiptDateTimeTextBox.Leave += this.OnReceiptDateLeave;
 
             //
-            // _statusLabel
+            // _statusLabel (barra compacta abaixo das linhas)
             //
             this._statusLabel.Dock = DockStyle.Fill;
             this._statusLabel.AutoSize = false;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
             this._statusLabel.ForeColor = Color.SeaGreen;
             this._statusLabel.TextAlign = ContentAlignment.MiddleLeft;
+            this._statusLabel.Margin = new Padding(3, 0, 3, 0);
 
             //
             // _itemGroup
@@ -335,33 +334,36 @@ namespace BRCSISTEM.Desktop.Views
             this._itemGroup.Dock = DockStyle.Fill;
             this._itemGroup.Text = "Adicionar / Editar Item";
             this._itemGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._itemGroup.Padding = new Padding(8);
+            this._itemGroup.Padding = new Padding(8, 4, 8, 6);
+            this._itemGroup.Margin = new Padding(0, 4, 0, 4);
             this._itemGroup.Controls.Add(this._itemLayout);
 
             //
             // _itemLayout
+            // 18 colunas: Mat lbl, Mat combo, ⟳, 🔍, + | Lote lbl, Lote combo, ⟳, 🔍, + | Qtd lbl, Qtd tb | Ações lbl, ➕, ✎, 🗑, 🧹 | BRC
             //
             this._itemLayout.Dock = DockStyle.Fill;
-            this._itemLayout.ColumnCount = 17;
+            this._itemLayout.ColumnCount = 18;
             this._itemLayout.RowCount = 1;
             this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65F));   // Material lbl
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));    // MaterialCombo
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 45F));   // Lote lbl
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));    // LoteCombo
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));    // Material combo
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));   // Lote lbl
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));    // Lote combo
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));   // Quantidade lbl
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));  // Quantidade input
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));   // Ações lbl
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 36F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 36F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 36F));
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 36F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95F));   // Quantidade input
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 52F));   // Ações lbl
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 32F));
+            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));  // BRC
 
             this._itemLayout.Controls.Add(this._materialLabel, 0, 0);
             this._itemLayout.Controls.Add(this._materialComboBox, 1, 0);
@@ -380,6 +382,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLayout.Controls.Add(this._btnItemEdit, 14, 0);
             this._itemLayout.Controls.Add(this._btnItemRemove, 15, 0);
             this._itemLayout.Controls.Add(this._btnItemClear, 16, 0);
+            this._itemLayout.Controls.Add(this._brcLabel, 17, 0);
 
             ConfigureFieldLabel(this._materialLabel, "Material:");
             ConfigureCellCombo(this._materialComboBox);
@@ -408,7 +411,7 @@ namespace BRCSISTEM.Desktop.Views
             this._actionsLabel.AutoSize = false;
             this._actionsLabel.Text = "Ações:";
             this._actionsLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
-            this._actionsLabel.ForeColor = Color.FromArgb(100, 100, 100);
+            this._actionsLabel.ForeColor = Color.FromArgb(102, 102, 102);
             this._actionsLabel.TextAlign = ContentAlignment.MiddleRight;
             this._actionsLabel.Margin = new Padding(6, 0, 4, 0);
 
@@ -422,14 +425,15 @@ namespace BRCSISTEM.Desktop.Views
             this._btnItemClear.Click += this.OnBtnItemClearClick;
 
             //
-            // _brcLabel (colocado como overlay no status bar direito via _headerLayout? Usamos status para BRC)
+            // _brcLabel (dentro do editor de item, alinhado à direita como no Python)
             //
-            this._brcLabel.AutoSize = true;
+            this._brcLabel.Dock = DockStyle.Fill;
+            this._brcLabel.AutoSize = false;
             this._brcLabel.Text = "BRC: -";
-            this._brcLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._brcLabel.ForeColor = Color.DimGray;
-            this._brcLabel.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-            this._brcLabel.Margin = new Padding(0, 0, 6, 0);
+            this._brcLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
+            this._brcLabel.ForeColor = Color.FromArgb(102, 102, 102);
+            this._brcLabel.TextAlign = ContentAlignment.MiddleLeft;
+            this._brcLabel.Margin = new Padding(12, 0, 3, 0);
 
             //
             // _gridGroup
@@ -437,7 +441,8 @@ namespace BRCSISTEM.Desktop.Views
             this._gridGroup.Dock = DockStyle.Fill;
             this._gridGroup.Text = "Itens Lançados";
             this._gridGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._gridGroup.Padding = new Padding(6);
+            this._gridGroup.Padding = new Padding(6, 4, 6, 6);
+            this._gridGroup.Margin = new Padding(0, 4, 0, 4);
             this._gridGroup.Controls.Add(this._itemsGrid);
 
             //
@@ -453,13 +458,15 @@ namespace BRCSISTEM.Desktop.Views
             this._itemsGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this._itemsGrid.RowHeadersVisible = false;
             this._itemsGrid.BackgroundColor = Color.White;
-            this._itemsGrid.BorderStyle = BorderStyle.Fixed3D;
+            this._itemsGrid.BorderStyle = BorderStyle.FixedSingle;
             this._itemsGrid.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);
             this._itemsGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
             this._itemsGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
-            this._itemsGrid.ColumnHeadersHeight = 28;
+            this._itemsGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            this._itemsGrid.ColumnHeadersHeight = 26;
             this._itemsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this._itemsGrid.EnableHeadersVisualStyles = false;
+            this._itemsGrid.RowTemplate.Height = 22;
 
             var colItem = new DataGridViewTextBoxColumn
             {
@@ -470,14 +477,24 @@ namespace BRCSISTEM.Desktop.Views
             };
             colItem.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            var colFornecedor = new DataGridViewTextBoxColumn
+            {
+                Name = "fornecedor",
+                HeaderText = "FORNECEDOR",
+                DataPropertyName = nameof(InboundReceiptItemRow.SupplierDisplay),
+                Width = 200,
+            };
+            colFornecedor.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
             var colMaterial = new DataGridViewTextBoxColumn
             {
                 Name = "material",
                 HeaderText = "MATERIAL",
                 DataPropertyName = nameof(InboundReceiptItemRow.MaterialDisplay),
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                FillWeight = 50,
+                FillWeight = 55,
             };
+            colMaterial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             var colLote = new DataGridViewTextBoxColumn
             {
@@ -485,15 +502,16 @@ namespace BRCSISTEM.Desktop.Views
                 HeaderText = "LOTE",
                 DataPropertyName = nameof(InboundReceiptItemRow.LotDisplay),
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                FillWeight = 35,
+                FillWeight = 45,
             };
+            colLote.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 
             var colQtd = new DataGridViewTextBoxColumn
             {
                 Name = "quantidade",
                 HeaderText = "QUANTIDADE",
                 DataPropertyName = nameof(InboundReceiptItemRow.QuantityText),
-                Width = 140,
+                Width = 120,
             };
             colQtd.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
@@ -502,11 +520,11 @@ namespace BRCSISTEM.Desktop.Views
                 Name = "status",
                 HeaderText = "STATUS",
                 DataPropertyName = nameof(InboundReceiptItemRow.Status),
-                Width = 110,
+                Width = 100,
             };
             colStatus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            this._itemsGrid.Columns.AddRange(new DataGridViewColumn[] { colItem, colMaterial, colLote, colQtd, colStatus });
+            this._itemsGrid.Columns.AddRange(new DataGridViewColumn[] { colItem, colFornecedor, colMaterial, colLote, colQtd, colStatus });
             this._itemsGrid.CellDoubleClick += this.OnItemsGridCellDoubleClick;
 
             //
@@ -519,7 +537,7 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            this._footerLayout.Padding = new Padding(0, 8, 0, 0);
+            this._footerLayout.Padding = new Padding(0, 6, 0, 0);
             this._footerLayout.Controls.Add(this._footerLeftPanel, 0, 0);
             this._footerLayout.Controls.Add(this._itemCountLabel, 1, 0);
             this._footerLayout.Controls.Add(this._footerRightPanel, 2, 0);
@@ -531,16 +549,17 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLeftPanel.AutoSize = true;
             this._footerLeftPanel.FlowDirection = FlowDirection.LeftToRight;
             this._footerLeftPanel.WrapContents = false;
+            this._footerLeftPanel.Margin = new Padding(0);
             this._footerLeftPanel.Controls.Add(this._saveButton);
             this._footerLeftPanel.Controls.Add(this._updateButton);
             this._footerLeftPanel.Controls.Add(this._clearButton);
             this._footerLeftPanel.Controls.Add(this._cancelButton);
 
-            ConfigureActionButton(this._saveButton, "Salvar (F2)", 130);
+            ConfigureActionButton(this._saveButton, "Salvar Nota (F2)", 140);
             this._saveButton.Click += this.OnBtnSaveClick;
-            ConfigureActionButton(this._updateButton, "Alterar (F3)", 120);
+            ConfigureActionButton(this._updateButton, "Alterar (F3)", 110);
             this._updateButton.Click += this.OnBtnUpdateClick;
-            ConfigureActionButton(this._clearButton, "Limpar (F5)", 120);
+            ConfigureActionButton(this._clearButton, "Limpar (F5)", 110);
             this._clearButton.Click += this.OnBtnClearClick;
             ConfigureActionButton(this._cancelButton, "Cancelar Nota (F6)", 160);
             this._cancelButton.Click += this.OnBtnCancelClick;
@@ -551,7 +570,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemCountLabel.Dock = DockStyle.Fill;
             this._itemCountLabel.AutoSize = false;
             this._itemCountLabel.Text = "Itens na nota: 0";
-            this._itemCountLabel.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            this._itemCountLabel.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
             this._itemCountLabel.ForeColor = Color.FromArgb(27, 54, 93);
             this._itemCountLabel.TextAlign = ContentAlignment.MiddleCenter;
 
@@ -562,10 +581,10 @@ namespace BRCSISTEM.Desktop.Views
             this._footerRightPanel.AutoSize = true;
             this._footerRightPanel.FlowDirection = FlowDirection.RightToLeft;
             this._footerRightPanel.WrapContents = false;
+            this._footerRightPanel.Margin = new Padding(0);
             this._footerRightPanel.Controls.Add(this._closeButton);
-            this._footerRightPanel.Controls.Add(this._brcLabel);
 
-            ConfigureActionButton(this._closeButton, "Fechar (F4)", 120);
+            ConfigureActionButton(this._closeButton, "Fechar (F4)", 110);
             this._closeButton.Click += this.OnBtnCloseClick;
 
             //
@@ -610,7 +629,7 @@ namespace BRCSISTEM.Desktop.Views
             label.Dock = DockStyle.Fill;
             label.AutoSize = false;
             label.Text = text;
-            label.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            label.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
             label.ForeColor = Color.FromArgb(27, 54, 93);
             label.TextAlign = ContentAlignment.MiddleLeft;
             label.Margin = new Padding(3, 0, 3, 0);
@@ -619,16 +638,17 @@ namespace BRCSISTEM.Desktop.Views
         private static void ConfigureCellTextBox(TextBox textBox)
         {
             textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-            textBox.Font = new Font("Segoe UI", 10F);
-            textBox.Margin = new Padding(3, 5, 3, 5);
+            textBox.Font = new Font("Segoe UI", 9.75F);
+            textBox.Margin = new Padding(3, 6, 3, 6);
         }
 
         private static void ConfigureCellCombo(ComboBox comboBox)
         {
             comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox.Font = new Font("Segoe UI", 10F);
-            comboBox.Margin = new Padding(3, 5, 3, 5);
+            comboBox.Font = new Font("Segoe UI", 9.75F);
+            comboBox.Margin = new Padding(3, 6, 3, 6);
+            comboBox.FlatStyle = FlatStyle.Standard;
         }
 
         private static void ConfigureIconButton(Button button, string text, string toolTip)
@@ -637,10 +657,9 @@ namespace BRCSISTEM.Desktop.Views
             button.Text = text;
             button.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular);
             button.FlatStyle = FlatStyle.System;
-            button.Margin = new Padding(1, 5, 1, 5);
+            button.Margin = new Padding(1, 6, 1, 6);
             if (!string.IsNullOrEmpty(toolTip))
             {
-                // tooltip via AccessibleName para evitar criação de Component no Designer
                 button.AccessibleName = toolTip;
             }
         }
@@ -649,7 +668,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             button.Text = text;
             button.AutoSize = false;
-            button.Height = 32;
+            button.Height = 30;
             button.Width = width;
             button.FlatStyle = FlatStyle.System;
             button.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);

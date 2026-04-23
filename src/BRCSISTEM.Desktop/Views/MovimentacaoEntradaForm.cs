@@ -92,7 +92,6 @@ namespace BRCSISTEM.Desktop.Views
         private void OnBtnSupplierNewClick(object sender, EventArgs e) { OpenSupplierManagement(); }
         private void OnBtnWarehouseRefreshClick(object sender, EventArgs e) { ReloadWarehouses(); }
         private void OnBtnWarehouseLookupClick(object sender, EventArgs e) { OpenWarehouseLookup(); }
-        private void OnBtnWarehouseNewClick(object sender, EventArgs e) { OpenWarehouseManagement(); }
         private void OnBtnMaterialRefreshClick(object sender, EventArgs e) { ReloadMaterials(); }
         private void OnBtnMaterialLookupClick(object sender, EventArgs e) { OpenMaterialLookup(); }
         private void OnBtnMaterialNewClick(object sender, EventArgs e) { OpenPackagingManagement(); }

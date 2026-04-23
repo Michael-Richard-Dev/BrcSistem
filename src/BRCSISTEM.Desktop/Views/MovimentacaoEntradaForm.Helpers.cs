@@ -275,6 +275,10 @@ namespace BRCSISTEM.Desktop.Views
 
         private void RefreshItemGrid()
         {
+            var supplierDisplay = _supplierComboBox.SelectedItem is LookupOption selected
+                ? (string.IsNullOrWhiteSpace(selected.Code) ? selected.Description : selected.Code + " - " + selected.Description)
+                : string.Empty;
+
             var rows = _items
                 .Select((item, index) => new
                 {
@@ -287,6 +291,7 @@ namespace BRCSISTEM.Desktop.Views
                 {
                     SourceIndex = item.SourceIndex,
                     ItemNumber = visualIndex + 1,
+                    SupplierDisplay = supplierDisplay,
                     MaterialDisplay = item.Item.MaterialDisplay,
                     LotDisplay = item.Item.LotDisplay,
                     QuantityText = item.Item.QuantityText,
@@ -726,6 +731,8 @@ namespace BRCSISTEM.Desktop.Views
             public int SourceIndex { get; set; }
 
             public int ItemNumber { get; set; }
+
+            public string SupplierDisplay { get; set; }
 
             public string MaterialDisplay { get; set; }
 
