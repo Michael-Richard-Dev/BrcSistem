@@ -726,7 +726,7 @@ namespace BRCSISTEM.Desktop.Views
             }
             else if (string.Equals(module.Key, "movimentacao_entrada", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new InboundReceiptForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new MovimentacaoEntradaForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

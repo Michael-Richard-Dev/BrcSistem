@@ -8,7 +8,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    public sealed partial class InboundReceiptForm
+    public sealed partial class MovimentacaoEntradaForm
     {
         private void ReloadAllReferences(string supplierCode = null, string warehouseCode = null, string materialCode = null, string lotCode = null)
         {
@@ -582,20 +582,6 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
-        private void OnFormKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F2) SaveReceipt();
-            else if (e.KeyCode == Keys.F3) UpdateReceipt();
-            else if (e.KeyCode == Keys.F4) CloseForm();
-            else if (e.KeyCode == Keys.F5) ClearForm(confirm: true, releaseLock: true);
-            else if (e.KeyCode == Keys.F6) CancelReceipt();
-        }
-
-        private void OnFormClosing(object sender, FormClosingEventArgs e)
-        {
-            ReleaseCurrentLockSafe();
-        }
-
         private void CloseForm()
         {
             DialogResult = _hasChanges ? DialogResult.OK : DialogResult.Cancel;
@@ -733,18 +719,6 @@ namespace BRCSISTEM.Desktop.Views
         private static string GetSelectedDescription(ComboBox comboBox)
         {
             return (comboBox.SelectedItem as LookupOption)?.Description;
-        }
-
-        private static Button CreateButton(string text, EventHandler handler)
-        {
-            var button = new Button { Text = text, AutoSize = true, FlatStyle = FlatStyle.System };
-            button.Click += handler;
-            return button;
-        }
-
-        private static Label CreateFieldLabel(string text)
-        {
-            return new Label { AutoSize = true, Text = text, Font = new Font("Segoe UI", 9.5F, FontStyle.Bold), ForeColor = Color.FromArgb(27, 54, 93), Margin = new Padding(0, 8, 0, 4) };
         }
 
         private sealed class InboundReceiptItemRow
