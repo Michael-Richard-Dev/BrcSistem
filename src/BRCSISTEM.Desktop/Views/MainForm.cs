@@ -773,6 +773,13 @@ namespace BRCSISTEM.Desktop.Views
                     dialog.ShowDialog(this);
                 }
             }
+            else if (string.Equals(module.Key, "consulta_nota_entrada", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var dialog = new ConsultaNotaEntradaForm(_compositionRoot.CreateInboundReceiptController(), _configuration, _databaseProfile))
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
             else if (string.Equals(module.Key, "relatorio_entrada_pdf", StringComparison.OrdinalIgnoreCase))
             {
                 using (var dialog = new InboundReceiptPdfReportForm(_compositionRoot, _identity, _databaseProfile))

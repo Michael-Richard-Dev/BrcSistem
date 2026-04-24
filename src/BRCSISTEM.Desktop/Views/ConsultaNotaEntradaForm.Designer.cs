@@ -10,12 +10,6 @@ namespace BRCSISTEM.Desktop.Views
         private System.Windows.Forms.TextBox _filterTextBox;
         private System.Windows.Forms.GroupBox _resultsGroupBox;
         private System.Windows.Forms.DataGridView _grid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _numberColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _supplierColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _warehouseColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _movementDateColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _statusColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _lockedByColumn;
         private System.Windows.Forms.TableLayoutPanel _footerLayout;
         private System.Windows.Forms.Label _footerInfoLabel;
         private System.Windows.Forms.FlowLayoutPanel _footerButtonsPanel;
