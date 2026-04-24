@@ -6,7 +6,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    internal sealed class ReceiptLookupForm : Form
+    internal sealed class ConsultaNotaEntradaForm : Form
     {
         private readonly InboundReceiptController _controller;
         private readonly AppConfiguration _configuration;
@@ -15,7 +15,7 @@ namespace BRCSISTEM.Desktop.Views
         private TextBox _filterTextBox;
         private DataGridView _grid;
 
-        public ReceiptLookupForm(InboundReceiptController controller, AppConfiguration configuration, DatabaseProfile databaseProfile)
+        public ConsultaNotaEntradaForm(InboundReceiptController controller, AppConfiguration configuration, DatabaseProfile databaseProfile)
         {
             _controller = controller;
             _configuration = configuration;

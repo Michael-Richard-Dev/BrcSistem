@@ -201,7 +201,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenReceiptLookup()
         {
-            using (var dialog = new ReceiptLookupForm(_inboundReceiptController, _configuration, _databaseProfile))
+            using (var dialog = new ConsultaNotaEntradaForm(_inboundReceiptController, _configuration, _databaseProfile))
             {
                 if (dialog.ShowDialog(this) != DialogResult.OK || dialog.SelectedReceipt == null)
                 {
