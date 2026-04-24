@@ -52,6 +52,7 @@ namespace BRCSISTEM.Desktop.Views
             _editingItemIndex = -1;
 
             InitializeComponent();
+            ApplyActionIcons();
         }
 
         // ===============================

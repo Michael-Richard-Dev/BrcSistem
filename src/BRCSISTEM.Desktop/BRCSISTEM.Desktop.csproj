@@ -22,6 +22,14 @@
     <EmbeddedResource Include="..\..\images\configuracoes-cog.png">
       <LogicalName>BRCSISTEM.Desktop.Assets.configuracoes-cog.png</LogicalName>
     </EmbeddedResource>
+    <None Include="..\..\icones\**\*.png">
+      <Link>icones\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\icones\CREDITOS.txt">
+      <Link>icones\CREDITOS.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

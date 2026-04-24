@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Application.Models;
@@ -10,6 +11,89 @@ namespace BRCSISTEM.Desktop.Views
 {
     public sealed partial class MovimentacaoEntradaForm
     {
+        private void ApplyActionIcons()
+        {
+            SetIcon(_btnNumberLookup, "search.png");
+            SetIcon(_btnSupplierRefresh, "refresh.png");
+            SetIcon(_btnSupplierLookup, "search.png");
+            SetIcon(_btnSupplierNew, "new.png");
+            SetIcon(_btnWarehouseRefresh, "refresh.png");
+            SetIcon(_btnWarehouseLookup, "search.png");
+            SetIcon(_btnMaterialRefresh, "refresh.png");
+            SetIcon(_btnMaterialLookup, "search.png");
+            SetIcon(_btnMaterialNew, "new.png");
+            SetIcon(_btnLotRefresh, "refresh.png");
+            SetIcon(_btnLotLookup, "search.png");
+            SetIcon(_btnLotNew, "new.png");
+            SetIcon(_btnItemAdd, "add.png");
+            SetIcon(_btnItemEdit, "edit.png");
+            SetIcon(_btnItemRemove, "delete.png");
+            SetIcon(_btnItemClear, "clear.png");
+
+            SetIcon(_saveButton, "save.png");
+            SetIcon(_updateButton, "edit.png");
+            SetIcon(_clearButton, "clear.png");
+            SetIcon(_cancelButton, "cancel.png");
+            SetIcon(_closeButton, "close.png");
+        }
+
+        private static void SetIcon(Button button, string fileName)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            var path = FindIconPath(fileName);
+            if (path == null)
+            {
+                return;
+            }
+
+            try
+            {
+                using (var source = Image.FromFile(path))
+                {
+                    button.Image = new Bitmap(source, new Size(20, 20));
+                }
+
+                button.ImageAlign = ContentAlignment.MiddleCenter;
+                if (!string.IsNullOrWhiteSpace(button.Text))
+                {
+                    button.ImageAlign = ContentAlignment.MiddleLeft;
+                    button.TextImageRelation = TextImageRelation.ImageBeforeText;
+                }
+            }
+            catch
+            {
+                button.Image = null;
+            }
+        }
+
+        private static string FindIconPath(string fileName)
+        {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var candidates = new[]
+            {
+                Path.Combine(baseDirectory, "icones", fileName),
+                Path.Combine(baseDirectory, "..", "..", "..", "..", "icones", fileName),
+                Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "icones", fileName),
+                Path.Combine(Environment.CurrentDirectory, "icones", fileName),
+                Path.Combine(Environment.CurrentDirectory, "..", "icones", fileName),
+            };
+
+            foreach (var candidate in candidates)
+            {
+                var fullPath = Path.GetFullPath(candidate);
+                if (File.Exists(fullPath))
+                {
+                    return fullPath;
+                }
+            }
+
+            return null;
+        }
+
         private void ReloadAllReferences(string supplierCode = null, string warehouseCode = null, string materialCode = null, string lotCode = null)
         {
             _isRefreshingReferences = true;

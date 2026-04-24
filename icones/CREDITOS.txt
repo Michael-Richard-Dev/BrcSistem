@@ -1,0 +1,16 @@
+﻿Icones utilizados na tela MovimentacaoEntradaForm.
+
+Fonte: Flaticon (https://www.flaticon.com/)
+Licenca: gratuitos para uso pessoal e comercial com atribuicao obrigatoria, conforme paginas individuais.
+
+Creditos por arquivo:
+- refresh.png: Refresh icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/refresh_2007517
+- search.png: Search icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/search_15695004
+- add.png: Add On icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/add-on_93644
+- new.png: Add On icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/add-on_93644
+- edit.png: Edit icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/edit_122127
+- delete.png: Delete icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/delete_248957
+- clear.png: Eraser icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/eraser_154845
+- save.png: Save icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/save_7856134
+- cancel.png: Cancel icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/cancel_443152
+- close.png: Exit icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/exit_2699261
