@@ -69,9 +69,7 @@ namespace BRCSISTEM.Desktop.Views
         {
             Load += OnFormLoad;
             _filterTextBox.TextChanged += OnFilterTextChanged;
-            //_searchButton.Click += OnSearchButtonClick;
             _selectButton.Click += OnSelectButtonClick;
-            //_closeButton.Click += OnCloseButtonClick;
             _grid.CellDoubleClick += OnGridCellDoubleClick;
             _grid.KeyDown += OnGridKeyDown;
         }

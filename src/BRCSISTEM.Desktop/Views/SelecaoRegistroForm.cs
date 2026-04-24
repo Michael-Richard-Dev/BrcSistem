@@ -43,11 +43,11 @@ namespace BRCSISTEM.Desktop.Views
 
             if (!string.IsNullOrEmpty(_descriptionHeader))
             {
-                _colDescricao.HeaderText = _descriptionHeader;
+                //_colDescricao.HeaderText = _descriptionHeader;
             }
 
             AcceptButton = _confirmButton;
-            CancelButton = _cancelButton;
+            //CancelButton = _cancelButton;
         }
 
         public LookupOption SelectedOption { get; private set; }
