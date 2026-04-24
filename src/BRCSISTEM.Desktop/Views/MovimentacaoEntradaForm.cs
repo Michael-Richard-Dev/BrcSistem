@@ -83,12 +83,12 @@ namespace BRCSISTEM.Desktop.Views
             _editingItemIndex = -1;
 
             InitializeComponent();
-            ApplyVisualDefaults();
 
             if (!IsDesignModeActive)
             {
                 WireRuntimeEvents();
                 ApplyActionIcons();
+                ConfigureItemsGridColumns();
             }
         }
 
@@ -139,91 +139,6 @@ namespace BRCSISTEM.Desktop.Views
             _clearButton.Click += OnBtnClearClick;
             _cancelButton.Click += OnBtnCancelClick;
             _closeButton.Click += OnBtnCloseClick;
-        }
-
-        private void ApplyVisualDefaults()
-        {
-            ConfigureFieldLabel(_numberLabel, "No Nota:");
-            ConfigureFieldLabel(_supplierLabel, "Fornecedor:");
-            ConfigureFieldLabel(_warehouseLabel, "Almoxarifado:");
-            ConfigureFieldLabel(_emissionDateLabel, "Data Emissao:");
-            ConfigureFieldLabel(_receiptDateLabel, "Data/Hora Recebimento:");
-            _receiptDateLabel.Margin = new Padding(20, 0, 3, 0);
-
-            ConfigureFieldLabel(_materialLabel, "Material:");
-            ConfigureFieldLabel(_lotLabel, "Lote:");
-            ConfigureFieldLabel(_quantityLabel, "Quantidade:");
-
-            ConfigureCellTextBox(_numberTextBox);
-            ConfigureCellTextBox(_emissionDateTextBox);
-            ConfigureCellTextBox(_receiptDateTimeTextBox);
-            ConfigureCellTextBox(_quantityTextBox);
-            _quantityTextBox.TextAlign = HorizontalAlignment.Right;
-
-            ConfigureCellCombo(_supplierComboBox);
-            ConfigureCellCombo(_warehouseComboBox);
-            ConfigureCellCombo(_materialComboBox);
-            ConfigureCellCombo(_lotComboBox);
-
-            ConfigureIconButton(_btnNumberLookup, "Buscar nota");
-            ConfigureIconButton(_btnSupplierRefresh, "Atualizar");
-            ConfigureIconButton(_btnSupplierLookup, "Buscar");
-            ConfigureIconButton(_btnSupplierNew, "Novo fornecedor");
-
-            ConfigureIconButton(_btnWarehouseRefresh, "Atualizar");
-            ConfigureIconButton(_btnWarehouseLookup, "Buscar");
-
-            ConfigureIconButton(_btnMaterialRefresh, "Atualizar");
-            ConfigureIconButton(_btnMaterialLookup, "Buscar");
-            ConfigureIconButton(_btnMaterialNew, "Nova embalagem");
-
-            ConfigureIconButton(_btnLotRefresh, "Atualizar");
-            ConfigureIconButton(_btnLotLookup, "Buscar");
-            ConfigureIconButton(_btnLotNew, "Novo lote");
-
-            ConfigureIconButton(_btnItemAdd, "Adicionar");
-            ConfigureIconButton(_btnItemEdit, "Editar");
-            ConfigureIconButton(_btnItemRemove, "Remover");
-            ConfigureIconButton(_btnItemClear, "Limpar item");
-
-            ConfigureActionButton(_saveButton, "Salvar Nota (F2)", 170);
-            ConfigureActionButton(_updateButton, "Alterar (F3)", 146);
-            ConfigureActionButton(_clearButton, "Limpar (F5)", 138);
-            ConfigureActionButton(_cancelButton, "Cancelar Nota (F6)", 184);
-            ConfigureActionButton(_closeButton, "Fechar (F4)", 136);
-
-            _actionsLabel.Dock = DockStyle.Fill;
-            _actionsLabel.AutoSize = false;
-            _actionsLabel.Text = "Acoes:";
-            _actionsLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
-            _actionsLabel.ForeColor = Color.FromArgb(102, 102, 102);
-            _actionsLabel.TextAlign = ContentAlignment.MiddleRight;
-            _actionsLabel.Margin = new Padding(0, 0, 5, 0);
-
-            _brcLabel.Dock = DockStyle.Fill;
-            _brcLabel.AutoSize = false;
-            _brcLabel.Text = "BRC: -";
-            _brcLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
-            _brcLabel.ForeColor = Color.FromArgb(102, 102, 102);
-            _brcLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _brcLabel.Margin = new Padding(16, 0, 3, 0);
-
-            _statusLabel.Dock = DockStyle.Fill;
-            _statusLabel.AutoSize = false;
-            _statusLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
-            _statusLabel.ForeColor = Color.SeaGreen;
-            _statusLabel.TextAlign = ContentAlignment.MiddleLeft;
-            _statusLabel.Margin = new Padding(3, 4, 3, 0);
-
-            var headerStyle = new DataGridViewCellStyle
-            {
-                Font = new Font("Segoe UI", 9.25F, FontStyle.Bold),
-                BackColor = Color.FromArgb(240, 240, 240),
-                Alignment = DataGridViewContentAlignment.MiddleCenter
-            };
-
-            _itemsGrid.ColumnHeadersDefaultCellStyle = headerStyle;
-            ConfigureItemsGridColumns();
         }
 
         private void ConfigureItemsGridColumns()
@@ -300,68 +215,6 @@ namespace BRCSISTEM.Desktop.Views
                 colQuantidade,
                 colStatus
             });
-        }
-
-        private static void ConfigureFieldLabel(Label label, string text)
-        {
-            label.Dock = DockStyle.Fill;
-            label.AutoSize = false;
-            label.Text = text;
-            label.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
-            label.ForeColor = Color.FromArgb(27, 54, 93);
-            label.TextAlign = ContentAlignment.MiddleLeft;
-            label.Margin = new Padding(3, 0, 6, 0);
-        }
-
-        private static void ConfigureCellTextBox(TextBox textBox)
-        {
-            textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox.AutoSize = false;
-            textBox.BorderStyle = BorderStyle.FixedSingle;
-            textBox.Font = new Font("Segoe UI", 9.75F);
-            textBox.Height = 29;
-            textBox.Margin = new Padding(5, 4, 5, 4);
-            textBox.MinimumSize = new Size(0, 29);
-        }
-
-        private static void ConfigureCellCombo(ComboBox comboBox)
-        {
-            comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox.Font = new Font("Segoe UI", 9.75F);
-            comboBox.Height = 29;
-            comboBox.Margin = new Padding(5, 4, 5, 4);
-            comboBox.MinimumSize = new Size(0, 29);
-            comboBox.FlatStyle = FlatStyle.Standard;
-        }
-
-        private static void ConfigureIconButton(Button button, string accessibleName)
-        {
-            button.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            button.Height = 30;
-            button.MinimumSize = new Size(32, 30);
-            button.Text = string.Empty;
-            button.FlatStyle = FlatStyle.Standard;
-            button.Margin = new Padding(2, 4, 2, 4);
-            button.Padding = new Padding(0);
-            button.UseVisualStyleBackColor = true;
-            button.AccessibleName = accessibleName;
-            button.ImageAlign = ContentAlignment.MiddleCenter;
-        }
-
-        private static void ConfigureActionButton(Button button, string text, int width)
-        {
-            button.Text = text;
-            button.AutoSize = false;
-            button.Height = 34;
-            button.Width = width;
-            button.FlatStyle = FlatStyle.Standard;
-            button.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);
-            button.Margin = new Padding(5, 2, 5, 2);
-            button.Padding = new Padding(8, 0, 8, 0);
-            button.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button.ImageAlign = ContentAlignment.MiddleLeft;
-            button.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         // ===============================
