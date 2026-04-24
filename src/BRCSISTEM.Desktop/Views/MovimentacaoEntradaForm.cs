@@ -245,7 +245,7 @@ namespace BRCSISTEM.Desktop.Views
         private void OnFormKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F2) SaveReceipt();
-            else if (e.KeyCode == Keys.F3) HandleUpdateAction();
+            else if (e.KeyCode == Keys.F3) UpdateReceipt();
             else if (e.KeyCode == Keys.F4) CloseForm();
             else if (e.KeyCode == Keys.F5) ClearForm(confirm: true, releaseLock: true);
             else if (e.KeyCode == Keys.F6) CancelReceipt();
@@ -259,7 +259,7 @@ namespace BRCSISTEM.Desktop.Views
         private void OnMaterialComboChanged(object sender, EventArgs e) { OnMaterialSelectionChanged(); }
         private void OnEmissionDateLeave(object sender, EventArgs e) { _emissionDateTextBox.Text = NormalizeDateInput(_emissionDateTextBox.Text); }
         private void OnReceiptDateLeave(object sender, EventArgs e) { _receiptDateTimeTextBox.Text = NormalizeDateTimeInput(_receiptDateTimeTextBox.Text); }
-        private void OnItemsGridCellDoubleClick(object sender, DataGridViewCellEventArgs e) { StartEditingSelectedItem(); }
+        private void OnItemsGridCellDoubleClick(object sender, DataGridViewCellEventArgs e) { HandleItemEditAction(); }
 
         private void OnBtnNumberLookupClick(object sender, EventArgs e) { OpenReceiptLookup(); }
         private void OnBtnSupplierRefreshClick(object sender, EventArgs e) { ReloadSuppliers(); }
@@ -275,12 +275,12 @@ namespace BRCSISTEM.Desktop.Views
         private void OnBtnLotNewClick(object sender, EventArgs e) { OpenLotManagement(); }
 
         private void OnBtnItemAddClick(object sender, EventArgs e) { AddOrUpdateItem(); }
-        private void OnBtnItemEditClick(object sender, EventArgs e) { StartEditingSelectedItem(); }
+        private void OnBtnItemEditClick(object sender, EventArgs e) { HandleItemEditAction(); }
         private void OnBtnItemRemoveClick(object sender, EventArgs e) { RemoveSelectedItem(); }
         private void OnBtnItemClearClick(object sender, EventArgs e) { ClearItemEditor(); ApplyModeState(); }
 
         private void OnBtnSaveClick(object sender, EventArgs e) { SaveReceipt(); }
-        private void OnBtnUpdateClick(object sender, EventArgs e) { HandleUpdateAction(); }
+        private void OnBtnUpdateClick(object sender, EventArgs e) { UpdateReceipt(); }
         private void OnBtnClearClick(object sender, EventArgs e) { ClearForm(confirm: true, releaseLock: true); }
         private void OnBtnCancelClick(object sender, EventArgs e) { CancelReceipt(); }
         private void OnBtnCloseClick(object sender, EventArgs e) { CloseForm(); }
@@ -374,24 +374,14 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
-        private void HandleUpdateAction()
-        {
-            if (IsDesignModeActive)
-            {
-                return;
-            }
-
-            if (_quantityOnlyEditMode)
-            {
-                ConfirmQuantityOnlyEdit();
-                return;
-            }
-
-            StartQuantityOnlyEditSelectedItem();
-        }
-
         private void UpdateReceipt()
         {
+            if (_quantityOnlyEditMode)
+            {
+                SetStatus("Confirme a quantidade pelo botao de editar item antes de salvar a nota.", true);
+                return;
+            }
+
             TryUpdateReceipt(clearAfterSuccess: true, successMessage: "Nota alterada com sucesso.");
         }
 

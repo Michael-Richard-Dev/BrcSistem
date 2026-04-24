@@ -403,14 +403,24 @@ namespace BRCSISTEM.Desktop.Views
             SetStatus("Item carregado para edicao.", false);
         }
 
-        private void StartQuantityOnlyEditSelectedItem()
+        private void HandleItemEditAction()
         {
-            if (_mode != ScreenMode.Consultation)
+            if (IsDesignModeActive)
             {
-                SetStatus("Consulte uma nota antes de alterar a quantidade.", true);
                 return;
             }
 
+            if (_quantityOnlyEditMode)
+            {
+                ConfirmQuantityOnlyEdit();
+                return;
+            }
+
+            StartQuantityOnlyEditSelectedItem();
+        }
+
+        private void StartQuantityOnlyEditSelectedItem()
+        {
             if (IsReceiptReadOnlyForItemEdit())
             {
                 SetStatus("Nota cancelada/inativa nao permite alteracao.", true);
@@ -429,7 +439,7 @@ namespace BRCSISTEM.Desktop.Views
             ApplyModeState();
             _quantityTextBox.Focus();
             _quantityTextBox.SelectAll();
-            SetStatus("Altere apenas a quantidade e clique em Alterar para confirmar.", false);
+            SetStatus("Altere apenas a quantidade e clique no botao de editar item para confirmar.", false);
         }
 
         private void LoadItemIntoEditor(InboundReceiptItemDetail item)
@@ -472,7 +482,6 @@ namespace BRCSISTEM.Desktop.Views
             try
             {
                 var item = _items[_editingItemIndex];
-                var previousQuantity = item.Quantity;
                 var quantity = ParseQuantity(_quantityTextBox.Text);
                 if (quantity <= 0)
                 {
@@ -480,21 +489,10 @@ namespace BRCSISTEM.Desktop.Views
                 }
 
                 item.Quantity = quantity;
-                _quantityOnlyEditMode = false;
-                _editingItemIndex = -1;
                 RefreshItemGrid();
                 ClearItemEditor();
                 ApplyModeState();
-
-                if (TryUpdateReceipt(clearAfterSuccess: false, successMessage: "Quantidade alterada e nota salva com sucesso."))
-                {
-                    SetStatus("Quantidade alterada com sucesso.", false);
-                    return;
-                }
-
-                item.Quantity = previousQuantity;
-                RefreshItemGrid();
-                ApplyModeState();
+                SetStatus("Quantidade alterada com sucesso. Clique em Alterar para salvar a nota.", false);
             }
             catch (Exception exception)
             {
@@ -596,7 +594,7 @@ namespace BRCSISTEM.Desktop.Views
             var itemEditable = !quantityOnlyEdit && !readOnlyCancelled;
 
             _saveButton.Enabled = _mode == ScreenMode.Creation && !readOnlyCancelled && !quantityOnlyEdit;
-            _updateButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled;
+            _updateButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled && !quantityOnlyEdit;
             _cancelButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled && !quantityOnlyEdit;
 
             _numberTextBox.Enabled = headerEditable;
@@ -621,7 +619,7 @@ namespace BRCSISTEM.Desktop.Views
             _btnLotLookup.Enabled = itemEditable;
             _btnLotNew.Enabled = itemEditable;
             _btnItemAdd.Enabled = itemEditable;
-            _btnItemEdit.Enabled = itemEditable;
+            _btnItemEdit.Enabled = !readOnlyCancelled;
             _btnItemRemove.Enabled = itemEditable;
             _btnItemClear.Enabled = !readOnlyCancelled;
         }
