@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using BRCSISTEM.Application.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
@@ -87,65 +86,64 @@ namespace BRCSISTEM.Desktop.Views
 
         private void InitializeComponent()
         {
-            this.components = new Container();
-            this._rootLayout = new TableLayoutPanel();
-            this._headerGroup = new GroupBox();
-            this._headerLayout = new TableLayoutPanel();
-            this._headerLine1 = new TableLayoutPanel();
-            this._headerLine2 = new TableLayoutPanel();
-            this._headerLine3 = new TableLayoutPanel();
-            this._numberLabel = new Label();
-            this._numberTextBox = new TextBox();
-            this._btnNumberLookup = new Button();
-            this._supplierLabel = new Label();
-            this._supplierComboBox = new ComboBox();
-            this._btnSupplierRefresh = new Button();
-            this._btnSupplierLookup = new Button();
-            this._btnSupplierNew = new Button();
-            this._warehouseLabel = new Label();
-            this._warehouseComboBox = new ComboBox();
-            this._btnWarehouseRefresh = new Button();
-            this._btnWarehouseLookup = new Button();
-            this._emissionDateLabel = new Label();
-            this._emissionDateTextBox = new TextBox();
-            this._receiptDateLabel = new Label();
-            this._receiptDateTimeTextBox = new TextBox();
-            this._statusLabel = new Label();
-            this._itemGroup = new GroupBox();
-            this._itemLayout = new TableLayoutPanel();
-            this._itemLine1 = new TableLayoutPanel();
-            this._itemLine2 = new TableLayoutPanel();
-            this._itemLine3 = new TableLayoutPanel();
-            this._materialLabel = new Label();
-            this._materialComboBox = new ComboBox();
-            this._btnMaterialRefresh = new Button();
-            this._btnMaterialLookup = new Button();
-            this._btnMaterialNew = new Button();
-            this._lotLabel = new Label();
-            this._lotComboBox = new ComboBox();
-            this._btnLotRefresh = new Button();
-            this._btnLotLookup = new Button();
-            this._btnLotNew = new Button();
-            this._quantityLabel = new Label();
-            this._quantityTextBox = new TextBox();
-            this._actionsLabel = new Label();
-            this._btnItemAdd = new Button();
-            this._btnItemEdit = new Button();
-            this._btnItemRemove = new Button();
-            this._btnItemClear = new Button();
-            this._brcLabel = new Label();
-            this._gridGroup = new GroupBox();
-            this._itemsGrid = new DataGridView();
-            this._footerLayout = new TableLayoutPanel();
-            this._footerLeftPanel = new FlowLayoutPanel();
-            this._saveButton = new Button();
-            this._updateButton = new Button();
-            this._clearButton = new Button();
-            this._cancelButton = new Button();
-            this._itemCountLabel = new Label();
-            this._footerRightPanel = new FlowLayoutPanel();
-            this._closeButton = new Button();
-
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovimentacaoEntradaForm));
+            this._rootLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._headerGroup = new System.Windows.Forms.GroupBox();
+            this._headerLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._headerLine1 = new System.Windows.Forms.TableLayoutPanel();
+            this._numberLabel = new System.Windows.Forms.Label();
+            this._numberTextBox = new System.Windows.Forms.TextBox();
+            this._btnNumberLookup = new System.Windows.Forms.Button();
+            this._supplierLabel = new System.Windows.Forms.Label();
+            this._supplierComboBox = new System.Windows.Forms.ComboBox();
+            this._btnSupplierRefresh = new System.Windows.Forms.Button();
+            this._btnSupplierLookup = new System.Windows.Forms.Button();
+            this._btnSupplierNew = new System.Windows.Forms.Button();
+            this._headerLine2 = new System.Windows.Forms.TableLayoutPanel();
+            this._warehouseLabel = new System.Windows.Forms.Label();
+            this._warehouseComboBox = new System.Windows.Forms.ComboBox();
+            this._btnWarehouseRefresh = new System.Windows.Forms.Button();
+            this._btnWarehouseLookup = new System.Windows.Forms.Button();
+            this._headerLine3 = new System.Windows.Forms.TableLayoutPanel();
+            this._emissionDateLabel = new System.Windows.Forms.Label();
+            this._emissionDateTextBox = new System.Windows.Forms.TextBox();
+            this._receiptDateLabel = new System.Windows.Forms.Label();
+            this._receiptDateTimeTextBox = new System.Windows.Forms.TextBox();
+            this._statusLabel = new System.Windows.Forms.Label();
+            this._itemGroup = new System.Windows.Forms.GroupBox();
+            this._itemLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._itemLine1 = new System.Windows.Forms.TableLayoutPanel();
+            this._materialLabel = new System.Windows.Forms.Label();
+            this._materialComboBox = new System.Windows.Forms.ComboBox();
+            this._btnMaterialRefresh = new System.Windows.Forms.Button();
+            this._btnMaterialLookup = new System.Windows.Forms.Button();
+            this._btnMaterialNew = new System.Windows.Forms.Button();
+            this._itemLine2 = new System.Windows.Forms.TableLayoutPanel();
+            this._lotLabel = new System.Windows.Forms.Label();
+            this._lotComboBox = new System.Windows.Forms.ComboBox();
+            this._btnLotRefresh = new System.Windows.Forms.Button();
+            this._btnLotLookup = new System.Windows.Forms.Button();
+            this._btnLotNew = new System.Windows.Forms.Button();
+            this._itemLine3 = new System.Windows.Forms.TableLayoutPanel();
+            this._quantityLabel = new System.Windows.Forms.Label();
+            this._quantityTextBox = new System.Windows.Forms.TextBox();
+            this._actionsLabel = new System.Windows.Forms.Label();
+            this._btnItemAdd = new System.Windows.Forms.Button();
+            this._btnItemEdit = new System.Windows.Forms.Button();
+            this._btnItemRemove = new System.Windows.Forms.Button();
+            this._btnItemClear = new System.Windows.Forms.Button();
+            this._brcLabel = new System.Windows.Forms.Label();
+            this._gridGroup = new System.Windows.Forms.GroupBox();
+            this._itemsGrid = new System.Windows.Forms.DataGridView();
+            this._footerLayout = new System.Windows.Forms.TableLayoutPanel();
+            this._footerLeftPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._saveButton = new System.Windows.Forms.Button();
+            this._updateButton = new System.Windows.Forms.Button();
+            this._clearButton = new System.Windows.Forms.Button();
+            this._cancelButton = new System.Windows.Forms.Button();
+            this._itemCountLabel = new System.Windows.Forms.Label();
+            this._footerRightPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._closeButton = new System.Windows.Forms.Button();
             this._rootLayout.SuspendLayout();
             this._headerGroup.SuspendLayout();
             this._headerLayout.SuspendLayout();
@@ -158,72 +156,78 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLine2.SuspendLayout();
             this._itemLine3.SuspendLayout();
             this._gridGroup.SuspendLayout();
-            ((ISupportInitialize)(this._itemsGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._itemsGrid)).BeginInit();
             this._footerLayout.SuspendLayout();
             this._footerLeftPanel.SuspendLayout();
             this._footerRightPanel.SuspendLayout();
             this.SuspendLayout();
-
-            //
+            // 
             // _rootLayout
-            //
-            this._rootLayout.Dock = DockStyle.Fill;
-            this._rootLayout.Padding = new Padding(10);
+            // 
             this._rootLayout.ColumnCount = 1;
-            this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._rootLayout.RowCount = 4;
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 174F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            this._rootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._rootLayout.Controls.Add(this._headerGroup, 0, 0);
             this._rootLayout.Controls.Add(this._itemGroup, 0, 1);
             this._rootLayout.Controls.Add(this._gridGroup, 0, 2);
             this._rootLayout.Controls.Add(this._footerLayout, 0, 3);
-
-            //
+            this._rootLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._rootLayout.Location = new System.Drawing.Point(0, 0);
+            this._rootLayout.Name = "_rootLayout";
+            this._rootLayout.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this._rootLayout.RowCount = 4;
+            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 165F));
+            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 151F));
+            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this._rootLayout.Size = new System.Drawing.Size(1097, 624);
+            this._rootLayout.TabIndex = 0;
+            // 
             // _headerGroup
-            //
-            this._headerGroup.Dock = DockStyle.Fill;
-            this._headerGroup.Text = "Dados da Nota";
-            this._headerGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._headerGroup.Padding = new Padding(12, 10, 12, 10);
-            this._headerGroup.Margin = new Padding(0, 0, 0, 10);
+            // 
             this._headerGroup.Controls.Add(this._headerLayout);
-
-            //
+            this._headerGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this._headerGroup.Location = new System.Drawing.Point(9, 9);
+            this._headerGroup.Margin = new System.Windows.Forms.Padding(0, 0, 0, 9);
+            this._headerGroup.Name = "_headerGroup";
+            this._headerGroup.Padding = new System.Windows.Forms.Padding(10, 9, 10, 9);
+            this._headerGroup.Size = new System.Drawing.Size(1079, 156);
+            this._headerGroup.TabIndex = 0;
+            this._headerGroup.TabStop = false;
+            this._headerGroup.Text = "Dados da Nota";
+            // 
             // _headerLayout
-            //
-            this._headerLayout.Dock = DockStyle.Fill;
+            // 
             this._headerLayout.ColumnCount = 1;
-            this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._headerLayout.RowCount = 4;
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            this._headerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._headerLayout.Controls.Add(this._headerLine1, 0, 0);
             this._headerLayout.Controls.Add(this._headerLine2, 0, 1);
             this._headerLayout.Controls.Add(this._headerLine3, 0, 2);
             this._headerLayout.Controls.Add(this._statusLabel, 0, 3);
-
-            //
+            this._headerLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerLayout.Location = new System.Drawing.Point(10, 27);
+            this._headerLayout.Name = "_headerLayout";
+            this._headerLayout.RowCount = 4;
+            this._headerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._headerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._headerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._headerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLayout.Size = new System.Drawing.Size(1059, 120);
+            this._headerLayout.TabIndex = 0;
+            // 
             // _headerLine1
-            //
-            this._headerLine1.Dock = DockStyle.Fill;
+            // 
             this._headerLine1.ColumnCount = 10;
-            this._headerLine1.RowCount = 1;
-            this._headerLine1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 76F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 174F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 18F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
             this._headerLine1.Controls.Add(this._numberLabel, 0, 0);
             this._headerLine1.Controls.Add(this._numberTextBox, 1, 0);
             this._headerLine1.Controls.Add(this._btnNumberLookup, 2, 0);
@@ -232,180 +236,331 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine1.Controls.Add(this._btnSupplierRefresh, 6, 0);
             this._headerLine1.Controls.Add(this._btnSupplierLookup, 7, 0);
             this._headerLine1.Controls.Add(this._btnSupplierNew, 8, 0);
-
-            ConfigureFieldLabel(this._numberLabel, "No Nota:");
-            ConfigureCellTextBox(this._numberTextBox);
-            this._numberTextBox.TextChanged += this.OnNumberTextChanged;
-            ConfigureIconButton(this._btnNumberLookup, "Buscar nota");
-            this._btnNumberLookup.Click += this.OnBtnNumberLookupClick;
-
-            ConfigureFieldLabel(this._supplierLabel, "Fornecedor:");
-            ConfigureCellCombo(this._supplierComboBox);
-            this._supplierComboBox.SelectedIndexChanged += this.OnSupplierComboChanged;
-            ConfigureIconButton(this._btnSupplierRefresh, "Atualizar");
-            this._btnSupplierRefresh.Click += this.OnBtnSupplierRefreshClick;
-            ConfigureIconButton(this._btnSupplierLookup, "Buscar");
-            this._btnSupplierLookup.Click += this.OnBtnSupplierLookupClick;
-            ConfigureIconButton(this._btnSupplierNew, "Novo fornecedor");
-            this._btnSupplierNew.Click += this.OnBtnSupplierNewClick;
-
-            //
+            this._headerLine1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerLine1.Location = new System.Drawing.Point(3, 3);
+            this._headerLine1.Name = "_headerLine1";
+            this._headerLine1.RowCount = 1;
+            this._headerLine1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLine1.Size = new System.Drawing.Size(1053, 29);
+            this._headerLine1.TabIndex = 0;
+            // 
+            // _numberLabel
+            // 
+            this._numberLabel.Location = new System.Drawing.Point(3, 0);
+            this._numberLabel.Name = "_numberLabel";
+            this._numberLabel.Size = new System.Drawing.Size(59, 20);
+            this._numberLabel.TabIndex = 0;
+            // 
+            // _numberTextBox
+            // 
+            this._numberTextBox.Location = new System.Drawing.Point(68, 3);
+            this._numberTextBox.Name = "_numberTextBox";
+            this._numberTextBox.Size = new System.Drawing.Size(86, 25);
+            this._numberTextBox.TabIndex = 1;
+            // 
+            // _btnNumberLookup
+            // 
+            this._btnNumberLookup.Location = new System.Drawing.Point(217, 3);
+            this._btnNumberLookup.Name = "_btnNumberLookup";
+            this._btnNumberLookup.Size = new System.Drawing.Size(27, 20);
+            this._btnNumberLookup.TabIndex = 2;
+            // 
+            // _supplierLabel
+            // 
+            this._supplierLabel.Location = new System.Drawing.Point(265, 0);
+            this._supplierLabel.Name = "_supplierLabel";
+            this._supplierLabel.Size = new System.Drawing.Size(83, 20);
+            this._supplierLabel.TabIndex = 3;
+            // 
+            // _supplierComboBox
+            // 
+            this._supplierComboBox.Location = new System.Drawing.Point(354, 3);
+            this._supplierComboBox.Name = "_supplierComboBox";
+            this._supplierComboBox.Size = new System.Drawing.Size(1, 25);
+            this._supplierComboBox.TabIndex = 4;
+            // 
+            // _btnSupplierRefresh
+            // 
+            this._btnSupplierRefresh.Location = new System.Drawing.Point(950, 3);
+            this._btnSupplierRefresh.Name = "_btnSupplierRefresh";
+            this._btnSupplierRefresh.Size = new System.Drawing.Size(27, 20);
+            this._btnSupplierRefresh.TabIndex = 5;
+            // 
+            // _btnSupplierLookup
+            // 
+            this._btnSupplierLookup.Location = new System.Drawing.Point(983, 3);
+            this._btnSupplierLookup.Name = "_btnSupplierLookup";
+            this._btnSupplierLookup.Size = new System.Drawing.Size(27, 20);
+            this._btnSupplierLookup.TabIndex = 6;
+            // 
+            // _btnSupplierNew
+            // 
+            this._btnSupplierNew.Location = new System.Drawing.Point(1016, 3);
+            this._btnSupplierNew.Name = "_btnSupplierNew";
+            this._btnSupplierNew.Size = new System.Drawing.Size(27, 20);
+            this._btnSupplierNew.TabIndex = 7;
+            // 
             // _headerLine2
-            //
-            this._headerLine2.Dock = DockStyle.Fill;
+            // 
             this._headerLine2.ColumnCount = 5;
-            this._headerLine2.RowCount = 1;
-            this._headerLine2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._headerLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
+            this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
             this._headerLine2.Controls.Add(this._warehouseLabel, 0, 0);
             this._headerLine2.Controls.Add(this._warehouseComboBox, 1, 0);
             this._headerLine2.Controls.Add(this._btnWarehouseRefresh, 2, 0);
             this._headerLine2.Controls.Add(this._btnWarehouseLookup, 3, 0);
-
-            ConfigureFieldLabel(this._warehouseLabel, "Almoxarifado:");
-            ConfigureCellCombo(this._warehouseComboBox);
-            ConfigureIconButton(this._btnWarehouseRefresh, "Atualizar");
-            this._btnWarehouseRefresh.Click += this.OnBtnWarehouseRefreshClick;
-            ConfigureIconButton(this._btnWarehouseLookup, "Buscar");
-            this._btnWarehouseLookup.Click += this.OnBtnWarehouseLookupClick;
-
-            //
+            this._headerLine2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerLine2.Location = new System.Drawing.Point(3, 38);
+            this._headerLine2.Name = "_headerLine2";
+            this._headerLine2.RowCount = 1;
+            this._headerLine2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLine2.Size = new System.Drawing.Size(1053, 29);
+            this._headerLine2.TabIndex = 1;
+            // 
+            // _warehouseLabel
+            // 
+            this._warehouseLabel.Location = new System.Drawing.Point(3, 0);
+            this._warehouseLabel.Name = "_warehouseLabel";
+            this._warehouseLabel.Size = new System.Drawing.Size(86, 20);
+            this._warehouseLabel.TabIndex = 0;
+            // 
+            // _warehouseComboBox
+            // 
+            this._warehouseComboBox.Location = new System.Drawing.Point(99, 3);
+            this._warehouseComboBox.Name = "_warehouseComboBox";
+            this._warehouseComboBox.Size = new System.Drawing.Size(1, 25);
+            this._warehouseComboBox.TabIndex = 1;
+            // 
+            // _btnWarehouseRefresh
+            // 
+            this._btnWarehouseRefresh.Location = new System.Drawing.Point(983, 3);
+            this._btnWarehouseRefresh.Name = "_btnWarehouseRefresh";
+            this._btnWarehouseRefresh.Size = new System.Drawing.Size(27, 20);
+            this._btnWarehouseRefresh.TabIndex = 2;
+            // 
+            // _btnWarehouseLookup
+            // 
+            this._btnWarehouseLookup.Location = new System.Drawing.Point(1016, 3);
+            this._btnWarehouseLookup.Name = "_btnWarehouseLookup";
+            this._btnWarehouseLookup.Size = new System.Drawing.Size(27, 20);
+            this._btnWarehouseLookup.TabIndex = 3;
+            // 
             // _headerLine3
-            //
-            this._headerLine3.Dock = DockStyle.Fill;
+            // 
             this._headerLine3.ColumnCount = 5;
-            this._headerLine3.RowCount = 1;
-            this._headerLine3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._headerLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
-            this._headerLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 126F));
-            this._headerLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 206F));
-            this._headerLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 184F));
-            this._headerLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._headerLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this._headerLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this._headerLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 177F));
+            this._headerLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            this._headerLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._headerLine3.Controls.Add(this._emissionDateLabel, 0, 0);
             this._headerLine3.Controls.Add(this._emissionDateTextBox, 1, 0);
             this._headerLine3.Controls.Add(this._receiptDateLabel, 2, 0);
             this._headerLine3.Controls.Add(this._receiptDateTimeTextBox, 3, 0);
-
-            ConfigureFieldLabel(this._emissionDateLabel, "Data Emissao:");
-            ConfigureCellTextBox(this._emissionDateTextBox);
-            this._emissionDateTextBox.Leave += this.OnEmissionDateLeave;
-            ConfigureFieldLabel(this._receiptDateLabel, "Data/Hora Recebimento:");
-            this._receiptDateLabel.Margin = new Padding(20, 0, 3, 0);
-            ConfigureCellTextBox(this._receiptDateTimeTextBox);
-            this._receiptDateTimeTextBox.Leave += this.OnReceiptDateLeave;
-
-            //
+            this._headerLine3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerLine3.Location = new System.Drawing.Point(3, 73);
+            this._headerLine3.Name = "_headerLine3";
+            this._headerLine3.RowCount = 1;
+            this._headerLine3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._headerLine3.Size = new System.Drawing.Size(1053, 29);
+            this._headerLine3.TabIndex = 2;
+            // 
+            // _emissionDateLabel
+            // 
+            this._emissionDateLabel.Location = new System.Drawing.Point(3, 0);
+            this._emissionDateLabel.Name = "_emissionDateLabel";
+            this._emissionDateLabel.Size = new System.Drawing.Size(86, 20);
+            this._emissionDateLabel.TabIndex = 0;
+            // 
+            // _emissionDateTextBox
+            // 
+            this._emissionDateTextBox.Location = new System.Drawing.Point(99, 3);
+            this._emissionDateTextBox.Name = "_emissionDateTextBox";
+            this._emissionDateTextBox.Size = new System.Drawing.Size(86, 25);
+            this._emissionDateTextBox.TabIndex = 1;
+            // 
+            // _receiptDateLabel
+            // 
+            this._receiptDateLabel.Location = new System.Drawing.Point(207, 0);
+            this._receiptDateLabel.Name = "_receiptDateLabel";
+            this._receiptDateLabel.Size = new System.Drawing.Size(86, 20);
+            this._receiptDateLabel.TabIndex = 2;
+            // 
+            // _receiptDateTimeTextBox
+            // 
+            this._receiptDateTimeTextBox.Location = new System.Drawing.Point(384, 3);
+            this._receiptDateTimeTextBox.Name = "_receiptDateTimeTextBox";
+            this._receiptDateTimeTextBox.Size = new System.Drawing.Size(86, 25);
+            this._receiptDateTimeTextBox.TabIndex = 3;
+            // 
             // _statusLabel
-            //
-            this._statusLabel.Dock = DockStyle.Fill;
-            this._statusLabel.AutoSize = false;
-            this._statusLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
-            this._statusLabel.ForeColor = Color.SeaGreen;
-            this._statusLabel.TextAlign = ContentAlignment.MiddleLeft;
-            this._statusLabel.Margin = new Padding(3, 4, 3, 0);
-
-            //
+            // 
+            this._statusLabel.Location = new System.Drawing.Point(3, 105);
+            this._statusLabel.Name = "_statusLabel";
+            this._statusLabel.Size = new System.Drawing.Size(86, 1);
+            this._statusLabel.TabIndex = 3;
+            // 
             // _itemGroup
-            //
-            this._itemGroup.Dock = DockStyle.Fill;
-            this._itemGroup.Text = "Adicionar / Editar Item";
-            this._itemGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._itemGroup.Padding = new Padding(12, 10, 12, 10);
-            this._itemGroup.Margin = new Padding(0, 0, 0, 10);
+            // 
             this._itemGroup.Controls.Add(this._itemLayout);
-
-            //
+            this._itemGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this._itemGroup.Location = new System.Drawing.Point(9, 174);
+            this._itemGroup.Margin = new System.Windows.Forms.Padding(0, 0, 0, 9);
+            this._itemGroup.Name = "_itemGroup";
+            this._itemGroup.Padding = new System.Windows.Forms.Padding(10, 9, 10, 9);
+            this._itemGroup.Size = new System.Drawing.Size(1079, 142);
+            this._itemGroup.TabIndex = 1;
+            this._itemGroup.TabStop = false;
+            this._itemGroup.Text = "Adicionar / Editar Item";
+            // 
             // _itemLayout
-            //
-            this._itemLayout.Dock = DockStyle.Fill;
+            // 
             this._itemLayout.ColumnCount = 1;
-            this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._itemLayout.RowCount = 3;
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            this._itemLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._itemLayout.Controls.Add(this._itemLine1, 0, 0);
             this._itemLayout.Controls.Add(this._itemLine2, 0, 1);
             this._itemLayout.Controls.Add(this._itemLine3, 0, 2);
-
-            //
+            this._itemLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemLayout.Location = new System.Drawing.Point(10, 27);
+            this._itemLayout.Name = "_itemLayout";
+            this._itemLayout.RowCount = 3;
+            this._itemLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._itemLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._itemLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this._itemLayout.Size = new System.Drawing.Size(1059, 106);
+            this._itemLayout.TabIndex = 0;
+            // 
             // _itemLine1
-            //
-            this._itemLine1.Dock = DockStyle.Fill;
+            // 
             this._itemLine1.ColumnCount = 6;
-            this._itemLine1.RowCount = 1;
-            this._itemLine1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
             this._itemLine1.Controls.Add(this._materialLabel, 0, 0);
             this._itemLine1.Controls.Add(this._materialComboBox, 1, 0);
             this._itemLine1.Controls.Add(this._btnMaterialRefresh, 2, 0);
             this._itemLine1.Controls.Add(this._btnMaterialLookup, 3, 0);
             this._itemLine1.Controls.Add(this._btnMaterialNew, 4, 0);
-
-            ConfigureFieldLabel(this._materialLabel, "Material:");
-            ConfigureCellCombo(this._materialComboBox);
-            this._materialComboBox.SelectedIndexChanged += this.OnMaterialComboChanged;
-            ConfigureIconButton(this._btnMaterialRefresh, "Atualizar");
-            this._btnMaterialRefresh.Click += this.OnBtnMaterialRefreshClick;
-            ConfigureIconButton(this._btnMaterialLookup, "Buscar");
-            this._btnMaterialLookup.Click += this.OnBtnMaterialLookupClick;
-            ConfigureIconButton(this._btnMaterialNew, "Nova embalagem");
-            this._btnMaterialNew.Click += this.OnBtnMaterialNewClick;
-
-            //
+            this._itemLine1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemLine1.Location = new System.Drawing.Point(3, 3);
+            this._itemLine1.Name = "_itemLine1";
+            this._itemLine1.RowCount = 1;
+            this._itemLine1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._itemLine1.Size = new System.Drawing.Size(1053, 29);
+            this._itemLine1.TabIndex = 0;
+            // 
+            // _materialLabel
+            // 
+            this._materialLabel.Location = new System.Drawing.Point(3, 0);
+            this._materialLabel.Name = "_materialLabel";
+            this._materialLabel.Size = new System.Drawing.Size(73, 20);
+            this._materialLabel.TabIndex = 0;
+            // 
+            // _materialComboBox
+            // 
+            this._materialComboBox.Location = new System.Drawing.Point(82, 3);
+            this._materialComboBox.Name = "_materialComboBox";
+            this._materialComboBox.Size = new System.Drawing.Size(1, 25);
+            this._materialComboBox.TabIndex = 1;
+            // 
+            // _btnMaterialRefresh
+            // 
+            this._btnMaterialRefresh.Location = new System.Drawing.Point(950, 3);
+            this._btnMaterialRefresh.Name = "_btnMaterialRefresh";
+            this._btnMaterialRefresh.Size = new System.Drawing.Size(27, 20);
+            this._btnMaterialRefresh.TabIndex = 2;
+            // 
+            // _btnMaterialLookup
+            // 
+            this._btnMaterialLookup.Location = new System.Drawing.Point(983, 3);
+            this._btnMaterialLookup.Name = "_btnMaterialLookup";
+            this._btnMaterialLookup.Size = new System.Drawing.Size(27, 20);
+            this._btnMaterialLookup.TabIndex = 3;
+            // 
+            // _btnMaterialNew
+            // 
+            this._btnMaterialNew.Location = new System.Drawing.Point(1016, 3);
+            this._btnMaterialNew.Name = "_btnMaterialNew";
+            this._btnMaterialNew.Size = new System.Drawing.Size(27, 20);
+            this._btnMaterialNew.TabIndex = 4;
+            // 
             // _itemLine2
-            //
-            this._itemLine2.Dock = DockStyle.Fill;
+            // 
             this._itemLine2.ColumnCount = 6;
-            this._itemLine2.RowCount = 1;
-            this._itemLine2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
             this._itemLine2.Controls.Add(this._lotLabel, 0, 0);
             this._itemLine2.Controls.Add(this._lotComboBox, 1, 0);
             this._itemLine2.Controls.Add(this._btnLotRefresh, 2, 0);
             this._itemLine2.Controls.Add(this._btnLotLookup, 3, 0);
             this._itemLine2.Controls.Add(this._btnLotNew, 4, 0);
-
-            ConfigureFieldLabel(this._lotLabel, "Lote:");
-            ConfigureCellCombo(this._lotComboBox);
-            ConfigureIconButton(this._btnLotRefresh, "Atualizar");
-            this._btnLotRefresh.Click += this.OnBtnLotRefreshClick;
-            ConfigureIconButton(this._btnLotLookup, "Buscar");
-            this._btnLotLookup.Click += this.OnBtnLotLookupClick;
-            ConfigureIconButton(this._btnLotNew, "Novo lote");
-            this._btnLotNew.Click += this.OnBtnLotNewClick;
-
-            //
+            this._itemLine2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemLine2.Location = new System.Drawing.Point(3, 38);
+            this._itemLine2.Name = "_itemLine2";
+            this._itemLine2.RowCount = 1;
+            this._itemLine2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._itemLine2.Size = new System.Drawing.Size(1053, 29);
+            this._itemLine2.TabIndex = 1;
+            // 
+            // _lotLabel
+            // 
+            this._lotLabel.Location = new System.Drawing.Point(3, 0);
+            this._lotLabel.Name = "_lotLabel";
+            this._lotLabel.Size = new System.Drawing.Size(73, 20);
+            this._lotLabel.TabIndex = 0;
+            // 
+            // _lotComboBox
+            // 
+            this._lotComboBox.Location = new System.Drawing.Point(82, 3);
+            this._lotComboBox.Name = "_lotComboBox";
+            this._lotComboBox.Size = new System.Drawing.Size(1, 25);
+            this._lotComboBox.TabIndex = 1;
+            // 
+            // _btnLotRefresh
+            // 
+            this._btnLotRefresh.Location = new System.Drawing.Point(950, 3);
+            this._btnLotRefresh.Name = "_btnLotRefresh";
+            this._btnLotRefresh.Size = new System.Drawing.Size(27, 20);
+            this._btnLotRefresh.TabIndex = 2;
+            // 
+            // _btnLotLookup
+            // 
+            this._btnLotLookup.Location = new System.Drawing.Point(983, 3);
+            this._btnLotLookup.Name = "_btnLotLookup";
+            this._btnLotLookup.Size = new System.Drawing.Size(27, 20);
+            this._btnLotLookup.TabIndex = 3;
+            // 
+            // _btnLotNew
+            // 
+            this._btnLotNew.Location = new System.Drawing.Point(1016, 3);
+            this._btnLotNew.Name = "_btnLotNew";
+            this._btnLotNew.Size = new System.Drawing.Size(27, 20);
+            this._btnLotNew.TabIndex = 4;
+            // 
             // _itemLine3
-            //
-            this._itemLine3.Dock = DockStyle.Fill;
+            // 
             this._itemLine3.ColumnCount = 10;
-            this._itemLine3.RowCount = 1;
-            this._itemLine3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 104F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 126F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 24F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 74F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 38F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190F));
-            this._itemLine3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 163F));
+            this._itemLine3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._itemLine3.Controls.Add(this._quantityLabel, 0, 0);
             this._itemLine3.Controls.Add(this._quantityTextBox, 1, 0);
             this._itemLine3.Controls.Add(this._actionsLabel, 3, 0);
@@ -414,248 +569,233 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLine3.Controls.Add(this._btnItemRemove, 6, 0);
             this._itemLine3.Controls.Add(this._btnItemClear, 7, 0);
             this._itemLine3.Controls.Add(this._brcLabel, 8, 0);
-
-            ConfigureFieldLabel(this._quantityLabel, "Quantidade:");
-            ConfigureCellTextBox(this._quantityTextBox);
-            this._quantityTextBox.TextAlign = HorizontalAlignment.Right;
-
-            this._actionsLabel.Dock = DockStyle.Fill;
-            this._actionsLabel.AutoSize = false;
-            this._actionsLabel.Text = "Acoes:";
-            this._actionsLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
-            this._actionsLabel.ForeColor = Color.FromArgb(102, 102, 102);
-            this._actionsLabel.TextAlign = ContentAlignment.MiddleRight;
-            this._actionsLabel.Margin = new Padding(0, 0, 5, 0);
-
-            ConfigureIconButton(this._btnItemAdd, "Adicionar");
-            this._btnItemAdd.Click += this.OnBtnItemAddClick;
-            ConfigureIconButton(this._btnItemEdit, "Editar");
-            this._btnItemEdit.Click += this.OnBtnItemEditClick;
-            ConfigureIconButton(this._btnItemRemove, "Remover");
-            this._btnItemRemove.Click += this.OnBtnItemRemoveClick;
-            ConfigureIconButton(this._btnItemClear, "Limpar item");
-            this._btnItemClear.Click += this.OnBtnItemClearClick;
-
-            this._brcLabel.Dock = DockStyle.Fill;
-            this._brcLabel.AutoSize = false;
-            this._brcLabel.Text = "BRC: -";
-            this._brcLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
-            this._brcLabel.ForeColor = Color.FromArgb(102, 102, 102);
-            this._brcLabel.TextAlign = ContentAlignment.MiddleLeft;
-            this._brcLabel.Margin = new Padding(16, 0, 3, 0);
-
-            //
+            this._itemLine3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemLine3.Location = new System.Drawing.Point(3, 73);
+            this._itemLine3.Name = "_itemLine3";
+            this._itemLine3.RowCount = 1;
+            this._itemLine3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._itemLine3.Size = new System.Drawing.Size(1053, 30);
+            this._itemLine3.TabIndex = 2;
+            // 
+            // _quantityLabel
+            // 
+            this._quantityLabel.Location = new System.Drawing.Point(3, 0);
+            this._quantityLabel.Name = "_quantityLabel";
+            this._quantityLabel.Size = new System.Drawing.Size(83, 20);
+            this._quantityLabel.TabIndex = 0;
+            // 
+            // _quantityTextBox
+            // 
+            this._quantityTextBox.Location = new System.Drawing.Point(92, 3);
+            this._quantityTextBox.Name = "_quantityTextBox";
+            this._quantityTextBox.Size = new System.Drawing.Size(86, 25);
+            this._quantityTextBox.TabIndex = 1;
+            // 
+            // _actionsLabel
+            // 
+            this._actionsLabel.Location = new System.Drawing.Point(221, 0);
+            this._actionsLabel.Name = "_actionsLabel";
+            this._actionsLabel.Size = new System.Drawing.Size(57, 20);
+            this._actionsLabel.TabIndex = 2;
+            // 
+            // _btnItemAdd
+            // 
+            this._btnItemAdd.Location = new System.Drawing.Point(284, 3);
+            this._btnItemAdd.Name = "_btnItemAdd";
+            this._btnItemAdd.Size = new System.Drawing.Size(27, 20);
+            this._btnItemAdd.TabIndex = 3;
+            // 
+            // _btnItemEdit
+            // 
+            this._btnItemEdit.Location = new System.Drawing.Point(317, 3);
+            this._btnItemEdit.Name = "_btnItemEdit";
+            this._btnItemEdit.Size = new System.Drawing.Size(27, 20);
+            this._btnItemEdit.TabIndex = 4;
+            // 
+            // _btnItemRemove
+            // 
+            this._btnItemRemove.Location = new System.Drawing.Point(350, 3);
+            this._btnItemRemove.Name = "_btnItemRemove";
+            this._btnItemRemove.Size = new System.Drawing.Size(27, 20);
+            this._btnItemRemove.TabIndex = 5;
+            // 
+            // _btnItemClear
+            // 
+            this._btnItemClear.Location = new System.Drawing.Point(383, 3);
+            this._btnItemClear.Name = "_btnItemClear";
+            this._btnItemClear.Size = new System.Drawing.Size(27, 20);
+            this._btnItemClear.TabIndex = 6;
+            // 
+            // _brcLabel
+            // 
+            this._brcLabel.Location = new System.Drawing.Point(416, 0);
+            this._brcLabel.Name = "_brcLabel";
+            this._brcLabel.Size = new System.Drawing.Size(86, 20);
+            this._brcLabel.TabIndex = 7;
+            // 
             // _gridGroup
-            //
-            this._gridGroup.Dock = DockStyle.Fill;
-            this._gridGroup.Text = "Itens lancados";
-            this._gridGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._gridGroup.Padding = new Padding(6, 6, 6, 6);
-            this._gridGroup.Margin = new Padding(0, 0, 0, 10);
+            // 
             this._gridGroup.Controls.Add(this._itemsGrid);
-
-            //
+            this._gridGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._gridGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this._gridGroup.Location = new System.Drawing.Point(9, 325);
+            this._gridGroup.Margin = new System.Windows.Forms.Padding(0, 0, 0, 9);
+            this._gridGroup.Name = "_gridGroup";
+            this._gridGroup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this._gridGroup.Size = new System.Drawing.Size(1079, 231);
+            this._gridGroup.TabIndex = 2;
+            this._gridGroup.TabStop = false;
+            this._gridGroup.Text = "Itens lancados";
+            // 
             // _itemsGrid
-            //
-            this._itemsGrid.Dock = DockStyle.Fill;
-            this._itemsGrid.ReadOnly = true;
-            this._itemsGrid.AutoGenerateColumns = false;
+            // 
             this._itemsGrid.AllowUserToAddRows = false;
             this._itemsGrid.AllowUserToDeleteRows = false;
             this._itemsGrid.AllowUserToResizeRows = false;
-            this._itemsGrid.MultiSelect = false;
-            this._itemsGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this._itemsGrid.RowHeadersVisible = false;
-            this._itemsGrid.BackgroundColor = Color.White;
-            this._itemsGrid.BorderStyle = BorderStyle.FixedSingle;
-            this._itemsGrid.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);
-            this._itemsGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
-            this._itemsGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
-            this._itemsGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            this._itemsGrid.BackgroundColor = System.Drawing.Color.White;
             this._itemsGrid.ColumnHeadersHeight = 26;
-            this._itemsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this._itemsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this._itemsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._itemsGrid.EnableHeadersVisualStyles = false;
-            this._itemsGrid.RowTemplate.Height = 22;
-            this._itemsGrid.Margin = new Padding(0);
-
-            var colItem = new DataGridViewTextBoxColumn { Name = "item", HeaderText = "ITEM", DataPropertyName = nameof(InboundReceiptItemRow.ItemNumber), Width = 60 };
-            colItem.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            var colFornecedor = new DataGridViewTextBoxColumn { Name = "fornecedor", HeaderText = "FORNECEDOR", DataPropertyName = nameof(InboundReceiptItemRow.SupplierDisplay), Width = 220 };
-            colFornecedor.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            var colMaterial = new DataGridViewTextBoxColumn { Name = "material", HeaderText = "MATERIAL", DataPropertyName = nameof(InboundReceiptItemRow.MaterialDisplay), AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, FillWeight = 55 };
-            colMaterial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            var colLote = new DataGridViewTextBoxColumn { Name = "lote", HeaderText = "LOTE", DataPropertyName = nameof(InboundReceiptItemRow.LotDisplay), AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, FillWeight = 45 };
-            colLote.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            var colQtd = new DataGridViewTextBoxColumn { Name = "quantidade", HeaderText = "QUANTIDADE", DataPropertyName = nameof(InboundReceiptItemRow.QuantityText), Width = 120 };
-            colQtd.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-
-            var colStatus = new DataGridViewTextBoxColumn { Name = "status", HeaderText = "STATUS", DataPropertyName = nameof(InboundReceiptItemRow.Status), Width = 100 };
-            colStatus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            this._itemsGrid.Columns.AddRange(new DataGridViewColumn[] { colItem, colFornecedor, colMaterial, colLote, colQtd, colStatus });
-            this._itemsGrid.CellDoubleClick += this.OnItemsGridCellDoubleClick;
-
-            //
+            this._itemsGrid.Font = new System.Drawing.Font("Segoe UI", 9.25F);
+            this._itemsGrid.Location = new System.Drawing.Point(5, 23);
+            this._itemsGrid.Margin = new System.Windows.Forms.Padding(0);
+            this._itemsGrid.MultiSelect = false;
+            this._itemsGrid.Name = "_itemsGrid";
+            this._itemsGrid.ReadOnly = true;
+            this._itemsGrid.RowHeadersVisible = false;
+            this._itemsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this._itemsGrid.Size = new System.Drawing.Size(1069, 203);
+            this._itemsGrid.TabIndex = 0;
+            // 
             // _footerLayout
-            //
-            this._footerLayout.Dock = DockStyle.Fill;
+            // 
             this._footerLayout.ColumnCount = 3;
-            this._footerLayout.RowCount = 1;
-            this._footerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            this._footerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            this._footerLayout.Padding = new Padding(0, 10, 0, 0);
+            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._footerLayout.Controls.Add(this._footerLeftPanel, 0, 0);
             this._footerLayout.Controls.Add(this._itemCountLabel, 1, 0);
             this._footerLayout.Controls.Add(this._footerRightPanel, 2, 0);
-
-            this._footerLeftPanel.Dock = DockStyle.Fill;
+            this._footerLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._footerLayout.Location = new System.Drawing.Point(12, 568);
+            this._footerLayout.Name = "_footerLayout";
+            this._footerLayout.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
+            this._footerLayout.RowCount = 1;
+            this._footerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._footerLayout.Size = new System.Drawing.Size(1073, 44);
+            this._footerLayout.TabIndex = 3;
+            // 
+            // _footerLeftPanel
+            // 
             this._footerLeftPanel.AutoSize = true;
-            this._footerLeftPanel.FlowDirection = FlowDirection.LeftToRight;
-            this._footerLeftPanel.WrapContents = false;
-            this._footerLeftPanel.Margin = new Padding(0);
-            this._footerLeftPanel.Padding = new Padding(0);
             this._footerLeftPanel.Controls.Add(this._saveButton);
             this._footerLeftPanel.Controls.Add(this._updateButton);
             this._footerLeftPanel.Controls.Add(this._clearButton);
             this._footerLeftPanel.Controls.Add(this._cancelButton);
-
-            ConfigureActionButton(this._saveButton, "Salvar Nota (F2)", 170);
-            this._saveButton.Click += this.OnBtnSaveClick;
-            ConfigureActionButton(this._updateButton, "Alterar (F3)", 146);
-            this._updateButton.Click += this.OnBtnUpdateClick;
-            ConfigureActionButton(this._clearButton, "Limpar (F5)", 138);
-            this._clearButton.Click += this.OnBtnClearClick;
-            ConfigureActionButton(this._cancelButton, "Cancelar Nota (F6)", 184);
-            this._cancelButton.Click += this.OnBtnCancelClick;
-
-            this._itemCountLabel.Dock = DockStyle.Fill;
-            this._itemCountLabel.AutoSize = false;
+            this._footerLeftPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._footerLeftPanel.Location = new System.Drawing.Point(0, 9);
+            this._footerLeftPanel.Margin = new System.Windows.Forms.Padding(0);
+            this._footerLeftPanel.Name = "_footerLeftPanel";
+            this._footerLeftPanel.Size = new System.Drawing.Size(280, 35);
+            this._footerLeftPanel.TabIndex = 0;
+            this._footerLeftPanel.WrapContents = false;
+            // 
+            // _saveButton
+            // 
+            this._saveButton.Location = new System.Drawing.Point(3, 3);
+            this._saveButton.Name = "_saveButton";
+            this._saveButton.Size = new System.Drawing.Size(64, 20);
+            this._saveButton.TabIndex = 0;
+            // 
+            // _updateButton
+            // 
+            this._updateButton.Location = new System.Drawing.Point(73, 3);
+            this._updateButton.Name = "_updateButton";
+            this._updateButton.Size = new System.Drawing.Size(64, 20);
+            this._updateButton.TabIndex = 1;
+            // 
+            // _clearButton
+            // 
+            this._clearButton.Location = new System.Drawing.Point(143, 3);
+            this._clearButton.Name = "_clearButton";
+            this._clearButton.Size = new System.Drawing.Size(64, 20);
+            this._clearButton.TabIndex = 2;
+            // 
+            // _cancelButton
+            // 
+            this._cancelButton.Location = new System.Drawing.Point(213, 3);
+            this._cancelButton.Name = "_cancelButton";
+            this._cancelButton.Size = new System.Drawing.Size(64, 20);
+            this._cancelButton.TabIndex = 3;
+            // 
+            // _itemCountLabel
+            // 
+            this._itemCountLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._itemCountLabel.Font = new System.Drawing.Font("Segoe UI", 9.25F, System.Drawing.FontStyle.Bold);
+            this._itemCountLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
+            this._itemCountLabel.Location = new System.Drawing.Point(283, 9);
+            this._itemCountLabel.Name = "_itemCountLabel";
+            this._itemCountLabel.Size = new System.Drawing.Size(717, 35);
+            this._itemCountLabel.TabIndex = 1;
             this._itemCountLabel.Text = "Itens na nota: 0";
-            this._itemCountLabel.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
-            this._itemCountLabel.ForeColor = Color.FromArgb(27, 54, 93);
-            this._itemCountLabel.TextAlign = ContentAlignment.MiddleCenter;
-
-            this._footerRightPanel.Dock = DockStyle.Fill;
+            this._itemCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _footerRightPanel
+            // 
             this._footerRightPanel.AutoSize = true;
-            this._footerRightPanel.FlowDirection = FlowDirection.RightToLeft;
-            this._footerRightPanel.WrapContents = false;
-            this._footerRightPanel.Margin = new Padding(0);
-            this._footerRightPanel.Padding = new Padding(0);
             this._footerRightPanel.Controls.Add(this._closeButton);
-
-            ConfigureActionButton(this._closeButton, "Fechar (F4)", 136);
-            this._closeButton.Click += this.OnBtnCloseClick;
-
-            //
-            // Form
-            //
-            this.AutoScaleDimensions = new SizeF(7F, 15F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.Text = "BRCSISTEM - Entrada de Estoque (Nota Fiscal de Material)";
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.ClientSize = new Size(1280, 720);
-            this.MinimumSize = new Size(1180, 700);
-            this.BackColor = Color.White;
-            this.KeyPreview = true;
-            this.KeyDown += this.OnFormKeyDown;
-            this.FormClosing += this.OnFormClosingHandler;
-            this.Load += this.OnFormLoad;
+            this._footerRightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._footerRightPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this._footerRightPanel.Location = new System.Drawing.Point(1003, 9);
+            this._footerRightPanel.Margin = new System.Windows.Forms.Padding(0);
+            this._footerRightPanel.Name = "_footerRightPanel";
+            this._footerRightPanel.Size = new System.Drawing.Size(70, 35);
+            this._footerRightPanel.TabIndex = 2;
+            this._footerRightPanel.WrapContents = false;
+            // 
+            // _closeButton
+            // 
+            this._closeButton.Location = new System.Drawing.Point(3, 3);
+            this._closeButton.Name = "_closeButton";
+            this._closeButton.Size = new System.Drawing.Size(64, 20);
+            this._closeButton.TabIndex = 0;
+            // 
+            // MovimentacaoEntradaForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1097, 624);
             this.Controls.Add(this._rootLayout);
-
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
+            this.MinimumSize = new System.Drawing.Size(1014, 612);
+            this.Name = "MovimentacaoEntradaForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "BRCSISTEM - Entrada de Estoque (Nota Fiscal de Material)";
             this._rootLayout.ResumeLayout(false);
             this._headerGroup.ResumeLayout(false);
             this._headerLayout.ResumeLayout(false);
             this._headerLine1.ResumeLayout(false);
             this._headerLine1.PerformLayout();
             this._headerLine2.ResumeLayout(false);
-            this._headerLine2.PerformLayout();
             this._headerLine3.ResumeLayout(false);
             this._headerLine3.PerformLayout();
             this._itemGroup.ResumeLayout(false);
             this._itemLayout.ResumeLayout(false);
             this._itemLine1.ResumeLayout(false);
-            this._itemLine1.PerformLayout();
             this._itemLine2.ResumeLayout(false);
-            this._itemLine2.PerformLayout();
             this._itemLine3.ResumeLayout(false);
             this._itemLine3.PerformLayout();
             this._gridGroup.ResumeLayout(false);
-            ((ISupportInitialize)(this._itemsGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._itemsGrid)).EndInit();
             this._footerLayout.ResumeLayout(false);
             this._footerLayout.PerformLayout();
             this._footerLeftPanel.ResumeLayout(false);
-            this._footerLeftPanel.PerformLayout();
             this._footerRightPanel.ResumeLayout(false);
-            this._footerRightPanel.PerformLayout();
             this.ResumeLayout(false);
-        }
 
-        private static void ConfigureFieldLabel(Label label, string text)
-        {
-            label.Dock = DockStyle.Fill;
-            label.AutoSize = false;
-            label.Text = text;
-            label.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
-            label.ForeColor = Color.FromArgb(27, 54, 93);
-            label.TextAlign = ContentAlignment.MiddleLeft;
-            label.Margin = new Padding(3, 0, 6, 0);
-        }
-
-        private static void ConfigureCellTextBox(TextBox textBox)
-        {
-            textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox.AutoSize = false;
-            textBox.BorderStyle = BorderStyle.FixedSingle;
-            textBox.Font = new Font("Segoe UI", 9.75F);
-            textBox.Height = 29;
-            textBox.Margin = new Padding(5, 4, 5, 4);
-            textBox.MinimumSize = new Size(0, 29);
-        }
-
-        private static void ConfigureCellCombo(ComboBox comboBox)
-        {
-            comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox.Font = new Font("Segoe UI", 9.75F);
-            comboBox.Height = 29;
-            comboBox.Margin = new Padding(5, 4, 5, 4);
-            comboBox.MinimumSize = new Size(0, 29);
-            comboBox.FlatStyle = FlatStyle.Standard;
-        }
-
-        private static void ConfigureIconButton(Button button, string accessibleName)
-        {
-            button.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            button.Height = 30;
-            button.MinimumSize = new Size(32, 30);
-            button.Text = string.Empty;
-            button.FlatStyle = FlatStyle.Standard;
-            button.Margin = new Padding(2, 4, 2, 4);
-            button.Padding = new Padding(0);
-            button.UseVisualStyleBackColor = true;
-            button.AccessibleName = accessibleName;
-            button.ImageAlign = ContentAlignment.MiddleCenter;
-        }
-
-        private static void ConfigureActionButton(Button button, string text, int width)
-        {
-            button.Text = text;
-            button.AutoSize = false;
-            button.Height = 34;
-            button.Width = width;
-            button.FlatStyle = FlatStyle.Standard;
-            button.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);
-            button.Margin = new Padding(5, 2, 5, 2);
-            button.Padding = new Padding(8, 0, 8, 0);
-            button.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button.ImageAlign = ContentAlignment.MiddleLeft;
-            button.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         #endregion

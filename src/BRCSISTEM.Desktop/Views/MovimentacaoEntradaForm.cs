@@ -1,10 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using BRCSISTEM.Application.Models;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace BRCSISTEM.Desktop.Views
 {
@@ -37,13 +39,40 @@ namespace BRCSISTEM.Desktop.Views
         private string _lockedSupplierCode;
         private string _loadedReceiptStatus;
 
-        public MovimentacaoEntradaForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public MovimentacaoEntradaForm()
+            : this(null, null, null, true)
+        {
+        }
+
+        public MovimentacaoEntradaForm(
+            CompositionRoot compositionRoot,
+            UserIdentity identity,
+            DatabaseProfile databaseProfile)
+            : this(compositionRoot, identity, databaseProfile, false)
+        {
+        }
+
+        private MovimentacaoEntradaForm(
+            CompositionRoot compositionRoot,
+            UserIdentity identity,
+            DatabaseProfile databaseProfile,
+            bool designerCtor)
         {
             _compositionRoot = compositionRoot;
-            _inboundReceiptController = compositionRoot.CreateInboundReceiptController();
-            _configurationController = compositionRoot.CreateConfigurationController();
             _identity = identity;
             _databaseProfile = databaseProfile;
+
+            if (!designerCtor)
+            {
+                if (_compositionRoot == null)
+                {
+                    throw new ArgumentNullException(nameof(compositionRoot));
+                }
+
+                _inboundReceiptController = _compositionRoot.CreateInboundReceiptController();
+                _configurationController = _compositionRoot.CreateConfigurationController();
+            }
+
             _supplierOptions = new LookupOption[0];
             _materialOptions = new LookupOption[0];
             _warehouseOptions = new LookupOption[0];
@@ -52,7 +81,245 @@ namespace BRCSISTEM.Desktop.Views
             _editingItemIndex = -1;
 
             InitializeComponent();
-            ApplyActionIcons();
+            ApplyVisualDefaults();
+
+            if (!IsDesignModeActive)
+            {
+                ApplyActionIcons();
+            }
+        }
+
+        private bool IsDesignModeActive
+        {
+            get
+            {
+                return LicenseManager.UsageMode == LicenseUsageMode.Designtime
+                    || DesignMode
+                    || (Site != null && Site.DesignMode);
+            }
+        }
+
+        private void ApplyVisualDefaults()
+        {
+            ConfigureFieldLabel(_numberLabel, "No Nota:");
+            ConfigureFieldLabel(_supplierLabel, "Fornecedor:");
+            ConfigureFieldLabel(_warehouseLabel, "Almoxarifado:");
+            ConfigureFieldLabel(_emissionDateLabel, "Data Emissao:");
+            ConfigureFieldLabel(_receiptDateLabel, "Data/Hora Recebimento:");
+            _receiptDateLabel.Margin = new Padding(20, 0, 3, 0);
+
+            ConfigureFieldLabel(_materialLabel, "Material:");
+            ConfigureFieldLabel(_lotLabel, "Lote:");
+            ConfigureFieldLabel(_quantityLabel, "Quantidade:");
+
+            ConfigureCellTextBox(_numberTextBox);
+            ConfigureCellTextBox(_emissionDateTextBox);
+            ConfigureCellTextBox(_receiptDateTimeTextBox);
+            ConfigureCellTextBox(_quantityTextBox);
+            _quantityTextBox.TextAlign = HorizontalAlignment.Right;
+
+            ConfigureCellCombo(_supplierComboBox);
+            ConfigureCellCombo(_warehouseComboBox);
+            ConfigureCellCombo(_materialComboBox);
+            ConfigureCellCombo(_lotComboBox);
+
+            ConfigureIconButton(_btnNumberLookup, "Buscar nota");
+            ConfigureIconButton(_btnSupplierRefresh, "Atualizar");
+            ConfigureIconButton(_btnSupplierLookup, "Buscar");
+            ConfigureIconButton(_btnSupplierNew, "Novo fornecedor");
+
+            ConfigureIconButton(_btnWarehouseRefresh, "Atualizar");
+            ConfigureIconButton(_btnWarehouseLookup, "Buscar");
+
+            ConfigureIconButton(_btnMaterialRefresh, "Atualizar");
+            ConfigureIconButton(_btnMaterialLookup, "Buscar");
+            ConfigureIconButton(_btnMaterialNew, "Nova embalagem");
+
+            ConfigureIconButton(_btnLotRefresh, "Atualizar");
+            ConfigureIconButton(_btnLotLookup, "Buscar");
+            ConfigureIconButton(_btnLotNew, "Novo lote");
+
+            ConfigureIconButton(_btnItemAdd, "Adicionar");
+            ConfigureIconButton(_btnItemEdit, "Editar");
+            ConfigureIconButton(_btnItemRemove, "Remover");
+            ConfigureIconButton(_btnItemClear, "Limpar item");
+
+            ConfigureActionButton(_saveButton, "Salvar Nota (F2)", 170);
+            ConfigureActionButton(_updateButton, "Alterar (F3)", 146);
+            ConfigureActionButton(_clearButton, "Limpar (F5)", 138);
+            ConfigureActionButton(_cancelButton, "Cancelar Nota (F6)", 184);
+            ConfigureActionButton(_closeButton, "Fechar (F4)", 136);
+
+            _actionsLabel.Dock = DockStyle.Fill;
+            _actionsLabel.AutoSize = false;
+            _actionsLabel.Text = "Acoes:";
+            _actionsLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
+            _actionsLabel.ForeColor = Color.FromArgb(102, 102, 102);
+            _actionsLabel.TextAlign = ContentAlignment.MiddleRight;
+            _actionsLabel.Margin = new Padding(0, 0, 5, 0);
+
+            _brcLabel.Dock = DockStyle.Fill;
+            _brcLabel.AutoSize = false;
+            _brcLabel.Text = "BRC: -";
+            _brcLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
+            _brcLabel.ForeColor = Color.FromArgb(102, 102, 102);
+            _brcLabel.TextAlign = ContentAlignment.MiddleLeft;
+            _brcLabel.Margin = new Padding(16, 0, 3, 0);
+
+            _statusLabel.Dock = DockStyle.Fill;
+            _statusLabel.AutoSize = false;
+            _statusLabel.Font = new Font("Segoe UI", 8.75F, FontStyle.Bold);
+            _statusLabel.ForeColor = Color.SeaGreen;
+            _statusLabel.TextAlign = ContentAlignment.MiddleLeft;
+            _statusLabel.Margin = new Padding(3, 4, 3, 0);
+
+            var headerStyle = new DataGridViewCellStyle
+            {
+                Font = new Font("Segoe UI", 9.25F, FontStyle.Bold),
+                BackColor = Color.FromArgb(240, 240, 240),
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+
+            _itemsGrid.ColumnHeadersDefaultCellStyle = headerStyle;
+            ConfigureItemsGridColumns();
+        }
+
+        private void ConfigureItemsGridColumns()
+        {
+            if (_itemsGrid == null)
+            {
+                return;
+            }
+
+            _itemsGrid.Columns.Clear();
+
+            var colItem = new DataGridViewTextBoxColumn
+            {
+                Name = "item",
+                HeaderText = "ITEM",
+                DataPropertyName = nameof(InboundReceiptItemRow.ItemNumber),
+                Width = 60
+            };
+            colItem.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            var colFornecedor = new DataGridViewTextBoxColumn
+            {
+                Name = "fornecedor",
+                HeaderText = "FORNECEDOR",
+                DataPropertyName = nameof(InboundReceiptItemRow.SupplierDisplay),
+                Width = 220
+            };
+            colFornecedor.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            var colMaterial = new DataGridViewTextBoxColumn
+            {
+                Name = "material",
+                HeaderText = "MATERIAL",
+                DataPropertyName = nameof(InboundReceiptItemRow.MaterialDisplay),
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                FillWeight = 55
+            };
+            colMaterial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            var colLote = new DataGridViewTextBoxColumn
+            {
+                Name = "lote",
+                HeaderText = "LOTE",
+                DataPropertyName = nameof(InboundReceiptItemRow.LotDisplay),
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                FillWeight = 45
+            };
+            colLote.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            var colQuantidade = new DataGridViewTextBoxColumn
+            {
+                Name = "quantidade",
+                HeaderText = "QUANTIDADE",
+                DataPropertyName = nameof(InboundReceiptItemRow.QuantityText),
+                Width = 120
+            };
+            colQuantidade.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+            var colStatus = new DataGridViewTextBoxColumn
+            {
+                Name = "status",
+                HeaderText = "STATUS",
+                DataPropertyName = nameof(InboundReceiptItemRow.Status),
+                Width = 100
+            };
+            colStatus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            _itemsGrid.Columns.AddRange(new DataGridViewColumn[]
+            {
+                colItem,
+                colFornecedor,
+                colMaterial,
+                colLote,
+                colQuantidade,
+                colStatus
+            });
+        }
+
+        private static void ConfigureFieldLabel(Label label, string text)
+        {
+            label.Dock = DockStyle.Fill;
+            label.AutoSize = false;
+            label.Text = text;
+            label.Font = new Font("Segoe UI", 9.25F, FontStyle.Bold);
+            label.ForeColor = Color.FromArgb(27, 54, 93);
+            label.TextAlign = ContentAlignment.MiddleLeft;
+            label.Margin = new Padding(3, 0, 6, 0);
+        }
+
+        private static void ConfigureCellTextBox(TextBox textBox)
+        {
+            textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            textBox.AutoSize = false;
+            textBox.BorderStyle = BorderStyle.FixedSingle;
+            textBox.Font = new Font("Segoe UI", 9.75F);
+            textBox.Height = 29;
+            textBox.Margin = new Padding(5, 4, 5, 4);
+            textBox.MinimumSize = new Size(0, 29);
+        }
+
+        private static void ConfigureCellCombo(ComboBox comboBox)
+        {
+            comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox.Font = new Font("Segoe UI", 9.75F);
+            comboBox.Height = 29;
+            comboBox.Margin = new Padding(5, 4, 5, 4);
+            comboBox.MinimumSize = new Size(0, 29);
+            comboBox.FlatStyle = FlatStyle.Standard;
+        }
+
+        private static void ConfigureIconButton(Button button, string accessibleName)
+        {
+            button.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            button.Height = 30;
+            button.MinimumSize = new Size(32, 30);
+            button.Text = string.Empty;
+            button.FlatStyle = FlatStyle.Standard;
+            button.Margin = new Padding(2, 4, 2, 4);
+            button.Padding = new Padding(0);
+            button.UseVisualStyleBackColor = true;
+            button.AccessibleName = accessibleName;
+            button.ImageAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private static void ConfigureActionButton(Button button, string text, int width)
+        {
+            button.Text = text;
+            button.AutoSize = false;
+            button.Height = 34;
+            button.Width = width;
+            button.FlatStyle = FlatStyle.Standard;
+            button.Font = new Font("Segoe UI", 9.25F, FontStyle.Regular);
+            button.Margin = new Padding(5, 2, 5, 2);
+            button.Padding = new Padding(8, 0, 8, 0);
+            button.TextImageRelation = TextImageRelation.ImageBeforeText;
+            button.ImageAlign = ContentAlignment.MiddleLeft;
+            button.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         // ===============================
@@ -60,11 +327,21 @@ namespace BRCSISTEM.Desktop.Views
         // ===============================
         private void OnFormLoad(object sender, EventArgs e)
         {
+            if (IsDesignModeActive || _configurationController == null)
+            {
+                return;
+            }
+
             LoadData();
         }
 
         private void OnFormClosingHandler(object sender, FormClosingEventArgs e)
         {
+            if (IsDesignModeActive)
+            {
+                return;
+            }
+
             ReleaseCurrentLockSafe();
         }
 
@@ -116,6 +393,11 @@ namespace BRCSISTEM.Desktop.Views
         // ===============================
         private void LoadData()
         {
+            if (IsDesignModeActive || _configurationController == null)
+            {
+                return;
+            }
+
             try
             {
                 _configuration = _configurationController.LoadConfiguration();
@@ -130,6 +412,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void AddOrUpdateItem()
         {
+            if (IsDesignModeActive)
+            {
+                return;
+            }
+
             try
             {
                 ValidateHeaderForItems();
@@ -160,6 +447,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void SaveReceipt()
         {
+            if (IsDesignModeActive || _inboundReceiptController == null)
+            {
+                return;
+            }
+
             if (_mode != ScreenMode.Creation)
             {
                 SetStatus("Use Alterar para atualizar uma nota consultada.", true);
@@ -181,6 +473,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void UpdateReceipt()
         {
+            if (IsDesignModeActive || _inboundReceiptController == null)
+            {
+                return;
+            }
+
             if (_mode != ScreenMode.Consultation)
             {
                 SetStatus("Consulte uma nota antes de alterar.", true);
@@ -202,6 +499,11 @@ namespace BRCSISTEM.Desktop.Views
 
         private void CancelReceipt()
         {
+            if (IsDesignModeActive || _inboundReceiptController == null)
+            {
+                return;
+            }
+
             if (_mode != ScreenMode.Consultation)
             {
                 SetStatus("Consulte uma nota antes de cancelar.", true);
