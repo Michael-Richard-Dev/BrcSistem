@@ -394,9 +394,46 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
+            _quantityOnlyEditMode = false;
             _editingItemIndex = row.SourceIndex;
             var item = _items[_editingItemIndex];
 
+            LoadItemIntoEditor(item);
+            ApplyModeState();
+            SetStatus("Item carregado para edicao.", false);
+        }
+
+        private void StartQuantityOnlyEditSelectedItem()
+        {
+            if (_mode != ScreenMode.Consultation)
+            {
+                SetStatus("Consulte uma nota antes de alterar a quantidade.", true);
+                return;
+            }
+
+            if (IsReceiptReadOnlyForItemEdit())
+            {
+                SetStatus("Nota cancelada/inativa nao permite alteracao.", true);
+                return;
+            }
+
+            if (!(_itemsGrid.CurrentRow?.DataBoundItem is InboundReceiptItemRow row))
+            {
+                SetStatus("Selecione um item para alterar a quantidade.", true);
+                return;
+            }
+
+            _editingItemIndex = row.SourceIndex;
+            _quantityOnlyEditMode = true;
+            LoadItemIntoEditor(_items[_editingItemIndex]);
+            ApplyModeState();
+            _quantityTextBox.Focus();
+            _quantityTextBox.SelectAll();
+            SetStatus("Altere apenas a quantidade e clique em Alterar para confirmar.", false);
+        }
+
+        private void LoadItemIntoEditor(InboundReceiptItemDetail item)
+        {
             EnsureOptionPresent(ref _materialOptions, _materialComboBox, item.MaterialCode, item.MaterialDescription);
             _isRefreshingReferences = true;
             try
@@ -416,7 +453,53 @@ namespace BRCSISTEM.Desktop.Views
             EnsureOptionPresent(ref _lotOptions, _lotComboBox, item.LotCode, item.LotName);
             _quantityTextBox.Text = item.Quantity.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
             UpdateBrcIndicator();
-            SetStatus("Item carregado para edicao.", false);
+        }
+
+        private void ConfirmQuantityOnlyEdit()
+        {
+            if (_editingItemIndex < 0 || _editingItemIndex >= _items.Count)
+            {
+                SetStatus("Selecione um item para alterar a quantidade.", true);
+                return;
+            }
+
+            if (IsReceiptReadOnlyForItemEdit())
+            {
+                SetStatus("Nota cancelada/inativa nao permite alteracao.", true);
+                return;
+            }
+
+            try
+            {
+                var item = _items[_editingItemIndex];
+                var previousQuantity = item.Quantity;
+                var quantity = ParseQuantity(_quantityTextBox.Text);
+                if (quantity <= 0)
+                {
+                    throw new InvalidOperationException("Quantidade deve ser maior que zero.");
+                }
+
+                item.Quantity = quantity;
+                _quantityOnlyEditMode = false;
+                _editingItemIndex = -1;
+                RefreshItemGrid();
+                ClearItemEditor();
+                ApplyModeState();
+
+                if (TryUpdateReceipt(clearAfterSuccess: false, successMessage: "Quantidade alterada e nota salva com sucesso."))
+                {
+                    SetStatus("Quantidade alterada com sucesso.", false);
+                    return;
+                }
+
+                item.Quantity = previousQuantity;
+                RefreshItemGrid();
+                ApplyModeState();
+            }
+            catch (Exception exception)
+            {
+                ShowError(exception);
+            }
         }
 
         private void RemoveSelectedItem()
@@ -496,6 +579,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void ClearItemEditor()
         {
+            _quantityOnlyEditMode = false;
             _editingItemIndex = -1;
             _materialComboBox.SelectedIndex = -1;
             _lotComboBox.SelectedIndex = -1;
@@ -505,21 +589,49 @@ namespace BRCSISTEM.Desktop.Views
 
         private void ApplyModeState()
         {
-            var readOnlyCancelled = _mode == ScreenMode.Consultation && string.Equals(_loadedReceiptStatus, "CANCELADA", StringComparison.OrdinalIgnoreCase);
+            var readOnlyCancelled = IsReceiptReadOnlyForItemEdit();
             var headerLocked = _mode == ScreenMode.Consultation || _items.Count > 0;
+            var quantityOnlyEdit = _quantityOnlyEditMode && !readOnlyCancelled;
+            var headerEditable = !quantityOnlyEdit && !headerLocked && !readOnlyCancelled;
+            var itemEditable = !quantityOnlyEdit && !readOnlyCancelled;
 
-            _saveButton.Enabled = _mode == ScreenMode.Creation && !readOnlyCancelled;
+            _saveButton.Enabled = _mode == ScreenMode.Creation && !readOnlyCancelled && !quantityOnlyEdit;
             _updateButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled;
-            _cancelButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled;
+            _cancelButton.Enabled = _mode == ScreenMode.Consultation && !readOnlyCancelled && !quantityOnlyEdit;
 
-            _numberTextBox.Enabled = !headerLocked && !readOnlyCancelled;
-            _supplierComboBox.Enabled = !headerLocked && !readOnlyCancelled;
-            _warehouseComboBox.Enabled = !headerLocked && !readOnlyCancelled;
-            _emissionDateTextBox.Enabled = !readOnlyCancelled && (_mode == ScreenMode.Creation ? !headerLocked : true);
-            _receiptDateTimeTextBox.Enabled = !readOnlyCancelled && (_mode == ScreenMode.Creation ? !headerLocked : true);
-            _materialComboBox.Enabled = !readOnlyCancelled;
-            _lotComboBox.Enabled = !readOnlyCancelled;
+            _numberTextBox.Enabled = headerEditable;
+            _supplierComboBox.Enabled = headerEditable;
+            _warehouseComboBox.Enabled = headerEditable;
+            _emissionDateTextBox.Enabled = !readOnlyCancelled && !quantityOnlyEdit && (_mode == ScreenMode.Creation ? !headerLocked : true);
+            _receiptDateTimeTextBox.Enabled = !readOnlyCancelled && !quantityOnlyEdit && (_mode == ScreenMode.Creation ? !headerLocked : true);
+            _materialComboBox.Enabled = itemEditable;
+            _lotComboBox.Enabled = itemEditable;
             _quantityTextBox.Enabled = !readOnlyCancelled;
+
+            _btnNumberLookup.Enabled = !quantityOnlyEdit && !readOnlyCancelled;
+            _btnSupplierRefresh.Enabled = headerEditable;
+            _btnSupplierLookup.Enabled = headerEditable;
+            _btnSupplierNew.Enabled = headerEditable;
+            _btnWarehouseRefresh.Enabled = headerEditable;
+            _btnWarehouseLookup.Enabled = headerEditable;
+            _btnMaterialRefresh.Enabled = itemEditable;
+            _btnMaterialLookup.Enabled = itemEditable;
+            _btnMaterialNew.Enabled = itemEditable;
+            _btnLotRefresh.Enabled = itemEditable;
+            _btnLotLookup.Enabled = itemEditable;
+            _btnLotNew.Enabled = itemEditable;
+            _btnItemAdd.Enabled = itemEditable;
+            _btnItemEdit.Enabled = itemEditable;
+            _btnItemRemove.Enabled = itemEditable;
+            _btnItemClear.Enabled = !readOnlyCancelled;
+        }
+
+        private bool IsReceiptReadOnlyForItemEdit()
+        {
+            return _mode == ScreenMode.Consultation
+                && (string.Equals(_loadedReceiptStatus, "CANCELADA", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(_loadedReceiptStatus, "INATIVO", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(_loadedReceiptStatus, "INATIVA", StringComparison.OrdinalIgnoreCase));
         }
 
         private void ReleaseCurrentLockSafe()

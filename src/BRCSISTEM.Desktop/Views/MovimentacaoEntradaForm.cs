@@ -36,6 +36,7 @@ namespace BRCSISTEM.Desktop.Views
         private int _editingItemIndex;
         private bool _hasChanges;
         private bool _isRefreshingReferences;
+        private bool _quantityOnlyEditMode;
         private string _lockedNumber;
         private string _lockedSupplierCode;
         private string _loadedReceiptStatus;
@@ -244,7 +245,7 @@ namespace BRCSISTEM.Desktop.Views
         private void OnFormKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F2) SaveReceipt();
-            else if (e.KeyCode == Keys.F3) UpdateReceipt();
+            else if (e.KeyCode == Keys.F3) HandleUpdateAction();
             else if (e.KeyCode == Keys.F4) CloseForm();
             else if (e.KeyCode == Keys.F5) ClearForm(confirm: true, releaseLock: true);
             else if (e.KeyCode == Keys.F6) CancelReceipt();
@@ -276,10 +277,10 @@ namespace BRCSISTEM.Desktop.Views
         private void OnBtnItemAddClick(object sender, EventArgs e) { AddOrUpdateItem(); }
         private void OnBtnItemEditClick(object sender, EventArgs e) { StartEditingSelectedItem(); }
         private void OnBtnItemRemoveClick(object sender, EventArgs e) { RemoveSelectedItem(); }
-        private void OnBtnItemClearClick(object sender, EventArgs e) { ClearItemEditor(); }
+        private void OnBtnItemClearClick(object sender, EventArgs e) { ClearItemEditor(); ApplyModeState(); }
 
         private void OnBtnSaveClick(object sender, EventArgs e) { SaveReceipt(); }
-        private void OnBtnUpdateClick(object sender, EventArgs e) { UpdateReceipt(); }
+        private void OnBtnUpdateClick(object sender, EventArgs e) { HandleUpdateAction(); }
         private void OnBtnClearClick(object sender, EventArgs e) { ClearForm(confirm: true, releaseLock: true); }
         private void OnBtnCancelClick(object sender, EventArgs e) { CancelReceipt(); }
         private void OnBtnCloseClick(object sender, EventArgs e) { CloseForm(); }
@@ -310,6 +311,12 @@ namespace BRCSISTEM.Desktop.Views
         {
             if (IsDesignModeActive)
             {
+                return;
+            }
+
+            if (_quantityOnlyEditMode)
+            {
+                ConfirmQuantityOnlyEdit();
                 return;
             }
 
@@ -367,29 +374,56 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
+        private void HandleUpdateAction()
+        {
+            if (IsDesignModeActive)
+            {
+                return;
+            }
+
+            if (_quantityOnlyEditMode)
+            {
+                ConfirmQuantityOnlyEdit();
+                return;
+            }
+
+            StartQuantityOnlyEditSelectedItem();
+        }
+
         private void UpdateReceipt()
+        {
+            TryUpdateReceipt(clearAfterSuccess: true, successMessage: "Nota alterada com sucesso.");
+        }
+
+        private bool TryUpdateReceipt(bool clearAfterSuccess, string successMessage)
         {
             if (IsDesignModeActive || _inboundReceiptController == null)
             {
-                return;
+                return false;
             }
 
             if (_mode != ScreenMode.Consultation)
             {
                 SetStatus("Consulte uma nota antes de alterar.", true);
-                return;
+                return false;
             }
 
             try
             {
                 _inboundReceiptController.UpdateReceipt(_configuration, _databaseProfile, BuildSaveRequest());
                 _hasChanges = true;
-                MessageBox.Show(this, "Nota alterada com sucesso.", "Entrada de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearForm(confirm: false, releaseLock: true);
+                MessageBox.Show(this, successMessage, "Entrada de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (clearAfterSuccess)
+                {
+                    ClearForm(confirm: false, releaseLock: true);
+                }
+
+                return true;
             }
             catch (Exception exception)
             {
                 ShowError(exception);
+                return false;
             }
         }
 
