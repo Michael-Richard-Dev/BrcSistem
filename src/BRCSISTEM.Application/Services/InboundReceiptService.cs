@@ -92,9 +92,9 @@ namespace BRCSISTEM.Application.Services
         {
             var settings = GetSettings(configuration, profile);
             return _inboundReceiptGateway.SearchReceipts(profile, settings, NormalizeText(filter))
-                .OrderByDescending(item => ParseMovementDate(item.MovementDateTime))
-                .ThenByDescending(item => ParseNumeric(item.Number))
-                .ThenByDescending(item => item.Number ?? string.Empty, StringComparer.OrdinalIgnoreCase)
+                .OrderByDescending(item => ParseMovementDate(item.Data_Hora_Movimento))
+                .ThenByDescending(item => ParseNumeric(item.Numero_Nota))
+                .ThenByDescending(item => item.Numero_Nota ?? string.Empty, StringComparer.OrdinalIgnoreCase)
                 .ToArray();
         }
 

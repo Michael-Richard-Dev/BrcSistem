@@ -211,29 +211,29 @@ namespace BRCSISTEM.Desktop.Views
                 var selected = dialog.SelectedReceipt;
                 var requiresLock = !string.Equals(selected.Status, "CANCELADA", StringComparison.OrdinalIgnoreCase);
                 var shouldAcquireLock = requiresLock
-                    && (!string.Equals(_lockedNumber, selected.Number, StringComparison.OrdinalIgnoreCase)
-                        || !string.Equals(_lockedSupplierCode, selected.SupplierCode, StringComparison.OrdinalIgnoreCase));
+                    && (!string.Equals(_lockedNumber, selected.Numero_Nota, StringComparison.OrdinalIgnoreCase)
+                        || !string.Equals(_lockedSupplierCode, selected.Cod_Fornecedor, StringComparison.OrdinalIgnoreCase));
 
                 try
                 {
                     if (shouldAcquireLock)
                     {
                         ReleaseCurrentLockSafe();
-                        var lockResult = _inboundReceiptController.TryLockReceipt(_configuration, _databaseProfile, selected.Number, selected.SupplierCode, _identity.UserName);
+                        var lockResult = _inboundReceiptController.TryLockReceipt(_configuration, _databaseProfile, selected.Numero_Nota, selected.Cod_Fornecedor, _identity.UserName);
                         if (!lockResult.Success)
                         {
                             throw new InvalidOperationException(lockResult.Message);
                         }
 
-                        _lockedNumber = selected.Number;
-                        _lockedSupplierCode = selected.SupplierCode;
+                        _lockedNumber = selected.Numero_Nota;
+                        _lockedSupplierCode = selected.Cod_Fornecedor;
                     }
                     else if (!requiresLock)
                     {
                         ReleaseCurrentLockSafe();
                     }
 
-                    var detail = _inboundReceiptController.LoadReceipt(_configuration, _databaseProfile, selected.Number, selected.SupplierCode);
+                    var detail = _inboundReceiptController.LoadReceipt(_configuration, _databaseProfile, selected.Numero_Nota, selected.Cod_Fornecedor);
                     ApplyReceiptDetail(detail, requiresLock);
                 }
                 catch (Exception exception)

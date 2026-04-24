@@ -272,15 +272,15 @@ namespace BRCSISTEM.Infrastructure.Database
                     {
                         items.Add(new InboundReceiptSummary
                         {
-                            Number = ReadString(reader, "numero"),
-                            SupplierCode = ReadString(reader, "fornecedor"),
-                            SupplierName = ReadString(reader, "fornecedor_nome"),
-                            WarehouseCode = ReadString(reader, "almoxarifado"),
-                            WarehouseName = ReadString(reader, "almoxarifado_nome"),
-                            MovementDateTime = ReadString(reader, "dt_movimento"),
+                            Numero_Nota = ReadString(reader, "numero"),
+                            Cod_Fornecedor = ReadString(reader, "fornecedor"),
+                            Fornecedor = ReadString(reader, "fornecedor_nome"),
+                            Cod_Almoxarifado = ReadString(reader, "almoxarifado"),
+                            Almoxarifado = ReadString(reader, "almoxarifado_nome"),
+                            Data_Hora_Movimento = ReadString(reader, "dt_movimento"),
                             Status = ReadString(reader, "status"),
-                            Version = ReadInt(reader, "versao"),
-                            LockedBy = ReadString(reader, "bloqueado_por"),
+                            Versao = ReadInt(reader, "versao"),
+                            Bloqueado_Por = ReadString(reader, "bloqueado_por"),
                         });
                     }
                 }
