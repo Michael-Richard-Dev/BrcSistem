@@ -1,83 +1,129 @@
 using System;
-using System.Drawing;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    internal sealed class SelecaoRegistroForm : Form
+    internal sealed partial class SelecaoRegistroForm : Form
     {
-        private readonly string _descriptionHeader;
         private readonly LookupOption[] _allOptions;
+        private readonly bool _isDesignerInstance;
+        private readonly string _descriptionHeader;
 
-        private TextBox _filterTextBox;
-        private DataGridView _grid;
+        public SelecaoRegistroForm()
+            : this(null, null, null, true)
+        {
+        }
 
         public SelecaoRegistroForm(string title, string descriptionHeader, LookupOption[] options)
+            : this(title, descriptionHeader, options, false)
         {
-            _descriptionHeader = string.IsNullOrWhiteSpace(descriptionHeader) ? "DESCRICAO" : descriptionHeader.ToUpperInvariant();
-            _allOptions = options ?? new LookupOption[0];
+        }
 
-            InitializeComponent(title);
-            Load += (sender, args) => RefreshGrid();
+        private SelecaoRegistroForm(string title, string descriptionHeader, LookupOption[] options, bool designerCtor)
+        {
+            _isDesignerInstance = designerCtor;
+            _allOptions = options ?? new LookupOption[0];
+            _descriptionHeader = string.IsNullOrWhiteSpace(descriptionHeader)
+                ? null
+                : descriptionHeader.ToUpperInvariant();
+
+            InitializeComponent();
+
+            if (designerCtor)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                Text = title;
+            }
+
+            if (!string.IsNullOrEmpty(_descriptionHeader))
+            {
+                _colDescricao.HeaderText = _descriptionHeader;
+            }
+
+            AcceptButton = _confirmButton;
+            CancelButton = _cancelButton;
         }
 
         public LookupOption SelectedOption { get; private set; }
 
-        private void InitializeComponent(string title)
+        private bool IsDesignModeActive
         {
-            Text = title;
-            StartPosition = FormStartPosition.CenterParent;
-            Size = new Size(760, 500);
-            MinimumSize = new Size(680, 420);
-            BackColor = Color.White;
-
-            var root = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(12), RowCount = 3 };
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-            var filterPanel = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true };
-            filterPanel.Controls.Add(new Label { AutoSize = true, Text = "Buscar:", Margin = new Padding(0, 8, 0, 0), Font = new Font("Segoe UI", 9.5F, FontStyle.Bold) });
-            _filterTextBox = new TextBox { Width = 300, Font = new Font("Segoe UI", 10F) };
-            _filterTextBox.TextChanged += (sender, args) => RefreshGrid();
-            filterPanel.Controls.Add(_filterTextBox);
-            filterPanel.Controls.Add(CreateButton("Confirmar", (sender, args) => ConfirmSelection()));
-            filterPanel.Controls.Add(CreateButton("Fechar", (sender, args) => Close()));
-
-            var group = new GroupBox { Dock = DockStyle.Fill, Text = "Resultados", Font = new Font("Segoe UI", 10F, FontStyle.Bold) };
-            _grid = new DataGridView
+            get
             {
-                Dock = DockStyle.Fill,
-                ReadOnly = true,
-                AutoGenerateColumns = false,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                MultiSelect = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                RowHeadersVisible = false,
-                BackgroundColor = Color.White,
-            };
-            _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "codigo", HeaderText = "CODIGO", DataPropertyName = nameof(LookupOption.Code), Width = 120 });
-            _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "descricao", HeaderText = _descriptionHeader, DataPropertyName = nameof(LookupOption.Description), AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "status", HeaderText = "STATUS", DataPropertyName = nameof(LookupOption.Status), Width = 110 });
-            _grid.CellDoubleClick += (sender, args) => ConfirmSelection();
-            _grid.KeyDown += OnGridKeyDown;
-            group.Controls.Add(_grid);
+                if (_isDesignerInstance)
+                {
+                    return true;
+                }
 
-            var footer = new Label
+                if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+                {
+                    return true;
+                }
+
+                if (DesignMode)
+                {
+                    return true;
+                }
+
+                return Site != null && Site.DesignMode;
+            }
+        }
+
+        private void OnFormLoad(object sender, EventArgs e)
+        {
+            if (IsDesignModeActive)
             {
-                AutoSize = true,
-                Text = "Dica: filtre por codigo ou descricao e pressione Enter para confirmar.",
-                Font = new Font("Segoe UI", 8.5F),
-                ForeColor = Color.DimGray,
-                Margin = new Padding(3, 0, 3, 0),
-            };
+                return;
+            }
 
-            root.Controls.Add(filterPanel, 0, 0);
-            root.Controls.Add(group, 0, 1);
-            root.Controls.Add(footer, 0, 2);
-            Controls.Add(root);
+            RefreshGrid();
+        }
+
+        private void OnFilterTextChanged(object sender, EventArgs e)
+        {
+            if (IsDesignModeActive)
+            {
+                return;
+            }
+
+            RefreshGrid();
+        }
+
+        private void OnGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            ConfirmSelection();
+        }
+
+        private void OnGridKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                ConfirmSelection();
+            }
+        }
+
+        private void OnConfirmClick(object sender, EventArgs e)
+        {
+            ConfirmSelection();
+        }
+
+        private void OnCancelClick(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void RefreshGrid()
@@ -89,9 +135,10 @@ namespace BRCSISTEM.Desktop.Views
                     (item.Code ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                     || (item.Description ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                     || (item.Status ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
-                .ToArray();
+                    .ToArray();
 
             _grid.DataSource = items;
+
             if (_grid.Rows.Count > 0)
             {
                 _grid.Rows[0].Selected = true;
@@ -110,22 +157,6 @@ namespace BRCSISTEM.Desktop.Views
             SelectedOption = option;
             DialogResult = DialogResult.OK;
             Close();
-        }
-
-        private void OnGridKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.Handled = true;
-                ConfirmSelection();
-            }
-        }
-
-        private static Button CreateButton(string text, EventHandler handler)
-        {
-            var button = new Button { Text = text, AutoSize = true, FlatStyle = FlatStyle.System };
-            button.Click += handler;
-            return button;
         }
     }
 }
