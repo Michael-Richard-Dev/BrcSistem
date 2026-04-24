@@ -13,28 +13,28 @@ namespace BRCSISTEM.Desktop.Views
     {
         private void ApplyActionIcons()
         {
-            SetIcon(_btnNumberLookup, "search.png");
-            SetIcon(_btnSupplierRefresh, "refresh.png");
-            SetIcon(_btnSupplierLookup, "search.png");
-            SetIcon(_btnSupplierNew, "new.png");
-            SetIcon(_btnWarehouseRefresh, "refresh.png");
-            SetIcon(_btnWarehouseLookup, "search.png");
-            SetIcon(_btnMaterialRefresh, "refresh.png");
-            SetIcon(_btnMaterialLookup, "search.png");
-            SetIcon(_btnMaterialNew, "new.png");
-            SetIcon(_btnLotRefresh, "refresh.png");
-            SetIcon(_btnLotLookup, "search.png");
-            SetIcon(_btnLotNew, "new.png");
-            SetIcon(_btnItemAdd, "add.png");
-            SetIcon(_btnItemEdit, "edit.png");
-            SetIcon(_btnItemRemove, "delete.png");
-            SetIcon(_btnItemClear, "clear.png");
+            SetIcon(_btnNumberLookup, "search_black.png");
+            SetIcon(_btnSupplierRefresh, "refresh_black.png");
+            SetIcon(_btnSupplierLookup, "search_black.png");
+            SetIcon(_btnSupplierNew, "new_black.png");
+            SetIcon(_btnWarehouseRefresh, "refresh_black.png");
+            SetIcon(_btnWarehouseLookup, "search_black.png");
+            SetIcon(_btnMaterialRefresh, "refresh_black.png");
+            SetIcon(_btnMaterialLookup, "search_black.png");
+            SetIcon(_btnMaterialNew, "new_black.png");
+            SetIcon(_btnLotRefresh, "refresh_black.png");
+            SetIcon(_btnLotLookup, "search_black.png");
+            SetIcon(_btnLotNew, "new_black.png");
+            SetIcon(_btnItemAdd, "add_black.png");
+            SetIcon(_btnItemEdit, "edit_black.png");
+            SetIcon(_btnItemRemove, "delete_black.png");
+            SetIcon(_btnItemClear, "clear_black.png");
 
-            SetIcon(_saveButton, "save.png");
-            SetIcon(_updateButton, "edit.png");
-            SetIcon(_clearButton, "clear.png");
-            SetIcon(_cancelButton, "cancel.png");
-            SetIcon(_closeButton, "close.png");
+            SetIcon(_saveButton, "save_black.png");
+            SetIcon(_updateButton, "update_black.png");
+            SetIcon(_clearButton, "clear_black.png");
+            SetIcon(_cancelButton, "cancel_black.png");
+            SetIcon(_closeButton, "close_black.png");
         }
 
         private static void SetIcon(Button button, string fileName)
@@ -54,7 +54,7 @@ namespace BRCSISTEM.Desktop.Views
             {
                 using (var source = Image.FromFile(path))
                 {
-                    button.Image = new Bitmap(source, new Size(20, 20));
+                    button.Image = new Bitmap(source, new Size(18, 18));
                 }
 
                 button.ImageAlign = ContentAlignment.MiddleCenter;

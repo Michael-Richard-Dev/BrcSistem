@@ -1,9 +1,23 @@
-﻿Icones utilizados na tela MovimentacaoEntradaForm.
+Icones utilizados na tela MovimentacaoEntradaForm.
 
-Fonte: Flaticon (https://www.flaticon.com/)
-Licenca: gratuitos para uso pessoal e comercial com atribuicao obrigatoria, conforme paginas individuais.
+Icones monocromaticos atuais:
+- refresh_black.png
+- search_black.png
+- new_black.png
+- add_black.png
+- edit_black.png
+- delete_black.png
+- clear_black.png
+- save_black.png
+- update_black.png
+- cancel_black.png
+- close_black.png
 
-Creditos por arquivo:
+Origem dos icones monocromaticos:
+- Criados localmente para o BRCSISTEM como pictogramas simples em preto, com fundo transparente.
+- Nao dependem de download externo e nao exigem atribuicao adicional.
+
+Icones coloridos anteriores mantidos no diretorio, mas nao usados por esta tela:
 - refresh.png: Refresh icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/refresh_2007517
 - search.png: Search icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/search_15695004
 - add.png: Add On icon por Freepik, Flaticon - https://www.flaticon.com/free-icon/add-on_93644

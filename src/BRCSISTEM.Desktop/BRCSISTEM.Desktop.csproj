@@ -12,6 +12,9 @@
     <ProjectReference Include="..\BRCSISTEM.Infrastructure\BRCSISTEM.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Npgsql" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="config\**\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
