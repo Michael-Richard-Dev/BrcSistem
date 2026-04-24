@@ -384,6 +384,8 @@ namespace BRCSISTEM.Desktop.Views
                 .ToArray();
             _itemsGrid.DataSource = rows;
             _itemCountLabel.Text = "Itens na nota: " + _items.Count;
+            var totalQuantity = _items.Sum(item => item.Quantity);
+            _totalQuantityLabel.Text = "Total quantidade: " + totalQuantity.ToString("N0", CultureInfo.GetCultureInfo("pt-BR"));
         }
 
         private void StartEditingSelectedItem()

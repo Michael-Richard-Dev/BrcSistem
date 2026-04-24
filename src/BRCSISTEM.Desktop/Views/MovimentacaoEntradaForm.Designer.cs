@@ -65,6 +65,7 @@ namespace BRCSISTEM.Desktop.Views
         private Button _clearButton;
         private Button _cancelButton;
         private Label _itemCountLabel;
+        private Label _totalQuantityLabel;
         private FlowLayoutPanel _footerRightPanel;
         private Button _closeButton;
 
@@ -134,6 +135,7 @@ namespace BRCSISTEM.Desktop.Views
             this._clearButton = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._itemCountLabel = new System.Windows.Forms.Label();
+            this._totalQuantityLabel = new System.Windows.Forms.Label();
             this._footerRightPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._closeButton = new System.Windows.Forms.Button();
             this._brcLabel = new System.Windows.Forms.Label();
@@ -775,13 +777,15 @@ namespace BRCSISTEM.Desktop.Views
             // 
             // _footerLayout
             // 
-            this._footerLayout.ColumnCount = 3;
+            this._footerLayout.ColumnCount = 4;
             this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._footerLayout.Controls.Add(this._footerLeftPanel, 0, 0);
             this._footerLayout.Controls.Add(this._itemCountLabel, 1, 0);
-            this._footerLayout.Controls.Add(this._footerRightPanel, 2, 0);
+            this._footerLayout.Controls.Add(this._totalQuantityLabel, 2, 0);
+            this._footerLayout.Controls.Add(this._footerRightPanel, 3, 0);
             this._footerLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this._footerLayout.Location = new System.Drawing.Point(12, 568);
             this._footerLayout.Name = "_footerLayout";
@@ -869,6 +873,18 @@ namespace BRCSISTEM.Desktop.Views
             this._itemCountLabel.TabIndex = 1;
             this._itemCountLabel.Text = "Itens na nota: 0";
             this._itemCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _totalQuantityLabel
+            // 
+            this._totalQuantityLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._totalQuantityLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._totalQuantityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
+            this._totalQuantityLabel.Location = new System.Drawing.Point(782, 9);
+            this._totalQuantityLabel.Name = "_totalQuantityLabel";
+            this._totalQuantityLabel.Size = new System.Drawing.Size(168, 35);
+            this._totalQuantityLabel.TabIndex = 2;
+            this._totalQuantityLabel.Text = "Total quantidade: 0";
+            this._totalQuantityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _footerRightPanel
             // 
