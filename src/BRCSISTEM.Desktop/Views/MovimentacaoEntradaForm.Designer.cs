@@ -172,8 +172,8 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._rootLayout.RowCount = 4;
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 164F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 184F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 168F));
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
             this._rootLayout.Controls.Add(this._headerGroup, 0, 0);
@@ -187,7 +187,7 @@ namespace BRCSISTEM.Desktop.Views
             this._headerGroup.Dock = DockStyle.Fill;
             this._headerGroup.Text = "Dados da Nota";
             this._headerGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._headerGroup.Padding = new Padding(10, 8, 10, 8);
+            this._headerGroup.Padding = new Padding(12, 10, 12, 10);
             this._headerGroup.Margin = new Padding(0, 0, 0, 10);
             this._headerGroup.Controls.Add(this._headerLayout);
 
@@ -198,9 +198,9 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLayout.ColumnCount = 1;
             this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._headerLayout.RowCount = 4;
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
             this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._headerLayout.Controls.Add(this._headerLine1, 0, 0);
             this._headerLayout.Controls.Add(this._headerLine2, 0, 1);
@@ -314,7 +314,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemGroup.Dock = DockStyle.Fill;
             this._itemGroup.Text = "Adicionar / Editar Item";
             this._itemGroup.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            this._itemGroup.Padding = new Padding(10, 8, 10, 8);
+            this._itemGroup.Padding = new Padding(12, 10, 12, 10);
             this._itemGroup.Margin = new Padding(0, 0, 0, 10);
             this._itemGroup.Controls.Add(this._itemLayout);
 
@@ -325,9 +325,9 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLayout.ColumnCount = 1;
             this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._itemLayout.RowCount = 3;
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
             this._itemLayout.Controls.Add(this._itemLine1, 0, 0);
             this._itemLayout.Controls.Add(this._itemLine2, 0, 1);
             this._itemLayout.Controls.Add(this._itemLine3, 0, 2);
@@ -611,7 +611,8 @@ namespace BRCSISTEM.Desktop.Views
         {
             textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             textBox.Font = new Font("Segoe UI", 9.75F);
-            textBox.Margin = new Padding(5, 3, 5, 3);
+            textBox.Margin = new Padding(5, 5, 5, 4);
+            textBox.MinimumSize = new Size(0, 27);
         }
 
         private static void ConfigureCellCombo(ComboBox comboBox)
@@ -619,18 +620,19 @@ namespace BRCSISTEM.Desktop.Views
             comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.Font = new Font("Segoe UI", 9.75F);
-            comboBox.Margin = new Padding(5, 3, 5, 3);
+            comboBox.Margin = new Padding(5, 5, 5, 4);
+            comboBox.MinimumSize = new Size(0, 27);
             comboBox.FlatStyle = FlatStyle.Standard;
         }
 
         private static void ConfigureIconButton(Button button, string accessibleName)
         {
             button.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button.Height = 28;
-            button.MinimumSize = new Size(32, 28);
+            button.Height = 30;
+            button.MinimumSize = new Size(32, 30);
             button.Text = string.Empty;
             button.FlatStyle = FlatStyle.Standard;
-            button.Margin = new Padding(2, 2, 2, 2);
+            button.Margin = new Padding(2, 4, 2, 4);
             button.Padding = new Padding(0);
             button.UseVisualStyleBackColor = true;
             button.AccessibleName = accessibleName;
