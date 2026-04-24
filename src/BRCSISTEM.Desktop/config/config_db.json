@@ -1,11 +1,11 @@
 {
-  "configurado": false,
-  "config_date": "2026-04-10T00:00:00",
-  "banco_ativo": "",
+  "configurado": true,
+  "config_date": "2026-04-22T00:00:00",
+  "banco_ativo": "principal",
   "primeiro_usuario": {
     "usuario": "admin",
     "nome": "Administrador",
-    "senha": "defina-uma-senha-inicial"
+    "senha": "123456"
   },
   "conexao": {
     "connect_timeout": 5,
@@ -21,14 +21,14 @@
     "application_name": "BRCSISTEM"
   },
   "bancos": {
-    "modelo_local": {
-      "nome": "brcsistem",
-      "descricao": "Preencha os dados do banco PostgreSQL antes da primeira execucao",
-      "host": "127.0.0.1",
+    "principal": {
+      "nome": "brc",
+      "descricao": "Banco principal em rede",
+      "host": "192.168.4.160",
       "port": 5432,
-      "database": "brcsistem",
+      "database": "brc",
       "user": "postgres",
-      "password": "",
+      "password": "masterkey",
       "tipo": "rede"
     }
   }
