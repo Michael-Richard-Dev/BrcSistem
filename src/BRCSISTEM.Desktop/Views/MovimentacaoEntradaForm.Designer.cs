@@ -172,8 +172,8 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._rootLayout.RowCount = 4;
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 184F));
-            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 168F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 174F));
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
             this._rootLayout.Controls.Add(this._headerGroup, 0, 0);
@@ -198,9 +198,9 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLayout.ColumnCount = 1;
             this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._headerLayout.RowCount = 4;
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             this._headerLayout.Controls.Add(this._headerLine1, 0, 0);
             this._headerLayout.Controls.Add(this._headerLine2, 0, 1);
@@ -325,9 +325,9 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLayout.ColumnCount = 1;
             this._itemLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._itemLayout.RowCount = 3;
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            this._itemLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             this._itemLayout.Controls.Add(this._itemLine1, 0, 0);
             this._itemLayout.Controls.Add(this._itemLine2, 0, 1);
             this._itemLayout.Controls.Add(this._itemLine3, 0, 2);
@@ -609,25 +609,29 @@ namespace BRCSISTEM.Desktop.Views
 
         private static void ConfigureCellTextBox(TextBox textBox)
         {
-            textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            textBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            textBox.AutoSize = false;
+            textBox.BorderStyle = BorderStyle.FixedSingle;
             textBox.Font = new Font("Segoe UI", 9.75F);
-            textBox.Margin = new Padding(5, 5, 5, 4);
-            textBox.MinimumSize = new Size(0, 27);
+            textBox.Height = 29;
+            textBox.Margin = new Padding(5, 4, 5, 4);
+            textBox.MinimumSize = new Size(0, 29);
         }
 
         private static void ConfigureCellCombo(ComboBox comboBox)
         {
-            comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            comboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.Font = new Font("Segoe UI", 9.75F);
-            comboBox.Margin = new Padding(5, 5, 5, 4);
-            comboBox.MinimumSize = new Size(0, 27);
+            comboBox.Height = 29;
+            comboBox.Margin = new Padding(5, 4, 5, 4);
+            comboBox.MinimumSize = new Size(0, 29);
             comboBox.FlatStyle = FlatStyle.Standard;
         }
 
         private static void ConfigureIconButton(Button button, string accessibleName)
         {
-            button.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            button.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             button.Height = 30;
             button.MinimumSize = new Size(32, 30);
             button.Text = string.Empty;
