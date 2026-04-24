@@ -200,46 +200,71 @@ namespace BRCSISTEM.Infrastructure.Database
         public IReadOnlyCollection<InboundReceiptSummary> SearchReceipts(DatabaseProfile profile, ConnectionResilienceSettings settings, string filter)
         {
             var items = new List<InboundReceiptSummary>();
+
             using (var connection = _connectionFactory.Open(profile, settings))
             using (var command = connection.CreateCommand())
             {
-                var digitsFilter = DigitsOnly(filter);
+                var normalizedFilter = (filter ?? string.Empty).Trim();
+                var digitsFilter = DigitsOnly(normalizedFilter);
+                var hasFilter = !string.IsNullOrWhiteSpace(normalizedFilter);
+
                 command.CommandText = @"
-                    SELECT n.numero,
-                           n.fornecedor,
-                           COALESCE(f.nome, '') AS fornecedor_nome,
-                           COALESCE(n.almoxarifado, '') AS almoxarifado,
-                           COALESCE(a.nome, '') AS almoxarifado_nome,
-                           COALESCE(n.dt_movimento, '') AS dt_movimento,
-                           COALESCE(n.status, '') AS status,
-                           COALESCE(n.versao, 0) AS versao,
-                           COALESCE(n.bloqueado_por, '') AS bloqueado_por
-                    FROM notas n
-                    INNER JOIN (
-                        SELECT numero, fornecedor, MAX(versao) AS max_versao
-                        FROM notas
-                        GROUP BY numero, fornecedor
-                    ) nx ON nx.numero = n.numero AND nx.fornecedor = n.fornecedor AND nx.max_versao = n.versao
-                    LEFT JOIN fornecedores f ON f.codigo = n.fornecedor
-                        AND f.versao = (
-                            SELECT MAX(versao)
-                            FROM fornecedores x
-                            WHERE x.codigo = f.codigo
-                        )
-                    LEFT JOIN almoxarifados a ON a.codigo = n.almoxarifado
-                        AND a.versao = (
-                            SELECT MAX(versao)
-                            FROM almoxarifados x
-                            WHERE x.codigo = a.codigo
-                        )
-                    WHERE (@texto = ''
-                        OR n.numero LIKE @texto_numero
-                        OR n.fornecedor LIKE @texto_numero
-                        OR COALESCE(f.nome, '') ILIKE @texto_like)
-                    ORDER BY n.dt_movimento DESC, n.numero DESC";
-                command.Parameters.Add(CreateParameter(command, "@texto", filter ?? string.Empty));
-                command.Parameters.Add(CreateParameter(command, "@texto_numero", string.IsNullOrWhiteSpace(digitsFilter) ? "__SEM_DIGITOS__" : "%" + digitsFilter + "%"));
-                command.Parameters.Add(CreateParameter(command, "@texto_like", "%" + (filter ?? string.Empty) + "%"));
+            SELECT n.numero,
+                   n.fornecedor,
+                   COALESCE(f.nome, '') AS fornecedor_nome,
+                   COALESCE(n.almoxarifado, '') AS almoxarifado,
+                   COALESCE(a.nome, '') AS almoxarifado_nome,
+                   COALESCE(n.dt_movimento, '') AS dt_movimento,
+                   COALESCE(n.status, '') AS status,
+                   COALESCE(n.versao, 0) AS versao,
+                   COALESCE(n.bloqueado_por, '') AS bloqueado_por
+            FROM notas n
+            INNER JOIN (
+                SELECT numero, fornecedor, MAX(versao) AS max_versao
+                FROM notas
+                GROUP BY numero, fornecedor
+            ) nx ON nx.numero = n.numero
+                AND nx.fornecedor = n.fornecedor
+                AND nx.max_versao = n.versao
+            LEFT JOIN fornecedores f ON f.codigo = n.fornecedor
+                AND f.versao = (
+                    SELECT MAX(versao)
+                    FROM fornecedores x
+                    WHERE x.codigo = f.codigo
+                )
+            LEFT JOIN almoxarifados a ON a.codigo = n.almoxarifado
+                AND a.versao = (
+                    SELECT MAX(versao)
+                    FROM almoxarifados x
+                    WHERE x.codigo = a.codigo
+                )";
+
+                if (hasFilter)
+                {
+                    command.CommandText += @"
+            WHERE (
+                CAST(n.numero AS text) LIKE @texto_numero
+                OR CAST(n.fornecedor AS text) LIKE @texto_numero
+                OR CAST(COALESCE(f.nome, '') AS text) ILIKE @texto_like
+            )";
+
+                    var textoNumeroParameter = command.CreateParameter();
+                    textoNumeroParameter.ParameterName = "@texto_numero";
+                    textoNumeroParameter.DbType = System.Data.DbType.String;
+                    textoNumeroParameter.Value = string.IsNullOrWhiteSpace(digitsFilter)
+                        ? "__SEM_DIGITOS__"
+                        : "%" + digitsFilter + "%";
+                    command.Parameters.Add(textoNumeroParameter);
+
+                    var textoLikeParameter = command.CreateParameter();
+                    textoLikeParameter.ParameterName = "@texto_like";
+                    textoLikeParameter.DbType = System.Data.DbType.String;
+                    textoLikeParameter.Value = "%" + normalizedFilter + "%";
+                    command.Parameters.Add(textoLikeParameter);
+                }
+
+                command.CommandText += @"
+            ORDER BY n.dt_movimento DESC, n.numero DESC";
 
                 using (var reader = command.ExecuteReader())
                 {

@@ -83,8 +83,8 @@ namespace BRCSISTEM.Desktop.Views
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovimentacaoEntradaForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovimentacaoEntradaForm));
             this._rootLayout = new System.Windows.Forms.TableLayoutPanel();
             this._headerGroup = new System.Windows.Forms.GroupBox();
             this._headerLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -127,7 +127,6 @@ namespace BRCSISTEM.Desktop.Views
             this._btnItemEdit = new System.Windows.Forms.Button();
             this._btnItemRemove = new System.Windows.Forms.Button();
             this._btnItemClear = new System.Windows.Forms.Button();
-            this._brcLabel = new System.Windows.Forms.Label();
             this._gridGroup = new System.Windows.Forms.GroupBox();
             this._itemsGrid = new System.Windows.Forms.DataGridView();
             this._footerLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -139,6 +138,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemCountLabel = new System.Windows.Forms.Label();
             this._footerRightPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._closeButton = new System.Windows.Forms.Button();
+            this._brcLabel = new System.Windows.Forms.Label();
             this._rootLayout.SuspendLayout();
             this._headerGroup.SuspendLayout();
             this._headerLayout.SuspendLayout();
@@ -153,9 +153,9 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLeftPanel.SuspendLayout();
             this._footerRightPanel.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // _rootLayout
-            //
+            // 
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._rootLayout.Controls.Add(this._headerGroup, 0, 0);
@@ -165,7 +165,7 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this._rootLayout.Location = new System.Drawing.Point(0, 0);
             this._rootLayout.Name = "_rootLayout";
-            this._rootLayout.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this._rootLayout.Padding = new System.Windows.Forms.Padding(9);
             this._rootLayout.RowCount = 4;
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
@@ -173,9 +173,9 @@ namespace BRCSISTEM.Desktop.Views
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this._rootLayout.Size = new System.Drawing.Size(1097, 624);
             this._rootLayout.TabIndex = 0;
-            //
+            // 
             // _headerGroup
-            //
+            // 
             this._headerGroup.Controls.Add(this._headerLayout);
             this._headerGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this._headerGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
@@ -187,9 +187,9 @@ namespace BRCSISTEM.Desktop.Views
             this._headerGroup.TabIndex = 0;
             this._headerGroup.TabStop = false;
             this._headerGroup.Text = "Dados da Nota";
-            //
+            // 
             // _headerLayout
-            //
+            // 
             this._headerLayout.ColumnCount = 1;
             this._headerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._headerLayout.Controls.Add(this._headerLine1, 0, 0);
@@ -202,21 +202,21 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this._headerLayout.Size = new System.Drawing.Size(1059, 75);
             this._headerLayout.TabIndex = 0;
-            //
+            // 
             // _headerLine1
-            //
+            // 
             this._headerLine1.ColumnCount = 15;
-            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -240,186 +240,154 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._headerLine1.Size = new System.Drawing.Size(1053, 28);
             this._headerLine1.TabIndex = 0;
-            //
+            // 
             // _numberLabel
-            //
-            this._numberLabel.AutoSize = false;
+            // 
             this._numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._numberLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._numberLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._numberLabel.Location = new System.Drawing.Point(3, 0);
-            this._numberLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this._numberLabel.Name = "_numberLabel";
-            this._numberLabel.Size = new System.Drawing.Size(49, 28);
+            this._numberLabel.Size = new System.Drawing.Size(56, 28);
             this._numberLabel.TabIndex = 0;
             this._numberLabel.Text = "No Nota:";
             this._numberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _numberTextBox
-            //
+            // 
             this._numberTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._numberTextBox.AutoSize = false;
             this._numberTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._numberTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._numberTextBox.Location = new System.Drawing.Point(58, 3);
-            this._numberTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._numberTextBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._numberTextBox.Location = new System.Drawing.Point(65, 3);
+            this._numberTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._numberTextBox.Name = "_numberTextBox";
-            this._numberTextBox.Size = new System.Drawing.Size(104, 23);
+            this._numberTextBox.Size = new System.Drawing.Size(97, 23);
             this._numberTextBox.TabIndex = 1;
-            //
+            // 
             // _btnNumberLookup
-            //
+            // 
             this._btnNumberLookup.AccessibleName = "Buscar nota";
             this._btnNumberLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnNumberLookup.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnNumberLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnNumberLookup.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._btnNumberLookup.Location = new System.Drawing.Point(167, 2);
-            this._btnNumberLookup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnNumberLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnNumberLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnNumberLookup.Name = "_btnNumberLookup";
-            this._btnNumberLookup.Padding = new System.Windows.Forms.Padding(0);
             this._btnNumberLookup.Size = new System.Drawing.Size(26, 24);
             this._btnNumberLookup.TabIndex = 2;
             this._btnNumberLookup.UseVisualStyleBackColor = true;
-            //
+            // 
             // _supplierLabel
-            //
-            this._supplierLabel.AutoSize = false;
+            // 
             this._supplierLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._supplierLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._supplierLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._supplierLabel.Location = new System.Drawing.Point(214, 0);
-            this._supplierLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this._supplierLabel.Location = new System.Drawing.Point(210, 0);
             this._supplierLabel.Name = "_supplierLabel";
-            this._supplierLabel.Size = new System.Drawing.Size(66, 28);
+            this._supplierLabel.Size = new System.Drawing.Size(69, 28);
             this._supplierLabel.TabIndex = 3;
             this._supplierLabel.Text = "Fornecedor:";
             this._supplierLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _supplierComboBox
-            //
+            // 
             this._supplierComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._supplierComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._supplierComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._supplierComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._supplierComboBox.Location = new System.Drawing.Point(286, 3);
-            this._supplierComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._supplierComboBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._supplierComboBox.Location = new System.Drawing.Point(285, 3);
             this._supplierComboBox.Name = "_supplierComboBox";
-            this._supplierComboBox.Size = new System.Drawing.Size(161, 23);
+            this._supplierComboBox.Size = new System.Drawing.Size(249, 21);
             this._supplierComboBox.TabIndex = 4;
-            //
+            // 
             // _btnSupplierRefresh
-            //
+            // 
             this._btnSupplierRefresh.AccessibleName = "Atualizar";
             this._btnSupplierRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnSupplierRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnSupplierRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnSupplierRefresh.Location = new System.Drawing.Point(452, 2);
-            this._btnSupplierRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnSupplierRefresh.Location = new System.Drawing.Point(539, 2);
+            this._btnSupplierRefresh.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierRefresh.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierRefresh.Name = "_btnSupplierRefresh";
-            this._btnSupplierRefresh.Padding = new System.Windows.Forms.Padding(0);
             this._btnSupplierRefresh.Size = new System.Drawing.Size(26, 24);
             this._btnSupplierRefresh.TabIndex = 5;
             this._btnSupplierRefresh.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnSupplierLookup
-            //
+            // 
             this._btnSupplierLookup.AccessibleName = "Buscar";
             this._btnSupplierLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnSupplierLookup.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnSupplierLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierLookup.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnSupplierLookup.Location = new System.Drawing.Point(482, 2);
-            this._btnSupplierLookup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnSupplierLookup.Location = new System.Drawing.Point(569, 2);
+            this._btnSupplierLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierLookup.Name = "_btnSupplierLookup";
-            this._btnSupplierLookup.Padding = new System.Windows.Forms.Padding(0);
             this._btnSupplierLookup.Size = new System.Drawing.Size(26, 24);
             this._btnSupplierLookup.TabIndex = 6;
             this._btnSupplierLookup.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnSupplierNew
-            //
+            // 
             this._btnSupplierNew.AccessibleName = "Novo fornecedor";
             this._btnSupplierNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnSupplierNew.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnSupplierNew.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierNew.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnSupplierNew.Location = new System.Drawing.Point(512, 2);
-            this._btnSupplierNew.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnSupplierNew.Location = new System.Drawing.Point(599, 2);
+            this._btnSupplierNew.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierNew.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierNew.Name = "_btnSupplierNew";
-            this._btnSupplierNew.Padding = new System.Windows.Forms.Padding(0);
             this._btnSupplierNew.Size = new System.Drawing.Size(26, 24);
             this._btnSupplierNew.TabIndex = 7;
             this._btnSupplierNew.UseVisualStyleBackColor = true;
-            //
+            // 
             // _warehouseLabel
-            //
-            this._warehouseLabel.AutoSize = false;
+            // 
             this._warehouseLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._warehouseLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._warehouseLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._warehouseLabel.Location = new System.Drawing.Point(554, 0);
-            this._warehouseLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this._warehouseLabel.Location = new System.Drawing.Point(642, 0);
             this._warehouseLabel.Name = "_warehouseLabel";
-            this._warehouseLabel.Size = new System.Drawing.Size(79, 28);
+            this._warehouseLabel.Size = new System.Drawing.Size(87, 28);
             this._warehouseLabel.TabIndex = 8;
             this._warehouseLabel.Text = "Almoxarifado:";
             this._warehouseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _warehouseComboBox
-            //
+            // 
             this._warehouseComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._warehouseComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._warehouseComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._warehouseComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._warehouseComboBox.Location = new System.Drawing.Point(639, 3);
-            this._warehouseComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._warehouseComboBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._warehouseComboBox.Location = new System.Drawing.Point(735, 3);
             this._warehouseComboBox.Name = "_warehouseComboBox";
-            this._warehouseComboBox.Size = new System.Drawing.Size(347, 23);
+            this._warehouseComboBox.Size = new System.Drawing.Size(249, 21);
             this._warehouseComboBox.TabIndex = 9;
-            //
+            // 
             // _btnWarehouseRefresh
-            //
+            // 
             this._btnWarehouseRefresh.AccessibleName = "Atualizar";
             this._btnWarehouseRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnWarehouseRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnWarehouseRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnWarehouseRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnWarehouseRefresh.Location = new System.Drawing.Point(991, 2);
-            this._btnWarehouseRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnWarehouseRefresh.Location = new System.Drawing.Point(989, 2);
+            this._btnWarehouseRefresh.Margin = new System.Windows.Forms.Padding(2);
             this._btnWarehouseRefresh.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnWarehouseRefresh.Name = "_btnWarehouseRefresh";
-            this._btnWarehouseRefresh.Padding = new System.Windows.Forms.Padding(0);
             this._btnWarehouseRefresh.Size = new System.Drawing.Size(26, 24);
             this._btnWarehouseRefresh.TabIndex = 10;
             this._btnWarehouseRefresh.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnWarehouseLookup
-            //
+            // 
             this._btnWarehouseLookup.AccessibleName = "Buscar";
             this._btnWarehouseLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnWarehouseLookup.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnWarehouseLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnWarehouseLookup.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnWarehouseLookup.Location = new System.Drawing.Point(1021, 2);
-            this._btnWarehouseLookup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnWarehouseLookup.Location = new System.Drawing.Point(1019, 2);
+            this._btnWarehouseLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnWarehouseLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnWarehouseLookup.Name = "_btnWarehouseLookup";
-            this._btnWarehouseLookup.Padding = new System.Windows.Forms.Padding(0);
             this._btnWarehouseLookup.Size = new System.Drawing.Size(26, 24);
             this._btnWarehouseLookup.TabIndex = 11;
             this._btnWarehouseLookup.UseVisualStyleBackColor = true;
-            //
+            // 
             // _headerLine2
-            //
+            // 
             this._headerLine2.ColumnCount = 6;
             this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this._headerLine2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
@@ -437,82 +405,72 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine2.Name = "_headerLine2";
             this._headerLine2.RowCount = 1;
             this._headerLine2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._headerLine2.Size = new System.Drawing.Size(1053, 28);
+            this._headerLine2.Size = new System.Drawing.Size(1053, 35);
             this._headerLine2.TabIndex = 1;
-            //
+            // 
             // _emissionDateLabel
-            //
-            this._emissionDateLabel.AutoSize = false;
+            // 
             this._emissionDateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._emissionDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._emissionDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._emissionDateLabel.Location = new System.Drawing.Point(3, 0);
-            this._emissionDateLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this._emissionDateLabel.Name = "_emissionDateLabel";
-            this._emissionDateLabel.Size = new System.Drawing.Size(84, 28);
+            this._emissionDateLabel.Size = new System.Drawing.Size(84, 35);
             this._emissionDateLabel.TabIndex = 0;
             this._emissionDateLabel.Text = "Data Emissao:";
             this._emissionDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _emissionDateTextBox
-            //
+            // 
             this._emissionDateTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._emissionDateTextBox.AutoSize = false;
             this._emissionDateTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._emissionDateTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._emissionDateTextBox.Location = new System.Drawing.Point(93, 3);
-            this._emissionDateTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._emissionDateTextBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._emissionDateTextBox.Location = new System.Drawing.Point(93, 6);
+            this._emissionDateTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._emissionDateTextBox.Name = "_emissionDateTextBox";
             this._emissionDateTextBox.Size = new System.Drawing.Size(104, 23);
             this._emissionDateTextBox.TabIndex = 1;
-            //
+            // 
             // _receiptDateLabel
-            //
-            this._receiptDateLabel.AutoSize = false;
+            // 
             this._receiptDateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._receiptDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._receiptDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._receiptDateLabel.Location = new System.Drawing.Point(223, 0);
-            this._receiptDateLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this._receiptDateLabel.Name = "_receiptDateLabel";
-            this._receiptDateLabel.Size = new System.Drawing.Size(136, 28);
+            this._receiptDateLabel.Size = new System.Drawing.Size(136, 35);
             this._receiptDateLabel.TabIndex = 2;
             this._receiptDateLabel.Text = "Data/Hora Recebimento:";
             this._receiptDateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _receiptDateTimeTextBox
-            //
+            // 
             this._receiptDateTimeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._receiptDateTimeTextBox.AutoSize = false;
             this._receiptDateTimeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._receiptDateTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._receiptDateTimeTextBox.Location = new System.Drawing.Point(365, 3);
-            this._receiptDateTimeTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._receiptDateTimeTextBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._receiptDateTimeTextBox.Location = new System.Drawing.Point(365, 6);
+            this._receiptDateTimeTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._receiptDateTimeTextBox.Name = "_receiptDateTimeTextBox";
             this._receiptDateTimeTextBox.Size = new System.Drawing.Size(144, 23);
             this._receiptDateTimeTextBox.TabIndex = 3;
-            //
+            // 
             // _statusLabel
-            //
-            this._statusLabel.AutoSize = false;
+            // 
             this._statusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._statusLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._statusLabel.ForeColor = System.Drawing.Color.SeaGreen;
             this._statusLabel.Location = new System.Drawing.Point(515, 0);
-            this._statusLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this._statusLabel.Name = "_statusLabel";
-            this._statusLabel.Size = new System.Drawing.Size(535, 28);
+            this._statusLabel.Size = new System.Drawing.Size(535, 35);
             this._statusLabel.TabIndex = 4;
             this._statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _itemGroup
-            //
+            // 
             this._itemGroup.Controls.Add(this._itemLayout);
             this._itemGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this._itemGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this._itemGroup.Location = new System.Drawing.Point(9, 120);
+            this._itemGroup.Location = new System.Drawing.Point(9, 129);
             this._itemGroup.Margin = new System.Windows.Forms.Padding(0, 0, 0, 9);
             this._itemGroup.Name = "_itemGroup";
             this._itemGroup.Padding = new System.Windows.Forms.Padding(10, 9, 10, 9);
@@ -520,9 +478,9 @@ namespace BRCSISTEM.Desktop.Views
             this._itemGroup.TabIndex = 1;
             this._itemGroup.TabStop = false;
             this._itemGroup.Text = "Adicionar / Editar Item";
-            //
+            // 
             // _itemLayout
-            //
+            // 
             this._itemLayout.ColumnCount = 1;
             this._itemLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._itemLayout.Controls.Add(this._itemMainLine, 0, 0);
@@ -533,30 +491,30 @@ namespace BRCSISTEM.Desktop.Views
             this._itemLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._itemLayout.Size = new System.Drawing.Size(1059, 41);
             this._itemLayout.TabIndex = 0;
-            //
+            // 
             // _itemMainLine
-            //
+            // 
             this._itemMainLine.ColumnCount = 20;
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 56F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this._itemMainLine.Controls.Add(this._materialLabel, 0, 0);
             this._itemMainLine.Controls.Add(this._materialComboBox, 1, 0);
             this._itemMainLine.Controls.Add(this._btnMaterialRefresh, 2, 0);
@@ -581,301 +539,240 @@ namespace BRCSISTEM.Desktop.Views
             this._itemMainLine.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._itemMainLine.Size = new System.Drawing.Size(1053, 35);
             this._itemMainLine.TabIndex = 0;
-            //
+            // 
             // _materialLabel
-            //
-            this._materialLabel.AutoSize = false;
+            // 
             this._materialLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._materialLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._materialLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._materialLabel.Location = new System.Drawing.Point(3, 0);
-            this._materialLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this._materialLabel.Name = "_materialLabel";
-            this._materialLabel.Size = new System.Drawing.Size(49, 35);
+            this._materialLabel.Size = new System.Drawing.Size(58, 35);
             this._materialLabel.TabIndex = 0;
             this._materialLabel.Text = "Material:";
             this._materialLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _materialComboBox
-            //
+            // 
             this._materialComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._materialComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._materialComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._materialComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._materialComboBox.Location = new System.Drawing.Point(58, 6);
-            this._materialComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._materialComboBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._materialComboBox.Location = new System.Drawing.Point(67, 7);
             this._materialComboBox.Name = "_materialComboBox";
-            this._materialComboBox.Size = new System.Drawing.Size(302, 23);
+            this._materialComboBox.Size = new System.Drawing.Size(187, 21);
             this._materialComboBox.TabIndex = 1;
-            //
+            // 
             // _btnMaterialRefresh
-            //
+            // 
             this._btnMaterialRefresh.AccessibleName = "Atualizar";
             this._btnMaterialRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnMaterialRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnMaterialRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnMaterialRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnMaterialRefresh.Location = new System.Drawing.Point(365, 5);
-            this._btnMaterialRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnMaterialRefresh.Location = new System.Drawing.Point(259, 5);
+            this._btnMaterialRefresh.Margin = new System.Windows.Forms.Padding(2);
             this._btnMaterialRefresh.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnMaterialRefresh.Name = "_btnMaterialRefresh";
-            this._btnMaterialRefresh.Padding = new System.Windows.Forms.Padding(0);
             this._btnMaterialRefresh.Size = new System.Drawing.Size(26, 24);
             this._btnMaterialRefresh.TabIndex = 2;
             this._btnMaterialRefresh.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnMaterialLookup
-            //
+            // 
             this._btnMaterialLookup.AccessibleName = "Buscar";
             this._btnMaterialLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnMaterialLookup.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnMaterialLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnMaterialLookup.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnMaterialLookup.Location = new System.Drawing.Point(395, 5);
-            this._btnMaterialLookup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnMaterialLookup.Location = new System.Drawing.Point(289, 5);
+            this._btnMaterialLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnMaterialLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnMaterialLookup.Name = "_btnMaterialLookup";
-            this._btnMaterialLookup.Padding = new System.Windows.Forms.Padding(0);
             this._btnMaterialLookup.Size = new System.Drawing.Size(26, 24);
             this._btnMaterialLookup.TabIndex = 3;
             this._btnMaterialLookup.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnMaterialNew
-            //
+            // 
             this._btnMaterialNew.AccessibleName = "Nova embalagem";
             this._btnMaterialNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnMaterialNew.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnMaterialNew.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnMaterialNew.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnMaterialNew.Location = new System.Drawing.Point(425, 5);
-            this._btnMaterialNew.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnMaterialNew.Location = new System.Drawing.Point(319, 5);
+            this._btnMaterialNew.Margin = new System.Windows.Forms.Padding(2);
             this._btnMaterialNew.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnMaterialNew.Name = "_btnMaterialNew";
-            this._btnMaterialNew.Padding = new System.Windows.Forms.Padding(0);
             this._btnMaterialNew.Size = new System.Drawing.Size(26, 24);
             this._btnMaterialNew.TabIndex = 4;
             this._btnMaterialNew.UseVisualStyleBackColor = true;
-            //
+            // 
             // _lotLabel
-            //
-            this._lotLabel.AutoSize = false;
+            // 
             this._lotLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lotLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._lotLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._lotLabel.Location = new System.Drawing.Point(470, 0);
-            this._lotLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this._lotLabel.Location = new System.Drawing.Point(362, 0);
             this._lotLabel.Name = "_lotLabel";
-            this._lotLabel.Size = new System.Drawing.Size(30, 35);
+            this._lotLabel.Size = new System.Drawing.Size(33, 35);
             this._lotLabel.TabIndex = 5;
             this._lotLabel.Text = "Lote:";
             this._lotLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _lotComboBox
-            //
+            // 
             this._lotComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._lotComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lotComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._lotComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._lotComboBox.Location = new System.Drawing.Point(506, 6);
-            this._lotComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._lotComboBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._lotComboBox.Location = new System.Drawing.Point(401, 7);
             this._lotComboBox.Name = "_lotComboBox";
-            this._lotComboBox.Size = new System.Drawing.Size(302, 23);
+            this._lotComboBox.Size = new System.Drawing.Size(187, 21);
             this._lotComboBox.TabIndex = 6;
-            //
+            // 
             // _btnLotRefresh
-            //
+            // 
             this._btnLotRefresh.AccessibleName = "Atualizar";
             this._btnLotRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnLotRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnLotRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnLotRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnLotRefresh.Location = new System.Drawing.Point(813, 5);
-            this._btnLotRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnLotRefresh.Location = new System.Drawing.Point(593, 5);
+            this._btnLotRefresh.Margin = new System.Windows.Forms.Padding(2);
             this._btnLotRefresh.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnLotRefresh.Name = "_btnLotRefresh";
-            this._btnLotRefresh.Padding = new System.Windows.Forms.Padding(0);
-            this._btnLotRefresh.Size = new System.Drawing.Size(26, 24);
+            this._btnLotRefresh.Size = new System.Drawing.Size(29, 24);
             this._btnLotRefresh.TabIndex = 7;
             this._btnLotRefresh.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnLotLookup
-            //
+            // 
             this._btnLotLookup.AccessibleName = "Buscar";
             this._btnLotLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnLotLookup.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnLotLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnLotLookup.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnLotLookup.Location = new System.Drawing.Point(843, 5);
-            this._btnLotLookup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnLotLookup.Location = new System.Drawing.Point(626, 5);
+            this._btnLotLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnLotLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnLotLookup.Name = "_btnLotLookup";
-            this._btnLotLookup.Padding = new System.Windows.Forms.Padding(0);
-            this._btnLotLookup.Size = new System.Drawing.Size(26, 24);
+            this._btnLotLookup.Size = new System.Drawing.Size(29, 24);
             this._btnLotLookup.TabIndex = 8;
             this._btnLotLookup.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnLotNew
-            //
+            // 
             this._btnLotNew.AccessibleName = "Novo lote";
             this._btnLotNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnLotNew.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnLotNew.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnLotNew.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnLotNew.Location = new System.Drawing.Point(873, 5);
-            this._btnLotNew.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnLotNew.Location = new System.Drawing.Point(659, 5);
+            this._btnLotNew.Margin = new System.Windows.Forms.Padding(2);
             this._btnLotNew.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnLotNew.Name = "_btnLotNew";
-            this._btnLotNew.Padding = new System.Windows.Forms.Padding(0);
-            this._btnLotNew.Size = new System.Drawing.Size(26, 24);
+            this._btnLotNew.Size = new System.Drawing.Size(27, 24);
             this._btnLotNew.TabIndex = 9;
             this._btnLotNew.UseVisualStyleBackColor = true;
-            //
+            // 
             // _quantityLabel
-            //
-            this._quantityLabel.AutoSize = false;
+            // 
             this._quantityLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._quantityLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._quantityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._quantityLabel.Location = new System.Drawing.Point(915, 0);
-            this._quantityLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this._quantityLabel.Location = new System.Drawing.Point(709, 0);
             this._quantityLabel.Name = "_quantityLabel";
-            this._quantityLabel.Size = new System.Drawing.Size(66, 35);
+            this._quantityLabel.Size = new System.Drawing.Size(72, 35);
             this._quantityLabel.TabIndex = 10;
             this._quantityLabel.Text = "Quantidade:";
             this._quantityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            //
+            // 
             // _quantityTextBox
-            //
+            // 
             this._quantityTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._quantityTextBox.AutoSize = false;
             this._quantityTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._quantityTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._quantityTextBox.Location = new System.Drawing.Point(990, 6);
-            this._quantityTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this._quantityTextBox.MinimumSize = new System.Drawing.Size(0, 23);
+            this._quantityTextBox.Location = new System.Drawing.Point(787, 6);
+            this._quantityTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._quantityTextBox.Name = "_quantityTextBox";
-            this._quantityTextBox.Size = new System.Drawing.Size(64, 23);
+            this._quantityTextBox.Size = new System.Drawing.Size(67, 23);
             this._quantityTextBox.TabIndex = 11;
             this._quantityTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            //
+            // 
             // _actionsLabel
-            //
-            this._actionsLabel.AutoSize = false;
+            // 
             this._actionsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._actionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._actionsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this._actionsLabel.Location = new System.Drawing.Point(1069, 0);
-            this._actionsLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this._actionsLabel.Location = new System.Drawing.Point(877, 0);
             this._actionsLabel.Name = "_actionsLabel";
-            this._actionsLabel.Size = new System.Drawing.Size(39, 35);
+            this._actionsLabel.Size = new System.Drawing.Size(50, 35);
             this._actionsLabel.TabIndex = 12;
             this._actionsLabel.Text = "Acoes:";
             this._actionsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
             // _btnItemAdd
-            //
+            // 
             this._btnItemAdd.AccessibleName = "Adicionar";
             this._btnItemAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnItemAdd.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnItemAdd.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnItemAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnItemAdd.Location = new System.Drawing.Point(1114, 5);
-            this._btnItemAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnItemAdd.Location = new System.Drawing.Point(932, 5);
+            this._btnItemAdd.Margin = new System.Windows.Forms.Padding(2);
             this._btnItemAdd.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnItemAdd.Name = "_btnItemAdd";
-            this._btnItemAdd.Padding = new System.Windows.Forms.Padding(0);
-            this._btnItemAdd.Size = new System.Drawing.Size(26, 24);
+            this._btnItemAdd.Size = new System.Drawing.Size(27, 24);
             this._btnItemAdd.TabIndex = 13;
             this._btnItemAdd.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnItemEdit
-            //
+            // 
             this._btnItemEdit.AccessibleName = "Editar";
             this._btnItemEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnItemEdit.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnItemEdit.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnItemEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnItemEdit.Location = new System.Drawing.Point(1144, 5);
-            this._btnItemEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnItemEdit.Location = new System.Drawing.Point(963, 5);
+            this._btnItemEdit.Margin = new System.Windows.Forms.Padding(2);
             this._btnItemEdit.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnItemEdit.Name = "_btnItemEdit";
-            this._btnItemEdit.Padding = new System.Windows.Forms.Padding(0);
             this._btnItemEdit.Size = new System.Drawing.Size(26, 24);
             this._btnItemEdit.TabIndex = 14;
             this._btnItemEdit.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnItemRemove
-            //
+            // 
             this._btnItemRemove.AccessibleName = "Remover";
             this._btnItemRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnItemRemove.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnItemRemove.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnItemRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnItemRemove.Location = new System.Drawing.Point(1174, 5);
-            this._btnItemRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnItemRemove.Location = new System.Drawing.Point(993, 5);
+            this._btnItemRemove.Margin = new System.Windows.Forms.Padding(2);
             this._btnItemRemove.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnItemRemove.Name = "_btnItemRemove";
-            this._btnItemRemove.Padding = new System.Windows.Forms.Padding(0);
             this._btnItemRemove.Size = new System.Drawing.Size(26, 24);
             this._btnItemRemove.TabIndex = 15;
             this._btnItemRemove.UseVisualStyleBackColor = true;
-            //
+            // 
             // _btnItemClear
-            //
+            // 
             this._btnItemClear.AccessibleName = "Limpar item";
             this._btnItemClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnItemClear.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this._btnItemClear.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnItemClear.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnItemClear.Location = new System.Drawing.Point(1204, 5);
-            this._btnItemClear.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._btnItemClear.Location = new System.Drawing.Point(1023, 5);
+            this._btnItemClear.Margin = new System.Windows.Forms.Padding(2);
             this._btnItemClear.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnItemClear.Name = "_btnItemClear";
-            this._btnItemClear.Padding = new System.Windows.Forms.Padding(0);
-            this._btnItemClear.Size = new System.Drawing.Size(26, 24);
+            this._btnItemClear.Size = new System.Drawing.Size(28, 24);
             this._btnItemClear.TabIndex = 16;
             this._btnItemClear.UseVisualStyleBackColor = true;
-            //
-            // _brcLabel
-            //
-            this._brcLabel.AutoSize = false;
-            this._brcLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._brcLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this._brcLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this._brcLabel.Location = new System.Drawing.Point(0, 0);
-            this._brcLabel.Margin = new System.Windows.Forms.Padding(0);
-            this._brcLabel.Name = "_brcLabel";
-            this._brcLabel.Size = new System.Drawing.Size(1, 1);
-            this._brcLabel.TabIndex = 17;
-            this._brcLabel.Text = "BRC: -";
-            this._brcLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._brcLabel.Visible = false;
-            //
+            // 
             // _gridGroup
-            //
+            // 
             this._gridGroup.Controls.Add(this._itemsGrid);
             this._gridGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this._gridGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this._gridGroup.Location = new System.Drawing.Point(9, 206);
+            this._gridGroup.Location = new System.Drawing.Point(9, 215);
             this._gridGroup.Margin = new System.Windows.Forms.Padding(0, 0, 0, 9);
             this._gridGroup.Name = "_gridGroup";
-            this._gridGroup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this._gridGroup.Size = new System.Drawing.Size(1079, 350);
+            this._gridGroup.Padding = new System.Windows.Forms.Padding(5);
+            this._gridGroup.Size = new System.Drawing.Size(1079, 341);
             this._gridGroup.TabIndex = 2;
             this._gridGroup.TabStop = false;
             this._gridGroup.Text = "Itens lancados";
-            //
+            // 
             // _itemsGrid
-            //
+            // 
             this._itemsGrid.AllowUserToAddRows = false;
             this._itemsGrid.AllowUserToDeleteRows = false;
             this._itemsGrid.AllowUserToResizeRows = false;
             this._itemsGrid.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._itemsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this._itemsGrid.ColumnHeadersHeight = 26;
             this._itemsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -889,11 +786,11 @@ namespace BRCSISTEM.Desktop.Views
             this._itemsGrid.ReadOnly = true;
             this._itemsGrid.RowHeadersVisible = false;
             this._itemsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._itemsGrid.Size = new System.Drawing.Size(1069, 322);
+            this._itemsGrid.Size = new System.Drawing.Size(1069, 313);
             this._itemsGrid.TabIndex = 0;
-            //
+            // 
             // _footerLayout
-            //
+            // 
             this._footerLayout.ColumnCount = 3;
             this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._footerLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -909,9 +806,9 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._footerLayout.Size = new System.Drawing.Size(1073, 44);
             this._footerLayout.TabIndex = 3;
-            //
+            // 
             // _footerLeftPanel
-            //
+            // 
             this._footerLeftPanel.AutoSize = true;
             this._footerLeftPanel.Controls.Add(this._saveButton);
             this._footerLeftPanel.Controls.Add(this._updateButton);
@@ -921,14 +818,12 @@ namespace BRCSISTEM.Desktop.Views
             this._footerLeftPanel.Location = new System.Drawing.Point(0, 9);
             this._footerLeftPanel.Margin = new System.Windows.Forms.Padding(0);
             this._footerLeftPanel.Name = "_footerLeftPanel";
-            this._footerLeftPanel.Size = new System.Drawing.Size(610, 35);
+            this._footerLeftPanel.Size = new System.Drawing.Size(605, 35);
             this._footerLeftPanel.TabIndex = 0;
             this._footerLeftPanel.WrapContents = false;
-            //
+            // 
             // _saveButton
-            //
-            this._saveButton.AutoSize = false;
-            this._saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            // 
             this._saveButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._saveButton.Location = new System.Drawing.Point(5, 2);
@@ -938,13 +833,10 @@ namespace BRCSISTEM.Desktop.Views
             this._saveButton.Size = new System.Drawing.Size(150, 30);
             this._saveButton.TabIndex = 0;
             this._saveButton.Text = "Salvar Nota (F2)";
-            this._saveButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._saveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            //
+            // 
             // _updateButton
-            //
-            this._updateButton.AutoSize = false;
-            this._updateButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            // 
             this._updateButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._updateButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._updateButton.Location = new System.Drawing.Point(165, 2);
@@ -954,13 +846,10 @@ namespace BRCSISTEM.Desktop.Views
             this._updateButton.Size = new System.Drawing.Size(130, 30);
             this._updateButton.TabIndex = 1;
             this._updateButton.Text = "Alterar (F3)";
-            this._updateButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._updateButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            //
+            // 
             // _clearButton
-            //
-            this._clearButton.AutoSize = false;
-            this._clearButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            // 
             this._clearButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._clearButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._clearButton.Location = new System.Drawing.Point(305, 2);
@@ -970,13 +859,10 @@ namespace BRCSISTEM.Desktop.Views
             this._clearButton.Size = new System.Drawing.Size(120, 30);
             this._clearButton.TabIndex = 2;
             this._clearButton.Text = "Limpar (F5)";
-            this._clearButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._clearButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            //
+            // 
             // _cancelButton
-            //
-            this._cancelButton.AutoSize = false;
-            this._cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            // 
             this._cancelButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._cancelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._cancelButton.Location = new System.Drawing.Point(435, 2);
@@ -986,23 +872,22 @@ namespace BRCSISTEM.Desktop.Views
             this._cancelButton.Size = new System.Drawing.Size(165, 30);
             this._cancelButton.TabIndex = 3;
             this._cancelButton.Text = "Cancelar Nota (F6)";
-            this._cancelButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._cancelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            //
+            // 
             // _itemCountLabel
-            //
+            // 
             this._itemCountLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._itemCountLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._itemCountLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._itemCountLabel.Location = new System.Drawing.Point(613, 9);
+            this._itemCountLabel.Location = new System.Drawing.Point(608, 9);
             this._itemCountLabel.Name = "_itemCountLabel";
-            this._itemCountLabel.Size = new System.Drawing.Size(340, 35);
+            this._itemCountLabel.Size = new System.Drawing.Size(342, 35);
             this._itemCountLabel.TabIndex = 1;
             this._itemCountLabel.Text = "Itens na nota: 0";
             this._itemCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
             // _footerRightPanel
-            //
+            // 
             this._footerRightPanel.AutoSize = true;
             this._footerRightPanel.Controls.Add(this._closeButton);
             this._footerRightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1013,11 +898,9 @@ namespace BRCSISTEM.Desktop.Views
             this._footerRightPanel.Size = new System.Drawing.Size(120, 35);
             this._footerRightPanel.TabIndex = 2;
             this._footerRightPanel.WrapContents = false;
-            //
+            // 
             // _closeButton
-            //
-            this._closeButton.AutoSize = false;
-            this._closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            // 
             this._closeButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._closeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._closeButton.Location = new System.Drawing.Point(5, 2);
@@ -1027,11 +910,24 @@ namespace BRCSISTEM.Desktop.Views
             this._closeButton.Size = new System.Drawing.Size(110, 30);
             this._closeButton.TabIndex = 0;
             this._closeButton.Text = "Fechar (F4)";
-            this._closeButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._closeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            //
+            // 
+            // _brcLabel
+            // 
+            this._brcLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._brcLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._brcLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this._brcLabel.Location = new System.Drawing.Point(0, 0);
+            this._brcLabel.Margin = new System.Windows.Forms.Padding(0);
+            this._brcLabel.Name = "_brcLabel";
+            this._brcLabel.Size = new System.Drawing.Size(1, 1);
+            this._brcLabel.TabIndex = 17;
+            this._brcLabel.Text = "BRC: -";
+            this._brcLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._brcLabel.Visible = false;
+            // 
             // MovimentacaoEntradaForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -1048,13 +944,10 @@ namespace BRCSISTEM.Desktop.Views
             this._headerGroup.ResumeLayout(false);
             this._headerLayout.ResumeLayout(false);
             this._headerLine1.ResumeLayout(false);
-            this._headerLine1.PerformLayout();
             this._headerLine2.ResumeLayout(false);
-            this._headerLine2.PerformLayout();
             this._itemGroup.ResumeLayout(false);
             this._itemLayout.ResumeLayout(false);
             this._itemMainLine.ResumeLayout(false);
-            this._itemMainLine.PerformLayout();
             this._gridGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._itemsGrid)).EndInit();
             this._footerLayout.ResumeLayout(false);

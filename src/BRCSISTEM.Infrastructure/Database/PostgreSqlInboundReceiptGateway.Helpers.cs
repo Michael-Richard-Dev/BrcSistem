@@ -106,17 +106,30 @@ namespace BRCSISTEM.Infrastructure.Database
             using (var command = connection.CreateCommand())
             {
                 command.Transaction = transaction;
+
                 command.CommandText = @"
-                    UPDATE registro_bloqueios
-                       SET ativo = FALSE,
-                           data_liberacao = CURRENT_TIMESTAMP,
-                           dt_hr_alteracao = CURRENT_TIMESTAMP
-                     WHERE tabela = 'notas'
-                       AND registro_chave = @chave
-                       AND ativo = TRUE
-                       AND (@usuario IS NULL OR UPPER(usuario) = UPPER(@usuario))";
+            UPDATE registro_bloqueios
+               SET ativo = FALSE,
+                   data_liberacao = CURRENT_TIMESTAMP,
+                   dt_hr_alteracao = CURRENT_TIMESTAMP
+             WHERE tabela = 'notas'
+               AND registro_chave = @chave
+               AND ativo = TRUE";
+
                 command.Parameters.Add(CreateParameter(command, "@chave", BuildLockKey(number, supplierCode)));
-                command.Parameters.Add(CreateParameter(command, "@usuario", string.IsNullOrWhiteSpace(userName) ? (object)DBNull.Value : userName));
+
+                if (!string.IsNullOrWhiteSpace(userName))
+                {
+                    command.CommandText += @"
+               AND UPPER(usuario) = UPPER(@usuario)";
+
+                    var usuarioParameter = command.CreateParameter();
+                    usuarioParameter.ParameterName = "@usuario";
+                    usuarioParameter.DbType = System.Data.DbType.String;
+                    usuarioParameter.Value = userName;
+                    command.Parameters.Add(usuarioParameter);
+                }
+
                 command.ExecuteNonQuery();
             }
 
@@ -129,18 +142,19 @@ namespace BRCSISTEM.Infrastructure.Database
             {
                 command.Transaction = transaction;
                 command.CommandText = @"
-                    UPDATE notas
-                       SET bloqueado_por = NULL,
-                           bloqueado_em = NULL,
-                           dt_hr_alteracao = @agora
-                     WHERE numero = @numero
-                       AND fornecedor = @fornecedor
-                       AND versao = (
-                           SELECT MAX(versao)
-                           FROM notas x
-                           WHERE x.numero = @numero
-                             AND x.fornecedor = @fornecedor
-                       )";
+            UPDATE notas
+               SET bloqueado_por = NULL,
+                   bloqueado_em = NULL,
+                   dt_hr_alteracao = @agora
+             WHERE numero = @numero
+               AND fornecedor = @fornecedor
+               AND versao = (
+                   SELECT MAX(versao)
+                   FROM notas x
+                   WHERE x.numero = @numero
+                     AND x.fornecedor = @fornecedor
+               )";
+
                 command.Parameters.Add(CreateParameter(command, "@agora", NowText()));
                 command.Parameters.Add(CreateParameter(command, "@numero", number));
                 command.Parameters.Add(CreateParameter(command, "@fornecedor", supplierCode));

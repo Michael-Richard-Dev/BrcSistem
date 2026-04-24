@@ -148,6 +148,7 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
+            _itemsGrid.AutoGenerateColumns = false;
             _itemsGrid.Columns.Clear();
 
             var colItem = new DataGridViewTextBoxColumn
