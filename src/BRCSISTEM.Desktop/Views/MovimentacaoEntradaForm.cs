@@ -23,6 +23,7 @@ namespace BRCSISTEM.Desktop.Views
         private readonly ConfigurationController _configurationController;
         private readonly UserIdentity _identity;
         private readonly DatabaseProfile _databaseProfile;
+        private readonly bool _isDesignerInstance;
 
         private AppConfiguration _configuration;
         private LookupOption[] _supplierOptions;
@@ -61,6 +62,7 @@ namespace BRCSISTEM.Desktop.Views
             _compositionRoot = compositionRoot;
             _identity = identity;
             _databaseProfile = databaseProfile;
+            _isDesignerInstance = designerCtor;
 
             if (!designerCtor)
             {
@@ -85,6 +87,7 @@ namespace BRCSISTEM.Desktop.Views
 
             if (!IsDesignModeActive)
             {
+                WireRuntimeEvents();
                 ApplyActionIcons();
             }
         }
@@ -94,9 +97,48 @@ namespace BRCSISTEM.Desktop.Views
             get
             {
                 return LicenseManager.UsageMode == LicenseUsageMode.Designtime
+                    || _isDesignerInstance
                     || DesignMode
                     || (Site != null && Site.DesignMode);
             }
+        }
+
+        private void WireRuntimeEvents()
+        {
+            Load += OnFormLoad;
+            FormClosing += OnFormClosingHandler;
+            KeyDown += OnFormKeyDown;
+
+            _numberTextBox.TextChanged += OnNumberTextChanged;
+            _supplierComboBox.SelectedIndexChanged += OnSupplierComboChanged;
+            _materialComboBox.SelectedIndexChanged += OnMaterialComboChanged;
+            _emissionDateTextBox.Leave += OnEmissionDateLeave;
+            _receiptDateTimeTextBox.Leave += OnReceiptDateLeave;
+            _itemsGrid.CellDoubleClick += OnItemsGridCellDoubleClick;
+
+            _btnNumberLookup.Click += OnBtnNumberLookupClick;
+            _btnSupplierRefresh.Click += OnBtnSupplierRefreshClick;
+            _btnSupplierLookup.Click += OnBtnSupplierLookupClick;
+            _btnSupplierNew.Click += OnBtnSupplierNewClick;
+            _btnWarehouseRefresh.Click += OnBtnWarehouseRefreshClick;
+            _btnWarehouseLookup.Click += OnBtnWarehouseLookupClick;
+            _btnMaterialRefresh.Click += OnBtnMaterialRefreshClick;
+            _btnMaterialLookup.Click += OnBtnMaterialLookupClick;
+            _btnMaterialNew.Click += OnBtnMaterialNewClick;
+            _btnLotRefresh.Click += OnBtnLotRefreshClick;
+            _btnLotLookup.Click += OnBtnLotLookupClick;
+            _btnLotNew.Click += OnBtnLotNewClick;
+
+            _btnItemAdd.Click += OnBtnItemAddClick;
+            _btnItemEdit.Click += OnBtnItemEditClick;
+            _btnItemRemove.Click += OnBtnItemRemoveClick;
+            _btnItemClear.Click += OnBtnItemClearClick;
+
+            _saveButton.Click += OnBtnSaveClick;
+            _updateButton.Click += OnBtnUpdateClick;
+            _clearButton.Click += OnBtnClearClick;
+            _cancelButton.Click += OnBtnCancelClick;
+            _closeButton.Click += OnBtnCloseClick;
         }
 
         private void ApplyVisualDefaults()
