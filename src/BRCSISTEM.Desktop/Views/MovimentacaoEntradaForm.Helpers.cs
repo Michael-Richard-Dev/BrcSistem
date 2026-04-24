@@ -17,7 +17,7 @@ namespace BRCSISTEM.Desktop.Views
             SetIcon(_btnSupplierRefresh, "refresh_black.png");
             SetIcon(_btnSupplierLookup, "search_black.png");
             SetIcon(_btnSupplierNew, "new_black.png");
-            SetIcon(_btnWarehouseRefresh, "refresh_black.png");
+            //SetIcon(_btnWarehouseRefresh, "refresh_black.png");
             SetIcon(_btnWarehouseLookup, "search_black.png");
             SetIcon(_btnMaterialRefresh, "refresh_black.png");
             SetIcon(_btnMaterialLookup, "search_black.png");
@@ -610,7 +610,7 @@ namespace BRCSISTEM.Desktop.Views
             _btnSupplierRefresh.Enabled = headerEditable;
             _btnSupplierLookup.Enabled = headerEditable;
             _btnSupplierNew.Enabled = headerEditable;
-            _btnWarehouseRefresh.Enabled = headerEditable;
+            //_btnWarehouseRefresh.Enabled = headerEditable;
             _btnWarehouseLookup.Enabled = headerEditable;
             _btnMaterialRefresh.Enabled = itemEditable;
             _btnMaterialLookup.Enabled = itemEditable;

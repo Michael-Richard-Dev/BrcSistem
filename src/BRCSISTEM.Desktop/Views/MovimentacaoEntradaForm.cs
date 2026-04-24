@@ -121,7 +121,7 @@ namespace BRCSISTEM.Desktop.Views
             _btnSupplierRefresh.Click += OnBtnSupplierRefreshClick;
             _btnSupplierLookup.Click += OnBtnSupplierLookupClick;
             _btnSupplierNew.Click += OnBtnSupplierNewClick;
-            _btnWarehouseRefresh.Click += OnBtnWarehouseRefreshClick;
+            //_btnWarehouseRefresh.Click += OnBtnWarehouseRefreshClick;
             _btnWarehouseLookup.Click += OnBtnWarehouseLookupClick;
             _btnMaterialRefresh.Click += OnBtnMaterialRefreshClick;
             _btnMaterialLookup.Click += OnBtnMaterialLookupClick;

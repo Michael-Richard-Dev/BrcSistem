@@ -25,7 +25,6 @@ namespace BRCSISTEM.Desktop.Views
         private Button _btnSupplierNew;
         private Label _warehouseLabel;
         private ComboBox _warehouseComboBox;
-        private Button _btnWarehouseRefresh;
         private Button _btnWarehouseLookup;
         private Label _emissionDateLabel;
         private TextBox _emissionDateTextBox;
@@ -99,7 +98,6 @@ namespace BRCSISTEM.Desktop.Views
             this._btnSupplierNew = new System.Windows.Forms.Button();
             this._warehouseLabel = new System.Windows.Forms.Label();
             this._warehouseComboBox = new System.Windows.Forms.ComboBox();
-            this._btnWarehouseRefresh = new System.Windows.Forms.Button();
             this._btnWarehouseLookup = new System.Windows.Forms.Button();
             this._headerLine2 = new System.Windows.Forms.TableLayoutPanel();
             this._emissionDateLabel = new System.Windows.Forms.Label();
@@ -205,7 +203,7 @@ namespace BRCSISTEM.Desktop.Views
             // 
             // _headerLine1
             // 
-            this._headerLine1.ColumnCount = 15;
+            this._headerLine1.ColumnCount = 13;
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -220,7 +218,7 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this._headerLine1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 6F));
             this._headerLine1.Controls.Add(this._numberLabel, 0, 0);
             this._headerLine1.Controls.Add(this._numberTextBox, 1, 0);
             this._headerLine1.Controls.Add(this._btnNumberLookup, 2, 0);
@@ -231,8 +229,7 @@ namespace BRCSISTEM.Desktop.Views
             this._headerLine1.Controls.Add(this._btnSupplierNew, 8, 0);
             this._headerLine1.Controls.Add(this._warehouseLabel, 10, 0);
             this._headerLine1.Controls.Add(this._warehouseComboBox, 11, 0);
-            this._headerLine1.Controls.Add(this._btnWarehouseRefresh, 12, 0);
-            this._headerLine1.Controls.Add(this._btnWarehouseLookup, 13, 0);
+            this._headerLine1.Controls.Add(this._btnWarehouseLookup, 12, 0);
             this._headerLine1.Dock = System.Windows.Forms.DockStyle.Fill;
             this._headerLine1.Location = new System.Drawing.Point(3, 3);
             this._headerLine1.Name = "_headerLine1";
@@ -261,7 +258,7 @@ namespace BRCSISTEM.Desktop.Views
             this._numberTextBox.Location = new System.Drawing.Point(65, 3);
             this._numberTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._numberTextBox.Name = "_numberTextBox";
-            this._numberTextBox.Size = new System.Drawing.Size(97, 23);
+            this._numberTextBox.Size = new System.Drawing.Size(97, 22);
             this._numberTextBox.TabIndex = 1;
             // 
             // _btnNumberLookup
@@ -296,7 +293,7 @@ namespace BRCSISTEM.Desktop.Views
             this._supplierComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._supplierComboBox.Location = new System.Drawing.Point(285, 3);
             this._supplierComboBox.Name = "_supplierComboBox";
-            this._supplierComboBox.Size = new System.Drawing.Size(249, 21);
+            this._supplierComboBox.Size = new System.Drawing.Size(267, 21);
             this._supplierComboBox.TabIndex = 4;
             // 
             // _btnSupplierRefresh
@@ -304,7 +301,7 @@ namespace BRCSISTEM.Desktop.Views
             this._btnSupplierRefresh.AccessibleName = "Atualizar";
             this._btnSupplierRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._btnSupplierRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierRefresh.Location = new System.Drawing.Point(539, 2);
+            this._btnSupplierRefresh.Location = new System.Drawing.Point(557, 2);
             this._btnSupplierRefresh.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierRefresh.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierRefresh.Name = "_btnSupplierRefresh";
@@ -317,7 +314,7 @@ namespace BRCSISTEM.Desktop.Views
             this._btnSupplierLookup.AccessibleName = "Buscar";
             this._btnSupplierLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._btnSupplierLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierLookup.Location = new System.Drawing.Point(569, 2);
+            this._btnSupplierLookup.Location = new System.Drawing.Point(587, 2);
             this._btnSupplierLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierLookup.Name = "_btnSupplierLookup";
@@ -330,7 +327,7 @@ namespace BRCSISTEM.Desktop.Views
             this._btnSupplierNew.AccessibleName = "Novo fornecedor";
             this._btnSupplierNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._btnSupplierNew.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnSupplierNew.Location = new System.Drawing.Point(599, 2);
+            this._btnSupplierNew.Location = new System.Drawing.Point(617, 2);
             this._btnSupplierNew.Margin = new System.Windows.Forms.Padding(2);
             this._btnSupplierNew.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnSupplierNew.Name = "_btnSupplierNew";
@@ -343,7 +340,7 @@ namespace BRCSISTEM.Desktop.Views
             this._warehouseLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._warehouseLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._warehouseLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._warehouseLabel.Location = new System.Drawing.Point(642, 0);
+            this._warehouseLabel.Location = new System.Drawing.Point(660, 0);
             this._warehouseLabel.Name = "_warehouseLabel";
             this._warehouseLabel.Size = new System.Drawing.Size(87, 28);
             this._warehouseLabel.TabIndex = 8;
@@ -355,30 +352,17 @@ namespace BRCSISTEM.Desktop.Views
             this._warehouseComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._warehouseComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._warehouseComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._warehouseComboBox.Location = new System.Drawing.Point(735, 3);
+            this._warehouseComboBox.Location = new System.Drawing.Point(753, 3);
             this._warehouseComboBox.Name = "_warehouseComboBox";
-            this._warehouseComboBox.Size = new System.Drawing.Size(249, 21);
+            this._warehouseComboBox.Size = new System.Drawing.Size(267, 21);
             this._warehouseComboBox.TabIndex = 9;
-            // 
-            // _btnWarehouseRefresh
-            // 
-            this._btnWarehouseRefresh.AccessibleName = "Atualizar";
-            this._btnWarehouseRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnWarehouseRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnWarehouseRefresh.Location = new System.Drawing.Point(989, 2);
-            this._btnWarehouseRefresh.Margin = new System.Windows.Forms.Padding(2);
-            this._btnWarehouseRefresh.MinimumSize = new System.Drawing.Size(26, 24);
-            this._btnWarehouseRefresh.Name = "_btnWarehouseRefresh";
-            this._btnWarehouseRefresh.Size = new System.Drawing.Size(26, 24);
-            this._btnWarehouseRefresh.TabIndex = 10;
-            this._btnWarehouseRefresh.UseVisualStyleBackColor = true;
             // 
             // _btnWarehouseLookup
             // 
             this._btnWarehouseLookup.AccessibleName = "Buscar";
             this._btnWarehouseLookup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this._btnWarehouseLookup.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._btnWarehouseLookup.Location = new System.Drawing.Point(1019, 2);
+            this._btnWarehouseLookup.Location = new System.Drawing.Point(1025, 2);
             this._btnWarehouseLookup.Margin = new System.Windows.Forms.Padding(2);
             this._btnWarehouseLookup.MinimumSize = new System.Drawing.Size(26, 24);
             this._btnWarehouseLookup.Name = "_btnWarehouseLookup";
@@ -428,7 +412,7 @@ namespace BRCSISTEM.Desktop.Views
             this._emissionDateTextBox.Location = new System.Drawing.Point(93, 6);
             this._emissionDateTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._emissionDateTextBox.Name = "_emissionDateTextBox";
-            this._emissionDateTextBox.Size = new System.Drawing.Size(104, 23);
+            this._emissionDateTextBox.Size = new System.Drawing.Size(104, 22);
             this._emissionDateTextBox.TabIndex = 1;
             // 
             // _receiptDateLabel
@@ -451,7 +435,7 @@ namespace BRCSISTEM.Desktop.Views
             this._receiptDateTimeTextBox.Location = new System.Drawing.Point(365, 6);
             this._receiptDateTimeTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._receiptDateTimeTextBox.Name = "_receiptDateTimeTextBox";
-            this._receiptDateTimeTextBox.Size = new System.Drawing.Size(144, 23);
+            this._receiptDateTimeTextBox.Size = new System.Drawing.Size(144, 22);
             this._receiptDateTimeTextBox.TabIndex = 3;
             // 
             // _statusLabel
@@ -514,7 +498,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this._itemMainLine.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this._itemMainLine.Controls.Add(this._materialLabel, 0, 0);
             this._itemMainLine.Controls.Add(this._materialComboBox, 1, 0);
             this._itemMainLine.Controls.Add(this._btnMaterialRefresh, 2, 0);
@@ -682,7 +666,7 @@ namespace BRCSISTEM.Desktop.Views
             this._quantityTextBox.Location = new System.Drawing.Point(787, 6);
             this._quantityTextBox.MinimumSize = new System.Drawing.Size(2, 23);
             this._quantityTextBox.Name = "_quantityTextBox";
-            this._quantityTextBox.Size = new System.Drawing.Size(67, 23);
+            this._quantityTextBox.Size = new System.Drawing.Size(67, 22);
             this._quantityTextBox.TabIndex = 11;
             this._quantityTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -944,10 +928,13 @@ namespace BRCSISTEM.Desktop.Views
             this._headerGroup.ResumeLayout(false);
             this._headerLayout.ResumeLayout(false);
             this._headerLine1.ResumeLayout(false);
+            this._headerLine1.PerformLayout();
             this._headerLine2.ResumeLayout(false);
+            this._headerLine2.PerformLayout();
             this._itemGroup.ResumeLayout(false);
             this._itemLayout.ResumeLayout(false);
             this._itemMainLine.ResumeLayout(false);
+            this._itemMainLine.PerformLayout();
             this._gridGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._itemsGrid)).EndInit();
             this._footerLayout.ResumeLayout(false);
