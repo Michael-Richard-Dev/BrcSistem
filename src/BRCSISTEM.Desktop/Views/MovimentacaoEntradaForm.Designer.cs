@@ -243,7 +243,7 @@ namespace BRCSISTEM.Desktop.Views
             // _numberLabel
             // 
             this._numberLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._numberLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._numberLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._numberLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._numberLabel.Location = new System.Drawing.Point(3, 0);
             this._numberLabel.Name = "_numberLabel";
@@ -279,7 +279,7 @@ namespace BRCSISTEM.Desktop.Views
             // _supplierLabel
             // 
             this._supplierLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._supplierLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._supplierLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._supplierLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._supplierLabel.Location = new System.Drawing.Point(210, 0);
             this._supplierLabel.Name = "_supplierLabel";
@@ -340,7 +340,7 @@ namespace BRCSISTEM.Desktop.Views
             // _warehouseLabel
             // 
             this._warehouseLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._warehouseLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._warehouseLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._warehouseLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._warehouseLabel.Location = new System.Drawing.Point(660, 0);
             this._warehouseLabel.Name = "_warehouseLabel";
@@ -397,7 +397,7 @@ namespace BRCSISTEM.Desktop.Views
             // _emissionDateLabel
             // 
             this._emissionDateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._emissionDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._emissionDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._emissionDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._emissionDateLabel.Location = new System.Drawing.Point(3, 0);
             this._emissionDateLabel.Name = "_emissionDateLabel";
@@ -420,7 +420,7 @@ namespace BRCSISTEM.Desktop.Views
             // _receiptDateLabel
             // 
             this._receiptDateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._receiptDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._receiptDateLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._receiptDateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._receiptDateLabel.Location = new System.Drawing.Point(223, 0);
             this._receiptDateLabel.Name = "_receiptDateLabel";
@@ -529,7 +529,7 @@ namespace BRCSISTEM.Desktop.Views
             // _materialLabel
             // 
             this._materialLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._materialLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._materialLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._materialLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._materialLabel.Location = new System.Drawing.Point(3, 0);
             this._materialLabel.Name = "_materialLabel";
@@ -590,7 +590,7 @@ namespace BRCSISTEM.Desktop.Views
             // _lotLabel
             // 
             this._lotLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._lotLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._lotLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lotLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._lotLabel.Location = new System.Drawing.Point(362, 0);
             this._lotLabel.Name = "_lotLabel";
@@ -651,7 +651,7 @@ namespace BRCSISTEM.Desktop.Views
             // _quantityLabel
             // 
             this._quantityLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._quantityLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._quantityLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._quantityLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._quantityLabel.Location = new System.Drawing.Point(709, 0);
             this._quantityLabel.Name = "_quantityLabel";
@@ -675,7 +675,7 @@ namespace BRCSISTEM.Desktop.Views
             // _actionsLabel
             // 
             this._actionsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._actionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._actionsLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._actionsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this._actionsLabel.Location = new System.Drawing.Point(877, 0);
             this._actionsLabel.Name = "_actionsLabel";
@@ -869,7 +869,7 @@ namespace BRCSISTEM.Desktop.Views
             this._itemCountLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._itemCountLabel.Location = new System.Drawing.Point(608, 9);
             this._itemCountLabel.Name = "_itemCountLabel";
-            this._itemCountLabel.Size = new System.Drawing.Size(342, 35);
+            this._itemCountLabel.Size = new System.Drawing.Size(168, 35);
             this._itemCountLabel.TabIndex = 1;
             this._itemCountLabel.Text = "Itens na nota: 0";
             this._itemCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
