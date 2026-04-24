@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace BRCSISTEM.Desktop.Views
 {
-    internal sealed class LookupSelectionForm : Form
+    internal sealed class SelecaoRegistroForm : Form
     {
         private readonly string _descriptionHeader;
         private readonly LookupOption[] _allOptions;
@@ -13,7 +13,7 @@ namespace BRCSISTEM.Desktop.Views
         private TextBox _filterTextBox;
         private DataGridView _grid;
 
-        public LookupSelectionForm(string title, string descriptionHeader, LookupOption[] options)
+        public SelecaoRegistroForm(string title, string descriptionHeader, LookupOption[] options)
         {
             _descriptionHeader = string.IsNullOrWhiteSpace(descriptionHeader) ? "DESCRICAO" : descriptionHeader.ToUpperInvariant();
             _allOptions = options ?? new LookupOption[0];

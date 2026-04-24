@@ -90,7 +90,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenWarehouseLookup()
         {
-            using (var dialog = new LookupSelectionForm("Selecionar Almoxarifado", "Descricao", _warehouseOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new SelecaoRegistroForm("Selecionar Almoxarifado", "Descricao", _warehouseOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -101,7 +101,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenProductLookup()
         {
-            using (var dialog = new LookupSelectionForm("Selecionar Produto", "Descricao", _productOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new SelecaoRegistroForm("Selecionar Produto", "Descricao", _productOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
