@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface;
+using BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados;
 using BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados;
 using BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados;
 using BRCSISTEM.Domain.Models;
@@ -119,7 +120,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
 
         private void CreateDatabaseButton_Click(object sender, EventArgs e)
         {
-            using (var form = new DatabaseServerCreateForm(_compositionRoot, _configuration))
+            using (var form = new CriacaoServidorBancoDadosForm(_compositionRoot, _configuration))
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {

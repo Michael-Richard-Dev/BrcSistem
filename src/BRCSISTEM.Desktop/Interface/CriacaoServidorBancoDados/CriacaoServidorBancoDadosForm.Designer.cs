@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
 {
-    public sealed partial class DatabaseServerCreateForm
+    public sealed partial class CriacaoServidorBancoDadosForm
     {
         private IContainer components = null;
 
@@ -173,7 +173,7 @@ namespace BRCSISTEM.Desktop.Interface
             ConfigureButton(this._createButton, "Criar Banco", 0, 130);
             ConfigureButton(this._cancelButton, "Cancelar", 1, 110);
             //
-            // DatabaseServerCreateForm
+            // CriacaoServidorBancoDadosForm
             //
             this.AcceptButton = this._createButton;
             this.AutoScaleDimensions = new SizeF(6F, 13F);
@@ -186,7 +186,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DatabaseServerCreateForm";
+            this.Name = "CriacaoServidorBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Criar Banco PostgreSQL";
             this._rootLayout.ResumeLayout(false);
