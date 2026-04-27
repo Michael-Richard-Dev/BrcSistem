@@ -5,9 +5,9 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados
 {
-    public sealed partial class DatabaseProfileEditorForm : Form
+    public sealed partial class EditorPerfilBancoDadosForm : Form
     {
         private readonly ConfigurationController _configurationController;
         private readonly AppConfiguration _configuration;
@@ -15,7 +15,12 @@ namespace BRCSISTEM.Desktop.Interface
 
         public string SavedProfileId { get; private set; }
 
-        public DatabaseProfileEditorForm(CompositionRoot compositionRoot, AppConfiguration configuration, DatabaseProfile profile)
+        public EditorPerfilBancoDadosForm()
+        {
+            InitializeComponent();
+        }
+
+        public EditorPerfilBancoDadosForm(CompositionRoot compositionRoot, AppConfiguration configuration, DatabaseProfile profile)
         {
             if (compositionRoot == null)
             {

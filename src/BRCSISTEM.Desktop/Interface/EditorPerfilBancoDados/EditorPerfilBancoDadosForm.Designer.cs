@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados
 {
-    public sealed partial class DatabaseProfileEditorForm
+    public sealed partial class EditorPerfilBancoDadosForm
     {
         private IContainer components = null;
 
@@ -242,7 +242,7 @@ namespace BRCSISTEM.Desktop.Interface
             this._cancelButton.Text = "Cancelar";
             this._cancelButton.UseVisualStyleBackColor = true;
             //
-            // DatabaseProfileEditorForm
+            // EditorPerfilBancoDadosForm
             //
             this.AcceptButton = this._saveButton;
             this.AutoScaleDimensions = new SizeF(6F, 13F);
@@ -255,7 +255,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DatabaseProfileEditorForm";
+            this.Name = "EditorPerfilBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Novo Banco";
             this._rootLayout.ResumeLayout(false);

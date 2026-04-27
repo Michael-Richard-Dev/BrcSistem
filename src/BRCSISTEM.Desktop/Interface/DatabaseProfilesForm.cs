@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados;
 using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
@@ -81,7 +82,7 @@ namespace BRCSISTEM.Desktop.Interface
 
         private void OpenEditor(DatabaseProfile profile)
         {
-            using (var editor = new DatabaseProfileEditorForm(_compositionRoot, _configuration, profile))
+            using (var editor = new EditorPerfilBancoDadosForm(_compositionRoot, _configuration, profile))
             {
                 var result = editor.ShowDialog(this);
                 if (result == DialogResult.OK)
