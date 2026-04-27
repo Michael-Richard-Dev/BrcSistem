@@ -28,7 +28,7 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlteracaoSenhaForm));
             this._layout = new System.Windows.Forms.TableLayoutPanel();
             this._instructionLabel = new System.Windows.Forms.Label();
             this._userNameLabel = new System.Windows.Forms.Label();
@@ -64,12 +64,12 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             this._layout.Name = "_layout";
             this._layout.Padding = new System.Windows.Forms.Padding(20);
             this._layout.RowCount = 6;
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._layout.Size = new System.Drawing.Size(504, 281);
             this._layout.TabIndex = 0;
             // 
@@ -82,19 +82,19 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             this._instructionLabel.Location = new System.Drawing.Point(20, 20);
             this._instructionLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 16);
             this._instructionLabel.Name = "_instructionLabel";
-            this._instructionLabel.Size = new System.Drawing.Size(222, 19);
+            this._instructionLabel.Size = new System.Drawing.Size(220, 19);
             this._instructionLabel.TabIndex = 0;
             this._instructionLabel.Text = "Altere a senha do usuario atual.";
             // 
             // _userNameLabel
             // 
             this._userNameLabel.AutoSize = true;
-            this._userNameLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._userNameLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userNameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._userNameLabel.Location = new System.Drawing.Point(20, 63);
             this._userNameLabel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 4);
             this._userNameLabel.Name = "_userNameLabel";
-            this._userNameLabel.Size = new System.Drawing.Size(48, 13);
+            this._userNameLabel.Size = new System.Drawing.Size(47, 13);
             this._userNameLabel.TabIndex = 1;
             this._userNameLabel.Text = "Usuario";
             // 
@@ -111,12 +111,12 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             // _newPasswordLabel
             // 
             this._newPasswordLabel.AutoSize = true;
-            this._newPasswordLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._newPasswordLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._newPasswordLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._newPasswordLabel.Location = new System.Drawing.Point(20, 92);
             this._newPasswordLabel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 4);
             this._newPasswordLabel.Name = "_newPasswordLabel";
-            this._newPasswordLabel.Size = new System.Drawing.Size(70, 13);
+            this._newPasswordLabel.Size = new System.Drawing.Size(67, 13);
             this._newPasswordLabel.TabIndex = 3;
             this._newPasswordLabel.Text = "Nova senha";
             // 
@@ -133,12 +133,12 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             // _confirmPasswordLabel
             // 
             this._confirmPasswordLabel.AutoSize = true;
-            this._confirmPasswordLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._confirmPasswordLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._confirmPasswordLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._confirmPasswordLabel.Location = new System.Drawing.Point(20, 120);
             this._confirmPasswordLabel.Margin = new System.Windows.Forms.Padding(0, 8, 0, 4);
             this._confirmPasswordLabel.Name = "_confirmPasswordLabel";
-            this._confirmPasswordLabel.Size = new System.Drawing.Size(74, 13);
+            this._confirmPasswordLabel.Size = new System.Drawing.Size(72, 13);
             this._confirmPasswordLabel.TabIndex = 5;
             this._confirmPasswordLabel.Text = "Confirmacao";
             // 
@@ -170,7 +170,6 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             this._layout.SetColumnSpan(this._buttonsPanel, 2);
             this._buttonsPanel.Controls.Add(this._saveButton);
             this._buttonsPanel.Controls.Add(this._cancelButton);
-            this._buttonsPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
             this._buttonsPanel.Location = new System.Drawing.Point(23, 184);
             this._buttonsPanel.Name = "_buttonsPanel";
             this._buttonsPanel.Size = new System.Drawing.Size(135, 28);
@@ -210,6 +209,7 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             this.Controls.Add(this._layout);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(520, 320);
@@ -221,6 +221,7 @@ namespace BRCSISTEM.Desktop.Interface.AlteracaoSenha
             this._buttonsPanel.ResumeLayout(false);
             this._buttonsPanel.PerformLayout();
             this.ResumeLayout(false);
+
         }
     }
 }
