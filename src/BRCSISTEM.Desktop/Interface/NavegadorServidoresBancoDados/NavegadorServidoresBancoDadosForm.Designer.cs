@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
 {
-    public sealed partial class DatabaseServerBrowserForm
+    public sealed partial class NavegadorServidoresBancoDadosForm
     {
         private IContainer components = null;
 
@@ -181,7 +181,7 @@ namespace BRCSISTEM.Desktop.Interface
             ConfigureButton(this._cancelButton, "Cancelar", 2, 110);
             this._addSelectedButton.Enabled = false;
             //
-            // DatabaseServerBrowserForm
+            // NavegadorServidoresBancoDadosForm
             //
             this.AcceptButton = this._searchButton;
             this.AutoScaleDimensions = new SizeF(6F, 13F);
@@ -194,7 +194,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DatabaseServerBrowserForm";
+            this.Name = "NavegadorServidoresBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Buscar Bancos";
             this._rootLayout.ResumeLayout(false);

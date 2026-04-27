@@ -6,16 +6,16 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
 {
-    public sealed partial class DatabaseServerBrowserForm : Form
+    public sealed partial class NavegadorServidoresBancoDadosForm : Form
     {
         private readonly ConfigurationController _configurationController;
         private readonly AppConfiguration _configuration;
 
         public string ResultMessage { get; private set; }
 
-        public DatabaseServerBrowserForm(CompositionRoot compositionRoot, AppConfiguration configuration)
+        public NavegadorServidoresBancoDadosForm(CompositionRoot compositionRoot, AppConfiguration configuration)
         {
             if (compositionRoot == null)
             {

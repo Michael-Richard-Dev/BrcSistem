@@ -6,6 +6,7 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface;
 using BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados;
+using BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados;
 using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
@@ -105,7 +106,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            using (var form = new DatabaseServerBrowserForm(_compositionRoot, _configuration))
+            using (var form = new NavegadorServidoresBancoDadosForm(_compositionRoot, _configuration))
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
