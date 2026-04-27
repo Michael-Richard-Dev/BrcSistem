@@ -5,7 +5,7 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
 {
     public sealed partial class ConsultaLogsAuditoriaForm : Form
     {

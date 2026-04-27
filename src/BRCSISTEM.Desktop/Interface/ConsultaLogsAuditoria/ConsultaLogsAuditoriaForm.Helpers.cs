@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
 {
     public sealed partial class ConsultaLogsAuditoriaForm
     {
