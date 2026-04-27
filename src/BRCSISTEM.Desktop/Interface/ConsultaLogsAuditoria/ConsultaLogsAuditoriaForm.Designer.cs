@@ -154,12 +154,12 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // _periodLabel
             // 
             this._periodLabel.AutoSize = true;
-            this._periodLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._periodLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._periodLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._periodLabel.Location = new System.Drawing.Point(0, 7);
             this._periodLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._periodLabel.Name = "_periodLabel";
-            this._periodLabel.Size = new System.Drawing.Size(51, 13);
+            this._periodLabel.Size = new System.Drawing.Size(50, 13);
             this._periodLabel.TabIndex = 0;
             this._periodLabel.Text = "Periodo:";
             // 
@@ -174,7 +174,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             "Ultimos 30 dias",
             "Ultimos 90 dias",
             "Todos"});
-            this._periodComboBox.Location = new System.Drawing.Point(58, 3);
+            this._periodComboBox.Location = new System.Drawing.Point(57, 3);
             this._periodComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._periodComboBox.Name = "_periodComboBox";
             this._periodComboBox.Size = new System.Drawing.Size(160, 21);
@@ -184,9 +184,9 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // _userLabel
             // 
             this._userLabel.AutoSize = true;
-            this._userLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._userLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._userLabel.Location = new System.Drawing.Point(232, 7);
+            this._userLabel.Location = new System.Drawing.Point(231, 7);
             this._userLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._userLabel.Name = "_userLabel";
             this._userLabel.Size = new System.Drawing.Size(50, 13);
@@ -198,7 +198,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._userComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._userComboBox.FormattingEnabled = true;
-            this._userComboBox.Location = new System.Drawing.Point(289, 3);
+            this._userComboBox.Location = new System.Drawing.Point(288, 3);
             this._userComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._userComboBox.Name = "_userComboBox";
             this._userComboBox.Size = new System.Drawing.Size(180, 21);
@@ -208,12 +208,12 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // _actionLabel
             // 
             this._actionLabel.AutoSize = true;
-            this._actionLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._actionLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._actionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._actionLabel.Location = new System.Drawing.Point(483, 7);
+            this._actionLabel.Location = new System.Drawing.Point(482, 7);
             this._actionLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._actionLabel.Name = "_actionLabel";
-            this._actionLabel.Size = new System.Drawing.Size(36, 13);
+            this._actionLabel.Size = new System.Drawing.Size(35, 13);
             this._actionLabel.TabIndex = 4;
             this._actionLabel.Text = "Acao:";
             // 
@@ -222,7 +222,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._actionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._actionComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._actionComboBox.FormattingEnabled = true;
-            this._actionComboBox.Location = new System.Drawing.Point(526, 3);
+            this._actionComboBox.Location = new System.Drawing.Point(524, 3);
             this._actionComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._actionComboBox.Name = "_actionComboBox";
             this._actionComboBox.Size = new System.Drawing.Size(220, 21);
@@ -245,19 +245,19 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // _searchLabel
             // 
             this._searchLabel.AutoSize = true;
-            this._searchLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
+            this._searchLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._searchLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
             this._searchLabel.Location = new System.Drawing.Point(0, 7);
             this._searchLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._searchLabel.Name = "_searchLabel";
-            this._searchLabel.Size = new System.Drawing.Size(60, 13);
+            this._searchLabel.Size = new System.Drawing.Size(59, 13);
             this._searchLabel.TabIndex = 0;
             this._searchLabel.Text = "Pesquisar:";
             // 
             // _searchTextBox
             // 
             this._searchTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._searchTextBox.Location = new System.Drawing.Point(67, 3);
+            this._searchTextBox.Location = new System.Drawing.Point(66, 3);
             this._searchTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
             this._searchTextBox.Name = "_searchTextBox";
             this._searchTextBox.Size = new System.Drawing.Size(480, 22);
@@ -269,7 +269,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._searchButton.AutoSize = true;
             this._searchButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._searchButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._searchButton.Location = new System.Drawing.Point(560, 3);
+            this._searchButton.Location = new System.Drawing.Point(559, 3);
             this._searchButton.Name = "_searchButton";
             this._searchButton.Size = new System.Drawing.Size(75, 22);
             this._searchButton.TabIndex = 2;
@@ -282,7 +282,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._clearButton.AutoSize = true;
             this._clearButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._clearButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._clearButton.Location = new System.Drawing.Point(641, 3);
+            this._clearButton.Location = new System.Drawing.Point(640, 3);
             this._clearButton.Name = "_clearButton";
             this._clearButton.Size = new System.Drawing.Size(75, 22);
             this._clearButton.TabIndex = 3;
