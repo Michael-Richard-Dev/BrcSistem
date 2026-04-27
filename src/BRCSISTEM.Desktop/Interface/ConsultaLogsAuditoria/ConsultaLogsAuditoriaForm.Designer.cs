@@ -4,7 +4,6 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.TableLayoutPanel _rootLayout;
-        private System.Windows.Forms.Label _titleLabel;
         private System.Windows.Forms.GroupBox _filtersGroupBox;
         private System.Windows.Forms.TableLayoutPanel _filtersLayout;
         private System.Windows.Forms.FlowLayoutPanel _filtersLine1Panel;
@@ -19,7 +18,6 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
         private System.Windows.Forms.TextBox _searchTextBox;
         private System.Windows.Forms.Button _searchButton;
         private System.Windows.Forms.Button _clearButton;
-        private System.Windows.Forms.Button _closeButton;
         private System.Windows.Forms.GroupBox _resultsGroupBox;
         private System.Windows.Forms.DataGridView _logsGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn _idColumn;
@@ -49,9 +47,8 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsultaLogsAuditoriaForm));
             this._rootLayout = new System.Windows.Forms.TableLayoutPanel();
-            this._titleLabel = new System.Windows.Forms.Label();
             this._filtersGroupBox = new System.Windows.Forms.GroupBox();
             this._filtersLayout = new System.Windows.Forms.TableLayoutPanel();
             this._filtersLine1Panel = new System.Windows.Forms.FlowLayoutPanel();
@@ -66,14 +63,8 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._searchTextBox = new System.Windows.Forms.TextBox();
             this._searchButton = new System.Windows.Forms.Button();
             this._clearButton = new System.Windows.Forms.Button();
-            this._closeButton = new System.Windows.Forms.Button();
             this._resultsGroupBox = new System.Windows.Forms.GroupBox();
             this._logsGrid = new System.Windows.Forms.DataGridView();
-            this._idColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._userNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._actionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._detailsSummaryColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._pagingLayout = new System.Windows.Forms.TableLayoutPanel();
             this._pagingInfoPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._infoLabel = new System.Windows.Forms.Label();
@@ -100,7 +91,6 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // 
             this._rootLayout.ColumnCount = 1;
             this._rootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._rootLayout.Controls.Add(this._titleLabel, 0, 0);
             this._rootLayout.Controls.Add(this._filtersGroupBox, 0, 1);
             this._rootLayout.Controls.Add(this._resultsGroupBox, 0, 2);
             this._rootLayout.Controls.Add(this._pagingLayout, 0, 3);
@@ -110,7 +100,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._rootLayout.Name = "_rootLayout";
             this._rootLayout.Padding = new System.Windows.Forms.Padding(12);
             this._rootLayout.RowCount = 5;
-            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 112F));
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -118,24 +108,12 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._rootLayout.Size = new System.Drawing.Size(1184, 661);
             this._rootLayout.TabIndex = 0;
             // 
-            // _titleLabel
-            // 
-            this._titleLabel.AutoSize = true;
-            this._titleLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this._titleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._titleLabel.Location = new System.Drawing.Point(12, 12);
-            this._titleLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this._titleLabel.Name = "_titleLabel";
-            this._titleLabel.Size = new System.Drawing.Size(227, 21);
-            this._titleLabel.TabIndex = 0;
-            this._titleLabel.Text = "Consulta de Logs e Auditoria";
-            // 
             // _filtersGroupBox
             // 
             this._filtersGroupBox.Controls.Add(this._filtersLayout);
             this._filtersGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._filtersGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this._filtersGroupBox.Location = new System.Drawing.Point(15, 46);
+            this._filtersGroupBox.Location = new System.Drawing.Point(15, 15);
             this._filtersGroupBox.Name = "_filtersGroupBox";
             this._filtersGroupBox.Padding = new System.Windows.Forms.Padding(10);
             this._filtersGroupBox.Size = new System.Drawing.Size(1154, 106);
@@ -181,7 +159,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._periodLabel.Location = new System.Drawing.Point(0, 7);
             this._periodLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._periodLabel.Name = "_periodLabel";
-            this._periodLabel.Size = new System.Drawing.Size(49, 13);
+            this._periodLabel.Size = new System.Drawing.Size(51, 13);
             this._periodLabel.TabIndex = 0;
             this._periodLabel.Text = "Periodo:";
             // 
@@ -196,7 +174,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             "Ultimos 30 dias",
             "Ultimos 90 dias",
             "Todos"});
-            this._periodComboBox.Location = new System.Drawing.Point(56, 3);
+            this._periodComboBox.Location = new System.Drawing.Point(58, 3);
             this._periodComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._periodComboBox.Name = "_periodComboBox";
             this._periodComboBox.Size = new System.Drawing.Size(160, 21);
@@ -208,10 +186,10 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._userLabel.AutoSize = true;
             this._userLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._userLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._userLabel.Location = new System.Drawing.Point(230, 7);
+            this._userLabel.Location = new System.Drawing.Point(232, 7);
             this._userLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._userLabel.Name = "_userLabel";
-            this._userLabel.Size = new System.Drawing.Size(48, 13);
+            this._userLabel.Size = new System.Drawing.Size(50, 13);
             this._userLabel.TabIndex = 2;
             this._userLabel.Text = "Usuario:";
             // 
@@ -220,7 +198,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._userComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._userComboBox.FormattingEnabled = true;
-            this._userComboBox.Location = new System.Drawing.Point(285, 3);
+            this._userComboBox.Location = new System.Drawing.Point(289, 3);
             this._userComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._userComboBox.Name = "_userComboBox";
             this._userComboBox.Size = new System.Drawing.Size(180, 21);
@@ -232,10 +210,10 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._actionLabel.AutoSize = true;
             this._actionLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this._actionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(54)))), ((int)(((byte)(93)))));
-            this._actionLabel.Location = new System.Drawing.Point(479, 7);
+            this._actionLabel.Location = new System.Drawing.Point(483, 7);
             this._actionLabel.Margin = new System.Windows.Forms.Padding(0, 7, 4, 0);
             this._actionLabel.Name = "_actionLabel";
-            this._actionLabel.Size = new System.Drawing.Size(34, 13);
+            this._actionLabel.Size = new System.Drawing.Size(36, 13);
             this._actionLabel.TabIndex = 4;
             this._actionLabel.Text = "Acao:";
             // 
@@ -244,7 +222,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._actionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._actionComboBox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._actionComboBox.FormattingEnabled = true;
-            this._actionComboBox.Location = new System.Drawing.Point(520, 3);
+            this._actionComboBox.Location = new System.Drawing.Point(526, 3);
             this._actionComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 14, 3);
             this._actionComboBox.Name = "_actionComboBox";
             this._actionComboBox.Size = new System.Drawing.Size(220, 21);
@@ -257,7 +235,6 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._filtersLine2Panel.Controls.Add(this._searchTextBox);
             this._filtersLine2Panel.Controls.Add(this._searchButton);
             this._filtersLine2Panel.Controls.Add(this._clearButton);
-            this._filtersLine2Panel.Controls.Add(this._closeButton);
             this._filtersLine2Panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._filtersLine2Panel.Location = new System.Drawing.Point(3, 38);
             this._filtersLine2Panel.Name = "_filtersLine2Panel";
@@ -313,28 +290,15 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._clearButton.UseVisualStyleBackColor = true;
             this._clearButton.Click += new System.EventHandler(this.OnClearButtonClick);
             // 
-            // _closeButton
-            // 
-            this._closeButton.AutoSize = true;
-            this._closeButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._closeButton.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this._closeButton.Location = new System.Drawing.Point(722, 3);
-            this._closeButton.Name = "_closeButton";
-            this._closeButton.Size = new System.Drawing.Size(75, 22);
-            this._closeButton.TabIndex = 4;
-            this._closeButton.Text = "Fechar";
-            this._closeButton.UseVisualStyleBackColor = true;
-            this._closeButton.Click += new System.EventHandler(this.OnCloseButtonClick);
-            // 
             // _resultsGroupBox
             // 
             this._resultsGroupBox.Controls.Add(this._logsGrid);
             this._resultsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._resultsGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this._resultsGroupBox.Location = new System.Drawing.Point(15, 158);
+            this._resultsGroupBox.Location = new System.Drawing.Point(15, 127);
             this._resultsGroupBox.Name = "_resultsGroupBox";
             this._resultsGroupBox.Padding = new System.Windows.Forms.Padding(8);
-            this._resultsGroupBox.Size = new System.Drawing.Size(1154, 416);
+            this._resultsGroupBox.Size = new System.Drawing.Size(1154, 447);
             this._resultsGroupBox.TabIndex = 2;
             this._resultsGroupBox.TabStop = false;
             this._resultsGroupBox.Text = "Resultados";
@@ -343,14 +307,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             // 
             this._logsGrid.AllowUserToAddRows = false;
             this._logsGrid.AllowUserToDeleteRows = false;
-            this._logsGrid.AutoGenerateColumns = false;
             this._logsGrid.BackgroundColor = System.Drawing.Color.White;
-            this._logsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._idColumn,
-            this._dateTimeColumn,
-            this._userNameColumn,
-            this._actionColumn,
-            this._detailsSummaryColumn});
             this._logsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._logsGrid.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this._logsGrid.Location = new System.Drawing.Point(8, 24);
@@ -359,60 +316,15 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._logsGrid.ReadOnly = true;
             this._logsGrid.RowHeadersVisible = false;
             this._logsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._logsGrid.Size = new System.Drawing.Size(1138, 384);
+            this._logsGrid.Size = new System.Drawing.Size(1138, 415);
             this._logsGrid.TabIndex = 0;
             this._logsGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnGridCellDoubleClick);
-            // 
-            // _idColumn
-            // 
-            this._idColumn.DataPropertyName = "Id";
-            this._idColumn.HeaderText = "ID";
-            this._idColumn.Name = "_idColumn";
-            this._idColumn.ReadOnly = true;
-            this._idColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this._idColumn.Width = 70;
-            // 
-            // _dateTimeColumn
-            // 
-            this._dateTimeColumn.DataPropertyName = "DateTime";
-            this._dateTimeColumn.HeaderText = "Data/Hora";
-            this._dateTimeColumn.Name = "_dateTimeColumn";
-            this._dateTimeColumn.ReadOnly = true;
-            this._dateTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this._dateTimeColumn.Width = 150;
-            // 
-            // _userNameColumn
-            // 
-            this._userNameColumn.DataPropertyName = "UserName";
-            this._userNameColumn.HeaderText = "Usuario";
-            this._userNameColumn.Name = "_userNameColumn";
-            this._userNameColumn.ReadOnly = true;
-            this._userNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this._userNameColumn.Width = 180;
-            // 
-            // _actionColumn
-            // 
-            this._actionColumn.DataPropertyName = "Action";
-            this._actionColumn.HeaderText = "Acao";
-            this._actionColumn.Name = "_actionColumn";
-            this._actionColumn.ReadOnly = true;
-            this._actionColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this._actionColumn.Width = 220;
-            // 
-            // _detailsSummaryColumn
-            // 
-            this._detailsSummaryColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._detailsSummaryColumn.DataPropertyName = "DetailsSummary";
-            this._detailsSummaryColumn.HeaderText = "Detalhes";
-            this._detailsSummaryColumn.Name = "_detailsSummaryColumn";
-            this._detailsSummaryColumn.ReadOnly = true;
-            this._detailsSummaryColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // _pagingLayout
             // 
             this._pagingLayout.ColumnCount = 2;
             this._pagingLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._pagingLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this._pagingLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._pagingLayout.Controls.Add(this._pagingInfoPanel, 0, 0);
             this._pagingLayout.Controls.Add(this._pagingButtonsPanel, 1, 0);
             this._pagingLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -430,7 +342,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._pagingInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._pagingInfoPanel.Location = new System.Drawing.Point(3, 3);
             this._pagingInfoPanel.Name = "_pagingInfoPanel";
-            this._pagingInfoPanel.Size = new System.Drawing.Size(979, 28);
+            this._pagingInfoPanel.Size = new System.Drawing.Size(980, 28);
             this._pagingInfoPanel.TabIndex = 0;
             // 
             // _infoLabel
@@ -461,9 +373,9 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._pagingButtonsPanel.Controls.Add(this._previousButton);
             this._pagingButtonsPanel.Controls.Add(this._nextButton);
             this._pagingButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pagingButtonsPanel.Location = new System.Drawing.Point(988, 3);
+            this._pagingButtonsPanel.Location = new System.Drawing.Point(989, 3);
             this._pagingButtonsPanel.Name = "_pagingButtonsPanel";
-            this._pagingButtonsPanel.Size = new System.Drawing.Size(163, 28);
+            this._pagingButtonsPanel.Size = new System.Drawing.Size(162, 28);
             this._pagingButtonsPanel.TabIndex = 1;
             this._pagingButtonsPanel.WrapContents = false;
             // 
@@ -525,6 +437,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.Controls.Add(this._rootLayout);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(920, 560);
             this.Name = "ConsultaLogsAuditoriaForm";
@@ -533,7 +446,6 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this.Load += new System.EventHandler(this.OnFormLoad);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnFormKeyDown);
             this._rootLayout.ResumeLayout(false);
-            this._rootLayout.PerformLayout();
             this._filtersGroupBox.ResumeLayout(false);
             this._filtersLayout.ResumeLayout(false);
             this._filtersLine1Panel.ResumeLayout(false);
@@ -551,6 +463,7 @@ namespace BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria
             this._footerLayout.ResumeLayout(false);
             this._footerLayout.PerformLayout();
             this.ResumeLayout(false);
+
         }
     }
 }
