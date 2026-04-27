@@ -873,7 +873,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "bd_consulta_logs", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new AuditLogQueryForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new ConsultaLogsAuditoriaForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

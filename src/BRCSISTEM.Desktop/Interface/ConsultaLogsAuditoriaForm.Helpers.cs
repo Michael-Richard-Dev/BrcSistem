@@ -8,7 +8,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
 {
-    public sealed partial class AuditLogQueryForm
+    public sealed partial class ConsultaLogsAuditoriaForm
     {
         private sealed class AuditLogGridRow
         {

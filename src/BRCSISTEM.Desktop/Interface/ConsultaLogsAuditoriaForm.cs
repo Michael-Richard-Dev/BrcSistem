@@ -7,7 +7,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
 {
-    public sealed partial class AuditLogQueryForm : Form
+    public sealed partial class ConsultaLogsAuditoriaForm : Form
     {
         private readonly DatabaseMaintenanceController _databaseMaintenanceController;
         private readonly ConfigurationController _configurationController;
@@ -31,7 +31,7 @@ namespace BRCSISTEM.Desktop.Interface
         private int _totalRecords;
         private AuditLogEntry[] _currentEntries;
 
-        public AuditLogQueryForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public ConsultaLogsAuditoriaForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
         {
             _databaseMaintenanceController = compositionRoot.CreateDatabaseMaintenanceController();
             _configurationController = compositionRoot.CreateConfigurationController();
