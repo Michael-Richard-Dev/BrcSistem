@@ -677,7 +677,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "gerenciar_acessos", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new AccessRequestManagementForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new GerenciamentoSolicitacoesAcessoForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

@@ -13,7 +13,7 @@ namespace BRCSISTEM.Desktop.Interface
     /// Porte fiel de views/gerenciar_acessos.py (classe GerenciarAcessos).
     /// Tela administrativa para aprovar/cancelar solicitacoes de acesso pendentes.
     /// </summary>
-    public sealed class AccessRequestManagementForm : Form
+    public sealed class GerenciamentoSolicitacoesAcessoForm : Form
     {
         private readonly CompositionRoot _compositionRoot;
         private readonly AdministrationController _administrationController;
@@ -44,7 +44,7 @@ namespace BRCSISTEM.Desktop.Interface
             public string MensagemCompleta { get; set; }
         }
 
-        public AccessRequestManagementForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public GerenciamentoSolicitacoesAcessoForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
         {
             _compositionRoot = compositionRoot;
             _administrationController = compositionRoot.CreateAdministrationController();
