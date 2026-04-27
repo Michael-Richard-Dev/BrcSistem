@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Domain.Models;
 

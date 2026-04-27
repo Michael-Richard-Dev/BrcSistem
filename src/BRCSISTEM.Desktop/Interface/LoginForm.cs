@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using BRCSISTEM.Application.Models;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
 using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
