@@ -1,13 +1,20 @@
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
+using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Desktop.Models;
 
 namespace BRCSISTEM.Desktop.Views
 {
+    /// <summary>
+    /// View generica de selecao de registros (fornecedor, material,
+    /// almoxarifado, lote, etc). Responsavel apenas por exibicao e
+    /// eventos de tela; toda a logica de filtro/selecao fica no
+    /// <see cref="SelecaoRegistroController"/>.
+    /// </summary>
     internal sealed partial class SelecaoRegistroForm : Form
     {
-        private readonly LookupOption[] _allOptions;
+        private readonly SelecaoRegistroController _controller;
         private readonly bool _isDesignerInstance;
         private readonly string _descriptionHeader;
 
@@ -24,7 +31,7 @@ namespace BRCSISTEM.Desktop.Views
         private SelecaoRegistroForm(string title, string descriptionHeader, LookupOption[] options, bool designerCtor)
         {
             _isDesignerInstance = designerCtor;
-            _allOptions = options ?? new LookupOption[0];
+            _controller = new SelecaoRegistroController(options);
             _descriptionHeader = string.IsNullOrWhiteSpace(descriptionHeader)
                 ? null
                 : descriptionHeader.ToUpperInvariant();
@@ -43,13 +50,17 @@ namespace BRCSISTEM.Desktop.Views
 
             if (!string.IsNullOrEmpty(_descriptionHeader))
             {
-                //_colDescricao.HeaderText = _descriptionHeader;
+                _colDescricao.HeaderText = _descriptionHeader;
             }
 
             AcceptButton = _confirmButton;
-            //CancelButton = _cancelButton;
         }
 
+        /// <summary>
+        /// Opcao escolhida pelo usuario. Mantem o tipo publico
+        /// original (<see cref="LookupOption"/>) para preservar
+        /// compatibilidade com chamadores existentes.
+        /// </summary>
         public LookupOption SelectedOption { get; private set; }
 
         private bool IsDesignModeActive
@@ -82,7 +93,7 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
-            RefreshGrid();
+            AtualizarGrid();
         }
 
         private void OnFilterTextChanged(object sender, EventArgs e)
@@ -92,7 +103,7 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
-            RefreshGrid();
+            AtualizarGrid();
         }
 
         private void OnGridCellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -102,7 +113,7 @@ namespace BRCSISTEM.Desktop.Views
                 return;
             }
 
-            ConfirmSelection();
+            ConfirmarSelecao();
         }
 
         private void OnGridKeyDown(object sender, KeyEventArgs e)
@@ -111,13 +122,13 @@ namespace BRCSISTEM.Desktop.Views
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                ConfirmSelection();
+                ConfirmarSelecao();
             }
         }
 
         private void OnConfirmClick(object sender, EventArgs e)
         {
-            ConfirmSelection();
+            ConfirmarSelecao();
         }
 
         private void OnCancelClick(object sender, EventArgs e)
@@ -126,18 +137,13 @@ namespace BRCSISTEM.Desktop.Views
             Close();
         }
 
-        private void RefreshGrid()
+        private void AtualizarGrid()
         {
-            var filter = (_filterTextBox.Text ?? string.Empty).Trim();
-            var items = string.IsNullOrWhiteSpace(filter)
-                ? _allOptions
-                : _allOptions.Where(item =>
-                    (item.Code ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item.Description ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item.Status ?? string.Empty).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .ToArray();
+            var itens = _controller.Filtrar(_filterTextBox.Text);
 
-            _grid.DataSource = items;
+            // DataGridView espera lista mutavel para binding simples.
+            var fonte = new System.Collections.Generic.List<SelecaoRegistroItem>(itens);
+            _grid.DataSource = fonte;
 
             if (_grid.Rows.Count > 0)
             {
@@ -146,15 +152,19 @@ namespace BRCSISTEM.Desktop.Views
             }
         }
 
-        private void ConfirmSelection()
+        private void ConfirmarSelecao()
         {
-            if (!(_grid.CurrentRow?.DataBoundItem is LookupOption option))
+            var linha = _grid.CurrentRow;
+            var item = linha == null ? null : linha.DataBoundItem as SelecaoRegistroItem;
+            var opcao = _controller.ObterOpcaoSelecionada(item);
+
+            if (opcao == null)
             {
                 MessageBox.Show(this, "Selecione um registro.", "Informacao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            SelectedOption = option;
+            SelectedOption = opcao;
             DialogResult = DialogResult.OK;
             Close();
         }

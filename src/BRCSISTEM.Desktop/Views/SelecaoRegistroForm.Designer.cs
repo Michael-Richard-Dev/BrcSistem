@@ -45,6 +45,9 @@ namespace BRCSISTEM.Desktop.Views
             this._confirmButton = new System.Windows.Forms.Button();
             this._resultsGroup = new System.Windows.Forms.GroupBox();
             this._grid = new System.Windows.Forms.DataGridView();
+            this._colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._footerLabel = new System.Windows.Forms.Label();
             this._rootLayout.SuspendLayout();
             this._filterLayout.SuspendLayout();
@@ -146,6 +149,7 @@ namespace BRCSISTEM.Desktop.Views
             this._grid.AllowUserToAddRows = false;
             this._grid.AllowUserToDeleteRows = false;
             this._grid.AllowUserToResizeRows = false;
+            this._grid.AutoGenerateColumns = false;
             this._grid.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
@@ -153,6 +157,10 @@ namespace BRCSISTEM.Desktop.Views
             this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this._grid.ColumnHeadersHeight = 26;
             this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+                this._colCodigo,
+                this._colDescricao,
+                this._colStatus});
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._grid.EnableHeadersVisualStyles = false;
             this._grid.Font = new System.Drawing.Font("Segoe UI", 8.25F);
@@ -167,7 +175,31 @@ namespace BRCSISTEM.Desktop.Views
             this._grid.TabIndex = 0;
             this._grid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnGridCellDoubleClick);
             this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnGridKeyDown);
-            // 
+            //
+            // _colCodigo
+            //
+            this._colCodigo.DataPropertyName = "Codigo";
+            this._colCodigo.HeaderText = "CODIGO";
+            this._colCodigo.Name = "_colCodigo";
+            this._colCodigo.ReadOnly = true;
+            this._colCodigo.Width = 120;
+            //
+            // _colDescricao
+            //
+            this._colDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._colDescricao.DataPropertyName = "Descricao";
+            this._colDescricao.HeaderText = "DESCRICAO";
+            this._colDescricao.Name = "_colDescricao";
+            this._colDescricao.ReadOnly = true;
+            //
+            // _colStatus
+            //
+            this._colStatus.DataPropertyName = "Status";
+            this._colStatus.HeaderText = "STATUS";
+            this._colStatus.Name = "_colStatus";
+            this._colStatus.ReadOnly = true;
+            this._colStatus.Width = 110;
+            //
             // _footerLabel
             // 
             this._footerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
