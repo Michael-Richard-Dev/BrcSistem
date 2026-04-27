@@ -110,7 +110,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             // _headerSubtitleLabel
             //
             this._headerSubtitleLabel.AutoSize = true;
-            this._headerSubtitleLabel.Font = new Font("Segoe UI", 9F);
+            this._headerSubtitleLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._headerSubtitleLabel.ForeColor = Color.Gray;
             this._headerSubtitleLabel.Margin = new Padding(3, 5, 3, 0);
             this._headerSubtitleLabel.Name = "_headerSubtitleLabel";
@@ -134,7 +134,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
                 this._colId, this._colName, this._colDescription, this._colKind,
                 this._colHost, this._colDatabase, this._colStatus});
             this._profilesListView.Dock = DockStyle.Fill;
-            this._profilesListView.Font = new Font("Segoe UI", 9F);
+            this._profilesListView.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._profilesListView.FullRowSelect = true;
             this._profilesListView.GridLines = true;
             this._profilesListView.HideSelection = false;
@@ -198,7 +198,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._configGroupLayout.RowStyles.Add(new RowStyle());
             //
             this._configCaptionLabel.AutoSize = true;
-            this._configCaptionLabel.Font = new Font("Segoe UI", 8F);
+            this._configCaptionLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._configCaptionLabel.ForeColor = Color.Blue;
             this._configCaptionLabel.Margin = new Padding(3, 0, 3, 5);
             this._configCaptionLabel.Name = "_configCaptionLabel";
@@ -223,11 +223,55 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._configButtonsTable.RowStyles.Add(new RowStyle());
             this._configButtonsTable.RowStyles.Add(new RowStyle());
             //
-            ConfigureConfigButton(this._searchButton, "Buscar e Adicionar (F7)", 0);
-            ConfigureConfigButton(this._newButton, "Adicionar Manual (F2)", 1);
-            ConfigureConfigButton(this._editButton, "Editar Selecionado (F3)", 2);
-            ConfigureConfigButton(this._deleteButton, "Remover da Lista (F6)", 3);
-            ConfigureConfigButton(this._activateButton, "Ativar Banco (F8)", 4);
+            this._searchButton.Dock = DockStyle.Fill;
+            this._searchButton.FlatStyle = FlatStyle.System;
+            this._searchButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._searchButton.Margin = new Padding(2);
+            this._searchButton.Name = "_searchButton";
+            this._searchButton.Size = new Size(180, 25);
+            this._searchButton.TabIndex = 0;
+            this._searchButton.Text = "Buscar e Adicionar (F7)";
+            this._searchButton.UseVisualStyleBackColor = true;
+            //
+            this._newButton.Dock = DockStyle.Fill;
+            this._newButton.FlatStyle = FlatStyle.System;
+            this._newButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._newButton.Margin = new Padding(2);
+            this._newButton.Name = "_newButton";
+            this._newButton.Size = new Size(180, 25);
+            this._newButton.TabIndex = 1;
+            this._newButton.Text = "Adicionar Manual (F2)";
+            this._newButton.UseVisualStyleBackColor = true;
+            //
+            this._editButton.Dock = DockStyle.Fill;
+            this._editButton.FlatStyle = FlatStyle.System;
+            this._editButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._editButton.Margin = new Padding(2);
+            this._editButton.Name = "_editButton";
+            this._editButton.Size = new Size(180, 25);
+            this._editButton.TabIndex = 2;
+            this._editButton.Text = "Editar Selecionado (F3)";
+            this._editButton.UseVisualStyleBackColor = true;
+            //
+            this._deleteButton.Dock = DockStyle.Fill;
+            this._deleteButton.FlatStyle = FlatStyle.System;
+            this._deleteButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._deleteButton.Margin = new Padding(2);
+            this._deleteButton.Name = "_deleteButton";
+            this._deleteButton.Size = new Size(180, 25);
+            this._deleteButton.TabIndex = 3;
+            this._deleteButton.Text = "Remover da Lista (F6)";
+            this._deleteButton.UseVisualStyleBackColor = true;
+            //
+            this._activateButton.Dock = DockStyle.Fill;
+            this._activateButton.FlatStyle = FlatStyle.System;
+            this._activateButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._activateButton.Margin = new Padding(2);
+            this._activateButton.Name = "_activateButton";
+            this._activateButton.Size = new Size(180, 25);
+            this._activateButton.TabIndex = 4;
+            this._activateButton.Text = "Ativar Banco (F8)";
+            this._activateButton.UseVisualStyleBackColor = true;
             //
             // _serverGroup
             //
@@ -255,7 +299,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._serverGroupLayout.RowStyles.Add(new RowStyle());
             //
             this._serverCaptionLabel.AutoSize = true;
-            this._serverCaptionLabel.Font = new Font("Segoe UI", 8F);
+            this._serverCaptionLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._serverCaptionLabel.ForeColor = Color.Red;
             this._serverCaptionLabel.Margin = new Padding(3, 0, 3, 5);
             this._serverCaptionLabel.Name = "_serverCaptionLabel";
@@ -273,8 +317,25 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._serverButtonsTable.RowCount = 1;
             this._serverButtonsTable.RowStyles.Add(new RowStyle());
             //
-            ConfigureServerButton(this._createDatabaseButton, "Criar Novo Banco", 0);
-            ConfigureServerButton(this._dropDatabaseButton, "Excluir Banco", 1);
+            this._createDatabaseButton.Dock = DockStyle.Fill;
+            this._createDatabaseButton.FlatStyle = FlatStyle.System;
+            this._createDatabaseButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._createDatabaseButton.Margin = new Padding(2);
+            this._createDatabaseButton.Name = "_createDatabaseButton";
+            this._createDatabaseButton.Size = new Size(160, 25);
+            this._createDatabaseButton.TabIndex = 0;
+            this._createDatabaseButton.Text = "Criar Novo Banco";
+            this._createDatabaseButton.UseVisualStyleBackColor = true;
+            //
+            this._dropDatabaseButton.Dock = DockStyle.Fill;
+            this._dropDatabaseButton.FlatStyle = FlatStyle.System;
+            this._dropDatabaseButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._dropDatabaseButton.Margin = new Padding(2);
+            this._dropDatabaseButton.Name = "_dropDatabaseButton";
+            this._dropDatabaseButton.Size = new Size(160, 25);
+            this._dropDatabaseButton.TabIndex = 1;
+            this._dropDatabaseButton.Text = "Excluir Banco";
+            this._dropDatabaseButton.UseVisualStyleBackColor = true;
             //
             // _auxPanel
             //
@@ -290,6 +351,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._auxPanel.WrapContents = false;
             //
             this._manualButton.FlatStyle = FlatStyle.System;
+            this._manualButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._manualButton.Margin = new Padding(3, 3, 3, 2);
             this._manualButton.Name = "_manualButton";
             this._manualButton.Size = new Size(110, 27);
@@ -298,6 +360,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._manualButton.UseVisualStyleBackColor = true;
             //
             this._closeButton.FlatStyle = FlatStyle.System;
+            this._closeButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._closeButton.Margin = new Padding(3, 2, 3, 3);
             this._closeButton.Name = "_closeButton";
             this._closeButton.Size = new Size(110, 27);
@@ -308,7 +371,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             // _statusLabel
             //
             this._statusLabel.AutoSize = true;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             this._statusLabel.ForeColor = Color.SeaGreen;
             this._statusLabel.Margin = new Padding(0, 10, 0, 0);
             this._statusLabel.Name = "_statusLabel";
@@ -321,7 +384,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this.BackColor = Color.FromArgb(240, 240, 240);
             this.ClientSize = new Size(1100, 600);
             this.Controls.Add(this._rootLayout);
-            this.Font = new Font("Segoe UI", 9F);
+            this.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this.MinimumSize = new Size(1020, 600);
             this.Name = "PerfisBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
@@ -347,28 +410,6 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             this._auxPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-        }
-
-        private static void ConfigureConfigButton(Button button, string text, int tabIndex)
-        {
-            button.Dock = DockStyle.Fill;
-            button.FlatStyle = FlatStyle.System;
-            button.Margin = new Padding(2);
-            button.Size = new Size(180, 25);
-            button.TabIndex = tabIndex;
-            button.Text = text;
-            button.UseVisualStyleBackColor = true;
-        }
-
-        private static void ConfigureServerButton(Button button, string text, int tabIndex)
-        {
-            button.Dock = DockStyle.Fill;
-            button.FlatStyle = FlatStyle.System;
-            button.Margin = new Padding(2);
-            button.Size = new Size(160, 25);
-            button.TabIndex = tabIndex;
-            button.Text = text;
-            button.UseVisualStyleBackColor = true;
         }
 
         #endregion

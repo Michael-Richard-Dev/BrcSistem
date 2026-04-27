@@ -21,6 +21,11 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
         private bool _hasChanges;
         private DatabaseManualForm _manualForm;
 
+        public PerfisBancoDadosForm()
+        {
+            InitializeComponent();
+        }
+
         public PerfisBancoDadosForm(CompositionRoot compositionRoot)
         {
             _compositionRoot = compositionRoot;
