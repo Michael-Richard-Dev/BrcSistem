@@ -83,7 +83,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             // _subtitleLabel
             //
             this._subtitleLabel.AutoSize = true;
-            this._subtitleLabel.Font = new Font("Segoe UI", 8F);
+            this._subtitleLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._subtitleLabel.ForeColor = Color.Gray;
             this._subtitleLabel.Margin = new Padding(0, 0, 0, 15);
             this._subtitleLabel.Text = "Conecte ao servidor e descubra os bancos disponiveis.";
@@ -116,20 +116,55 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             this._connectionLayout.RowStyles.Add(new RowStyle());
             this._connectionLayout.RowStyles.Add(new RowStyle());
             //
-            ConfigureFieldLabel(this._hostLabel, "Host:");
-            ConfigureFieldLabel(this._portLabel, "Porta:");
-            ConfigureFieldLabel(this._userLabel, "Usuario:");
-            ConfigureFieldLabel(this._passwordLabel, "Senha:");
-            ConfigureTextBox(this._hostTextBox);
-            ConfigureTextBox(this._portTextBox);
-            ConfigureTextBox(this._userTextBox);
-            ConfigureTextBox(this._passwordTextBox);
+            this._hostLabel.AutoSize = true;
+            this._hostLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._hostLabel.Margin = new Padding(0, 8, 10, 0);
+            this._hostLabel.Name = "_hostLabel";
+            this._hostLabel.Text = "Host:";
+            //
+            this._portLabel.AutoSize = true;
+            this._portLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._portLabel.Margin = new Padding(0, 8, 10, 0);
+            this._portLabel.Name = "_portLabel";
+            this._portLabel.Text = "Porta:";
+            //
+            this._userLabel.AutoSize = true;
+            this._userLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._userLabel.Margin = new Padding(0, 8, 10, 0);
+            this._userLabel.Name = "_userLabel";
+            this._userLabel.Text = "Usuario:";
+            //
+            this._passwordLabel.AutoSize = true;
+            this._passwordLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._passwordLabel.Margin = new Padding(0, 8, 10, 0);
+            this._passwordLabel.Name = "_passwordLabel";
+            this._passwordLabel.Text = "Senha:";
+            //
+            this._hostTextBox.Dock = DockStyle.Top;
+            this._hostTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._hostTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._hostTextBox.Name = "_hostTextBox";
+            //
+            this._portTextBox.Dock = DockStyle.Top;
+            this._portTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._portTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._portTextBox.Name = "_portTextBox";
+            //
+            this._userTextBox.Dock = DockStyle.Top;
+            this._userTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._userTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._userTextBox.Name = "_userTextBox";
+            //
+            this._passwordTextBox.Dock = DockStyle.Top;
+            this._passwordTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._passwordTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._passwordTextBox.Name = "_passwordTextBox";
             this._passwordTextBox.UseSystemPasswordChar = true;
             //
             // _statusLabel
             //
             this._statusLabel.AutoSize = true;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             this._statusLabel.ForeColor = Color.SeaGreen;
             this._statusLabel.Margin = new Padding(0, 10, 0, 10);
             //
@@ -154,11 +189,11 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             //
             this._resultsCheckedListBox.CheckOnClick = true;
             this._resultsCheckedListBox.Dock = DockStyle.Fill;
-            this._resultsCheckedListBox.Font = new Font("Segoe UI", 9F);
+            this._resultsCheckedListBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._resultsCheckedListBox.IntegralHeight = false;
             //
             this._resultsHintLabel.AutoSize = true;
-            this._resultsHintLabel.Font = new Font("Segoe UI", 8F);
+            this._resultsHintLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._resultsHintLabel.ForeColor = Color.Blue;
             this._resultsHintLabel.Margin = new Padding(0, 5, 0, 0);
             this._resultsHintLabel.Text = "Marque um ou mais bancos para adicionar a lista de configuracoes.";
@@ -176,9 +211,29 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             this._buttonsLayout.Dock = DockStyle.Fill;
             this._buttonsLayout.Margin = new Padding(0, 10, 0, 0);
             //
-            ConfigureButton(this._searchButton, "Buscar", 0, 110);
-            ConfigureButton(this._addSelectedButton, "Adicionar Selecionados", 1, 170);
-            ConfigureButton(this._cancelButton, "Cancelar", 2, 110);
+            this._searchButton.FlatStyle = FlatStyle.System;
+            this._searchButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._searchButton.Name = "_searchButton";
+            this._searchButton.Size = new Size(110, 28);
+            this._searchButton.TabIndex = 0;
+            this._searchButton.Text = "Buscar";
+            this._searchButton.UseVisualStyleBackColor = true;
+            //
+            this._addSelectedButton.FlatStyle = FlatStyle.System;
+            this._addSelectedButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._addSelectedButton.Name = "_addSelectedButton";
+            this._addSelectedButton.Size = new Size(170, 28);
+            this._addSelectedButton.TabIndex = 1;
+            this._addSelectedButton.Text = "Adicionar Selecionados";
+            this._addSelectedButton.UseVisualStyleBackColor = true;
+            //
+            this._cancelButton.FlatStyle = FlatStyle.System;
+            this._cancelButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._cancelButton.Name = "_cancelButton";
+            this._cancelButton.Size = new Size(110, 28);
+            this._cancelButton.TabIndex = 2;
+            this._cancelButton.Text = "Cancelar";
+            this._cancelButton.UseVisualStyleBackColor = true;
             this._addSelectedButton.Enabled = false;
             //
             // NavegadorServidoresBancoDadosForm
@@ -190,7 +245,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             this.CancelButton = this._cancelButton;
             this.ClientSize = new Size(600, 500);
             this.Controls.Add(this._rootLayout);
-            this.Font = new Font("Segoe UI", 9F);
+            this.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -207,28 +262,6 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             this._resultsLayout.PerformLayout();
             this._buttonsLayout.ResumeLayout(false);
             this.ResumeLayout(false);
-        }
-
-        private static void ConfigureFieldLabel(Label label, string text)
-        {
-            label.AutoSize = true;
-            label.Margin = new Padding(0, 8, 10, 0);
-            label.Text = text;
-        }
-
-        private static void ConfigureTextBox(TextBox textBox)
-        {
-            textBox.Dock = DockStyle.Top;
-            textBox.Margin = new Padding(0, 5, 0, 5);
-        }
-
-        private static void ConfigureButton(Button button, string text, int tabIndex, int width)
-        {
-            button.FlatStyle = FlatStyle.System;
-            button.Size = new Size(width, 28);
-            button.TabIndex = tabIndex;
-            button.Text = text;
-            button.UseVisualStyleBackColor = true;
         }
 
         #endregion

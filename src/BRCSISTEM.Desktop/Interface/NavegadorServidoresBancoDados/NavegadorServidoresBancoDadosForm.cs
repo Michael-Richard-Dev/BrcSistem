@@ -15,6 +15,11 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
 
         public string ResultMessage { get; private set; }
 
+        public NavegadorServidoresBancoDadosForm()
+        {
+            InitializeComponent();
+        }
+
         public NavegadorServidoresBancoDadosForm(CompositionRoot compositionRoot, AppConfiguration configuration)
         {
             if (compositionRoot == null)
