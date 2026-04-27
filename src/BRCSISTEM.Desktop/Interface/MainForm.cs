@@ -631,7 +631,7 @@ namespace BRCSISTEM.Desktop.Interface
             changePasswordItem.Click += (sender, args) =>
             {
                 var configuration = _compositionRoot.CreateConfigurationController().LoadConfiguration();
-                using (var dialog = new ChangePasswordForm(_compositionRoot, configuration, _databaseProfile, _identity.UserName, false))
+                using (var dialog = new AlteracaoSenhaForm(_compositionRoot, configuration, _databaseProfile, _identity.UserName, false))
                 {
                     dialog.ShowDialog(this);
                 }

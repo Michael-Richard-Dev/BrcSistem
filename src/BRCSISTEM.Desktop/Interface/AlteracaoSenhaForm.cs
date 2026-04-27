@@ -7,7 +7,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
 {
-    public sealed class ChangePasswordForm : Form
+    public sealed class AlteracaoSenhaForm : Form
     {
         private readonly AuthenticationController _authenticationController;
         private readonly AppConfiguration _configuration;
@@ -19,7 +19,15 @@ namespace BRCSISTEM.Desktop.Interface
         private TextBox _confirmPasswordTextBox;
         private Label _statusLabel;
 
-        public ChangePasswordForm(CompositionRoot compositionRoot, AppConfiguration configuration, DatabaseProfile databaseProfile, string userName, bool forceReset)
+        public AlteracaoSenhaForm()
+        {
+            _userName = string.Empty;
+            _forceReset = false;
+
+            InitializeComponent();
+        }
+
+        public AlteracaoSenhaForm(CompositionRoot compositionRoot, AppConfiguration configuration, DatabaseProfile databaseProfile, string userName, bool forceReset)
         {
             _authenticationController = compositionRoot.CreateAuthenticationController();
             _configuration = configuration;

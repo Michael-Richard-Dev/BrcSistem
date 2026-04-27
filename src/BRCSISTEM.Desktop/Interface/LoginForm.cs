@@ -367,14 +367,14 @@ namespace BRCSISTEM.Desktop.Interface
 
             if (result.RequiresPasswordChange)
             {
-                using (var changePasswordForm = new ChangePasswordForm(
+                using (var alteracaoSenhaForm = new AlteracaoSenhaForm(
                     _compositionRoot,
                     _configuration,
                     result.DatabaseProfile,
                     result.Identity.UserName,
                     true))
                 {
-                    var dialogResult = changePasswordForm.ShowDialog(this);
+                    var dialogResult = alteracaoSenhaForm.ShowDialog(this);
                     if (dialogResult == DialogResult.OK)
                     {
                         MessageBox.Show(
