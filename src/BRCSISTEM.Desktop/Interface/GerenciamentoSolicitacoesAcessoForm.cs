@@ -26,11 +26,18 @@ namespace BRCSISTEM.Desktop.Interface
 
         private sealed class AccessRequestRow
         {
+            [Browsable(false)]
             public string Id { get; set; }
+
             public string Nome { get; set; }
+
             public string Email { get; set; }
+
             public string Justificativa { get; set; }
+
             public string Data { get; set; }
+
+            [Browsable(false)]
             public string MensagemCompleta { get; set; }
         }
 
@@ -179,6 +186,8 @@ namespace BRCSISTEM.Desktop.Interface
                 }).ToList();
 
                 _grid.DataSource = rows;
+                HideTechnicalColumns();
+
                 if (_grid.Rows.Count > 0)
                 {
                     _grid.ClearSelection();
@@ -205,6 +214,24 @@ namespace BRCSISTEM.Desktop.Interface
             {
                 SetStatus("Erro ao carregar dados", Color.Red);
                 ShowError(exception);
+            }
+        }
+
+        private void HideTechnicalColumns()
+        {
+            if (_grid == null)
+            {
+                return;
+            }
+
+            if (_grid.Columns.Contains("Id"))
+            {
+                _grid.Columns["Id"].Visible = false;
+            }
+
+            if (_grid.Columns.Contains("MensagemCompleta"))
+            {
+                _grid.Columns["MensagemCompleta"].Visible = false;
             }
         }
 
