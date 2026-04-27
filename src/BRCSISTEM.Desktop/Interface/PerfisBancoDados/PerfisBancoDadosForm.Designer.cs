@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
 {
-    public sealed partial class DatabaseProfilesForm
+    public sealed partial class PerfisBancoDadosForm
     {
         private IContainer components = null;
 
@@ -314,7 +314,7 @@ namespace BRCSISTEM.Desktop.Interface
             this._statusLabel.Name = "_statusLabel";
             this._statusLabel.Text = string.Empty;
             //
-            // DatabaseProfilesForm
+            // PerfisBancoDadosForm
             //
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
@@ -323,7 +323,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.Controls.Add(this._rootLayout);
             this.Font = new Font("Segoe UI", 9F);
             this.MinimumSize = new Size(1020, 600);
-            this.Name = "DatabaseProfilesForm";
+            this.Name = "PerfisBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "BRCSISTEM - Gerenciador de Bancos";
             this._rootLayout.ResumeLayout(false);

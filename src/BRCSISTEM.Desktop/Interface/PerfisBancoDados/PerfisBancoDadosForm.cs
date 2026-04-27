@@ -4,12 +4,13 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Desktop.Interface;
 using BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
 {
-    public sealed partial class DatabaseProfilesForm : Form
+    public sealed partial class PerfisBancoDadosForm : Form
     {
         private static readonly Color ActiveRowColor = Color.FromArgb(232, 245, 233);
 
@@ -20,7 +21,7 @@ namespace BRCSISTEM.Desktop.Interface
         private bool _hasChanges;
         private DatabaseManualForm _manualForm;
 
-        public DatabaseProfilesForm(CompositionRoot compositionRoot)
+        public PerfisBancoDadosForm(CompositionRoot compositionRoot)
         {
             _compositionRoot = compositionRoot;
             _configurationController = compositionRoot.CreateConfigurationController();
@@ -30,7 +31,7 @@ namespace BRCSISTEM.Desktop.Interface
 
         private void WireEvents()
         {
-            Load += DatabaseProfilesForm_Load;
+            Load += PerfisBancoDadosForm_Load;
             _profilesListView.DoubleClick += (s, e) => EditButton_Click(s, EventArgs.Empty);
             _searchButton.Click += SearchButton_Click;
             _newButton.Click += NewButton_Click;
@@ -42,15 +43,15 @@ namespace BRCSISTEM.Desktop.Interface
             _manualButton.Click += ManualButton_Click;
             _closeButton.Click += CloseButton_Click;
             KeyPreview = true;
-            KeyDown += DatabaseProfilesForm_KeyDown;
+            KeyDown += PerfisBancoDadosForm_KeyDown;
         }
 
-        private void DatabaseProfilesForm_Load(object sender, EventArgs e)
+        private void PerfisBancoDadosForm_Load(object sender, EventArgs e)
         {
             LoadConfiguration();
         }
 
-        private void DatabaseProfilesForm_KeyDown(object sender, KeyEventArgs e)
+        private void PerfisBancoDadosForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {

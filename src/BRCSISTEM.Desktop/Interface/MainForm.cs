@@ -9,6 +9,7 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
+using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
 using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
@@ -622,7 +623,7 @@ namespace BRCSISTEM.Desktop.Interface
             var manageProfilesItem = new ToolStripMenuItem("Gerenciar Bancos");
             manageProfilesItem.Click += (sender, args) =>
             {
-                using (var dialog = new DatabaseProfilesForm(_compositionRoot))
+                using (var dialog = new PerfisBancoDadosForm(_compositionRoot))
                 {
                     dialog.ShowDialog(this);
                 }
