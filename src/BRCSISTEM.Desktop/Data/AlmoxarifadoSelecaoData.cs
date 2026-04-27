@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BRCSISTEM.Desktop.Models;
-using BRCSISTEM.Desktop.Views;
+using BRCSISTEM.Desktop.Interface;
 
 namespace BRCSISTEM.Desktop.Data
 {

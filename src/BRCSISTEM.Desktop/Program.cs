@@ -13,7 +13,7 @@ namespace BRCSISTEM.Desktop
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
             var compositionRoot = CompositionRoot.Create();
-            System.Windows.Forms.Application.Run(new Views.LoginForm(compositionRoot));
+            System.Windows.Forms.Application.Run(new Interface.LoginForm(compositionRoot));
         }
     }
 }

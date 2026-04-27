@@ -1,4 +1,4 @@
-using BRCSISTEM.Desktop.Views;
+using BRCSISTEM.Desktop.Interface;
 
 namespace BRCSISTEM.Desktop.Models
 {
