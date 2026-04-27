@@ -46,7 +46,6 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
             _createDatabaseButton.Click += CreateDatabaseButton_Click;
             _dropDatabaseButton.Click += DropDatabaseButton_Click;
             _manualButton.Click += ManualButton_Click;
-            _closeButton.Click += CloseButton_Click;
             KeyPreview = true;
             KeyDown += PerfisBancoDadosForm_KeyDown;
         }
