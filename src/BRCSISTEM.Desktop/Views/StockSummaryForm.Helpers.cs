@@ -186,7 +186,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenWarehouseLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Almoxarifado", "Nome", _warehouseOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new AlmoxarifadoSelecaoForm(_warehouseOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -197,7 +197,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenMaterialLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Material", "Descricao", _materialOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new MaterialSelecaoForm(_materialOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -208,7 +208,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenLotLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Lote", "Nome", _lotOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new LoteSelecaoForm(_lotOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {

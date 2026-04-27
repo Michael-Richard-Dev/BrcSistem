@@ -657,7 +657,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenSupplierLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Fornecedor", "Nome", _supplierOptions))
+            using (var dialog = new FornecedorSelecaoForm(_supplierOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -668,7 +668,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenMaterialLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Material", "Descricao", _materialOptions))
+            using (var dialog = new MaterialSelecaoForm(_materialOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -679,7 +679,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenWarehouseLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Almoxarifado", "Nome", _warehouseOptions))
+            using (var dialog = new AlmoxarifadoSelecaoForm(_warehouseOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -697,7 +697,7 @@ namespace BRCSISTEM.Desktop.Views
             }
 
             ReloadLots();
-            using (var dialog = new SelecaoRegistroForm("Selecionar Lote", "Nome", _lotOptions))
+            using (var dialog = new LoteSelecaoForm(_lotOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {

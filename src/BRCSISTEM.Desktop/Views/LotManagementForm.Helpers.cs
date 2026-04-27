@@ -84,7 +84,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenSupplierLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Fornecedor", "Nome", _supplierOptions))
+            using (var dialog = new FornecedorSelecaoForm(_supplierOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
@@ -95,7 +95,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenMaterialLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Material", "Descricao", _materialOptions))
+            using (var dialog = new MaterialSelecaoForm(_materialOptions))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {

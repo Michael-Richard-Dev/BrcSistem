@@ -77,7 +77,7 @@ namespace BRCSISTEM.Desktop.Views
 
         private void OpenSupplierLookup()
         {
-            using (var dialog = new SelecaoRegistroForm("Selecionar Fornecedor", "Nome", _supplierOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
+            using (var dialog = new FornecedorSelecaoForm(_supplierOptions.Where(item => !string.IsNullOrWhiteSpace(item.Code)).ToArray()))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK && dialog.SelectedOption != null)
                 {
