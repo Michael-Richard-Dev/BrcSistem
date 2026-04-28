@@ -6,16 +6,21 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
 {
-    public sealed partial class DatabaseServerDropForm : Form
+    public sealed partial class ExclusaoServidorBancoDadosForm : Form
     {
         private readonly ConfigurationController _configurationController;
         private readonly AppConfiguration _configuration;
 
         public string ResultMessage { get; private set; }
 
-        public DatabaseServerDropForm(CompositionRoot compositionRoot, AppConfiguration configuration)
+        public ExclusaoServidorBancoDadosForm()
+        {
+            InitializeComponent();
+        }
+
+        public ExclusaoServidorBancoDadosForm(CompositionRoot compositionRoot, AppConfiguration configuration)
         {
             if (compositionRoot == null)
             {

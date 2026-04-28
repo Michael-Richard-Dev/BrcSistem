@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
 {
-    public sealed partial class DatabaseServerDropForm
+    public sealed partial class ExclusaoServidorBancoDadosForm
     {
         private IContainer components = null;
 
@@ -114,14 +114,26 @@ namespace BRCSISTEM.Desktop.Interface
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._serverLayout.RowStyles.Add(new RowStyle());
-            ConfigureFieldLabel(this._hostLabel, "Host:");
-            ConfigureFieldLabel(this._portLabel, "Porta:");
-            ConfigureFieldLabel(this._adminUserLabel, "Usuario Admin:");
-            ConfigureFieldLabel(this._adminPasswordLabel, "Senha:");
-            ConfigureTextBox(this._hostTextBox);
-            ConfigureTextBox(this._portTextBox);
-            ConfigureTextBox(this._adminUserTextBox);
-            ConfigureTextBox(this._adminPasswordTextBox);
+            this._hostLabel.AutoSize = true;
+            this._hostLabel.Margin = new Padding(0, 8, 10, 0);
+            this._hostLabel.Text = "Host:";
+            this._portLabel.AutoSize = true;
+            this._portLabel.Margin = new Padding(0, 8, 10, 0);
+            this._portLabel.Text = "Porta:";
+            this._adminUserLabel.AutoSize = true;
+            this._adminUserLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminUserLabel.Text = "Usuario Admin:";
+            this._adminPasswordLabel.AutoSize = true;
+            this._adminPasswordLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminPasswordLabel.Text = "Senha:";
+            this._hostTextBox.Dock = DockStyle.Top;
+            this._hostTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._portTextBox.Dock = DockStyle.Top;
+            this._portTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminUserTextBox.Dock = DockStyle.Top;
+            this._adminUserTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminPasswordTextBox.Dock = DockStyle.Top;
+            this._adminPasswordTextBox.Margin = new Padding(0, 5, 0, 5);
             this._adminPasswordTextBox.UseSystemPasswordChar = true;
             //
             // _statusLabel
@@ -154,12 +166,24 @@ namespace BRCSISTEM.Desktop.Interface
             this._buttonsLayout.Controls.Add(this._deleteButton, 1, 0);
             this._buttonsLayout.Controls.Add(this._cancelButton, 3, 0);
             this._buttonsLayout.Dock = DockStyle.Fill;
-            ConfigureButton(this._listButton, "Listar Bancos", 0, 120);
-            ConfigureButton(this._deleteButton, "EXCLUIR Banco", 1, 140);
-            ConfigureButton(this._cancelButton, "Cancelar", 2, 110);
+            this._listButton.FlatStyle = FlatStyle.System;
+            this._listButton.Size = new Size(120, 28);
+            this._listButton.TabIndex = 0;
+            this._listButton.Text = "Listar Bancos";
+            this._listButton.UseVisualStyleBackColor = true;
+            this._deleteButton.FlatStyle = FlatStyle.System;
+            this._deleteButton.Size = new Size(140, 28);
+            this._deleteButton.TabIndex = 1;
+            this._deleteButton.Text = "EXCLUIR Banco";
+            this._deleteButton.UseVisualStyleBackColor = true;
+            this._cancelButton.FlatStyle = FlatStyle.System;
+            this._cancelButton.Size = new Size(110, 28);
+            this._cancelButton.TabIndex = 2;
+            this._cancelButton.Text = "Cancelar";
+            this._cancelButton.UseVisualStyleBackColor = true;
             this._deleteButton.Enabled = false;
             //
-            // DatabaseServerDropForm
+            // ExclusaoServidorBancoDadosForm
             //
             this.AcceptButton = this._listButton;
             this.AutoScaleDimensions = new SizeF(6F, 13F);
@@ -172,7 +196,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DatabaseServerDropForm";
+            this.Name = "ExclusaoServidorBancoDadosForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Excluir Banco do Servidor PostgreSQL";
             this._rootLayout.ResumeLayout(false);
@@ -185,28 +209,6 @@ namespace BRCSISTEM.Desktop.Interface
             this._resultsGroup.ResumeLayout(false);
             this._buttonsLayout.ResumeLayout(false);
             this.ResumeLayout(false);
-        }
-
-        private static void ConfigureFieldLabel(Label label, string text)
-        {
-            label.AutoSize = true;
-            label.Margin = new Padding(0, 8, 10, 0);
-            label.Text = text;
-        }
-
-        private static void ConfigureTextBox(TextBox textBox)
-        {
-            textBox.Dock = DockStyle.Top;
-            textBox.Margin = new Padding(0, 5, 0, 5);
-        }
-
-        private static void ConfigureButton(Button button, string text, int tabIndex, int width)
-        {
-            button.FlatStyle = FlatStyle.System;
-            button.Size = new Size(width, 28);
-            button.TabIndex = tabIndex;
-            button.Text = text;
-            button.UseVisualStyleBackColor = true;
         }
 
         #endregion

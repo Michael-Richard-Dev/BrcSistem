@@ -7,6 +7,7 @@ using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface;
 using BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados;
 using BRCSISTEM.Desktop.Interface.EditorPerfilBancoDados;
+using BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados;
 using BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados;
 using BRCSISTEM.Domain.Models;
 
@@ -133,7 +134,7 @@ namespace BRCSISTEM.Desktop.Interface.PerfisBancoDados
 
         private void DropDatabaseButton_Click(object sender, EventArgs e)
         {
-            using (var form = new DatabaseServerDropForm(_compositionRoot, _configuration))
+            using (var form = new ExclusaoServidorBancoDadosForm(_compositionRoot, _configuration))
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
