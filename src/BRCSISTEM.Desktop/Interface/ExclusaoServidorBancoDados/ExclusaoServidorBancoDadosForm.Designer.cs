@@ -77,6 +77,7 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._headerLayout.Controls.Add(this._titleLabel, 0, 0);
             this._headerLayout.Controls.Add(this._warningLabel, 0, 1);
             this._headerLayout.Dock = DockStyle.Fill;
+            this._headerLayout.Margin = new Padding(0, 0, 0, 15);
             //
             this._titleLabel.AutoSize = true;
             this._titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
@@ -86,14 +87,15 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._warningLabel.AutoSize = true;
             this._warningLabel.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             this._warningLabel.ForeColor = Color.Firebrick;
-            this._warningLabel.Margin = new Padding(0, 0, 0, 15);
-            this._warningLabel.Text = "ATENCAO: esta acao apaga o banco e todos os dados do servidor.";
+            this._warningLabel.Margin = new Padding(0, 3, 0, 0);
+            this._warningLabel.Text = "ATENCAO: Esta acao APAGA o banco e TODOS os dados do servidor!";
             //
             // _serverGroup
             //
             this._serverGroup.Controls.Add(this._serverLayout);
             this._serverGroup.Dock = DockStyle.Fill;
             this._serverGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._serverGroup.Margin = new Padding(0, 0, 0, 10);
             this._serverGroup.Padding = new Padding(10);
             this._serverGroup.Text = " Conectar ao Servidor ";
             //
@@ -115,40 +117,49 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._hostLabel.AutoSize = true;
-            this._hostLabel.Margin = new Padding(0, 8, 10, 0);
+            this._hostLabel.Font = new Font("Segoe UI", 8.25F);
+            this._hostLabel.Margin = new Padding(0, 3, 10, 3);
             this._hostLabel.Text = "Host:";
             this._portLabel.AutoSize = true;
-            this._portLabel.Margin = new Padding(0, 8, 10, 0);
+            this._portLabel.Font = new Font("Segoe UI", 8.25F);
+            this._portLabel.Margin = new Padding(0, 3, 10, 3);
             this._portLabel.Text = "Porta:";
             this._adminUserLabel.AutoSize = true;
-            this._adminUserLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminUserLabel.Font = new Font("Segoe UI", 8.25F);
+            this._adminUserLabel.Margin = new Padding(0, 3, 10, 3);
             this._adminUserLabel.Text = "Usuario Admin:";
             this._adminPasswordLabel.AutoSize = true;
-            this._adminPasswordLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminPasswordLabel.Font = new Font("Segoe UI", 8.25F);
+            this._adminPasswordLabel.Margin = new Padding(0, 3, 10, 3);
             this._adminPasswordLabel.Text = "Senha:";
             this._hostTextBox.Dock = DockStyle.Top;
-            this._hostTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._hostTextBox.Font = new Font("Segoe UI", 8.25F);
+            this._hostTextBox.Margin = new Padding(0, 3, 0, 3);
             this._portTextBox.Dock = DockStyle.Top;
-            this._portTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._portTextBox.Font = new Font("Segoe UI", 8.25F);
+            this._portTextBox.Margin = new Padding(0, 3, 0, 3);
             this._adminUserTextBox.Dock = DockStyle.Top;
-            this._adminUserTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminUserTextBox.Font = new Font("Segoe UI", 8.25F);
+            this._adminUserTextBox.Margin = new Padding(0, 3, 0, 3);
             this._adminPasswordTextBox.Dock = DockStyle.Top;
-            this._adminPasswordTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminPasswordTextBox.Font = new Font("Segoe UI", 8.25F);
+            this._adminPasswordTextBox.Margin = new Padding(0, 3, 0, 3);
             this._adminPasswordTextBox.UseSystemPasswordChar = true;
             //
             // _statusLabel
             //
             this._statusLabel.AutoSize = true;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.Font = new Font("Segoe UI", 9F);
             this._statusLabel.ForeColor = Color.SeaGreen;
-            this._statusLabel.Margin = new Padding(0, 10, 0, 10);
+            this._statusLabel.Margin = new Padding(0, 8, 0, 8);
             //
             // _resultsGroup
             //
             this._resultsGroup.Controls.Add(this._databasesListBox);
             this._resultsGroup.Dock = DockStyle.Fill;
             this._resultsGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this._resultsGroup.Padding = new Padding(10);
+            this._resultsGroup.Margin = new Padding(0, 0, 0, 15);
+            this._resultsGroup.Padding = new Padding(8);
             this._resultsGroup.Text = " Selecione o Banco para EXCLUIR ";
             //
             this._databasesListBox.Dock = DockStyle.Fill;
@@ -166,18 +177,22 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._buttonsLayout.Controls.Add(this._deleteButton, 1, 0);
             this._buttonsLayout.Controls.Add(this._cancelButton, 3, 0);
             this._buttonsLayout.Dock = DockStyle.Fill;
+            this._buttonsLayout.Margin = new Padding(0, 10, 0, 0);
             this._listButton.FlatStyle = FlatStyle.System;
-            this._listButton.Size = new Size(120, 28);
+            this._listButton.Margin = new Padding(5, 0, 5, 0);
+            this._listButton.Size = new Size(96, 28);
             this._listButton.TabIndex = 0;
             this._listButton.Text = "Listar Bancos";
             this._listButton.UseVisualStyleBackColor = true;
             this._deleteButton.FlatStyle = FlatStyle.System;
-            this._deleteButton.Size = new Size(140, 28);
+            this._deleteButton.Margin = new Padding(5, 0, 5, 0);
+            this._deleteButton.Size = new Size(120, 28);
             this._deleteButton.TabIndex = 1;
             this._deleteButton.Text = "EXCLUIR Banco";
             this._deleteButton.UseVisualStyleBackColor = true;
             this._cancelButton.FlatStyle = FlatStyle.System;
-            this._cancelButton.Size = new Size(110, 28);
+            this._cancelButton.Margin = new Padding(5, 0, 5, 0);
+            this._cancelButton.Size = new Size(96, 28);
             this._cancelButton.TabIndex = 2;
             this._cancelButton.Text = "Cancelar";
             this._cancelButton.UseVisualStyleBackColor = true;
