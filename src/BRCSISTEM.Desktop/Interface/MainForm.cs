@@ -9,6 +9,7 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
 using BRCSISTEM.Desktop.Interface.AlertaEntradaLoteDivergente;
+using BRCSISTEM.Desktop.Interface.AlertaLoteDuplicado;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
 using BRCSISTEM.Domain.Models;
@@ -821,7 +822,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "alerta_lote_descricao_duplicada_material", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new DuplicateLotAlertForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new AlertaLoteDuplicadoForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

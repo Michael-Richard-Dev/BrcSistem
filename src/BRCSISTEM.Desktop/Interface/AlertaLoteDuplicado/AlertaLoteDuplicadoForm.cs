@@ -8,9 +8,9 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.AlertaLoteDuplicado
 {
-    public sealed class DuplicateLotAlertForm : Form
+    public sealed class AlertaLoteDuplicadoForm : Form
     {
         private readonly DatabaseMaintenanceController _maintenanceController;
         private readonly MasterDataController _masterDataController;
@@ -32,7 +32,7 @@ namespace BRCSISTEM.Desktop.Interface
         // Cache das embalagens para manter o par codigo→label
         private PackagingSummary[] _packagings = new PackagingSummary[0];
 
-        public DuplicateLotAlertForm(
+        public AlertaLoteDuplicadoForm(
             CompositionRoot compositionRoot,
             UserIdentity identity,
             DatabaseProfile databaseProfile)
