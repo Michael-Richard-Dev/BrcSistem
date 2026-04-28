@@ -84,7 +84,7 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             // _subtitleLabel
             //
             this._subtitleLabel.AutoSize = true;
-            this._subtitleLabel.Font = new Font("Segoe UI", 8F);
+            this._subtitleLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._subtitleLabel.ForeColor = Color.Gray;
             this._subtitleLabel.Margin = new Padding(0, 0, 0, 15);
             this._subtitleLabel.Text = "Cria um banco vazio no PostgreSQL e pode adiciona-lo na lista.";
@@ -114,14 +114,49 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._serverLayout.RowStyles.Add(new RowStyle());
             this._serverLayout.RowStyles.Add(new RowStyle());
-            ConfigureFieldLabel(this._hostLabel, "Host:");
-            ConfigureFieldLabel(this._portLabel, "Porta:");
-            ConfigureFieldLabel(this._adminUserLabel, "Usuario Admin:");
-            ConfigureFieldLabel(this._adminPasswordLabel, "Senha:");
-            ConfigureTextBox(this._hostTextBox);
-            ConfigureTextBox(this._portTextBox);
-            ConfigureTextBox(this._adminUserTextBox);
-            ConfigureTextBox(this._adminPasswordTextBox);
+            this._hostLabel.AutoSize = true;
+            this._hostLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._hostLabel.Margin = new Padding(0, 8, 10, 0);
+            this._hostLabel.Name = "_hostLabel";
+            this._hostLabel.Text = "Host:";
+            //
+            this._portLabel.AutoSize = true;
+            this._portLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._portLabel.Margin = new Padding(0, 8, 10, 0);
+            this._portLabel.Name = "_portLabel";
+            this._portLabel.Text = "Porta:";
+            //
+            this._adminUserLabel.AutoSize = true;
+            this._adminUserLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._adminUserLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminUserLabel.Name = "_adminUserLabel";
+            this._adminUserLabel.Text = "Usuario Admin:";
+            //
+            this._adminPasswordLabel.AutoSize = true;
+            this._adminPasswordLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._adminPasswordLabel.Margin = new Padding(0, 8, 10, 0);
+            this._adminPasswordLabel.Name = "_adminPasswordLabel";
+            this._adminPasswordLabel.Text = "Senha:";
+            //
+            this._hostTextBox.Dock = DockStyle.Top;
+            this._hostTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._hostTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._hostTextBox.Name = "_hostTextBox";
+            //
+            this._portTextBox.Dock = DockStyle.Top;
+            this._portTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._portTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._portTextBox.Name = "_portTextBox";
+            //
+            this._adminUserTextBox.Dock = DockStyle.Top;
+            this._adminUserTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._adminUserTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminUserTextBox.Name = "_adminUserTextBox";
+            //
+            this._adminPasswordTextBox.Dock = DockStyle.Top;
+            this._adminPasswordTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._adminPasswordTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._adminPasswordTextBox.Name = "_adminPasswordTextBox";
             this._adminPasswordTextBox.UseSystemPasswordChar = true;
             //
             // _databaseGroup
@@ -144,20 +179,29 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             this._databaseLayout.RowStyles.Add(new RowStyle());
             this._databaseLayout.RowStyles.Add(new RowStyle());
             this._databaseLayout.RowStyles.Add(new RowStyle());
-            ConfigureFieldLabel(this._databaseNameLabel, "Nome do Banco:");
-            ConfigureTextBox(this._databaseNameTextBox);
+            this._databaseNameLabel.AutoSize = true;
+            this._databaseNameLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._databaseNameLabel.Margin = new Padding(0, 8, 10, 0);
+            this._databaseNameLabel.Name = "_databaseNameLabel";
+            this._databaseNameLabel.Text = "Nome do Banco:";
+            this._databaseNameTextBox.Dock = DockStyle.Top;
+            this._databaseNameTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._databaseNameTextBox.Margin = new Padding(0, 5, 0, 5);
+            this._databaseNameTextBox.Name = "_databaseNameTextBox";
             this._databaseHintLabel.AutoSize = true;
-            this._databaseHintLabel.Font = new Font("Segoe UI", 8F);
+            this._databaseHintLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this._databaseHintLabel.ForeColor = Color.Gray;
             this._databaseHintLabel.Margin = new Padding(0, 0, 0, 8);
             this._databaseHintLabel.Text = "Use somente letras, numeros e underscore (_).";
             this._addToListCheckBox.AutoSize = true;
+            this._addToListCheckBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._addToListCheckBox.Name = "_addToListCheckBox";
             this._addToListCheckBox.Text = "Adicionar a lista apos criar";
             //
             // _statusLabel
             //
             this._statusLabel.AutoSize = true;
-            this._statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._statusLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             this._statusLabel.ForeColor = Color.SeaGreen;
             this._statusLabel.Margin = new Padding(0, 10, 0, 10);
             //
@@ -170,8 +214,21 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             this._buttonsLayout.Controls.Add(this._createButton, 0, 0);
             this._buttonsLayout.Controls.Add(this._cancelButton, 2, 0);
             this._buttonsLayout.Dock = DockStyle.Fill;
-            ConfigureButton(this._createButton, "Criar Banco", 0, 130);
-            ConfigureButton(this._cancelButton, "Cancelar", 1, 110);
+            this._createButton.FlatStyle = FlatStyle.System;
+            this._createButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._createButton.Name = "_createButton";
+            this._createButton.Size = new Size(130, 28);
+            this._createButton.TabIndex = 0;
+            this._createButton.Text = "Criar Banco";
+            this._createButton.UseVisualStyleBackColor = true;
+            //
+            this._cancelButton.FlatStyle = FlatStyle.System;
+            this._cancelButton.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            this._cancelButton.Name = "_cancelButton";
+            this._cancelButton.Size = new Size(110, 28);
+            this._cancelButton.TabIndex = 1;
+            this._cancelButton.Text = "Cancelar";
+            this._cancelButton.UseVisualStyleBackColor = true;
             //
             // CriacaoServidorBancoDadosForm
             //
@@ -182,7 +239,7 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             this.CancelButton = this._cancelButton;
             this.ClientSize = new Size(650, 420);
             this.Controls.Add(this._rootLayout);
-            this.Font = new Font("Segoe UI", 9F);
+            this.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -199,28 +256,6 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             this._databaseLayout.PerformLayout();
             this._buttonsLayout.ResumeLayout(false);
             this.ResumeLayout(false);
-        }
-
-        private static void ConfigureFieldLabel(Label label, string text)
-        {
-            label.AutoSize = true;
-            label.Margin = new Padding(0, 8, 10, 0);
-            label.Text = text;
-        }
-
-        private static void ConfigureTextBox(TextBox textBox)
-        {
-            textBox.Dock = DockStyle.Top;
-            textBox.Margin = new Padding(0, 5, 0, 5);
-        }
-
-        private static void ConfigureButton(Button button, string text, int tabIndex, int width)
-        {
-            button.FlatStyle = FlatStyle.System;
-            button.Size = new Size(width, 28);
-            button.TabIndex = tabIndex;
-            button.Text = text;
-            button.UseVisualStyleBackColor = true;
         }
 
         #endregion

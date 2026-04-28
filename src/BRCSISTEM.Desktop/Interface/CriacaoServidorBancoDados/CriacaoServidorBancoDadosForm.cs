@@ -15,6 +15,11 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
 
         public string ResultMessage { get; private set; }
 
+        public CriacaoServidorBancoDadosForm()
+        {
+            InitializeComponent();
+        }
+
         public CriacaoServidorBancoDadosForm(CompositionRoot compositionRoot, AppConfiguration configuration)
         {
             if (compositionRoot == null)
