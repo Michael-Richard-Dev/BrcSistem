@@ -7,9 +7,9 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.AlertaEntradaLoteDivergente
 {
-    public sealed class DivergentLotEntryAlertForm : Form
+    public sealed class AlertaEntradaLoteDivergenteForm : Form
     {
         private readonly DatabaseMaintenanceController _maintenanceController;
         private readonly ConfigurationController       _configurationController;
@@ -25,7 +25,7 @@ namespace BRCSISTEM.Desktop.Interface
         // Grid
         private DataGridView _grid;
 
-        public DivergentLotEntryAlertForm(
+        public AlertaEntradaLoteDivergenteForm(
             CompositionRoot  compositionRoot,
             UserIdentity     identity,
             DatabaseProfile  databaseProfile)

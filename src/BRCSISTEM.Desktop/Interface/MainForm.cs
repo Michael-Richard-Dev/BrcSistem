@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
+using BRCSISTEM.Desktop.Interface.AlertaEntradaLoteDivergente;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
 using BRCSISTEM.Domain.Models;
@@ -834,7 +835,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "alerta_entrada_lote_divergente", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new DivergentLotEntryAlertForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new AlertaEntradaLoteDivergenteForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }
