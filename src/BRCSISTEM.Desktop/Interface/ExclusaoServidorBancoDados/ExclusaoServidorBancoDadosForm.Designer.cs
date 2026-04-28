@@ -63,21 +63,24 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._rootLayout.Dock = DockStyle.Fill;
             this._rootLayout.Padding = new Padding(20);
             this._rootLayout.RowCount = 5;
-            this._rootLayout.RowStyles.Add(new RowStyle());
-            this._rootLayout.RowStyles.Add(new RowStyle());
-            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 135F));
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            this._rootLayout.RowStyles.Add(new RowStyle());
+            this._rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
             //
             // _headerLayout
             //
-            this._headerLayout.AutoSize = true;
             this._headerLayout.ColumnCount = 1;
             this._headerLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             this._headerLayout.Controls.Add(this._titleLabel, 0, 0);
             this._headerLayout.Controls.Add(this._warningLabel, 0, 1);
             this._headerLayout.Dock = DockStyle.Fill;
             this._headerLayout.Margin = new Padding(0, 0, 0, 15);
+            this._headerLayout.RowCount = 2;
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            this._headerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            this._headerLayout.Size = new Size(560, 35);
             //
             this._titleLabel.AutoSize = true;
             this._titleLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
@@ -112,10 +115,10 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._serverLayout.Controls.Add(this._adminPasswordTextBox, 1, 3);
             this._serverLayout.Dock = DockStyle.Fill;
             this._serverLayout.RowCount = 4;
-            this._serverLayout.RowStyles.Add(new RowStyle());
-            this._serverLayout.RowStyles.Add(new RowStyle());
-            this._serverLayout.RowStyles.Add(new RowStyle());
-            this._serverLayout.RowStyles.Add(new RowStyle());
+            this._serverLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            this._serverLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            this._serverLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            this._serverLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
             this._hostLabel.AutoSize = true;
             this._hostLabel.Font = new Font("Segoe UI", 8.25F);
             this._hostLabel.Margin = new Padding(0, 3, 10, 3);
@@ -132,18 +135,22 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             this._adminPasswordLabel.Font = new Font("Segoe UI", 8.25F);
             this._adminPasswordLabel.Margin = new Padding(0, 3, 10, 3);
             this._adminPasswordLabel.Text = "Senha:";
-            this._hostTextBox.Dock = DockStyle.Top;
+            this._hostTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._hostTextBox.Font = new Font("Segoe UI", 8.25F);
             this._hostTextBox.Margin = new Padding(0, 3, 0, 3);
-            this._portTextBox.Dock = DockStyle.Top;
+            this._hostTextBox.Size = new Size(420, 22);
+            this._portTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._portTextBox.Font = new Font("Segoe UI", 8.25F);
             this._portTextBox.Margin = new Padding(0, 3, 0, 3);
-            this._adminUserTextBox.Dock = DockStyle.Top;
+            this._portTextBox.Size = new Size(420, 22);
+            this._adminUserTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._adminUserTextBox.Font = new Font("Segoe UI", 8.25F);
             this._adminUserTextBox.Margin = new Padding(0, 3, 0, 3);
-            this._adminPasswordTextBox.Dock = DockStyle.Top;
+            this._adminUserTextBox.Size = new Size(420, 22);
+            this._adminPasswordTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this._adminPasswordTextBox.Font = new Font("Segoe UI", 8.25F);
             this._adminPasswordTextBox.Margin = new Padding(0, 3, 0, 3);
+            this._adminPasswordTextBox.Size = new Size(420, 22);
             this._adminPasswordTextBox.UseSystemPasswordChar = true;
             //
             // _statusLabel
