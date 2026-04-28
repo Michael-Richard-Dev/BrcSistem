@@ -10,6 +10,7 @@ using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Desktop.Interface.AlteracaoSenha;
 using BRCSISTEM.Desktop.Interface.AlertaEntradaLoteDivergente;
 using BRCSISTEM.Desktop.Interface.AlertaLoteDuplicado;
+using BRCSISTEM.Desktop.Interface.AlertaMovimentosDuplicadosNota;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
 using BRCSISTEM.Domain.Models;
@@ -850,7 +851,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "alerta_movimentos_duplicados_nota", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new DuplicateNoteMovementsAlertForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new AlertaMovimentosDuplicadosNotaForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

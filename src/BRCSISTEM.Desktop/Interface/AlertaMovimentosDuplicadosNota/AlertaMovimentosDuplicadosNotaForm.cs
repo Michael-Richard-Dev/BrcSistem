@@ -8,7 +8,7 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.AlertaMovimentosDuplicadosNota
 {
     /// <summary>
     /// Porte fiel de views/alerta_movimentos_duplicados_nota.py.
@@ -16,7 +16,7 @@ namespace BRCSISTEM.Desktop.Interface
     /// (cache local = _diagCache do Python) e a grade inferior e repopulada a
     /// partir do Group selecionado.
     /// </summary>
-    public sealed class DuplicateNoteMovementsAlertForm : Form
+    public sealed class AlertaMovimentosDuplicadosNotaForm : Form
     {
         private readonly DatabaseMaintenanceController _maintenanceController;
         private readonly ConfigurationController       _configurationController;
@@ -33,7 +33,7 @@ namespace BRCSISTEM.Desktop.Interface
         private DataGridView _gridDet;
         private Label        _infoLabel;
 
-        public DuplicateNoteMovementsAlertForm(
+        public AlertaMovimentosDuplicadosNotaForm(
             CompositionRoot compositionRoot,
             UserIdentity    identity,
             DatabaseProfile databaseProfile)
