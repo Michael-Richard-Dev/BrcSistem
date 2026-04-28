@@ -56,8 +56,8 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             try
             {
                 var host = _hostTextBox.Text.Trim();
-                DatabaseServerSupport.ValidateHost(host);
-                var port = DatabaseServerSupport.ParsePort(_portTextBox.Text);
+                SuporteServidorBancoDados.ValidateHost(host);
+                var port = SuporteServidorBancoDados.ParsePort(_portTextBox.Text);
                 var user = _userTextBox.Text.Trim();
                 if (string.IsNullOrWhiteSpace(user))
                 {
@@ -67,7 +67,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
                 SetStatus("Conectando ao servidor e listando bancos...", false);
                 System.Windows.Forms.Application.DoEvents();
 
-                var databases = DatabaseServerSupport.ListDatabases(host, port, user, _passwordTextBox.Text);
+                var databases = SuporteServidorBancoDados.ListDatabases(host, port, user, _passwordTextBox.Text);
                 _resultsCheckedListBox.Items.Clear();
                 foreach (var database in databases)
                 {
@@ -97,7 +97,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
             try
             {
                 var host = _hostTextBox.Text.Trim();
-                var port = DatabaseServerSupport.ParsePort(_portTextBox.Text);
+                var port = SuporteServidorBancoDados.ParsePort(_portTextBox.Text);
                 var user = _userTextBox.Text.Trim();
                 var password = _passwordTextBox.Text;
                 var added = 0;
@@ -107,7 +107,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
                     var databaseName = Convert.ToString(item);
                     var profile = new DatabaseProfile
                     {
-                        Id = DatabaseServerSupport.BuildUniqueProfileId(_configuration, databaseName),
+                        Id = SuporteServidorBancoDados.BuildUniqueProfileId(_configuration, databaseName),
                         Name = databaseName,
                         Description = "Descoberto em " + host,
                         Host = host,
@@ -115,7 +115,7 @@ namespace BRCSISTEM.Desktop.Interface.NavegadorServidoresBancoDados
                         Database = databaseName,
                         User = user,
                         Password = password,
-                        Kind = DatabaseServerSupport.IsLocalHost(host) ? "local" : "rede",
+                        Kind = SuporteServidorBancoDados.IsLocalHost(host) ? "local" : "rede",
                     };
 
                     _configuration.DatabaseProfiles[profile.Id] = profile;

@@ -8,7 +8,7 @@ using Npgsql;
 
 namespace BRCSISTEM.Desktop.Interface
 {
-    internal static class DatabaseServerSupport
+    internal static class SuporteServidorBancoDados
     {
         public static bool IsLocalHost(string host)
         {

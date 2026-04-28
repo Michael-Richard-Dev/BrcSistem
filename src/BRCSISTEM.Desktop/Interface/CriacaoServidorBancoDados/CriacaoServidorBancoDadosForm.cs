@@ -56,8 +56,8 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
             try
             {
                 var host = _hostTextBox.Text.Trim();
-                DatabaseServerSupport.ValidateHost(host);
-                var port = DatabaseServerSupport.ParsePort(_portTextBox.Text);
+                SuporteServidorBancoDados.ValidateHost(host);
+                var port = SuporteServidorBancoDados.ParsePort(_portTextBox.Text);
                 var user = _adminUserTextBox.Text.Trim();
                 var password = _adminPasswordTextBox.Text;
                 var databaseName = _databaseNameTextBox.Text.Trim();
@@ -67,7 +67,7 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
                     throw new InvalidOperationException("Informe o usuario administrador.");
                 }
 
-                DatabaseServerSupport.ValidateDatabaseName(databaseName);
+                SuporteServidorBancoDados.ValidateDatabaseName(databaseName);
 
                 var confirmation = MessageBox.Show(
                     this,
@@ -87,13 +87,13 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
                 SetStatus("Criando banco no servidor...", false);
                 System.Windows.Forms.Application.DoEvents();
 
-                DatabaseServerSupport.CreateDatabase(host, port, user, password, databaseName);
+                SuporteServidorBancoDados.CreateDatabase(host, port, user, password, databaseName);
 
                 if (_addToListCheckBox.Checked)
                 {
                     var profile = new DatabaseProfile
                     {
-                        Id = DatabaseServerSupport.BuildUniqueProfileId(_configuration, databaseName),
+                        Id = SuporteServidorBancoDados.BuildUniqueProfileId(_configuration, databaseName),
                         Name = databaseName,
                         Description = "Criado em " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
                         Host = host,
@@ -101,7 +101,7 @@ namespace BRCSISTEM.Desktop.Interface.CriacaoServidorBancoDados
                         Database = databaseName,
                         User = user,
                         Password = password,
-                        Kind = DatabaseServerSupport.IsLocalHost(host) ? "local" : "rede",
+                        Kind = SuporteServidorBancoDados.IsLocalHost(host) ? "local" : "rede",
                     };
 
                     _configuration.DatabaseProfiles[profile.Id] = profile;

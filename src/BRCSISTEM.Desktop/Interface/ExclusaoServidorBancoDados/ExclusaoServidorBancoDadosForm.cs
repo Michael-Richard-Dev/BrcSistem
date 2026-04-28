@@ -56,8 +56,8 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
             try
             {
                 var host = _hostTextBox.Text.Trim();
-                DatabaseServerSupport.ValidateHost(host);
-                var port = DatabaseServerSupport.ParsePort(_portTextBox.Text);
+                SuporteServidorBancoDados.ValidateHost(host);
+                var port = SuporteServidorBancoDados.ParsePort(_portTextBox.Text);
                 var user = _adminUserTextBox.Text.Trim();
                 if (string.IsNullOrWhiteSpace(user))
                 {
@@ -67,7 +67,7 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
                 SetStatus("Conectando ao servidor...", false);
                 System.Windows.Forms.Application.DoEvents();
 
-                var databases = DatabaseServerSupport.ListDatabases(host, port, user, _adminPasswordTextBox.Text);
+                var databases = SuporteServidorBancoDados.ListDatabases(host, port, user, _adminPasswordTextBox.Text);
                 _databasesListBox.Items.Clear();
                 foreach (var database in databases)
                 {
@@ -96,7 +96,7 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
 
             var databaseName = Convert.ToString(_databasesListBox.SelectedItem);
             var host = _hostTextBox.Text.Trim();
-            var port = DatabaseServerSupport.ParsePort(_portTextBox.Text);
+            var port = SuporteServidorBancoDados.ParsePort(_portTextBox.Text);
             var user = _adminUserTextBox.Text.Trim();
             var password = _adminPasswordTextBox.Text;
 
@@ -129,7 +129,7 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
                 return;
             }
 
-            var typedConfirmation = DatabaseServerSupport.ShowTypedConfirmation(
+            var typedConfirmation = SuporteServidorBancoDados.ShowTypedConfirmation(
                 this,
                 "Confirmacao Final 3/3",
                 "Digite exatamente o nome do banco para confirmar a exclusao:\r\n\r\n" + databaseName,
@@ -151,7 +151,7 @@ namespace BRCSISTEM.Desktop.Interface.ExclusaoServidorBancoDados
                 SetStatus("Excluindo banco do servidor...", false);
                 System.Windows.Forms.Application.DoEvents();
 
-                DatabaseServerSupport.DropDatabase(host, port, user, password, databaseName);
+                SuporteServidorBancoDados.DropDatabase(host, port, user, password, databaseName);
                 ResultMessage = "Banco '" + databaseName + "' excluido do servidor.";
 
                 foreach (var profile in _configuration.DatabaseProfiles.Values.Where(p =>
