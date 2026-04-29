@@ -1113,7 +1113,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             countsIdColumn.DataPropertyName = "Id";
             countsIdColumn.HeaderText = "ID";
-            countsIdColumn.Name = "id";
+            countsIdColumn.Name = "counts_id";
             countsIdColumn.ReadOnly = true;
             countsIdColumn.Width = 60;
             countsDateColumn.DataPropertyName = "CountedAtDisplay";
