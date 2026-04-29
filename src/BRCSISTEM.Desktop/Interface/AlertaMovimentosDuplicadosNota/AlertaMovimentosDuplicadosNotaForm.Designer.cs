@@ -323,7 +323,7 @@ namespace BRCSISTEM.Desktop.Interface.AlertaMovimentosDuplicadosNota
             //
             this._colUsuarioNotaNf.DefaultCellStyle = styleLeft;
             this._colUsuarioNotaNf.HeaderText = "USUARIO NOTA";
-            this._colUsuarioNotaNf.Name = "usuario_nota";
+            this._colUsuarioNotaNf.Name = "usuario_nota_nf";
             this._colUsuarioNotaNf.ReadOnly = true;
             this._colUsuarioNotaNf.Width = 120;
             //
