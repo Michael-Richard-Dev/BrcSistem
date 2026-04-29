@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ReativacaoNotaEntrada
 {
-    public sealed partial class InboundReceiptReactivationForm
+    public sealed partial class ReativacaoNotaEntradaForm
     {
         private void LoadData()
         {

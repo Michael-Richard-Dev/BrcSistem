@@ -13,6 +13,7 @@ using BRCSISTEM.Desktop.Interface.AlertaLoteDuplicado;
 using BRCSISTEM.Desktop.Interface.AlertaMovimentosDuplicadosNota;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
+using BRCSISTEM.Desktop.Interface.ReativacaoNotaEntrada;
 using BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada;
 using BRCSISTEM.Domain.Models;
 
@@ -887,7 +888,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "bd_reativar_nota_entrada", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new InboundReceiptReactivationForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new ReativacaoNotaEntradaForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

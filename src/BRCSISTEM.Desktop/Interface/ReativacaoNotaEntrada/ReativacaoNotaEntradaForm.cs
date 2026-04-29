@@ -5,9 +5,9 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ReativacaoNotaEntrada
 {
-    public sealed partial class InboundReceiptReactivationForm : Form
+    public sealed partial class ReativacaoNotaEntradaForm : Form
     {
         private readonly DatabaseMaintenanceController _databaseMaintenanceController;
         private readonly ConfigurationController _configurationController;
@@ -22,7 +22,7 @@ namespace BRCSISTEM.Desktop.Interface
         private DataGridView _grid;
         private Label _statusLabel;
 
-        public InboundReceiptReactivationForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public ReativacaoNotaEntradaForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
         {
             _databaseMaintenanceController = compositionRoot.CreateDatabaseMaintenanceController();
             _configurationController = compositionRoot.CreateConfigurationController();
