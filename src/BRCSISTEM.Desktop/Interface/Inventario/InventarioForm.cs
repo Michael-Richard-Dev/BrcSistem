@@ -8,9 +8,9 @@ using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 using BRCSISTEM.Desktop.Interface.ContagemInventario;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.Inventario
 {
-    public sealed partial class InventoryForm : Form
+    public sealed partial class InventarioForm : Form
     {
         private CompositionRoot _compositionRoot;
         private InventoryController _inventoryController;
@@ -35,7 +35,7 @@ namespace BRCSISTEM.Desktop.Interface
         private string _lockedNumber;
         private int _temporaryPointSequence;
 
-        public InventoryForm()
+        public InventarioForm()
         {
             _warehouseOptions = Array.Empty<LookupOption>();
             _materialOptions = Array.Empty<LookupOption>();
@@ -49,7 +49,7 @@ namespace BRCSISTEM.Desktop.Interface
             InitializeComponent();
         }
 
-        public InventoryForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public InventarioForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
             : this()
         {
             _compositionRoot = compositionRoot;

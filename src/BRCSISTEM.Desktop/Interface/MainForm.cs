@@ -17,6 +17,7 @@ using BRCSISTEM.Desktop.Interface.ReativacaoNotaEntrada;
 using BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada;
 using BRCSISTEM.Domain.Models;
 using BRCSISTEM.Desktop.Interface.ContagemInventario;
+using BRCSISTEM.Desktop.Interface.Inventario;
 
 namespace BRCSISTEM.Desktop.Interface
 {
@@ -763,7 +764,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "movimentacao_inventario", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new InventoryForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new InventarioForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

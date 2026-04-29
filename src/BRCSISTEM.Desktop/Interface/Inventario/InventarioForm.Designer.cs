@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.Inventario
 {
-    public sealed partial class InventoryForm
+    public sealed partial class InventarioForm
     {
         private IContainer components = null;
 
@@ -863,42 +863,42 @@ namespace BRCSISTEM.Desktop.Interface
             // 
             // items columns
             // 
-            itemsAlmoxColumn.DataPropertyName = nameof(InventoryItemDetail.WarehouseCode);
+            itemsAlmoxColumn.DataPropertyName = "WarehouseCode";
             itemsAlmoxColumn.HeaderText = "ALMOX";
             itemsAlmoxColumn.Name = "almox";
             itemsAlmoxColumn.ReadOnly = true;
             itemsAlmoxColumn.Width = 80;
             itemsMaterialColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            itemsMaterialColumn.DataPropertyName = nameof(InventoryItemDetail.MaterialDisplay);
+            itemsMaterialColumn.DataPropertyName = "MaterialDisplay";
             itemsMaterialColumn.HeaderText = "MATERIAL";
             itemsMaterialColumn.Name = "material";
             itemsMaterialColumn.ReadOnly = true;
-            itemsLotColumn.DataPropertyName = nameof(InventoryItemDetail.LotDisplay);
+            itemsLotColumn.DataPropertyName = "LotDisplay";
             itemsLotColumn.HeaderText = "LOTE";
             itemsLotColumn.Name = "lote";
             itemsLotColumn.ReadOnly = true;
             itemsLotColumn.Width = 180;
-            itemsSaldoColumn.DataPropertyName = nameof(InventoryItemDetail.SystemBalanceText);
+            itemsSaldoColumn.DataPropertyName = "SystemBalanceText";
             itemsSaldoColumn.HeaderText = "SALDO";
             itemsSaldoColumn.Name = "saldo";
             itemsSaldoColumn.ReadOnly = true;
             itemsSaldoColumn.Width = 95;
-            itemsEntradaColumn.DataPropertyName = nameof(InventoryItemDetail.InputQuantityText);
+            itemsEntradaColumn.DataPropertyName = "InputQuantityText";
             itemsEntradaColumn.HeaderText = "ENTRADA";
             itemsEntradaColumn.Name = "entrada";
             itemsEntradaColumn.ReadOnly = true;
             itemsEntradaColumn.Width = 95;
-            itemsSaidaColumn.DataPropertyName = nameof(InventoryItemDetail.OutputQuantityText);
+            itemsSaidaColumn.DataPropertyName = "OutputQuantityText";
             itemsSaidaColumn.HeaderText = "SAIDA";
             itemsSaidaColumn.Name = "saida";
             itemsSaidaColumn.ReadOnly = true;
             itemsSaidaColumn.Width = 95;
-            itemsFinalColumn.DataPropertyName = nameof(InventoryItemDetail.FinalBalanceText);
+            itemsFinalColumn.DataPropertyName = "FinalBalanceText";
             itemsFinalColumn.HeaderText = "SALDO FINAL";
             itemsFinalColumn.Name = "final";
             itemsFinalColumn.ReadOnly = true;
             itemsFinalColumn.Width = 110;
-            itemsAjusteColumn.DataPropertyName = nameof(InventoryItemDetail.AdjustmentQuantityText);
+            itemsAjusteColumn.DataPropertyName = "AdjustmentQuantityText";
             itemsAjusteColumn.HeaderText = "AJUSTE";
             itemsAjusteColumn.Name = "ajuste";
             itemsAjusteColumn.ReadOnly = true;
@@ -959,27 +959,27 @@ namespace BRCSISTEM.Desktop.Interface
             // 
             // points columns
             // 
-            pointsIdColumn.DataPropertyName = nameof(InventoryPointSummary.Id);
+            pointsIdColumn.DataPropertyName = "Id";
             pointsIdColumn.HeaderText = "ID";
             pointsIdColumn.Name = "id";
             pointsIdColumn.ReadOnly = true;
             pointsIdColumn.Width = 60;
-            pointsNameColumn.DataPropertyName = nameof(InventoryPointSummary.PointName);
+            pointsNameColumn.DataPropertyName = "PointName";
             pointsNameColumn.HeaderText = "PONTO";
             pointsNameColumn.Name = "nome";
             pointsNameColumn.ReadOnly = true;
             pointsNameColumn.Width = 120;
-            pointsIpColumn.DataPropertyName = nameof(InventoryPointSummary.IpAddress);
+            pointsIpColumn.DataPropertyName = "IpAddress";
             pointsIpColumn.HeaderText = "IP";
             pointsIpColumn.Name = "ip";
             pointsIpColumn.ReadOnly = true;
             pointsIpColumn.Width = 110;
             pointsComputerColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            pointsComputerColumn.DataPropertyName = nameof(InventoryPointSummary.ComputerName);
+            pointsComputerColumn.DataPropertyName = "ComputerName";
             pointsComputerColumn.HeaderText = "COMPUTADOR";
             pointsComputerColumn.Name = "pc";
             pointsComputerColumn.ReadOnly = true;
-            pointsStatusColumn.DataPropertyName = nameof(InventoryPointSummary.Status);
+            pointsStatusColumn.DataPropertyName = "Status";
             pointsStatusColumn.HeaderText = "STATUS";
             pointsStatusColumn.Name = "status";
             pointsStatusColumn.ReadOnly = true;
@@ -1111,32 +1111,32 @@ namespace BRCSISTEM.Desktop.Interface
             // 
             // counts columns
             // 
-            countsIdColumn.DataPropertyName = nameof(InventoryCountSummary.Id);
+            countsIdColumn.DataPropertyName = "Id";
             countsIdColumn.HeaderText = "ID";
             countsIdColumn.Name = "id";
             countsIdColumn.ReadOnly = true;
             countsIdColumn.Width = 60;
-            countsDateColumn.DataPropertyName = nameof(InventoryCountSummary.CountedAtDisplay);
+            countsDateColumn.DataPropertyName = "CountedAtDisplay";
             countsDateColumn.HeaderText = "DATA/HORA";
             countsDateColumn.Name = "data";
             countsDateColumn.ReadOnly = true;
             countsDateColumn.Width = 140;
-            countsPointColumn.DataPropertyName = nameof(InventoryCountSummary.PointId);
+            countsPointColumn.DataPropertyName = "PointId";
             countsPointColumn.HeaderText = "PONTO";
             countsPointColumn.Name = "ponto";
             countsPointColumn.ReadOnly = true;
             countsPointColumn.Width = 70;
             countsItemColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            countsItemColumn.DataPropertyName = nameof(InventoryCountSummary.ItemDisplay);
+            countsItemColumn.DataPropertyName = "ItemDisplay";
             countsItemColumn.HeaderText = "ITEM";
             countsItemColumn.Name = "item";
             countsItemColumn.ReadOnly = true;
-            countsQuantityColumn.DataPropertyName = nameof(InventoryCountSummary.QuantityText);
+            countsQuantityColumn.DataPropertyName = "QuantityText";
             countsQuantityColumn.HeaderText = "QTD";
             countsQuantityColumn.Name = "qtd";
             countsQuantityColumn.ReadOnly = true;
             countsQuantityColumn.Width = 90;
-            countsUserColumn.DataPropertyName = nameof(InventoryCountSummary.UserName);
+            countsUserColumn.DataPropertyName = "UserName";
             countsUserColumn.HeaderText = "USUARIO";
             countsUserColumn.Name = "usuario";
             countsUserColumn.ReadOnly = true;
@@ -1226,7 +1226,7 @@ namespace BRCSISTEM.Desktop.Interface
             this._saveButton.UseVisualStyleBackColor = true;
             this._saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
-            // InventoryForm
+            // InventarioForm
             // 
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
@@ -1235,7 +1235,7 @@ namespace BRCSISTEM.Desktop.Interface
             this.Controls.Add(this._rootLayout);
             this.KeyPreview = true;
             this.MinimumSize = new Size(1240, 760);
-            this.Name = "InventoryForm";
+            this.Name = "InventarioForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "BRCSISTEM - Inventario de Estoque";
             this.KeyDown += new KeyEventHandler(this.OnFormKeyDown);

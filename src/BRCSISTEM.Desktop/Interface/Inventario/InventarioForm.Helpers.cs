@@ -7,9 +7,9 @@ using BRCSISTEM.Application.Models;
 using BRCSISTEM.Domain.Models;
 using BRCSISTEM.Desktop.Interface.ContagemInventario;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.Inventario
 {
-    public sealed partial class InventoryForm
+    public sealed partial class InventarioForm
     {
         private void LoadData()
         {
