@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BRCSISTEM.Application.Models;
 using BRCSISTEM.Domain.Models;
+using BRCSISTEM.Desktop.Interface.ContagemInventario;
 
 namespace BRCSISTEM.Desktop.Interface
 {
@@ -658,7 +659,7 @@ namespace BRCSISTEM.Desktop.Interface
                     return;
                 }
 
-                var window = new InventoryCountForm(_inventoryController, _configuration, _databaseProfile, _identity, _numberTextBox.Text, point.Id, () => RefreshCurrentInventory());
+                var window = new ContagemInventarioForm(_inventoryController, _configuration, _databaseProfile, _identity, _numberTextBox.Text, point.Id, () => RefreshCurrentInventory());
                 _countWindows[point.Id] = window;
                 window.FormClosed += (sender, args) => _countWindows.Remove(point.Id);
                 window.Show(this);

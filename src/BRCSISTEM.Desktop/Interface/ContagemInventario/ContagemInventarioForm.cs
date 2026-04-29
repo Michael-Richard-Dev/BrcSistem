@@ -1,37 +1,37 @@
+﻿using BRCSISTEM.Application.Models;
+using BRCSISTEM.Desktop.Controllers;
+using BRCSISTEM.Domain.Models;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
-using BRCSISTEM.Application.Models;
-using BRCSISTEM.Desktop.Controllers;
-using BRCSISTEM.Domain.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.ContagemInventario
 {
-    internal sealed class InventoryCountForm : Form
+    internal sealed partial class ContagemInventarioForm : Form
     {
-        private readonly InventoryController _controller;
-        private readonly AppConfiguration _configuration;
-        private readonly DatabaseProfile _databaseProfile;
-        private readonly UserIdentity _identity;
-        private readonly string _inventoryNumber;
+        private readonly InventoryController _controller = null!;
+        private readonly AppConfiguration _configuration = null!;
+        private readonly DatabaseProfile _databaseProfile = null!;
+        private readonly UserIdentity _identity = null!;
+        private readonly string _inventoryNumber = string.Empty;
         private readonly int _pointId;
-        private readonly Action _onChanged;
+        private readonly Action _onChanged = null!;
 
         private InventoryDetail _detail;
         private InventoryItemDetail[] _items;
-
-        private ComboBox _warehouseComboBox;
-        private ComboBox _materialComboBox;
-        private ComboBox _lotComboBox;
-        private TextBox _quantityTextBox;
-        private Label _pointLabel;
-        private Label _statusLabel;
-        private DataGridView _logGrid;
         private Timer _heartbeatTimer;
 
-        public InventoryCountForm(
+        public ContagemInventarioForm()
+        {
+            _items = Array.Empty<InventoryItemDetail>();
+
+            InitializeComponent();
+        }
+
+        public ContagemInventarioForm(
             InventoryController controller,
             AppConfiguration configuration,
             DatabaseProfile databaseProfile,
@@ -39,87 +39,65 @@ namespace BRCSISTEM.Desktop.Interface
             string inventoryNumber,
             int pointId,
             Action onChanged)
+            : this()
         {
-            _controller = controller;
-            _configuration = configuration;
-            _databaseProfile = databaseProfile;
-            _identity = identity;
-            _inventoryNumber = inventoryNumber;
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _databaseProfile = databaseProfile ?? throw new ArgumentNullException(nameof(databaseProfile));
+            _identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            _inventoryNumber = inventoryNumber ?? string.Empty;
             _pointId = pointId;
             _onChanged = onChanged;
-            _items = Array.Empty<InventoryItemDetail>();
 
-            InitializeComponent();
-            Load += (sender, args) => LoadData();
-            FormClosing += (sender, args) => StopHeartbeat();
+            RegisterControlEvents();
         }
 
-        private void InitializeComponent()
+        private void RegisterControlEvents()
         {
-            Text = "BRCSISTEM - Contagem Cega";
-            StartPosition = FormStartPosition.CenterParent;
-            Size = new Size(980, 620);
-            MinimumSize = new Size(860, 520);
-            BackColor = Color.White;
+            Load += ContagemInventarioForm_Load;
+            FormClosing += ContagemInventarioForm_FormClosing;
 
-            var root = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(12), RowCount = 3 };
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            _warehouseComboBox.SelectedIndexChanged += WarehouseComboBox_SelectedIndexChanged;
+            _materialComboBox.SelectedIndexChanged += MaterialComboBox_SelectedIndexChanged;
 
-            var top = new TableLayoutPanel { Dock = DockStyle.Top, ColumnCount = 1, AutoSize = true };
-            _pointLabel = new Label { AutoSize = true, Font = new Font("Segoe UI", 10F, FontStyle.Bold), ForeColor = Color.FromArgb(27, 54, 93) };
-            _statusLabel = new Label { AutoSize = true, Font = new Font("Segoe UI", 9F, FontStyle.Bold), ForeColor = Color.SeaGreen };
-            top.Controls.Add(_pointLabel, 0, 0);
-            top.Controls.Add(_statusLabel, 0, 1);
+            _registerButton.Click += RegisterButton_Click;
+            _refreshButton.Click += RefreshButton_Click;
+            _closeButton.Click += CloseButton_Click;
+        }
 
-            var editor = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, WrapContents = true, Padding = new Padding(0, 8, 0, 8) };
-            editor.Controls.Add(CreateLabel("Almoxarifado:"));
-            _warehouseComboBox = new ComboBox { Width = 180, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 10F) };
-            _warehouseComboBox.SelectedIndexChanged += (sender, args) => OnWarehouseChanged();
-            editor.Controls.Add(_warehouseComboBox);
+        private void ContagemInventarioForm_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
 
-            editor.Controls.Add(CreateLabel("Material:"));
-            _materialComboBox = new ComboBox { Width = 280, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 10F) };
-            _materialComboBox.SelectedIndexChanged += (sender, args) => OnMaterialChanged();
-            editor.Controls.Add(_materialComboBox);
+        private void ContagemInventarioForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopHeartbeat();
+        }
 
-            editor.Controls.Add(CreateLabel("Lote:"));
-            _lotComboBox = new ComboBox { Width = 220, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 10F) };
-            editor.Controls.Add(_lotComboBox);
+        private void WarehouseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OnWarehouseChanged();
+        }
 
-            editor.Controls.Add(CreateLabel("Quantidade:"));
-            _quantityTextBox = new TextBox { Width = 120, Font = new Font("Segoe UI", 10F) };
-            editor.Controls.Add(_quantityTextBox);
+        private void MaterialComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OnMaterialChanged();
+        }
 
-            editor.Controls.Add(CreateButton("Registrar", (sender, args) => RegisterCount()));
-            editor.Controls.Add(CreateButton("Atualizar", (sender, args) => RefreshData()));
-            editor.Controls.Add(CreateButton("Fechar", (sender, args) => Close()));
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
+            RegisterCount();
+        }
 
-            var group = new GroupBox { Dock = DockStyle.Fill, Text = "Ultimas Leituras do Ponto", Font = new Font("Segoe UI", 10F, FontStyle.Bold) };
-            _logGrid = new DataGridView
-            {
-                Dock = DockStyle.Fill,
-                ReadOnly = true,
-                AutoGenerateColumns = false,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                MultiSelect = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                RowHeadersVisible = false,
-                BackgroundColor = Color.White,
-            };
-            _logGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "id", HeaderText = "ID", DataPropertyName = nameof(InventoryCountSummary.Id), Width = 70 });
-            _logGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "data", HeaderText = "DATA/HORA", DataPropertyName = nameof(InventoryCountSummary.CountedAtDisplay), Width = 150 });
-            _logGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "item", HeaderText = "ITEM", DataPropertyName = nameof(InventoryCountSummary.ItemDisplay), AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            _logGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "qtd", HeaderText = "QTD", DataPropertyName = nameof(InventoryCountSummary.QuantityText), Width = 110 });
-            _logGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "usuario", HeaderText = "USUARIO", DataPropertyName = nameof(InventoryCountSummary.UserName), Width = 120 });
-            group.Controls.Add(_logGrid);
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
 
-            root.Controls.Add(top, 0, 0);
-            root.Controls.Add(editor, 0, 1);
-            root.Controls.Add(group, 0, 2);
-            Controls.Add(root);
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void LoadData()
@@ -134,13 +112,19 @@ namespace BRCSISTEM.Desktop.Interface
             {
                 _detail = _controller.LoadInventory(_configuration, _databaseProfile, _inventoryNumber);
                 _items = (_detail.Items ?? Array.Empty<InventoryItemDetail>()).ToArray();
+
                 BindWarehouseCombo();
                 RefreshLogGrid();
-                var point = (_detail.Points ?? Array.Empty<InventoryPointSummary>()).FirstOrDefault(item => item.Id == _pointId);
+
+                var point = (_detail.Points ?? Array.Empty<InventoryPointSummary>())
+                    .FirstOrDefault(item => item.Id == _pointId);
+
                 _pointLabel.Text = point == null
                     ? "Ponto nao localizado."
                     : "Ponto: " + point.PointName + " | IP: " + point.IpAddress + " | Computador: " + point.ComputerName;
+
                 _statusLabel.Text = "Inventario: " + _inventoryNumber + " | Status: " + (_detail.Status ?? string.Empty);
+                _statusLabel.ForeColor = Color.SeaGreen;
             }
             catch (Exception exception)
             {
@@ -151,6 +135,7 @@ namespace BRCSISTEM.Desktop.Interface
         private void BindWarehouseCombo()
         {
             var currentWarehouse = GetSelectedCode(_warehouseComboBox);
+
             var warehouseOptions = _items
                 .Select(item => item.WarehouseCode ?? string.Empty)
                 .Where(value => !string.IsNullOrWhiteSpace(value))
@@ -167,6 +152,7 @@ namespace BRCSISTEM.Desktop.Interface
         {
             var currentMaterial = GetSelectedCode(_materialComboBox);
             var warehouseCode = GetSelectedCode(_warehouseComboBox);
+
             var materialOptions = _items
                 .Where(item => string.Equals(item.WarehouseCode, warehouseCode, StringComparison.OrdinalIgnoreCase))
                 .Select(item => new LookupOption { Code = item.MaterialCode, Description = item.MaterialDescription })
@@ -184,8 +170,10 @@ namespace BRCSISTEM.Desktop.Interface
             var currentLot = GetSelectedCode(_lotComboBox);
             var warehouseCode = GetSelectedCode(_warehouseComboBox);
             var materialCode = GetSelectedCode(_materialComboBox);
+
             var lotOptions = _items
-                .Where(item => string.Equals(item.WarehouseCode, warehouseCode, StringComparison.OrdinalIgnoreCase)
+                .Where(item =>
+                    string.Equals(item.WarehouseCode, warehouseCode, StringComparison.OrdinalIgnoreCase)
                     && string.Equals(item.MaterialCode, materialCode, StringComparison.OrdinalIgnoreCase))
                 .Select(item => new LookupOption { Code = item.LotCode, Description = item.LotName })
                 .GroupBy(item => item.Code ?? string.Empty, StringComparer.OrdinalIgnoreCase)
@@ -201,13 +189,17 @@ namespace BRCSISTEM.Desktop.Interface
             try
             {
                 var quantity = ParseQuantity(_quantityTextBox.Text);
-                var point = (_detail.Points ?? Array.Empty<InventoryPointSummary>()).FirstOrDefault(item => item.Id == _pointId);
+
+                var point = (_detail.Points ?? Array.Empty<InventoryPointSummary>())
+                    .FirstOrDefault(item => item.Id == _pointId);
+
                 if (point == null || !string.Equals(point.Status, "ABERTO", StringComparison.OrdinalIgnoreCase))
                 {
                     throw new InvalidOperationException("O ponto precisa estar ABERTO para registrar leitura.");
                 }
 
                 var host = Dns.GetHostName();
+
                 var request = new RegisterInventoryCountRequest
                 {
                     InventoryNumber = _inventoryNumber,
@@ -219,13 +211,17 @@ namespace BRCSISTEM.Desktop.Interface
                     ActorUserName = _identity.UserName,
                     IpAddress = ResolveIpAddress(),
                     ComputerName = host,
-                    CountedAt = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                    CountedAt = DateTime.Now.ToString("dd/MM/yyyy HH:mm")
                 };
 
                 _controller.RegisterCount(_configuration, _databaseProfile, request);
+
                 _quantityTextBox.Text = string.Empty;
+
                 RefreshData();
+
                 _onChanged?.Invoke();
+
                 SetStatus("Leitura registrada com sucesso.", false);
             }
             catch (Exception exception)
@@ -240,23 +236,32 @@ namespace BRCSISTEM.Desktop.Interface
             var items = (_detail?.Counts ?? Array.Empty<InventoryCountSummary>())
                 .Where(item => item.PointId == _pointId)
                 .ToArray();
+
             _logGrid.DataSource = items;
         }
 
         private void StartHeartbeat()
         {
-            _heartbeatTimer = new Timer { Interval = 15000 };
-            _heartbeatTimer.Tick += (sender, args) =>
+            StopHeartbeat();
+
+            _heartbeatTimer = new Timer
             {
-                try
-                {
-                    _controller.TouchPointHeartbeat(_configuration, _databaseProfile, _inventoryNumber, _pointId);
-                }
-                catch
-                {
-                }
+                Interval = 15000
             };
+
+            _heartbeatTimer.Tick += HeartbeatTimer_Tick;
             _heartbeatTimer.Start();
+        }
+
+        private void HeartbeatTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                _controller.TouchPointHeartbeat(_configuration, _databaseProfile, _inventoryNumber, _pointId);
+            }
+            catch
+            {
+            }
         }
 
         private void StopHeartbeat()
@@ -267,6 +272,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
 
             _heartbeatTimer.Stop();
+            _heartbeatTimer.Tick -= HeartbeatTimer_Tick;
             _heartbeatTimer.Dispose();
             _heartbeatTimer = null;
         }
@@ -282,6 +288,7 @@ namespace BRCSISTEM.Desktop.Interface
             try
             {
                 var addresses = Dns.GetHostAddresses(Dns.GetHostName());
+
                 foreach (var address in addresses)
                 {
                     if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -304,8 +311,16 @@ namespace BRCSISTEM.Desktop.Interface
                 throw new InvalidOperationException("Informe a quantidade contada.");
             }
 
-            if (!decimal.TryParse(value.Trim(), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), out var parsed)
-                && !decimal.TryParse(value.Trim(), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out parsed))
+            if (!decimal.TryParse(
+                    value.Trim(),
+                    System.Globalization.NumberStyles.Number,
+                    System.Globalization.CultureInfo.GetCultureInfo("pt-BR"),
+                    out var parsed)
+                && !decimal.TryParse(
+                    value.Trim(),
+                    System.Globalization.NumberStyles.Number,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out parsed))
             {
                 throw new InvalidOperationException("Quantidade invalida.");
             }
@@ -318,18 +333,6 @@ namespace BRCSISTEM.Desktop.Interface
             return parsed;
         }
 
-        private static Label CreateLabel(string text)
-        {
-            return new Label { AutoSize = true, Text = text, Margin = new Padding(0, 8, 0, 0), Font = new Font("Segoe UI", 9F, FontStyle.Bold) };
-        }
-
-        private static Button CreateButton(string text, EventHandler handler)
-        {
-            var button = new Button { Text = text, AutoSize = true, FlatStyle = FlatStyle.System };
-            button.Click += handler;
-            return button;
-        }
-
         private static void BindCombo(ComboBox comboBox, LookupOption[] options, string selectedCode)
         {
             comboBox.DataSource = null;
@@ -340,6 +343,7 @@ namespace BRCSISTEM.Desktop.Interface
             if (comboBox.Items.Count > 0)
             {
                 SelectOptionByCode(comboBox, selectedCode);
+
                 if (comboBox.SelectedIndex < 0)
                 {
                     comboBox.SelectedIndex = 0;
@@ -367,7 +371,9 @@ namespace BRCSISTEM.Desktop.Interface
 
         private static string GetSelectedCode(ComboBox comboBox)
         {
-            return comboBox.SelectedItem is LookupOption option ? option.Code : string.Empty;
+            return comboBox.SelectedItem is LookupOption option
+                ? option.Code
+                : string.Empty;
         }
 
         private sealed class LookupOption

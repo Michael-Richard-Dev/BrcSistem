@@ -16,6 +16,7 @@ using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
 using BRCSISTEM.Desktop.Interface.ReativacaoNotaEntrada;
 using BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada;
 using BRCSISTEM.Domain.Models;
+using BRCSISTEM.Desktop.Interface.ContagemInventario;
 
 namespace BRCSISTEM.Desktop.Interface
 {

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
+using BRCSISTEM.Desktop.Interface.ContagemInventario;
 
 namespace BRCSISTEM.Desktop.Interface
 {
@@ -24,7 +25,7 @@ namespace BRCSISTEM.Desktop.Interface
         private LookupOption[] _lotOptions;
         private readonly List<InventoryItemDetail> _draftItems;
         private readonly List<InventoryPointSummary> _draftPoints;
-        private readonly Dictionary<int, InventoryCountForm> _countWindows;
+        private readonly Dictionary<int, ContagemInventarioForm> _countWindows;
 
         private InventoryCountSummary[] _currentCounts;
         private bool _isRefreshingReferences;
@@ -41,7 +42,7 @@ namespace BRCSISTEM.Desktop.Interface
             _lotOptions = Array.Empty<LookupOption>();
             _draftItems = new List<InventoryItemDetail>();
             _draftPoints = new List<InventoryPointSummary>();
-            _countWindows = new Dictionary<int, InventoryCountForm>();
+            _countWindows = new Dictionary<int, ContagemInventarioForm>();
             _currentCounts = Array.Empty<InventoryCountSummary>();
             _temporaryPointSequence = -1;
 
