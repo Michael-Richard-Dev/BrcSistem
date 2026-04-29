@@ -330,5 +330,17 @@ namespace BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada
             var normalized = (value ?? string.Empty).Replace("\"", "\"\"");
             return "\"" + normalized + "\"";
         }
+
+        private void ShowError(Exception exception)
+        {
+            SetStatus(exception.Message, true);
+            MessageBox.Show(this, exception.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void SetStatus(string message, bool error)
+        {
+            _statusLabel.Text = message ?? string.Empty;
+            _statusLabel.ForeColor = error ? Color.Firebrick : Color.SeaGreen;
+        }
     }
 }
