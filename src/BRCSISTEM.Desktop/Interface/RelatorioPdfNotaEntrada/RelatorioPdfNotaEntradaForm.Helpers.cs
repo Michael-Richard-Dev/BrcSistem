@@ -159,7 +159,7 @@ namespace BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada
                         return;
                     }
 
-                    InboundReceiptPdfReportPdfExporter.Export(dialog.FileName, BuildFilterLines(), document, _identity.DisplayName);
+                    ExportadorPdfRelatorioNotaEntrada.Export(dialog.FileName, BuildFilterLines(), document, _identity.DisplayName);
                     _inboundReceiptReportController.RegisterPdfExport(_configuration, _databaseProfile, _identity.UserName, document.Number, document.SupplierCode, document.Items.Length);
                     SetStatus("PDF gerado com sucesso.", false);
 

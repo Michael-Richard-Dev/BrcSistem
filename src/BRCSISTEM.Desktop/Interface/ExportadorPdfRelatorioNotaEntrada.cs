@@ -8,7 +8,7 @@ using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
 {
-    internal static class InboundReceiptPdfReportPdfExporter
+    internal static class ExportadorPdfRelatorioNotaEntrada
     {
         private const int PageWidth = 842;
         private const int PageHeight = 595;
