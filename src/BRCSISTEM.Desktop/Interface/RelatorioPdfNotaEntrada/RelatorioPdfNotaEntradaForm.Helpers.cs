@@ -8,9 +8,9 @@ using System.Windows.Forms;
 using BRCSISTEM.Application.Models;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada
 {
-    public sealed partial class InboundReceiptPdfReportForm
+    public sealed partial class RelatorioPdfNotaEntradaForm
     {
         private void LoadData()
         {

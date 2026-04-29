@@ -13,6 +13,7 @@ using BRCSISTEM.Desktop.Interface.AlertaLoteDuplicado;
 using BRCSISTEM.Desktop.Interface.AlertaMovimentosDuplicadosNota;
 using BRCSISTEM.Desktop.Interface.ConsultaLogsAuditoria;
 using BRCSISTEM.Desktop.Interface.PerfisBancoDados;
+using BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada;
 using BRCSISTEM.Domain.Models;
 
 namespace BRCSISTEM.Desktop.Interface
@@ -788,7 +789,7 @@ namespace BRCSISTEM.Desktop.Interface
             }
             else if (string.Equals(module.Key, "relatorio_entrada_pdf", StringComparison.OrdinalIgnoreCase))
             {
-                using (var dialog = new InboundReceiptPdfReportForm(_compositionRoot, _identity, _databaseProfile))
+                using (var dialog = new RelatorioPdfNotaEntradaForm(_compositionRoot, _identity, _databaseProfile))
                 {
                     dialog.ShowDialog(this);
                 }

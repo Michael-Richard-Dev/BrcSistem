@@ -5,9 +5,9 @@ using BRCSISTEM.Desktop.Bootstrap;
 using BRCSISTEM.Desktop.Controllers;
 using BRCSISTEM.Domain.Models;
 
-namespace BRCSISTEM.Desktop.Interface
+namespace BRCSISTEM.Desktop.Interface.RelatorioPdfNotaEntrada
 {
-    public sealed partial class InboundReceiptPdfReportForm : Form
+    public sealed partial class RelatorioPdfNotaEntradaForm : Form
     {
         private readonly InboundReceiptReportController _inboundReceiptReportController;
         private readonly ConfigurationController _configurationController;
@@ -27,7 +27,7 @@ namespace BRCSISTEM.Desktop.Interface
         private Label _summaryLabel;
         private Label _statusLabel;
 
-        public InboundReceiptPdfReportForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
+        public RelatorioPdfNotaEntradaForm(CompositionRoot compositionRoot, UserIdentity identity, DatabaseProfile databaseProfile)
         {
             _inboundReceiptReportController = compositionRoot.CreateInboundReceiptReportController();
             _configurationController = compositionRoot.CreateConfigurationController();
