@@ -254,7 +254,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._headerGroup.Size = new Size(1404, 185);
             this._headerGroup.TabIndex = 0;
             this._headerGroup.TabStop = false;
-            this._headerGroup.Text = "Dados do Inventario";
+            this._headerGroup.Text = "Dados do inventario";
             // 
             // _headerLayout
             // 
@@ -317,7 +317,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._numberLabel.Name = "_numberLabel";
             this._numberLabel.Size = new Size(80, 15);
             this._numberLabel.TabIndex = 0;
-            this._numberLabel.Text = "No Inventario:";
+            this._numberLabel.Text = "Numero";
             // 
             // _numberTextBox
             // 
@@ -362,7 +362,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._createdLabel.Name = "_createdLabel";
             this._createdLabel.Size = new Size(49, 15);
             this._createdLabel.TabIndex = 4;
-            this._createdLabel.Text = "Criacao:";
+            this._createdLabel.Text = "Data_Hora Criacao";
             // 
             // _createdTextBox
             // 
@@ -383,7 +383,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._scheduledLabel.Name = "_scheduledLabel";
             this._scheduledLabel.Size = new Size(68, 15);
             this._scheduledLabel.TabIndex = 6;
-            this._scheduledLabel.Text = "Programado:";
+            this._scheduledLabel.Text = "Abertura programada";
             // 
             // _scheduledTextBox
             // 
@@ -455,7 +455,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._openedTitleLabel.Name = "_openedTitleLabel";
             this._openedTitleLabel.Size = new Size(57, 15);
             this._openedTitleLabel.TabIndex = 0;
-            this._openedTitleLabel.Text = "Abertura:";
+            this._openedTitleLabel.Text = "Data_Hora Abertura";
             // 
             // _openedLabel
             // 
@@ -476,7 +476,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._closedTitleLabel.Name = "_closedTitleLabel";
             this._closedTitleLabel.Size = new Size(70, 15);
             this._closedTitleLabel.TabIndex = 2;
-            this._closedTitleLabel.Text = "Fechamento:";
+            this._closedTitleLabel.Text = "Data_Hora Fechamento";
             // 
             // _closedLabel
             // 
@@ -497,7 +497,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._finalizedTitleLabel.Name = "_finalizedTitleLabel";
             this._finalizedTitleLabel.Size = new Size(67, 15);
             this._finalizedTitleLabel.TabIndex = 4;
-            this._finalizedTitleLabel.Text = "Finalizacao:";
+            this._finalizedTitleLabel.Text = "Data_Hora Finalizacao";
             // 
             // _finalizedLabel
             // 
@@ -571,7 +571,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._observationLabel.Name = "_observationLabel";
             this._observationLabel.Size = new Size(68, 15);
             this._observationLabel.TabIndex = 0;
-            this._observationLabel.Text = "Observacao:";
+            this._observationLabel.Text = "Observacao (max 40)";
             // 
             // _observationTextBox
             // 
@@ -614,7 +614,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._planningGroup.Size = new Size(1404, 120);
             this._planningGroup.TabIndex = 1;
             this._planningGroup.TabStop = false;
-            this._planningGroup.Text = "Planejamento de Itens";
+            this._planningGroup.Text = "Planejamento de itens";
             // 
             // _planningFlow
             // 
@@ -752,7 +752,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._onlyBrcCheckBox.Name = "_onlyBrcCheckBox";
             this._onlyBrcCheckBox.Size = new Size(96, 19);
             this._onlyBrcCheckBox.TabIndex = 9;
-            this._onlyBrcCheckBox.Text = "Somente BRC";
+            this._onlyBrcCheckBox.Text = "Somente itens BRC";
             this._onlyBrcCheckBox.UseVisualStyleBackColor = true;
             this._onlyBrcCheckBox.CheckedChanged += new System.EventHandler(this.OnlyBrcCheckBox_CheckedChanged);
             // 
@@ -764,7 +764,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._addItemButton.Name = "_addItemButton";
             this._addItemButton.Size = new Size(74, 25);
             this._addItemButton.TabIndex = 10;
-            this._addItemButton.Text = "Adicionar";
+            this._addItemButton.Text = "Adicionar item";
             this._addItemButton.UseVisualStyleBackColor = true;
             this._addItemButton.Click += new System.EventHandler(this.AddItemButton_Click);
             // 
@@ -776,7 +776,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._addAllItemsButton.Name = "_addAllItemsButton";
             this._addAllItemsButton.Size = new Size(76, 25);
             this._addAllItemsButton.TabIndex = 11;
-            this._addAllItemsButton.Text = "Add Todos";
+            this._addAllItemsButton.Text = "Adicionar todos do almox";
             this._addAllItemsButton.UseVisualStyleBackColor = true;
             this._addAllItemsButton.Click += new System.EventHandler(this.AddAllItemsButton_Click);
             // 
@@ -788,7 +788,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._removeItemButton.Name = "_removeItemButton";
             this._removeItemButton.Size = new Size(70, 25);
             this._removeItemButton.TabIndex = 12;
-            this._removeItemButton.Text = "Remover";
+            this._removeItemButton.Text = "Remover item";
             this._removeItemButton.UseVisualStyleBackColor = true;
             this._removeItemButton.Click += new System.EventHandler(this.RemoveItemButton_Click);
             // 
@@ -800,7 +800,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._clearItemsButton.Name = "_clearItemsButton";
             this._clearItemsButton.Size = new Size(57, 25);
             this._clearItemsButton.TabIndex = 13;
-            this._clearItemsButton.Text = "Limpar";
+            this._clearItemsButton.Text = "Limpar itens";
             this._clearItemsButton.UseVisualStyleBackColor = true;
             this._clearItemsButton.Click += new System.EventHandler(this.ClearItemsButton_Click);
             // 
@@ -899,7 +899,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             itemsFinalColumn.ReadOnly = true;
             itemsFinalColumn.Width = 110;
             itemsAjusteColumn.DataPropertyName = "AdjustmentQuantityText";
-            itemsAjusteColumn.HeaderText = "AJUSTE";
+            itemsAjusteColumn.HeaderText = "DIVERGENCIA";
             itemsAjusteColumn.Name = "ajuste";
             itemsAjusteColumn.ReadOnly = true;
             itemsAjusteColumn.Width = 95;
@@ -931,7 +931,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._pointsGroup.Size = new Size(612, 214);
             this._pointsGroup.TabIndex = 0;
             this._pointsGroup.TabStop = false;
-            this._pointsGroup.Text = "Pontos de Contagem";
+            this._pointsGroup.Text = "Pontos e leituras";
             // 
             // _pointsGrid
             // 
@@ -1009,7 +1009,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._newPointButton.Name = "_newPointButton";
             this._newPointButton.Size = new Size(81, 25);
             this._newPointButton.TabIndex = 0;
-            this._newPointButton.Text = "Novo Ponto";
+            this._newPointButton.Text = "Novo ponto leitura";
             this._newPointButton.UseVisualStyleBackColor = true;
             this._newPointButton.Click += new System.EventHandler(this.NewPointButton_Click);
             // 
@@ -1021,7 +1021,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._openPointButton.Name = "_openPointButton";
             this._openPointButton.Size = new Size(82, 25);
             this._openPointButton.TabIndex = 1;
-            this._openPointButton.Text = "Abrir Ponto";
+            this._openPointButton.Text = "Abrir tela ponto leitura";
             this._openPointButton.UseVisualStyleBackColor = true;
             this._openPointButton.Click += new System.EventHandler(this.OpenPointButton_Click);
             // 
@@ -1033,7 +1033,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._closePointButton.Name = "_closePointButton";
             this._closePointButton.Size = new Size(87, 25);
             this._closePointButton.TabIndex = 2;
-            this._closePointButton.Text = "Fechar Ponto";
+            this._closePointButton.Text = "Fechar ponto leitura";
             this._closePointButton.UseVisualStyleBackColor = true;
             this._closePointButton.Click += new System.EventHandler(this.ClosePointButton_Click);
             // 
@@ -1045,7 +1045,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._reopenPointButton.Name = "_reopenPointButton";
             this._reopenPointButton.Size = new Size(93, 25);
             this._reopenPointButton.TabIndex = 3;
-            this._reopenPointButton.Text = "Reabrir Ponto";
+            this._reopenPointButton.Text = "Reabrir ponto leitura";
             this._reopenPointButton.UseVisualStyleBackColor = true;
             this._reopenPointButton.Click += new System.EventHandler(this.ReopenPointButton_Click);
             // 
@@ -1057,7 +1057,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._deletePointButton.Name = "_deletePointButton";
             this._deletePointButton.Size = new Size(85, 25);
             this._deletePointButton.TabIndex = 4;
-            this._deletePointButton.Text = "Excluir Ponto";
+            this._deletePointButton.Text = "Excluir ponto leitura";
             this._deletePointButton.UseVisualStyleBackColor = true;
             this._deletePointButton.Click += new System.EventHandler(this.DeletePointButton_Click);
             // 
@@ -1069,7 +1069,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._zeroButton.Name = "_zeroButton";
             this._zeroButton.Size = new Size(82, 25);
             this._zeroButton.TabIndex = 5;
-            this._zeroButton.Text = "Lancar Zero";
+            this._zeroButton.Text = "Lancar zero sem contagem";
             this._zeroButton.UseVisualStyleBackColor = true;
             this._zeroButton.Click += new System.EventHandler(this.ZeroButton_Click);
             // 
@@ -1168,7 +1168,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._cancelButton.Name = "_cancelButton";
             this._cancelButton.Size = new Size(66, 25);
             this._cancelButton.TabIndex = 0;
-            this._cancelButton.Text = "Cancelar";
+            this._cancelButton.Text = "Cancelar (F6)";
             this._cancelButton.UseVisualStyleBackColor = true;
             this._cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             this._finalizeButton.AutoSize = true;
@@ -1177,7 +1177,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._finalizeButton.Name = "_finalizeButton";
             this._finalizeButton.Size = new Size(69, 25);
             this._finalizeButton.TabIndex = 1;
-            this._finalizeButton.Text = "Encerrar";
+            this._finalizeButton.Text = "Encerrar Inventario";
             this._finalizeButton.UseVisualStyleBackColor = true;
             this._finalizeButton.Click += new System.EventHandler(this.FinalizeButton_Click);
             this._reopenButton.AutoSize = true;
@@ -1186,7 +1186,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._reopenButton.Name = "_reopenButton";
             this._reopenButton.Size = new Size(61, 25);
             this._reopenButton.TabIndex = 2;
-            this._reopenButton.Text = "Reabrir";
+            this._reopenButton.Text = "Reabrir p/ recontar";
             this._reopenButton.UseVisualStyleBackColor = true;
             this._reopenButton.Click += new System.EventHandler(this.ReopenButton_Click);
             this._closeButton.AutoSize = true;
@@ -1195,7 +1195,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._closeButton.Name = "_closeButton";
             this._closeButton.Size = new Size(50, 25);
             this._closeButton.TabIndex = 3;
-            this._closeButton.Text = "Fechar";
+            this._closeButton.Text = "Fechar (F4)";
             this._closeButton.UseVisualStyleBackColor = true;
             this._closeButton.Click += new System.EventHandler(this.CloseButton_Click);
             this._startButton.AutoSize = true;
@@ -1204,7 +1204,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._startButton.Name = "_startButton";
             this._startButton.Size = new Size(47, 25);
             this._startButton.TabIndex = 4;
-            this._startButton.Text = "Iniciar";
+            this._startButton.Text = "Iniciar o inventario (F3)";
             this._startButton.UseVisualStyleBackColor = true;
             this._startButton.Click += new System.EventHandler(this.StartButton_Click);
             this._updateButton.AutoSize = true;
@@ -1222,7 +1222,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._saveButton.Name = "_saveButton";
             this._saveButton.Size = new Size(50, 25);
             this._saveButton.TabIndex = 6;
-            this._saveButton.Text = "Salvar";
+            this._saveButton.Text = "Gravar (F2)";
             this._saveButton.UseVisualStyleBackColor = true;
             this._saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
@@ -1231,7 +1231,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = Color.White;
-            this.ClientSize = new Size(1434, 821);
+            this.ClientSize = new Size(1480, 880);
             this.Controls.Add(this._rootLayout);
             this.KeyPreview = true;
             this.MinimumSize = new Size(1240, 760);
