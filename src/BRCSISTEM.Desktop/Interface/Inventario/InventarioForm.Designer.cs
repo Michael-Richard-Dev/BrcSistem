@@ -518,7 +518,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._maxPointsLabel.Name = "_maxPointsLabel";
             this._maxPointsLabel.Size = new Size(67, 15);
             this._maxPointsLabel.TabIndex = 6;
-            this._maxPointsLabel.Text = "Max pontos:";
+            this._maxPointsLabel.Text = "Max pontos";
             // 
             // _maxPointsNumeric
             // 
@@ -650,7 +650,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._warehouseLabel.Name = "_warehouseLabel";
             this._warehouseLabel.Size = new Size(80, 15);
             this._warehouseLabel.TabIndex = 0;
-            this._warehouseLabel.Text = "Almoxarifado:";
+            this._warehouseLabel.Text = "Almox";
             // 
             // _warehouseComboBox
             // 
@@ -684,7 +684,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._materialLabel.Name = "_materialLabel";
             this._materialLabel.Size = new Size(53, 15);
             this._materialLabel.TabIndex = 3;
-            this._materialLabel.Text = "Material:";
+            this._materialLabel.Text = "Material";
             // 
             // _materialComboBox
             // 
@@ -718,7 +718,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._lotLabel.Name = "_lotLabel";
             this._lotLabel.Size = new Size(32, 15);
             this._lotLabel.TabIndex = 6;
-            this._lotLabel.Text = "Lote:";
+            this._lotLabel.Text = "Lote";
             // 
             // _lotComboBox
             // 
@@ -833,7 +833,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._itemsGroup.Size = new Size(778, 428);
             this._itemsGroup.TabIndex = 0;
             this._itemsGroup.TabStop = false;
-            this._itemsGroup.Text = "Itens do Inventario";
+            this._itemsGroup.Text = "Itens planejados";
             // 
             // _itemsGrid
             // 
@@ -864,42 +864,42 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // items columns
             // 
             itemsAlmoxColumn.DataPropertyName = "WarehouseCode";
-            itemsAlmoxColumn.HeaderText = "ALMOX";
+            itemsAlmoxColumn.HeaderText = "Almox";
             itemsAlmoxColumn.Name = "almox";
             itemsAlmoxColumn.ReadOnly = true;
             itemsAlmoxColumn.Width = 80;
             itemsMaterialColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             itemsMaterialColumn.DataPropertyName = "MaterialDisplay";
-            itemsMaterialColumn.HeaderText = "MATERIAL";
+            itemsMaterialColumn.HeaderText = "Material";
             itemsMaterialColumn.Name = "material";
             itemsMaterialColumn.ReadOnly = true;
             itemsLotColumn.DataPropertyName = "LotDisplay";
-            itemsLotColumn.HeaderText = "LOTE";
+            itemsLotColumn.HeaderText = "Lote";
             itemsLotColumn.Name = "lote";
             itemsLotColumn.ReadOnly = true;
             itemsLotColumn.Width = 180;
             itemsSaldoColumn.DataPropertyName = "SystemBalanceText";
-            itemsSaldoColumn.HeaderText = "SALDO";
+            itemsSaldoColumn.HeaderText = "Saldo";
             itemsSaldoColumn.Name = "saldo";
             itemsSaldoColumn.ReadOnly = true;
             itemsSaldoColumn.Width = 95;
             itemsEntradaColumn.DataPropertyName = "InputQuantityText";
-            itemsEntradaColumn.HeaderText = "ENTRADA";
+            itemsEntradaColumn.HeaderText = "Entrada";
             itemsEntradaColumn.Name = "entrada";
             itemsEntradaColumn.ReadOnly = true;
             itemsEntradaColumn.Width = 95;
             itemsSaidaColumn.DataPropertyName = "OutputQuantityText";
-            itemsSaidaColumn.HeaderText = "SAIDA";
+            itemsSaidaColumn.HeaderText = "Saida";
             itemsSaidaColumn.Name = "saida";
             itemsSaidaColumn.ReadOnly = true;
             itemsSaidaColumn.Width = 95;
             itemsFinalColumn.DataPropertyName = "FinalBalanceText";
-            itemsFinalColumn.HeaderText = "SALDO FINAL";
+            itemsFinalColumn.HeaderText = "Saldo final";
             itemsFinalColumn.Name = "final";
             itemsFinalColumn.ReadOnly = true;
             itemsFinalColumn.Width = 110;
             itemsAjusteColumn.DataPropertyName = "AdjustmentQuantityText";
-            itemsAjusteColumn.HeaderText = "DIVERGENCIA";
+            itemsAjusteColumn.HeaderText = "Divergencia";
             itemsAjusteColumn.Name = "ajuste";
             itemsAjusteColumn.ReadOnly = true;
             itemsAjusteColumn.Width = 95;
@@ -965,7 +965,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             pointsIdColumn.ReadOnly = true;
             pointsIdColumn.Width = 60;
             pointsNameColumn.DataPropertyName = "PointName";
-            pointsNameColumn.HeaderText = "PONTO";
+            pointsNameColumn.HeaderText = "Ponto";
             pointsNameColumn.Name = "nome";
             pointsNameColumn.ReadOnly = true;
             pointsNameColumn.Width = 120;
@@ -976,11 +976,11 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             pointsIpColumn.Width = 110;
             pointsComputerColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             pointsComputerColumn.DataPropertyName = "ComputerName";
-            pointsComputerColumn.HeaderText = "COMPUTADOR";
+            pointsComputerColumn.HeaderText = "Computador";
             pointsComputerColumn.Name = "pc";
             pointsComputerColumn.ReadOnly = true;
             pointsStatusColumn.DataPropertyName = "Status";
-            pointsStatusColumn.HeaderText = "STATUS";
+            pointsStatusColumn.HeaderText = "Status";
             pointsStatusColumn.Name = "status";
             pointsStatusColumn.ReadOnly = true;
             pointsStatusColumn.Width = 90;
@@ -1083,7 +1083,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             this._countsGroup.Size = new Size(612, 92);
             this._countsGroup.TabIndex = 2;
             this._countsGroup.TabStop = false;
-            this._countsGroup.Text = "Ultimas Leituras";
+            this._countsGroup.Text = "Leituras";
             // 
             // _countsGrid
             // 
@@ -1117,27 +1117,27 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             countsIdColumn.ReadOnly = true;
             countsIdColumn.Width = 60;
             countsDateColumn.DataPropertyName = "CountedAtDisplay";
-            countsDateColumn.HeaderText = "DATA/HORA";
+            countsDateColumn.HeaderText = "Data Hora";
             countsDateColumn.Name = "data";
             countsDateColumn.ReadOnly = true;
             countsDateColumn.Width = 140;
             countsPointColumn.DataPropertyName = "PointId";
-            countsPointColumn.HeaderText = "PONTO";
+            countsPointColumn.HeaderText = "Ponto";
             countsPointColumn.Name = "ponto";
             countsPointColumn.ReadOnly = true;
             countsPointColumn.Width = 70;
             countsItemColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             countsItemColumn.DataPropertyName = "ItemDisplay";
-            countsItemColumn.HeaderText = "ITEM";
+            countsItemColumn.HeaderText = "Item";
             countsItemColumn.Name = "item";
             countsItemColumn.ReadOnly = true;
             countsQuantityColumn.DataPropertyName = "QuantityText";
-            countsQuantityColumn.HeaderText = "QTD";
+            countsQuantityColumn.HeaderText = "Qtd";
             countsQuantityColumn.Name = "qtd";
             countsQuantityColumn.ReadOnly = true;
             countsQuantityColumn.Width = 90;
             countsUserColumn.DataPropertyName = "UserName";
-            countsUserColumn.HeaderText = "USUARIO";
+            countsUserColumn.HeaderText = "Usuario";
             countsUserColumn.Name = "usuario";
             countsUserColumn.ReadOnly = true;
             countsUserColumn.Width = 90;
