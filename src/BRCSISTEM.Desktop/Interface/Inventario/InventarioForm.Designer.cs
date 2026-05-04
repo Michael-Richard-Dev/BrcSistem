@@ -248,7 +248,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             this._headerGroup.Controls.Add(this._headerLayout);
             this._headerGroup.Dock = DockStyle.Top;
-            this._headerGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._headerGroup.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._headerGroup.Location = new Point(15, 15);
             this._headerGroup.Name = "_headerGroup";
             this._headerGroup.Size = new Size(1404, 185);
@@ -311,7 +311,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _numberLabel
             // 
             this._numberLabel.AutoSize = true;
-            this._numberLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._numberLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._numberLabel.Location = new Point(0, 8);
             this._numberLabel.Margin = new Padding(0, 8, 0, 0);
             this._numberLabel.Name = "_numberLabel";
@@ -356,7 +356,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _createdLabel
             // 
             this._createdLabel.AutoSize = true;
-            this._createdLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._createdLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._createdLabel.Location = new Point(413, 8);
             this._createdLabel.Margin = new Padding(0, 8, 0, 0);
             this._createdLabel.Name = "_createdLabel";
@@ -377,7 +377,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _scheduledLabel
             // 
             this._scheduledLabel.AutoSize = true;
-            this._scheduledLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._scheduledLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._scheduledLabel.Location = new Point(678, 8);
             this._scheduledLabel.Margin = new Padding(0, 8, 0, 0);
             this._scheduledLabel.Name = "_scheduledLabel";
@@ -410,7 +410,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _statusValueLabel
             // 
             this._statusValueLabel.AutoSize = true;
-            this._statusValueLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._statusValueLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._statusValueLabel.ForeColor = Color.SeaGreen;
             this._statusValueLabel.Location = new Point(978, 8);
             this._statusValueLabel.Margin = new Padding(8, 8, 0, 0);
@@ -449,7 +449,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _openedTitleLabel
             // 
             this._openedTitleLabel.AutoSize = true;
-            this._openedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._openedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._openedTitleLabel.Location = new Point(0, 8);
             this._openedTitleLabel.Margin = new Padding(0, 8, 0, 0);
             this._openedTitleLabel.Name = "_openedTitleLabel";
@@ -470,7 +470,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _closedTitleLabel
             // 
             this._closedTitleLabel.AutoSize = true;
-            this._closedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._closedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._closedTitleLabel.Location = new Point(220, 8);
             this._closedTitleLabel.Margin = new Padding(0, 8, 0, 0);
             this._closedTitleLabel.Name = "_closedTitleLabel";
@@ -491,7 +491,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _finalizedTitleLabel
             // 
             this._finalizedTitleLabel.AutoSize = true;
-            this._finalizedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._finalizedTitleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._finalizedTitleLabel.Location = new Point(440, 8);
             this._finalizedTitleLabel.Margin = new Padding(0, 8, 0, 0);
             this._finalizedTitleLabel.Name = "_finalizedTitleLabel";
@@ -512,7 +512,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _maxPointsLabel
             // 
             this._maxPointsLabel.AutoSize = true;
-            this._maxPointsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._maxPointsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._maxPointsLabel.Location = new Point(810, 8);
             this._maxPointsLabel.Margin = new Padding(0, 8, 0, 0);
             this._maxPointsLabel.Name = "_maxPointsLabel";
@@ -565,7 +565,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _observationLabel
             // 
             this._observationLabel.AutoSize = true;
-            this._observationLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._observationLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._observationLabel.Location = new Point(0, 8);
             this._observationLabel.Margin = new Padding(0, 8, 0, 0);
             this._observationLabel.Name = "_observationLabel";
@@ -586,7 +586,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _summaryLabel
             // 
             this._summaryLabel.AutoSize = true;
-            this._summaryLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._summaryLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._summaryLabel.ForeColor = Color.FromArgb(27, 54, 93);
             this._summaryLabel.Location = new Point(1124, 8);
             this._summaryLabel.Margin = new Padding(12, 8, 0, 0);
@@ -597,7 +597,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _stockLabel
             // 
             this._stockLabel.AutoSize = true;
-            this._stockLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._stockLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._stockLabel.ForeColor = Color.FromArgb(27, 54, 93);
             this._stockLabel.Location = new Point(13, 119);
             this._stockLabel.Name = "_stockLabel";
@@ -608,7 +608,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             this._planningGroup.Controls.Add(this._planningFlow);
             this._planningGroup.Dock = DockStyle.Top;
-            this._planningGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._planningGroup.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._planningGroup.Location = new Point(15, 206);
             this._planningGroup.Name = "_planningGroup";
             this._planningGroup.Size = new Size(1404, 120);
@@ -644,7 +644,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _warehouseLabel
             // 
             this._warehouseLabel.AutoSize = true;
-            this._warehouseLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._warehouseLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._warehouseLabel.Location = new Point(11, 16);
             this._warehouseLabel.Margin = new Padding(3, 8, 3, 0);
             this._warehouseLabel.Name = "_warehouseLabel";
@@ -678,7 +678,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _materialLabel
             // 
             this._materialLabel.AutoSize = true;
-            this._materialLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._materialLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._materialLabel.Location = new Point(371, 16);
             this._materialLabel.Margin = new Padding(3, 8, 3, 0);
             this._materialLabel.Name = "_materialLabel";
@@ -712,7 +712,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // _lotLabel
             // 
             this._lotLabel.AutoSize = true;
-            this._lotLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this._lotLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             this._lotLabel.Location = new Point(744, 16);
             this._lotLabel.Margin = new Padding(3, 8, 3, 0);
             this._lotLabel.Name = "_lotLabel";
@@ -827,7 +827,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             this._itemsGroup.Controls.Add(this._itemsGrid);
             this._itemsGroup.Dock = DockStyle.Fill;
-            this._itemsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._itemsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._itemsGroup.Location = new Point(0, 0);
             this._itemsGroup.Name = "_itemsGroup";
             this._itemsGroup.Size = new Size(778, 428);
@@ -925,7 +925,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             this._pointsGroup.Controls.Add(this._pointsGrid);
             this._pointsGroup.Dock = DockStyle.Fill;
-            this._pointsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._pointsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._pointsGroup.Location = new Point(3, 3);
             this._pointsGroup.Name = "_pointsGroup";
             this._pointsGroup.Size = new Size(612, 214);
@@ -1077,7 +1077,7 @@ namespace BRCSISTEM.Desktop.Interface.Inventario
             // 
             this._countsGroup.Controls.Add(this._countsGrid);
             this._countsGroup.Dock = DockStyle.Fill;
-            this._countsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this._countsGroup.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             this._countsGroup.Location = new Point(3, 333);
             this._countsGroup.Name = "_countsGroup";
             this._countsGroup.Size = new Size(612, 92);
